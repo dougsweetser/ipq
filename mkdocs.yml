@@ -1,0 +1,10 @@
+site_name: IPython Notebooks for Quaternion Calculations
+
+site_author: sweetser@alum.mit.edu
+
+theme_dir: spacelab-mod
+
+dev_addr: 127.0.0.1:8012
+
+pages:
+- 'index.md'
