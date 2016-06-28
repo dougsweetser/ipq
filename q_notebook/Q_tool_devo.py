@@ -3,11 +3,21 @@
 
 # # Developing Quaternion Tools for iPython3
 
+# In this notebook, tools for working with quaternions for physics issues are developed. The class Qh treat quaternions as Hamilton would have done: as a 4-vector over the real numbers. 
+# 
+# In physics, group theory plays a central role in the fundamental forces of Nature via the standard model. The gauge symmetry U(1) a unit circle in the complex plane leads to electric charge conservation. The unit quaternions SU(2) is the symmetry needed for the weak force which leads to beta decay. The group SU(3) is the symmetry of the strong force that keeps a nucleus together.
+# 
+# The class Qq was written in the hope that group theory would be written in first, not added as needed later. The problem with such an approach is that one does not use the mathematical field of real numbers. Instead one relies on the set of positive reals. In some ways, this is like reverse engineering some basic computer science. Libraries written in C have a notion of a signed versus unsigned integer. The signed integer behaves like the integers. The unsigned integer is like the positive integers. The difference between the two is whether there is a placeholder for the sign or not. All floats are signed. The modulo operations that work for unsigned integers does not work for floats.
+# 
+# Test driven development was used. The same tests for class Qh were used for Qq.  Either class can be used to study quaternions in physics.
+
 # In[1]:
 
-from sympy import *
-init_session(quiet=True)
 import unittest
+from glob import glob
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+from os.path import basename
 
 
 # Define the stretch factor $\gamma$ and the $\gamma \beta$ used in special relativity.
@@ -16,18 +26,18 @@ import unittest
 
 def sr_gamma(beta_x=0, beta_y=0, beta_z=0):
     """The gamma used in special relativity using 3 velocites, some may be zero."""
-    
+
     return 1 / (1 - beta_x ** 2 - beta_y ** 2 - beta_z ** 2) ** 0.5
 
 def sr_gamma_betas(beta_x=0, beta_y=0, beta_z=0):
     """gamma and the three gamma * betas used in special relativity."""
-    
+
     g = sr_gamma(beta_x, beta_y, beta_z)
     
     return [g, g * beta_x, g * beta_y, g * beta_z]
 
 
-# Define a class Qh to manipulate quaternions as Hamilton would have done it so many years ago. Note: I do think we can learn more of the silent workings of Nature using a quaternion on a quaternion manifold, but for now this is much easier to implement.
+# Define a class Qh to manipulate quaternions as Hamilton would have done it so many years ago.
 
 # In[3]:
 
@@ -37,26 +47,29 @@ class Qh:
     def __init__(self, values=None):
         if values is None:
             self.t, self.x, self.y, self.z = 0, 0, 0, 0
-        else:
+        elif len(values) == 4:
             self.t, self.x, self.y, self.z = values[0], values[1], values[2], values[3]
+        elif len(values) == 8:
+            self.t, self.x = values[0] - values[1], values[2] - values[3]
+            self.y, self.z = values[4] - values[5], values[6] - values[7]
 
     def __str__(self):
         """Customize the output."""
         return "{t}t  {x}i  {y}j  {z}k".format(t=self.t, x=self.x, y=self.y, z=self.z)
         
-    def q0(self):
+    def q_0(self):
         """Return a zero quaternion."""
-        
+
         return Qh([0, 0, 0, 0])
-      
-    def q1(self):
+
+    def q_1(self):
         """Return a multiplicative identity quaternion."""
-        
+
         return Qh([1, 0, 0, 0])
     
     def conj(self, type=0):
         """Three types of conjugates."""
-        
+
         t, x, y, z = self.t, self.x, self.y, self.z
         conjq = Qh()
 
@@ -65,13 +78,13 @@ class Qh:
             conjq.x = -1 * x
             conjq.y = -1 * y
             conjq.z = -1 * z
-        
+
         if type == 1:
             conjq.t = -1 * t
             conjq.x = x
             conjq.y = -1 * y
             conjq.z = -1 * z
-        
+
         if type == 2:
             conjq.t = -1 * t
             conjq.x = -1 * x
@@ -79,7 +92,7 @@ class Qh:
             conjq.z = -1 * z
 
         return conjq
-    
+
     def commuting_products(self, q1):
         """Returns a dictionary with the commuting products."""
 
@@ -88,16 +101,15 @@ class Qh:
 
         products = {'tt': s_t * q1_t,
                     'xx+yy+zz': s_x * q1_x + s_y * q1_y + s_z * q1_z,
-        
                     'tx+xt': s_t * q1_x + s_x * q1_t,
                     'ty+yt': s_t * q1_y + s_y * q1_t,
                     'tz+zt': s_t * q1_z + s_z * q1_t}
-        
+
         return products
-    
+
     def anti_commuting_products(self, q1):
         """Returns a dictionary with the three anti-commuting products."""
-        
+
         s_x, s_y, s_z = self.x, self.y, self.z
         q1_x, q1_y, q1_z = q1.x, q1.y, q1.z
 
@@ -105,22 +117,22 @@ class Qh:
                     'zx-xz': s_z * q1_x - s_x * q1_z,
                     'xy-yx': s_x * q1_y - s_y * q1_x
                     }
-        
+
         return products
-    
+
     def all_products(self, q1):
         """Returns a dictionary with all possible products."""
-        
+
         products = self.commuting_products(q1)
         products.update(self.anti_commuting_products(q1))
-        
+
         return products
-    
+
     def square(self):
         """Square a quaternion."""
-        
+
         qxq = self.commuting_products(self)
-        
+
         sq_q = Qh()
         sq_q.t = qxq['tt'] - qxq['xx+yy+zz']
         sq_q.x = qxq['tx+xt']
@@ -128,34 +140,34 @@ class Qh:
         sq_q.z = qxq['tz+zt']
 
         return sq_q
-    
+
     def norm(self):
         """The norm of a quaternion."""
-        
+
         qxq = self.commuting_products(self)
-        
+
         n_q = Qh()
         n_q.t = qxq['tt'] + qxq['xx+yy+zz']
 
         return n_q
-    
+
     def norm_of_vector(self):
         """The norm of the vector of a quaternion."""
 
         qxq = self.commuting_products(self)
-        
+
         nv_q = Qh()
         nv_q.t = qxq['xx+yy+zz']
 
         return nv_q
-    
+
     def abs_of_q(self):
         """The absolute value, the square root of the norm."""
 
         a = self.norm()
         sqrt_t = a.t ** 0.5
         a.t = sqrt_t
-        
+
         return a
 
     def abs_of_vector(self):
@@ -164,37 +176,37 @@ class Qh:
         av = self.norm_of_vector()
         sqrt_t = av.t ** 0.5
         av.t = sqrt_t
-        
+
         return av
-        
-    def add(self, q1):
+
+    def add(self, qh_1):
         """Form a add given 2 quaternions."""
 
-        t1, x1, y1, z1 = self.t, self.x, self.y, self.z
-        t2, x2, y2, z2 = q1.t, q1.x, q1.y, q1.z
-        
+        t_1, x_1, y_1, z_1 = self.t, self.x, self.y, self.z
+        t_2, x_2, y_2, z_2 = qh_1.t, qh_1.x, qh_1.y, qh_1.z
+
         add_q = Qh()
-        add_q.t = t1 + t2
-        add_q.x = x1 + x2
-        add_q.y = y1 + y2
-        add_q.z = z1 + z2
-                    
+        add_q.t = t_1 + t_2
+        add_q.x = x_1 + x_2
+        add_q.y = y_1 + y_2
+        add_q.z = z_1 + z_2
+            
         return add_q    
 
-    def dif(self, q1):
+    def dif(self, qh_1):
         """Form a add given 2 quaternions."""
 
-        t1, x1, y1, z1 = self.t, self.x, self.y, self.z
-        t2, x2, y2, z2 = q1.t, q1.x, q1.y, q1.z
-        
+        t_1, x_1, y_1, z_1 = self.t, self.x, self.y, self.z
+        t_2, x_2, y_2, z_2 = qh_1.t, qh_1.x, qh_1.y, qh_1.z
+
         add_q = Qh()
-        add_q.t = t1 - t2
-        add_q.x = x1 - x2
-        add_q.y = y1 - y2
-        add_q.z = z1 - z2
+        add_q.t = t_1 - t_2
+        add_q.x = x_1 - x_2
+        add_q.y = y_1 - y_2
+        add_q.z = z_1 - z_2
                     
         return add_q
-    
+
     def product(self, q1):
         """Form a product given 2 quaternions."""
 
@@ -204,261 +216,261 @@ class Qh:
         pq.x = qxq['tx+xt'] + qxq['yz-zy']
         pq.y = qxq['ty+yt'] + qxq['zx-xz']
         pq.z = qxq['tz+zt'] + qxq['xy-yx']
-                    
+            
         return pq
-    
+
     def invert(self):
         """The inverse of a quaternion."""
-        
+
         q_conj = self.conj()
         q_norm = self.norm()
-        
+
         if q_norm.t == 0:
             print("oops, zero on the norm.")
             return self.q0()
-        
+
         q_norm_inv = Qh([1.0 / q_norm.t, 0, 0, 0])
         q_inv = q_conj.product(q_norm_inv)
-        
+
         return q_inv
-    
+
     def divide_by(self, q1):
         """Divide one quaternion by another. The order matters unless one is using a norm (real number)."""
-        
+
         q1_inv = q1.invert()
         q_div = self.product(q1.invert()) 
         return q_div
-    
+
     def triple_product(self, q1, q2):
         """Form a triple product given 3 quaternions."""
-        
+
         triple = self.product(q1).product(q2)
         return triple
-    
+
     # Quaternion rotation involves a triple product:  UQU∗
     # where the U is a unitary quaternion (having a norm of one).
     def rotate(self, a_1=0, a_2=0, a_3=0):
         """Do a rotation given up to three angles."""
-    
+
         u = Qh([0, a_1, a_2, a_3])
         u_abs = u.abs_of_q()
         u_normalized = u.divide_by(u_abs)
 
         q_rot = u_normalized.triple_product(self, u_normalized.conj())
         return q_rot
-    
+
     # A boost also uses triple products like a rotation, but more of them.
     # This is not a well-known result, but does work.
     def boost(self, beta_x=0, beta_y=0, beta_z=0):
         """A boost along the x, y, and/or z axis."""
-        
+
         boost = Qh(sr_gamma_betas(beta_x, beta_y, beta_z))      
         b_conj = boost.conj()
-        
+
         triple_1 = boost.triple_product(self, b_conj)
         triple_2 = boost.triple_product(boost, self).conj()
         triple_3 = b_conj.triple_product(b_conj, self).conj()
-              
+      
         triple_23 = triple_2.dif(triple_3)
         half_23 = triple_23.product(Qh([0.5, 0, 0, 0]))
         triple_123 = triple_1.add(half_23)
-        
+
         return triple_123
-    
+
     # g_shift is a function based on the space-times-time invariance proposal for gravity,
     # which proposes that if one changes the distance from a gravitational source, then
     # squares a measurement, the observers at two different hieghts agree to their
     # space-times-time values, but not the intervals.
     def g_shift(self, dimensionless_g):
         """Shift an observation based on a dimensionless GM/c^2 dR."""
-        
+
         exp_g = exp(dimensionless_g)
-        
+
         g_q = Qh()
         g_q.t = self.t / exp_g
         g_q.x = self.x * exp_g
         g_q.y = self.y * exp_g
         g_q.z = self.z * exp_g
-        
+
         return g_q
 
 
-# Write tests the Qh class
+# Write tests the Qh class.
 
 # In[4]:
 
 class TestQh(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
-    
+
     q1 = Qh([1, -2, -3, -4])
     q2 = Qh([0, 4, -3, 0])
     verbose = True
-    
+
     def test_qt(self):
         self.assertTrue(self.q1.t == 1)
-    
+
     def test_q0(self):
-        qz = self.q1.q0()
-        if self.verbose: print("q0: {}".format(qz))
-        self.assertTrue(qz.t == 0)
-        self.assertTrue(qz.x == 0)
-        self.assertTrue(qz.y == 0)
-        self.assertTrue(qz.z == 0)
-        
+        q_z = self.q1.q0()
+        if self.verbose: print("q0: {}".format(q_z))
+        self.assertTrue(q_z.t == 0)
+        self.assertTrue(q_z.x == 0)
+        self.assertTrue(q_z.y == 0)
+        self.assertTrue(q_z.z == 0)
+
     def test_q1(self):
-        qz = self.q1.q1()
-        if self.verbose: print("q1: {}".format(qz))
-        self.assertTrue(qz.t == 1)
-        self.assertTrue(qz.x == 0)
-        self.assertTrue(qz.y == 0)
-        self.assertTrue(qz.z == 0)
-                
+        q_z = self.q1.q1()
+        if self.verbose: print("q1: {}".format(q_z))
+        self.assertTrue(q_z.t == 1)
+        self.assertTrue(q_z.x == 0)
+        self.assertTrue(q_z.y == 0)
+        self.assertTrue(q_z.z == 0)
+
     def test_conj_0(self):
-        qz = self.q1.conj()
-        if self.verbose: print("q_conj 0: {}".format(qz))
-        self.assertTrue(qz.t == 1)
-        self.assertTrue(qz.x == 2)
-        self.assertTrue(qz.y == 3)
-        self.assertTrue(qz.z == 4)
-                 
+        q_z = self.q1.conj()
+        if self.verbose: print("q_conj 0: {}".format(q_z))
+        self.assertTrue(q_z.t == 1)
+        self.assertTrue(q_z.x == 2)
+        self.assertTrue(q_z.y == 3)
+        self.assertTrue(q_z.z == 4)
+
     def test_conj_1(self):
-        qz = self.q1.conj(1)
-        if self.verbose: print("q_conj 1: {}".format(qz))
-        self.assertTrue(qz.t == -1)
-        self.assertTrue(qz.x == -2)
-        self.assertTrue(qz.y == 3)
-        self.assertTrue(qz.z == 4)
-                 
+        q_z = self.q1.conj(1)
+        if self.verbose: print("q_conj 1: {}".format(q_z))
+        self.assertTrue(q_z.t == -1)
+        self.assertTrue(q_z.x == -2)
+        self.assertTrue(q_z.y == 3)
+        self.assertTrue(q_z.z == 4)
+
     def test_conj_2(self):
-        qz = self.q1.conj(2)
-        if self.verbose: print("q_conj 2: {}".format(qz))
-        self.assertTrue(qz.t == -1)
-        self.assertTrue(qz.x == 2)
-        self.assertTrue(qz.y == -3)
-        self.assertTrue(qz.z == 4)
-        
+        q_z = self.q1.conj(2)
+        if self.verbose: print("q_conj 2: {}".format(q_z))
+        self.assertTrue(q_z.t == -1)
+        self.assertTrue(q_z.x == 2)
+        self.assertTrue(q_z.y == -3)
+        self.assertTrue(q_z.z == 4)
+
     def test_square(self):
-        qz = self.q1.square()
-        if self.verbose: print("square: {}".format(qz))
-        self.assertTrue(qz.t == -28)
-        self.assertTrue(qz.x == -4)
-        self.assertTrue(qz.y == -6)
-        self.assertTrue(qz.z == -8)
-                
+        q_z = self.q1.square()
+        if self.verbose: print("square: {}".format(q_z))
+        self.assertTrue(q_z.t == -28)
+        self.assertTrue(q_z.x == -4)
+        self.assertTrue(q_z.y == -6)
+        self.assertTrue(q_z.z == -8)
+
     def test_norm(self):
-        qz = self.q1.norm()
-        if self.verbose: print("norm: {}".format(qz))
-        self.assertTrue(qz.t == 30)
-        self.assertTrue(qz.x == 0)
-        self.assertTrue(qz.y == 0)
-        self.assertTrue(qz.z == 0)
-        
+        q_z = self.q1.norm()
+        if self.verbose: print("norm: {}".format(q_z))
+        self.assertTrue(q_z.t == 30)
+        self.assertTrue(q_z.x == 0)
+        self.assertTrue(q_z.y == 0)
+        self.assertTrue(q_z.z == 0)
+
     def test_norm_of_vector(self):
-        qz = self.q1.norm_of_vector()
-        if self.verbose: print("norm_of_vector: {}".format(qz))
-        self.assertTrue(qz.t == 29)
-        self.assertTrue(qz.x == 0)
-        self.assertTrue(qz.y == 0)
-        self.assertTrue(qz.z == 0)
+        q_z = self.q1.norm_of_vector()
+        if self.verbose: print("norm_of_vector: {}".format(q_z))
+        self.assertTrue(q_z.t == 29)
+        self.assertTrue(q_z.x == 0)
+        self.assertTrue(q_z.y == 0)
+        self.assertTrue(q_z.z == 0)
         
     def test_abs_of_q(self):
-        qz = self.q2.abs_of_q()
-        if self.verbose: print("abs_of_q: {}".format(qz))
-        self.assertTrue(qz.t == 5)
-        self.assertTrue(qz.x == 0)
-        self.assertTrue(qz.y == 0)
-        self.assertTrue(qz.z == 0)
+        q_z = self.q2.abs_of_q()
+        if self.verbose: print("abs_of_q: {}".format(q_z))
+        self.assertTrue(q_z.t == 5)
+        self.assertTrue(q_z.x == 0)
+        self.assertTrue(q_z.y == 0)
+        self.assertTrue(q_z.z == 0)
         
     def test_abs_of_vector(self):
-        qz = self.q2.abs_of_vector()
-        if self.verbose: print("abs_of_vector: {}".format(qz))
-        self.assertTrue(qz.t == 5)
-        self.assertTrue(qz.x == 0)
-        self.assertTrue(qz.y == 0)
-        self.assertTrue(qz.z == 0)
+        q_z = self.q2.abs_of_vector()
+        if self.verbose: print("abs_of_vector: {}".format(q_z))
+        self.assertTrue(q_z.t == 5)
+        self.assertTrue(q_z.x == 0)
+        self.assertTrue(q_z.y == 0)
+        self.assertTrue(q_z.z == 0)
         
     def test_add(self):
-        qz = self.q1.add(self.q2)
-        if self.verbose: print("add: {}".format(qz))
-        self.assertTrue(qz.t == 1)
-        self.assertTrue(qz.x == 2)
-        self.assertTrue(qz.y == -6)
-        self.assertTrue(qz.z == -4)
+        q_z = self.q1.add(self.q2)
+        if self.verbose: print("add: {}".format(q_z))
+        self.assertTrue(q_z.t == 1)
+        self.assertTrue(q_z.x == 2)
+        self.assertTrue(q_z.y == -6)
+        self.assertTrue(q_z.z == -4)
         
     def test_dif(self):
-        qz = self.q1.dif(self.q2)
-        if self.verbose: print("dif: {}".format(qz))
-        self.assertTrue(qz.t == 1)
-        self.assertTrue(qz.x == -6)
-        self.assertTrue(qz.y == 0)
-        self.assertTrue(qz.z == -4) 
+        q_z = self.q1.dif(self.q2)
+        if self.verbose: print("dif: {}".format(q_z))
+        self.assertTrue(q_z.t == 1)
+        self.assertTrue(q_z.x == -6)
+        self.assertTrue(q_z.y == 0)
+        self.assertTrue(q_z.z == -4) 
 
     def test_product(self):
-        qz = self.q1.product(self.q2)
-        if self.verbose: print("product: {}".format(qz))
-        self.assertTrue(qz.t == -1)
-        self.assertTrue(qz.x == -8)
-        self.assertTrue(qz.y == -19)
-        self.assertTrue(qz.z == 18)
+        q_z = self.q1.product(self.q2)
+        if self.verbose: print("product: {}".format(q_z))
+        self.assertTrue(q_z.t == -1)
+        self.assertTrue(q_z.x == -8)
+        self.assertTrue(q_z.y == -19)
+        self.assertTrue(q_z.z == 18)
         
     def test_invert(self):
-        qz = self.q2.invert()
-        if self.verbose: print("invert: {}".format(qz))
-        self.assertTrue(qz.t == 0)
-        self.assertTrue(qz.x == -0.16)
-        self.assertTrue(qz.y == 0.12)
-        self.assertTrue(qz.z == 0)
+        q_z = self.q2.invert()
+        if self.verbose: print("invert: {}".format(q_z))
+        self.assertTrue(q_z.t == 0)
+        self.assertTrue(q_z.x == -0.16)
+        self.assertTrue(q_z.y == 0.12)
+        self.assertTrue(q_z.z == 0)
                 
     def test_divide_by(self):
-        qz = self.q1.divide_by(self.q1)
-        if self.verbose: print("divide_by: {}".format(qz))
-        self.assertTrue(qz.t == 1)
-        self.assertTrue(qz.x == 0)
-        self.assertTrue(qz.y == 0)
-        self.assertTrue(qz.z == 0) 
+        q_z = self.q1.divide_by(self.q1)
+        if self.verbose: print("divide_by: {}".format(q_z))
+        self.assertTrue(q_z.t == 1)
+        self.assertTrue(q_z.x == 0)
+        self.assertTrue(q_z.y == 0)
+        self.assertTrue(q_z.z == 0) 
         
     def test_triple_product(self):
-        qz = self.q1.triple_product(self.q2, self.q1)
-        if self.verbose: print("triple product: {}".format(qz))
-        self.assertTrue(qz.t == -2)
-        self.assertTrue(qz.x == 124)
-        self.assertTrue(qz.y == -84)
-        self.assertTrue(qz.z == 8)
+        q_z = self.q1.triple_product(self.q2, self.q1)
+        if self.verbose: print("triple product: {}".format(q_z))
+        self.assertTrue(q_z.t == -2)
+        self.assertTrue(q_z.x == 124)
+        self.assertTrue(q_z.y == -84)
+        self.assertTrue(q_z.z == 8)
         
     def test_rotate(self):
-        qz = self.q1.rotate(1)
-        if self.verbose: print("rotate: {}".format(qz))
-        self.assertTrue(qz.t == 1)
-        self.assertTrue(qz.x == -2)
-        self.assertTrue(qz.y == 3)
-        self.assertTrue(qz.z == 4)
+        q_z = self.q1.rotate(1)
+        if self.verbose: print("rotate: {}".format(q_z))
+        self.assertTrue(q_z.t == 1)
+        self.assertTrue(q_z.x == -2)
+        self.assertTrue(q_z.y == 3)
+        self.assertTrue(q_z.z == 4)
         
     def test_boost(self):
         q1_sq = self.q1.square()
-        qz = self.q1.boost(0.003)
-        qz2 = qz.square()
+        q_z = self.q1.boost(0.003)
+        q_z2 = q_z.square()
         if self.verbose: print("q1_sq: {}".format(q1_sq))
-        if self.verbose: print("boosted: {}".format(qz))
-        if self.verbose: print("b squared: {}".format(qz2))
-        self.assertTrue(round(qz2.t, 12) == round(q1_sq.t, 12))
+        if self.verbose: print("boosted: {}".format(q_z))
+        if self.verbose: print("b squared: {}".format(q_z2))
+        self.assertTrue(round(q_z2.t, 12) == round(q1_sq.t, 12))
 
     def test_g_shift(self):
         q1_sq = self.q1.square()
-        qz = self.q1.g_shift(0.003)
-        qz2 = qz.square()
+        q_z = self.q1.g_shift(0.003)
+        q_z2 = q_z.square()
         if self.verbose: print("q1_sq: {}".format(q1_sq))
-        if self.verbose: print("g_shift: {}".format(qz))
-        if self.verbose: print("g squared: {}".format(qz2))
-        self.assertTrue(qz2.t != q1_sq.t)
-        self.assertTrue(qz2.x == q1_sq.x)
-        self.assertTrue(qz2.y == q1_sq.y)
-        self.assertTrue(qz2.z == q1_sq.z)
+        if self.verbose: print("g_shift: {}".format(q_z))
+        if self.verbose: print("g squared: {}".format(q_z2))
+        self.assertTrue(q_z2.t != q1_sq.t)
+        self.assertTrue(q_z2.x == q1_sq.x)
+        self.assertTrue(q_z2.y == q1_sq.y)
+        self.assertTrue(q_z2.z == q1_sq.z)
 
 
 # In[5]:
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQh())
-unittest.TextTestRunner().run(suite)
+unittest.TextTestRunner().run(suite);
 
 
 # My long term goal is to deal with quaternions on a quaternion manifold. This will have 4 pairs of doublets. Each doublet is paired with its additive inverse. Instead of using real numbers, one uses (3, 0) and (0, 2) to represent +3 and -2 respectively. Numbers such as (5, 6) are allowed. That can be "reduced" to (0, 1).  My sense is that somewhere deep in the depths of relativistic quantum field theory, this will be a "good thing". For now, it is a minor pain to program.
@@ -635,15 +647,15 @@ class TestDoublet(unittest.TestCase):
         self.assertTrue(Z2p_red.n == Z2p_2.n)
 
 
-# In[8]:
+# In[ ]:
 
 suite = unittest.TestLoader().loadTestsFromModule(TestDoublet())
-unittest.TextTestRunner().run(suite)
+unittest.TextTestRunner().run(suite);
 
 
 # Write a class to handle quaternions given 8 numbers.
 
-# In[9]:
+# In[ ]:
 
 class Qq:
     """Quaternions on a quaternion manifold."""
@@ -664,20 +676,24 @@ class Qq:
                 self.dy = Doublet([values[4], values[5]])
                 self.dz = Doublet([values[6], values[7]])
                 
-
+                
     def __str__(self):
         """Customize the output."""
         return "{tp}_I0  {tn}_I2  {xp}_i1  {xn}_i3  {yp}_j1  {yn}_j3  {zp}_k1  {zn}_k3".format(tp=self.dt.p, tn=self.dt.n, 
                                                              xp=self.dx.p, xn=self.dx.n, 
                                                              yp=self.dy.p, yn=self.dy.n, 
                                                              zp=self.dz.p, zn=self.dz.n)
+    def q4(self):
+        """Return a 4 element array."""
+        return [self.dt.p - self.dt.n, self.dx.p - self.dx.n, self.dy.p - self.dy.n, self.dz.p - self.dz.n]
         
-    def q0(self):
+        
+    def q_zero(self):
         """Return a zero quaternion."""
         
         return Qq()
       
-    def q1(self):
+    def q_one(self):
         """Return a multiplicative identity quaternion."""
         
         return Qq([1, 0, 0, 0])
@@ -909,7 +925,7 @@ class Qq:
         return g_q
 
 
-# In[10]:
+# In[ ]:
 
 class TestQq(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
@@ -922,45 +938,45 @@ class TestQq(unittest.TestCase):
     def test_qt(self):
         self.assertTrue(self.q1.dt.p == 1)
     
-    def test_q0(self):
-        qz = self.q1.q0()
-        if self.verbose: print("q0: {}".format(qz))
-        self.assertTrue(qz.dt.p == 0)
-        self.assertTrue(qz.dx.p == 0)
-        self.assertTrue(qz.dy.n == 0)
-        self.assertTrue(qz.dz.p == 0)
+    def test_q_zero(self):
+        q_z = self.q1.q_zero()
+        if self.verbose: print("q0: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 0)
+        self.assertTrue(q_z.dx.p == 0)
+        self.assertTrue(q_z.dy.n == 0)
+        self.assertTrue(q_z.dz.p == 0)
         
-    def test_q1(self):
-        qz = self.q1.q1()
-        if self.verbose: print("q1: {}".format(qz))
-        self.assertTrue(qz.dt.p == 1)
-        self.assertTrue(qz.dx.p == 0)
-        self.assertTrue(qz.dy.p == 0)
-        self.assertTrue(qz.dz.p == 0)
+    def test_q_one(self):
+        q_z = self.q1.q_one()
+        if self.verbose: print("q1: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 1)
+        self.assertTrue(q_z.dx.p == 0)
+        self.assertTrue(q_z.dy.p == 0)
+        self.assertTrue(q_z.dz.p == 0)
                 
     def test_conj_0(self):
-        qz = self.q1.conj()
-        if self.verbose: print("conj 0: {}".format(qz))
-        self.assertTrue(qz.dt.p == 1)
-        self.assertTrue(qz.dx.p == 2)
-        self.assertTrue(qz.dy.p == 3)
-        self.assertTrue(qz.dz.p == 4)
+        q_z = self.q1.conj()
+        if self.verbose: print("conj 0: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 1)
+        self.assertTrue(q_z.dx.p == 2)
+        self.assertTrue(q_z.dy.p == 3)
+        self.assertTrue(q_z.dz.p == 4)
                  
     def test_conj_1(self):
-        qz = self.q1.conj(1)
-        if self.verbose: print("conj 1: {}".format(qz))
-        self.assertTrue(qz.dt.n == 1)
-        self.assertTrue(qz.dx.n == 2)
-        self.assertTrue(qz.dy.p == 3)
-        self.assertTrue(qz.dz.p == 4)
+        q_z = self.q1.conj(1)
+        if self.verbose: print("conj 1: {}".format(q_z))
+        self.assertTrue(q_z.dt.n == 1)
+        self.assertTrue(q_z.dx.n == 2)
+        self.assertTrue(q_z.dy.p == 3)
+        self.assertTrue(q_z.dz.p == 4)
                  
     def test_conj_2(self):
-        qz = self.q1.conj(2)
-        if self.verbose: print("conj 2: {}".format(qz))
-        self.assertTrue(qz.dt.n == 1)
-        self.assertTrue(qz.dx.p == 2)
-        self.assertTrue(qz.dy.n == 3)
-        self.assertTrue(qz.dz.p == 4)
+        q_z = self.q1.conj(2)
+        if self.verbose: print("conj 2: {}".format(q_z))
+        self.assertTrue(q_z.dt.n == 1)
+        self.assertTrue(q_z.dx.p == 2)
+        self.assertTrue(q_z.dy.n == 3)
+        self.assertTrue(q_z.dz.p == 4)
         
     def test_square(self):
         q_sq = self.q1.square()
@@ -988,179 +1004,701 @@ class TestQq(unittest.TestCase):
         self.assertTrue(q_red.dz.n == 1)
         
     def test_norm(self):
-        qz = self.q1.norm()
-        if self.verbose: print("norm: {}".format(qz))
-        self.assertTrue(qz.dt.p == 30)
-        self.assertTrue(qz.dt.n == 0)
-        self.assertTrue(qz.dx.p == 0)
-        self.assertTrue(qz.dx.n == 0)
-        self.assertTrue(qz.dy.p == 0)
-        self.assertTrue(qz.dy.n == 0)
-        self.assertTrue(qz.dz.p == 0)
-        self.assertTrue(qz.dz.n == 0)
+        q_z = self.q1.norm()
+        if self.verbose: print("norm: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 30)
+        self.assertTrue(q_z.dt.n == 0)
+        self.assertTrue(q_z.dx.p == 0)
+        self.assertTrue(q_z.dx.n == 0)
+        self.assertTrue(q_z.dy.p == 0)
+        self.assertTrue(q_z.dy.n == 0)
+        self.assertTrue(q_z.dz.p == 0)
+        self.assertTrue(q_z.dz.n == 0)
         
     def test_norm_of_vector(self):
-        qz = self.q1.norm_of_vector()
-        if self.verbose: print("norm_of_vector: {}".format(qz))
-        self.assertTrue(qz.dt.p == 29)
-        self.assertTrue(qz.dt.n == 0)
-        self.assertTrue(qz.dx.p == 0)
-        self.assertTrue(qz.dx.n == 0)
-        self.assertTrue(qz.dy.p == 0)
-        self.assertTrue(qz.dy.n == 0)
-        self.assertTrue(qz.dz.p == 0)
-        self.assertTrue(qz.dz.n == 0)
+        q_z = self.q1.norm_of_vector()
+        if self.verbose: print("norm_of_vector: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 29)
+        self.assertTrue(q_z.dt.n == 0)
+        self.assertTrue(q_z.dx.p == 0)
+        self.assertTrue(q_z.dx.n == 0)
+        self.assertTrue(q_z.dy.p == 0)
+        self.assertTrue(q_z.dy.n == 0)
+        self.assertTrue(q_z.dz.p == 0)
+        self.assertTrue(q_z.dz.n == 0)
         
     def test_abs_of_q(self):
-        qz = self.q2.abs_of_q()
-        if self.verbose: print("abs_of_q: {}".format(qz))
-        self.assertTrue(qz.dt.p == 5)
-        self.assertTrue(qz.dx.p == 0)
-        self.assertTrue(qz.dy.p == 0)
-        self.assertTrue(qz.dz.p == 0)
-        self.assertTrue(qz.dt.n == 0)
-        self.assertTrue(qz.dx.n == 0)
-        self.assertTrue(qz.dy.n == 0)
-        self.assertTrue(qz.dz.n == 0)
+        q_z = self.q2.abs_of_q()
+        if self.verbose: print("abs_of_q: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 5)
+        self.assertTrue(q_z.dx.p == 0)
+        self.assertTrue(q_z.dy.p == 0)
+        self.assertTrue(q_z.dz.p == 0)
+        self.assertTrue(q_z.dt.n == 0)
+        self.assertTrue(q_z.dx.n == 0)
+        self.assertTrue(q_z.dy.n == 0)
+        self.assertTrue(q_z.dz.n == 0)
         
     def test_abs_of_vector(self):
-        qz = self.q2.abs_of_vector()
-        if self.verbose: print("abs_of_vector: {}".format(qz))
-        self.assertTrue(qz.dt.p == 5)
-        self.assertTrue(qz.dx.p == 0)
-        self.assertTrue(qz.dy.p == 0)
-        self.assertTrue(qz.dz.p == 0)
-        self.assertTrue(qz.dt.n == 0)
-        self.assertTrue(qz.dx.n == 0)
-        self.assertTrue(qz.dy.n == 0)
-        self.assertTrue(qz.dz.n == 0)
+        q_z = self.q2.abs_of_vector()
+        if self.verbose: print("abs_of_vector: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 5)
+        self.assertTrue(q_z.dx.p == 0)
+        self.assertTrue(q_z.dy.p == 0)
+        self.assertTrue(q_z.dz.p == 0)
+        self.assertTrue(q_z.dt.n == 0)
+        self.assertTrue(q_z.dx.n == 0)
+        self.assertTrue(q_z.dy.n == 0)
+        self.assertTrue(q_z.dz.n == 0)
         
     def test_add(self):
-        qz = self.q1.add(self.q2)
-        if self.verbose: print("add: {}".format(qz))
-        self.assertTrue(qz.dt.p == 1)
-        self.assertTrue(qz.dt.n == 0)
-        self.assertTrue(qz.dx.p == 4)
-        self.assertTrue(qz.dx.n == 2)
-        self.assertTrue(qz.dy.p == 0)
-        self.assertTrue(qz.dy.n == 6)
-        self.assertTrue(qz.dz.p == 0)
-        self.assertTrue(qz.dz.n == 4)
+        q_z = self.q1.add(self.q2)
+        if self.verbose: print("add: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 1)
+        self.assertTrue(q_z.dt.n == 0)
+        self.assertTrue(q_z.dx.p == 4)
+        self.assertTrue(q_z.dx.n == 2)
+        self.assertTrue(q_z.dy.p == 0)
+        self.assertTrue(q_z.dy.n == 6)
+        self.assertTrue(q_z.dz.p == 0)
+        self.assertTrue(q_z.dz.n == 4)
         
     def test_add_reduce(self):
-        qz_red = self.q1.add(self.q2).reduce()
-        if self.verbose: print("add reduce: {}".format(qz_red))
-        self.assertTrue(qz_red.dt.p == 1)
-        self.assertTrue(qz_red.dt.n == 0)
-        self.assertTrue(qz_red.dx.p == 2)
-        self.assertTrue(qz_red.dx.n == 0)
-        self.assertTrue(qz_red.dy.p == 0)
-        self.assertTrue(qz_red.dy.n == 6)
-        self.assertTrue(qz_red.dz.p == 0)
-        self.assertTrue(qz_red.dz.n == 4)
+        q_z_red = self.q1.add(self.q2).reduce()
+        if self.verbose: print("add reduce: {}".format(q_z_red))
+        self.assertTrue(q_z_red.dt.p == 1)
+        self.assertTrue(q_z_red.dt.n == 0)
+        self.assertTrue(q_z_red.dx.p == 2)
+        self.assertTrue(q_z_red.dx.n == 0)
+        self.assertTrue(q_z_red.dy.p == 0)
+        self.assertTrue(q_z_red.dy.n == 6)
+        self.assertTrue(q_z_red.dz.p == 0)
+        self.assertTrue(q_z_red.dz.n == 4)
         
     def test_dif(self):
-        qz = self.q1.dif(self.q2)
-        if self.verbose: print("dif: {}".format(qz))
-        self.assertTrue(qz.dt.p == 1)
-        self.assertTrue(qz.dt.n == 0)
-        self.assertTrue(qz.dx.p == 0)
-        self.assertTrue(qz.dx.n == 6) 
-        self.assertTrue(qz.dy.p == 3)
-        self.assertTrue(qz.dy.n == 3)
-        self.assertTrue(qz.dz.p == 0)
-        self.assertTrue(qz.dz.n == 4) 
+        q_z = self.q1.dif(self.q2)
+        if self.verbose: print("dif: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 1)
+        self.assertTrue(q_z.dt.n == 0)
+        self.assertTrue(q_z.dx.p == 0)
+        self.assertTrue(q_z.dx.n == 6) 
+        self.assertTrue(q_z.dy.p == 3)
+        self.assertTrue(q_z.dy.n == 3)
+        self.assertTrue(q_z.dz.p == 0)
+        self.assertTrue(q_z.dz.n == 4) 
 
     def test_product(self):
-        qz = self.q1.product(self.q2).reduce()
-        if self.verbose: print("product: {}".format(qz))
-        self.assertTrue(qz.dt.p == 0)
-        self.assertTrue(qz.dt.n == 1)
-        self.assertTrue(qz.dx.p == 0)
-        self.assertTrue(qz.dx.n == 8)
-        self.assertTrue(qz.dy.p == 0)
-        self.assertTrue(qz.dy.n == 19)
-        self.assertTrue(qz.dz.p == 18)
-        self.assertTrue(qz.dz.n == 0)
+        q_z = self.q1.product(self.q2).reduce()
+        if self.verbose: print("product: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 0)
+        self.assertTrue(q_z.dt.n == 1)
+        self.assertTrue(q_z.dx.p == 0)
+        self.assertTrue(q_z.dx.n == 8)
+        self.assertTrue(q_z.dy.p == 0)
+        self.assertTrue(q_z.dy.n == 19)
+        self.assertTrue(q_z.dz.p == 18)
+        self.assertTrue(q_z.dz.n == 0)
         
     def test_invert(self):
-        qz = self.q2.invert().reduce()
-        if self.verbose: print("inverse: {}".format(qz))
-        self.assertTrue(qz.dt.p == 0)
-        self.assertTrue(qz.dt.n == 0)
-        self.assertTrue(qz.dx.p == 0)
-        self.assertTrue(qz.dx.n == 0.16)
-        self.assertTrue(qz.dy.p == 0.12)
-        self.assertTrue(qz.dy.n == 0)
-        self.assertTrue(qz.dz.p == 0)
-        self.assertTrue(qz.dz.n == 0)
+        q_z = self.q2.invert().reduce()
+        if self.verbose: print("inverse: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 0)
+        self.assertTrue(q_z.dt.n == 0)
+        self.assertTrue(q_z.dx.p == 0)
+        self.assertTrue(q_z.dx.n == 0.16)
+        self.assertTrue(q_z.dy.p == 0.12)
+        self.assertTrue(q_z.dy.n == 0)
+        self.assertTrue(q_z.dz.p == 0)
+        self.assertTrue(q_z.dz.n == 0)
 
     def test_divide_by(self):
-        qz = self.q1.divide_by(self.q1).reduce()
-        if self.verbose: print("inverse: {}".format(qz))
-        self.assertTrue(qz.dt.p == 1)
-        self.assertTrue(qz.dt.n == 0)
-        self.assertTrue(qz.dx.p == 0)
-        self.assertTrue(qz.dx.n == 0)
-        self.assertTrue(qz.dy.p == 0)
-        self.assertTrue(qz.dy.n == 0)
-        self.assertTrue(qz.dz.p == 0)
-        self.assertTrue(qz.dz.n == 0) 
+        q_z = self.q1.divide_by(self.q1).reduce()
+        if self.verbose: print("inverse: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 1)
+        self.assertTrue(q_z.dt.n == 0)
+        self.assertTrue(q_z.dx.p == 0)
+        self.assertTrue(q_z.dx.n == 0)
+        self.assertTrue(q_z.dy.p == 0)
+        self.assertTrue(q_z.dy.n == 0)
+        self.assertTrue(q_z.dz.p == 0)
+        self.assertTrue(q_z.dz.n == 0) 
         
     def test_triple_product(self):
-        qz = self.q1.triple_product(self.q2, self.q1).reduce()
-        if self.verbose: print("triple: {}".format(qz))
-        self.assertTrue(qz.dt.p == 0)
-        self.assertTrue(qz.dt.n == 2)
-        self.assertTrue(qz.dx.p == 124)
-        self.assertTrue(qz.dx.n == 0)
-        self.assertTrue(qz.dy.p == 0)
-        self.assertTrue(qz.dy.n == 84)
-        self.assertTrue(qz.dz.p == 8)
-        self.assertTrue(qz.dz.n == 0)
+        q_z = self.q1.triple_product(self.q2, self.q1).reduce()
+        if self.verbose: print("triple: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 0)
+        self.assertTrue(q_z.dt.n == 2)
+        self.assertTrue(q_z.dx.p == 124)
+        self.assertTrue(q_z.dx.n == 0)
+        self.assertTrue(q_z.dy.p == 0)
+        self.assertTrue(q_z.dy.n == 84)
+        self.assertTrue(q_z.dz.p == 8)
+        self.assertTrue(q_z.dz.n == 0)
         
     def test_rotate(self):
-        qz = self.q1.rotate(1).reduce()
-        if self.verbose: print("rotate: {}".format(qz))
-        self.assertTrue(qz.dt.p == 1)
-        self.assertTrue(qz.dt.n == 0)
-        self.assertTrue(qz.dx.p == 0)
-        self.assertTrue(qz.dx.n == 2)
-        self.assertTrue(qz.dy.p == 3)
-        self.assertTrue(qz.dy.n == 0)
-        self.assertTrue(qz.dz.p == 4)
-        self.assertTrue(qz.dz.n == 0)
+        q_z = self.q1.rotate(1).reduce()
+        if self.verbose: print("rotate: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 1)
+        self.assertTrue(q_z.dt.n == 0)
+        self.assertTrue(q_z.dx.p == 0)
+        self.assertTrue(q_z.dx.n == 2)
+        self.assertTrue(q_z.dy.p == 3)
+        self.assertTrue(q_z.dy.n == 0)
+        self.assertTrue(q_z.dz.p == 4)
+        self.assertTrue(q_z.dz.n == 0)
         
     def test_boost(self):
         q1_sq = self.q1.square().reduce()
-        qz = self.q1.boost(0.003)
-        qz2 = qz.square().reduce()
+        q_z = self.q1.boost(0.003)
+        q_z2 = q_z.square().reduce()
         if self.verbose: print("q1_sq: {}".format(q1_sq))
-        if self.verbose: print("boosted: {}".format(qz))
-        if self.verbose: print("b squared: {}".format(qz2))
-        self.assertTrue(round(qz2.dt.n, 12) == round(q1_sq.dt.n, 12))
+        if self.verbose: print("boosted: {}".format(q_z))
+        if self.verbose: print("b squared: {}".format(q_z2))
+        self.assertTrue(round(q_z2.dt.n, 12) == round(q1_sq.dt.n, 12))
         
     def test_g_shift(self):
         q1_sq = self.q1.square().reduce()
-        qz = self.q1.g_shift(0.003)
-        qz2 = qz.square().reduce()
+        q_z = self.q1.g_shift(0.003)
+        q_z2 = q_z.square().reduce()
         if self.verbose: print("q1_sq: {}".format(q1_sq))
-        if self.verbose: print("g_shift: {}".format(qz))
-        if self.verbose: print("g squared: {}".format(qz2))
-        self.assertTrue(qz2.dt.n != q1_sq.dt.n)
-        self.assertTrue(qz2.dx.p == q1_sq.dx.p)
-        self.assertTrue(qz2.dx.n == q1_sq.dx.n)
-        self.assertTrue(qz2.dy.p == q1_sq.dy.p)
-        self.assertTrue(qz2.dy.n == q1_sq.dy.n)
-        self.assertTrue(qz2.dz.p == q1_sq.dz.p)
-        self.assertTrue(qz2.dz.n == q1_sq.dz.n)
+        if self.verbose: print("g_shift: {}".format(q_z))
+        if self.verbose: print("g squared: {}".format(q_z2))
+        self.assertTrue(q_z2.dt.n != q1_sq.dt.n)
+        self.assertTrue(q_z2.dx.p == q1_sq.dx.p)
+        self.assertTrue(q_z2.dx.n == q1_sq.dx.n)
+        self.assertTrue(q_z2.dy.p == q1_sq.dy.p)
+        self.assertTrue(q_z2.dy.n == q1_sq.dy.n)
+        self.assertTrue(q_z2.dz.p == q1_sq.dz.p)
+        self.assertTrue(q_z2.dz.n == q1_sq.dz.n)
 
 
-# In[11]:
+# In[ ]:
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQq())
-unittest.TextTestRunner().run(suite)
+unittest.TextTestRunner().run(suite);
 
 
-# Create a class that can figure out if two quaternions are in the same equivalence class. An equivalence class of space-time is a subset of events in space-time. For 
+# Create a class that can figure out if two quaternions are in the same equivalence class. An equivalence class of space-time is a subset of events in space-time. For example, the future equivalence class would have any event that happens in the future. All time-like events have an interval that is positive.
 # 
+# A series of images were created to show each class.  For the future, here is the equivalence class:
+# ![](images/eq_classes/time_future.png)
+# There is a smaller class for those that are exactly the same amount in the future. They have a different icon:
+# ![](images/eq_classes/time_future_exact.png)
+# Such an exact relation is not of much interest to physicists since Einstein showed that holds for only one set of observers. If one is moving relative to the reference observer, the two events would look like they occured at different times in the future, presuming perfectly accurate measuring devices.
+# 
+
+# In[ ]:
+
+class EQ():
+    """A class that compairs pairs of quaternions."""
+    
+    round_to = 13
+    
+    eq_images = {}
+
+    for eq_image_file in glob("images/eq_classes/*png"):
+        file_name = basename(eq_image_file)
+        eq_class_name = (file_name.split(sep='.'))[0]
+        eq_images[eq_class_name] = mpimg.imread(eq_image_file)
+    
+    def __init__(self, q1, q2):
+        
+        # Convert the quaternions into the Qq reduced form.
+        if isinstance(q1, Qh):
+            self.q1 = Qq([q1.t, q1.x, q1.y, q1.z])
+        
+        elif(isinstance(q1, Qq)):
+            self.q1 = q1.reduce()
+            
+        if isinstance(q2, Qh):
+            self.q2 = Qq([q2.t, q2.x, q2.y, q2.z])
+            
+        elif(isinstance(q2, Qq)):
+            self.q2 = q2.reduce()
+                        
+        # The quaternions used by this class are
+        # linear, square, and the norm of a quaternion so do the calculations once.
+        
+        self.q1_square = self.q1.square().reduce()
+        self.q2_square = self.q2.square().reduce()
+        
+        self.q1_norm_minus_1 = self.q1.norm().dif(self.q1.q_one()).reduce()
+        self.q2_norm_minus_1 = self.q2.norm().dif(self.q1.q_one()).reduce()
+
+        # Store results here
+        self.classes = {}
+
+    def get_class(self, q1, q2, names, position):
+        """A general tool to figure out a scalar class. 
+           Names is a dictionary that needs values for 'class', 'positive', 'negative', and 'divider'.
+           position needs to be dt, dx, dy or dz"""
+        
+        q1_d = {'dt': q1.dt, 'dy': q1.dy, 'dx': q1.dx, 'dz': q1.dz}
+        q2_d = {'dt': q2.dt, 'dy': q2.dy, 'dx': q2.dx, 'dz': q2.dz}
+
+        
+        # Since the quaternions in the Qq form are reduced just look for non-zero values.
+        if q1_d[position].p and q2_d[position].p:
+
+            if round(q1_d[position].p, self.round_to) == round(q2_d[position].p, self.round_to):
+                result = "{np}_exact".format(np=names["positive"])
+            else:
+                result = "{np}".format(np=names["positive"])
+                
+        elif q1_d[position].n and q2_d[position].n:
+            
+            if round(q1_d[position].n, self.round_to) == round(q2_d[position].n, self.round_to):
+                result = "{nn}_exact".format(nn=names["negative"])
+            else:
+                result = "{nn}".format(nn=names["negative"])
+                
+        elif not q1_d[position].p and not q1_d[position].n and not q2_d[position].p and not q2_d[position].n:
+            result = "{nd}_exact".format(nd=names["divider"])
+            
+        else:
+            result = "disjoint"
+            
+        self.classes[names["class"]] = result
+        return result
+    
+    def time(self):
+        """Figure out time equivalence class."""
+        
+        names = {'class': 'time', 'positive': 'future', 'negative': 'past', 'divider': 'now'}        
+        result = self.get_class(self.q1, self.q2, names, 'dt')
+        return result
+    
+    def space(self):
+        """Figure out time equivalence class."""
+        
+        positions = ['dx', 'dy', 'dz']
+        
+        names = []
+        names.append({'class': 'space-1', 'positive': 'right', 'negative': 'left', 'divider': 'here'})
+        names.append({'class': 'space-2', 'positive': 'up', 'negative': 'down', 'divider': 'here'})
+        names.append({'class': 'space-3', 'positive': 'near', 'negative': 'far', 'divider': 'here'})
+        
+        results = []
+                     
+        for name, position in zip(names, positions):
+            results.append(self.get_class(self.q1, self.q2, name, position))
+        
+        return results
+    
+    def space_time(self):
+        """Do both time and space, return an array."""
+        
+        results = []
+        results.append(self.time())
+        results.extend(self.space())
+        return results
+    
+    def causality(self):
+        """There is only one causality equivalence class."""
+        
+        names = {'class': 'causality', 'positive': 'time-like', 'negative': 'space-like', 'divider': 'light-like'}
+        result = self.get_class(self.q1_square, self.q2_square, names, 'dt')
+        return result
+    
+    def space_times_time(self):
+        """Figure out the space-times-time equivalence class used in the quaternion gravity proposal."""
+        
+        positions = ['dx', 'dy', 'dz']
+        
+        names = []
+        names.append({'class': 'space-times-time-1', 'positive': 'future-right', 
+                      'negative': 'future-left', 'divider': 'here-now'})
+        names.append({'class': 'space-times-time-2', 'positive': 'future-up', 
+                      'negative': 'future-down', 'divider': 'here-now'})
+        names.append({'class': 'space-times-time-3', 'positive': 'future-near', 
+                      'negative': 'future-far', 'divider': 'here-now'})
+        
+        results = []
+                     
+        for name, position in zip(names, positions):
+            results.append(self.get_class(self.q1, self.q2, name, position))
+        
+        return results
+
+    def squared(self):
+        """Return both causality and space_times_time as a list."""
+
+        results = []
+        results.append(self.causality())
+        results.extend(self.space_times_time())
+        return results
+
+    def norm_of_unity(self):
+        """Find out if the norm of both is greater than, less than, exactly equal or both different from unity."""
+
+        names = {'class': 'norm_of_unity', 'positive': 'greater_than_unity', 'negative': 'less_than_unity', 'divider': 'unity'}
+        result = self.get_class(self.q1_norm_minus_1, self.q2_norm_minus_1, names, 'dt')
+        return result
+
+    def compare(self, eq_2):
+        """Compares one set of equivalence classes to anther."""
+
+        pass
+
+    def get_all_classes(self, eq_2=None):
+        """Run them all."""
+        
+        if eq_2 is None:
+            eq_classes = [self]
+        else:
+            eq_classes = [self, eq_2]
+            
+        for eq_class in eq_classes:
+            if 'time' not in eq_class.classes:
+                eq_class.time()
+            if 'space' not in eq_class.classes:
+                eq_class.space()
+            if 'causality' not in eq_class.classes:
+                eq_class.causality()
+            if 'space-times-time' not in eq_class.classes:
+                eq_class.space_times_time()
+            if 'norm_of_unity' not in eq_class.classes:
+                eq_class.norm_of_unity()
+
+    def visualize(self, eq_2=None):
+        """Visualize one or two rows of classes with icons for each of the 5 classes."""
+        
+        self.get_all_classes(eq_2)
+        
+        if eq_2 is None:
+            fig = plt.figure()
+            plt.rcParams["figure.figsize"] = [50, 30]
+            
+            ax1 = fig.add_subplot(3, 5, 1)
+            ax1.imshow(self.eq_images['time_' + self.classes['time']])
+            plt.axis('off')
+            
+            ax21 = fig.add_subplot(3, 5, 2)
+            ax21.imshow(self.eq_images['space-1_' + self.classes['space-1']])
+            plt.axis('off');
+
+
+            ax22 = fig.add_subplot(3, 5, 7)
+            ax22.imshow(self.eq_images['space-2_' + self.classes['space-2']])
+            plt.axis('off');
+
+
+            ax23 = fig.add_subplot(3, 5, 12)
+            ax23.imshow(self.eq_images['space-3_' + self.classes['space-3']])
+            plt.axis('off');
+
+            ax3 = fig.add_subplot(3, 5, 3)
+            ax3.imshow(self.eq_images['causality_' + self.classes['causality']])
+            plt.axis('off');
+
+            ax41 = fig.add_subplot(3, 5, 4)
+            ax41.imshow(self.eq_images['space-times-time-1_' + self.classes['space-times-time-1']])
+            plt.axis('off');
+
+            ax42 = fig.add_subplot(3, 5, 9)
+            ax42.imshow(self.eq_images['space-times-time-2_' + self.classes['space-times-time-2']])
+            plt.axis('off');
+
+            ax43 = fig.add_subplot(3, 5, 14)
+            ax43.imshow(self.eq_images['space-times-time-3_' + self.classes['space-times-time-3']])
+            plt.axis('off');
+
+            ax5 = fig.add_subplot(3, 5, 5)
+            ax5.imshow(self.eq_images['norm_of_unity_' + self.classes['norm_of_unity']])
+            plt.axis('off');
+
+        else:
+            fig = plt.figure()
+            plt.rcParams["figure.figsize"] = [50, 60]
+            
+            ax1 = fig.add_subplot(6, 5, 1)
+            ax1.imshow(self.eq_images['time_' + self.classes['time']])
+            plt.axis('off')
+            
+            ax21 = fig.add_subplot(6, 5, 2)
+            ax21.imshow(self.eq_images['space-1_' + self.classes['space-1']])
+            plt.axis('off');
+
+            ax22 = fig.add_subplot(6, 5, 7)
+            ax22.imshow(self.eq_images['space-2_' + self.classes['space-2']])
+            plt.axis('off');
+
+            ax23 = fig.add_subplot(6, 5, 12)
+            ax23.imshow(self.eq_images['space-3_' + self.classes['space-3']])
+            plt.axis('off');
+
+            ax3 = fig.add_subplot(6, 5, 3)
+            ax3.imshow(self.eq_images['causality_' + self.classes['causality']])
+            plt.axis('off');
+
+            ax41 = fig.add_subplot(6, 5, 4)
+            ax41.imshow(self.eq_images['space-times-time-1_' + self.classes['space-times-time-1']])
+            plt.axis('off');
+
+            ax42 = fig.add_subplot(6, 5, 9)
+            ax42.imshow(self.eq_images['space-times-time-2_' + self.classes['space-times-time-2']])
+            plt.axis('off');
+
+            ax43 = fig.add_subplot(6, 5, 14)
+            ax43.imshow(self.eq_images['space-times-time-3_' + self.classes['space-times-time-3']])
+            plt.axis('off');
+
+            ax5 = fig.add_subplot(6, 5, 5)
+            ax5.imshow(self.eq_images['norm_of_unity_' + self.classes['norm_of_unity']])
+            plt.axis('off');
+            
+
+            ax21 = fig.add_subplot(6, 5, 16)
+            ax21.imshow(self.eq_images['time_' + eq_2.classes['time']])
+            plt.axis('off')
+            
+            ax221 = fig.add_subplot(6, 5, 17)
+            ax221.imshow(self.eq_images['space-1_' + eq_2.classes['space-1']])
+            plt.axis('off');
+
+            ax222 = fig.add_subplot(6, 5, 22)
+            ax222.imshow(self.eq_images['space-2_' + eq_2.classes['space-2']])
+            plt.axis('off');
+
+            ax223 = fig.add_subplot(6, 5, 27)
+            ax223.imshow(self.eq_images['space-3_' + eq_2.classes['space-3']])
+            plt.axis('off');
+
+            ax23 = fig.add_subplot(6, 5, 18)
+            ax23.imshow(self.eq_images['causality_' + eq_2.classes['causality']])
+            plt.axis('off');
+
+            ax241 = fig.add_subplot(6, 5, 19)
+            ax241.imshow(self.eq_images['space-times-time-1_' + eq_2.classes['space-times-time-1']])
+            plt.axis('off');
+
+            ax242 = fig.add_subplot(6, 5, 24)
+            ax242.imshow(self.eq_images['space-times-time-2_' + eq_2.classes['space-times-time-2']])
+            plt.axis('off');
+
+            ax243 = fig.add_subplot(6, 5, 29)
+            ax243.imshow(self.eq_images['space-times-time-3_' + eq_2.classes['space-times-time-3']])
+            plt.axis('off');
+
+            ax25 = fig.add_subplot(6, 5, 20)
+            ax25.imshow(self.eq_images['norm_of_unity_' + eq_2.classes['norm_of_unity']])
+            plt.axis('off');
+            
+    def __str__(self):
+        """Prints all the equivalence relations."""
+        
+        self.get_all_classes()
+        
+        class_names = ["time", "space-1", "space-2", "space-3", "causality", 
+                       "space-times-time-1", "space-times-time-2", "space-times-time-3", 
+                       "norm_of_unity"]
+        
+        result = "The equivalence classes for this pair of events are as follows...\n"
+        
+        result += "q1: {}\n".format(Qh(self.q1.q4()))
+        result += "q2: {}\n".format(Qh(self.q2.q4()))
+        result += "q1_squared: {}\n".format(Qh(self.q1_square.q4()))
+        result += "q2_squared: {}\n".format(Qh(self.q2_square.q4()))
+        result += "q1_norm -1: {}\n".format(Qh(self.q1_norm_minus_1.q4()))
+        result += "q2_norm -1: {}\n".format(Qh(self.q2_norm_minus_1.q4()))
+        
+        for class_name in class_names:
+            result += "{cn:>20}: {c}\n".format(cn=class_name, c=self.classes[class_name])
+
+        return result
+    
+
+
+# In[ ]:
+
+class TestEQ(unittest.TestCase):
+    """Class to make sure all the functions work as expected."""
+    
+    q1 = Qq([1.0, 0, 0, 2.0, 0, 3.0, 0, 4.0])
+    q2 = Qh([0, 4.0, -3.0, 0])
+    eq_11 = EQ(q1, q1)
+    eq_12 = EQ(q1, q2)
+    
+    def test_EQ_assignment(self):
+        
+        self.assertTrue(self.eq_12.q1.dt.p == 1)
+        self.assertTrue(self.eq_12.q1.dt.n == 0)
+        self.assertTrue(self.eq_12.q1_square.dt.p == 0)
+        self.assertTrue(self.eq_12.q1_square.dt.n == 28)
+        self.assertTrue(self.eq_12.q1_norm_minus_1.dt.p == 29)
+        self.assertTrue(self.eq_12.q1_norm_minus_1.dt.n == 0)
+        self.assertTrue(self.eq_12.q2.dt.p == 0)
+        self.assertTrue(self.eq_12.q2.dt.n == 0)
+        
+    def test_get_class(self):
+        """Test all time equivalence classes."""
+        names = {'class': 'time', 'positive': 'future', 'negative': 'past', 'divider': 'now'}
+        result = self.eq_12.get_class(self.q1, self.q1, names, 'dt')
+        self.assertTrue(result == 'future_exact')
+    
+    def test_time(self):
+        """Test all time equivalence classes."""
+        q_now = Qq()
+        eq_zero = EQ(q_now, q_now)
+        self.assertTrue(eq_zero.time() == 'now_exact')
+        self.assertTrue(self.eq_12.time() == 'disjoint')
+        q1f = Qh([4.0, 4.0, 4.0, 4.0])
+        q1fe = Qh([1.0, 4.0, 4.0, 4.0])
+        self.assertTrue(EQ(self.q1, q1f).time() == 'future')
+        self.assertTrue(EQ(self.q1, q1fe).time() == 'future_exact')
+        q1p = Qh([-4.0, 4.0, 4.0, 4.0])
+        q1pe = Qh([-4.0, 1.0, 2.0, 3.0])
+        q1pp = Qh([-1.0, 1.0, 2.0, 3.0])
+        self.assertTrue(EQ(q1p, q1pp).time() == 'past')
+        self.assertTrue(EQ(q1p, q1pe).time() == 'past_exact')
+        
+    def test_space(self):
+        """Test space equivalence class."""
+        q_now = Qq()
+        eq_zero = EQ(q_now, q_now)
+        self.assertTrue(eq_zero.space()[0] == 'here_exact')
+        self.assertTrue(eq_zero.space()[1] == 'here_exact')
+        self.assertTrue(eq_zero.space()[2] == 'here_exact')
+        self.assertTrue(self.eq_11.space()[0] == 'left_exact')
+        self.assertTrue(self.eq_11.space()[1] == 'down_exact')
+        self.assertTrue(self.eq_11.space()[2] == 'far_exact')
+        self.assertTrue(self.eq_12.space()[0] == 'disjoint')
+        self.assertTrue(self.eq_12.space()[1] == 'down_exact')
+        self.assertTrue(self.eq_12.space()[2] == 'disjoint')
+        
+        q_sp = Qq([1, 0, 0, 4, 0, 6, 0, 8])
+        eq_sp = EQ(self.q1, q_sp)
+        self.assertTrue(eq_sp.space()[0] == 'left')
+        self.assertTrue(eq_sp.space()[1] == 'down')
+        self.assertTrue(eq_sp.space()[2] == 'far')
+        
+    def test_causality(self):
+        """Test all time equivalence classes."""
+        q_now = Qq()
+        eq_zero = EQ(q_now, q_now)
+        self.assertTrue(eq_zero.causality() == 'light-like_exact')
+        self.assertTrue(self.eq_12.causality() == 'space-like')
+        self.assertTrue(self.eq_11.causality() == 'space-like_exact')
+        tl = Qq([4, 0, 0, 0, 0, 0, 0, 0])
+        t2 = Qq([5, 0, 0, 3, 0, 0, 0, 0])
+        t3 = Qq([5, 0, 3, 0, 1, 0, 0, 0])
+        eq_t1_t2 = EQ(tl, t2)
+        eq_t1_t3 = EQ(tl, t3)
+        self.assertTrue(eq_t1_t2.causality() == 'time-like_exact')
+        self.assertTrue(eq_t1_t3.causality() == 'time-like')
+
+    def test_space_times_time(self):
+        """Test space equivalence class."""
+        q_now = Qq()
+        eq_zero = EQ(q_now, q_now)
+        self.assertTrue(eq_zero.space_times_time()[0] == 'here-now_exact')
+        self.assertTrue(eq_zero.space_times_time()[1] == 'here-now_exact')
+        self.assertTrue(eq_zero.space_times_time()[2] == 'here-now_exact')
+        self.assertTrue(self.eq_11.space_times_time()[0] == 'future-left_exact')
+        self.assertTrue(self.eq_11.space_times_time()[1] == 'future-down_exact')
+        self.assertTrue(self.eq_11.space_times_time()[2] == 'future-far_exact')
+        self.assertTrue(self.eq_12.space_times_time()[0] == 'disjoint')
+        self.assertTrue(self.eq_12.space_times_time()[1] == 'future-down_exact')
+        self.assertTrue(self.eq_12.space_times_time()[2] == 'disjoint')
+
+    def test_norm_of_unity(self):
+        self.assertTrue(self.eq_11.norm_of_unity() == 'greater_than_unity_exact')
+        q_one = Qq([1, 0, 0, 0, 0, 0, 0, 0])
+        q_small = Qq([0.1, 0, 0, 0.2, 0, 0, 0, 0])
+        q_tiny = Qq([0.001, 0, 0, 0.002, 0, 0, 0, 0])
+
+        eq_one = EQ(q_one, q_one)
+        eq_q1_small = EQ(q_one, q_small)
+        eq_small_small = EQ(q_small, q_small)
+        eq_small_tiny = EQ(q_small, q_tiny)
+        
+        self.assertTrue(eq_one.norm_of_unity() == 'unity_exact')
+        self.assertTrue(eq_q1_small.norm_of_unity() == 'disjoint')
+        self.assertTrue(eq_small_small.norm_of_unity() == 'less_than_unity_exact')
+        self.assertTrue(eq_small_tiny.norm_of_unity() == 'less_than_unity')
+
+
+# In[ ]:
+
+suite = unittest.TestLoader().loadTestsFromModule(TestEQ())
+unittest.TextTestRunner().run(suite);
+
+
+# In[ ]:
+
+E1 = Qh([0, 0, 0, 0])
+E2 = Qh([1,1,0,0])
+E3 = Qh([2,0, 0, 0])
+eq_E12 = EQ(E1, E2)
+eq_E13 = EQ(E1, E3)
+eq_E23 = EQ(E2, E3)
+print(eq_E12)
+print(eq_E13)
+print(eq_E23)
+
+
+# In[ ]:
+
+origin_shift = Qh([4, 0, 0, 5])
+E1_shift = Qh([0, 0, 0, 0]).add(origin_shift)
+E2_shift = Qh([1,1,0,0]).add(origin_shift)
+E3_shift = Qh([2,0, 0, 0]).add(origin_shift)
+eq_E12_shift = EQ(E1_shift, E2_shift)
+eq_E13_shift = EQ(E1_shift, E3_shift)
+eq_E23_shift = EQ(E2_shift, E3_shift)
+print(eq_E12_shift)
+
+
+# In[ ]:
+
+dif_E1_E2 = E1.dif(E2)
+dif_E1_E3 = E1.dif(E3)
+dif_E2_E3 = E2.dif(E3)
+eq_dif_E1_E2_E1_E3 = EQ(dif_E1_E2, dif_E1_E3)
+eq_dif_E1_E2_E2_E3 = EQ(dif_E1_E2, dif_E2_E3)
+eq_dif_E1_E3_E2_E3 = EQ(dif_E1_E3, dif_E2_E3)
+print(eq_dif_E1_E2_E1_E3)
+print(eq_dif_E1_E2_E2_E3)
+print(eq_dif_E1_E3_E2_E3)
+
+
+# In[ ]:
+
+dif_E1_E2_shift = E1_shift.dif(E2_shift)
+dif_E1_E3_shift = E1_shift.dif(E3_shift)
+dif_E2_E3_shift = E2_shift.dif(E3_shift)
+eq_dif_E1_E2_E1_E3_shift = EQ(dif_E1_E2_shift, dif_E1_E3_shift)
+eq_dif_E1_E2_E2_E3_shift = EQ(dif_E1_E2_shift, dif_E2_E3_shift)
+eq_dif_E1_E3_E2_E3_shift = EQ(dif_E1_E3_shift, dif_E2_E3_shift)
+print(eq_dif_E1_E2_E1_E3_shift)
+print(eq_dif_E1_E2_E2_E3_shift)
+print(eq_dif_E1_E3_E2_E3_shift)
+
+
+# In[ ]:
+
+pprint(eq_dif_E1_E2_E2_E3_shift.classes)
+pprint(eq_dif_E1_E2_E2_E3_shift.eq_images.keys())
+print(eq_dif_E1_E2_E2_E3_shift)
+eq_dif_E1_E2_E2_E3_shift.visualize()
+
+
+# In[ ]:
+
+eq_dif_E1_E2_E2_E3_shift.visualize()
+
+
+# In[ ]:
+
+eq_dif_E1_E2_E2_E3_shift.visualize(eq_dif_E1_E2_E2_E3_shift)
+
+
+# In[ ]:
+
+
+
+
+# In[ ]:
+
+
+
