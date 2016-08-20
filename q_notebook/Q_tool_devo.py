@@ -7,7 +7,7 @@
 # 
 # In physics, group theory plays a central role in the fundamental forces of Nature via the standard model. The gauge symmetry U(1) a unit circle in the complex plane leads to electric charge conservation. The unit quaternions SU(2) is the symmetry needed for the weak force which leads to beta decay. The group SU(3) is the symmetry of the strong force that keeps a nucleus together.
 # 
-# The class Qq was written in the hope that group theory would be written in first, not added as needed later. The problem with such an approach is that one does not use the mathematical field of real numbers. Instead one relies on the set of positive reals. In some ways, this is like reverse engineering some basic computer science. Libraries written in C have a notion of a signed versus unsigned integer. The signed integer behaves like the integers. The unsigned integer is like the positive integers. The difference between the two is whether there is a placeholder for the sign or not. All floats are signed. The modulo operations that work for unsigned integers does not work for floats.
+# The class Qq was written in the hope that group theory would be written in first, not added as needed later. The problem with such an approach is that one does not use the mathematical field of real numbers. Instead one relies on the set of positive reals. In some ways, this is like reverse engineering some basic computer science. Libraries written in C have a notion of a signed versus unsigned integer. The signed integer behaves like the familiar integers. The unsigned integer is like the positive integers. The difference between the two is whether there is a placeholder for the sign or not. All floats are signed. The modulo operations that work for unsigned integers does not work for floats.
 # 
 # Test driven development was used. The same tests for class Qh were used for Qq.  Either class can be used to study quaternions in physics.
 
@@ -15,6 +15,7 @@
 
 import unittest
 from glob import glob
+from sympy import *
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from os.path import basename
@@ -297,7 +298,7 @@ class Qh:
 
 # Write tests the Qh class.
 
-# In[4]:
+# In[38]:
 
 class TestQh(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
@@ -310,7 +311,7 @@ class TestQh(unittest.TestCase):
         self.assertTrue(self.q1.t == 1)
 
     def test_q0(self):
-        q_z = self.q1.q0()
+        q_z = self.q1.q_0()
         if self.verbose: print("q0: {}".format(q_z))
         self.assertTrue(q_z.t == 0)
         self.assertTrue(q_z.x == 0)
@@ -318,7 +319,7 @@ class TestQh(unittest.TestCase):
         self.assertTrue(q_z.z == 0)
 
     def test_q1(self):
-        q_z = self.q1.q1()
+        q_z = self.q1.q_1()
         if self.verbose: print("q1: {}".format(q_z))
         self.assertTrue(q_z.t == 1)
         self.assertTrue(q_z.x == 0)
@@ -467,7 +468,7 @@ class TestQh(unittest.TestCase):
         self.assertTrue(q_z2.z == q1_sq.z)
 
 
-# In[5]:
+# In[39]:
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQh())
 unittest.TextTestRunner().run(suite);
@@ -647,7 +648,7 @@ class TestDoublet(unittest.TestCase):
         self.assertTrue(Z2p_red.n == Z2p_2.n)
 
 
-# In[ ]:
+# In[8]:
 
 suite = unittest.TestLoader().loadTestsFromModule(TestDoublet())
 unittest.TextTestRunner().run(suite);
@@ -655,7 +656,7 @@ unittest.TextTestRunner().run(suite);
 
 # Write a class to handle quaternions given 8 numbers.
 
-# In[ ]:
+# In[9]:
 
 class Qq:
     """Quaternions on a quaternion manifold."""
@@ -925,7 +926,7 @@ class Qq:
         return g_q
 
 
-# In[ ]:
+# In[10]:
 
 class TestQq(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
@@ -1172,7 +1173,7 @@ class TestQq(unittest.TestCase):
         self.assertTrue(q_z2.dz.n == q1_sq.dz.n)
 
 
-# In[ ]:
+# In[11]:
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQq())
 unittest.TextTestRunner().run(suite);
@@ -1187,7 +1188,7 @@ unittest.TextTestRunner().run(suite);
 # Such an exact relation is not of much interest to physicists since Einstein showed that holds for only one set of observers. If one is moving relative to the reference observer, the two events would look like they occured at different times in the future, presuming perfectly accurate measuring devices.
 # 
 
-# In[ ]:
+# In[12]:
 
 class EQ():
     """A class that compairs pairs of quaternions."""
@@ -1509,7 +1510,7 @@ class EQ():
     
 
 
-# In[ ]:
+# In[13]:
 
 class TestEQ(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
@@ -1618,13 +1619,13 @@ class TestEQ(unittest.TestCase):
         self.assertTrue(eq_small_tiny.norm_of_unity() == 'less_than_unity')
 
 
-# In[ ]:
+# In[14]:
 
 suite = unittest.TestLoader().loadTestsFromModule(TestEQ())
 unittest.TextTestRunner().run(suite);
 
 
-# In[ ]:
+# In[15]:
 
 E1 = Qh([0, 0, 0, 0])
 E2 = Qh([1,1,0,0])
@@ -1637,7 +1638,7 @@ print(eq_E13)
 print(eq_E23)
 
 
-# In[ ]:
+# In[16]:
 
 origin_shift = Qh([4, 0, 0, 5])
 E1_shift = Qh([0, 0, 0, 0]).add(origin_shift)
@@ -1649,7 +1650,7 @@ eq_E23_shift = EQ(E2_shift, E3_shift)
 print(eq_E12_shift)
 
 
-# In[ ]:
+# In[17]:
 
 dif_E1_E2 = E1.dif(E2)
 dif_E1_E3 = E1.dif(E3)
@@ -1662,7 +1663,7 @@ print(eq_dif_E1_E2_E2_E3)
 print(eq_dif_E1_E3_E2_E3)
 
 
-# In[ ]:
+# In[18]:
 
 dif_E1_E2_shift = E1_shift.dif(E2_shift)
 dif_E1_E3_shift = E1_shift.dif(E3_shift)
@@ -1675,7 +1676,7 @@ print(eq_dif_E1_E2_E2_E3_shift)
 print(eq_dif_E1_E3_E2_E3_shift)
 
 
-# In[ ]:
+# In[19]:
 
 pprint(eq_dif_E1_E2_E2_E3_shift.classes)
 pprint(eq_dif_E1_E2_E2_E3_shift.eq_images.keys())
@@ -1683,19 +1684,44 @@ print(eq_dif_E1_E2_E2_E3_shift)
 eq_dif_E1_E2_E2_E3_shift.visualize()
 
 
-# In[ ]:
+# In[20]:
 
 eq_dif_E1_E2_E2_E3_shift.visualize()
 
 
-# In[ ]:
+# In[21]:
 
 eq_dif_E1_E2_E2_E3_shift.visualize(eq_dif_E1_E2_E2_E3_shift)
 
 
-# In[ ]:
+# In[22]:
+
+dir(Qq)
 
 
+# In[29]:
+
+u=Qq([1,2,3,4])
+r=Qq([5,6,7,8])
+
+
+# In[30]:
+
+rrotated=u.triple_product(r, u.invert())
+
+
+# In[31]:
+
+print(rrotated)
+print(rrotated.reduce())
+
+rn = r.norm()
+rrn = rrotated.norm()
+# In[37]:
+
+print(r.norm())
+print(rrotated.norm())
+print(rrotated.norm().reduce())
 
 
 # In[ ]:

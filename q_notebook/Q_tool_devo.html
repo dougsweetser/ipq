@@ -187,7 +187,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In this notebook, tools for working with quaternions for physics issues are developed. The class Qh treat quaternions as Hamilton would have done: as a 4-vector over the real numbers.</p>
 <p>In physics, group theory plays a central role in the fundamental forces of Nature via the standard model. The gauge symmetry U(1) a unit circle in the complex plane leads to electric charge conservation. The unit quaternions SU(2) is the symmetry needed for the weak force which leads to beta decay. The group SU(3) is the symmetry of the strong force that keeps a nucleus together.</p>
-<p>The class Qq was written in the hope that group theory would be written in first, not added as needed later. The problem with such an approach is that one does not use the mathematical field of real numbers. Instead one relies on the set of positive reals. In some ways, this is like reverse engineering some basic computer science. Libraries written in C have a notion of a signed versus unsigned integer. The signed integer behaves like the integers. The unsigned integer is like the positive integers. The difference between the two is whether there is a placeholder for the sign or not. All floats are signed. The modulo operations that work for unsigned integers does not work for floats.</p>
+<p>The class Qq was written in the hope that group theory would be written in first, not added as needed later. The problem with such an approach is that one does not use the mathematical field of real numbers. Instead one relies on the set of positive reals. In some ways, this is like reverse engineering some basic computer science. Libraries written in C have a notion of a signed versus unsigned integer. The signed integer behaves like the familiar integers. The unsigned integer is like the positive integers. The difference between the two is whether there is a placeholder for the sign or not. All floats are signed. The modulo operations that work for unsigned integers does not work for floats.</p>
 <p>Test driven development was used. The same tests for class Qh were used for Qq.  Either class can be used to study quaternions in physics.</p>
 
 </div>
@@ -200,6 +200,7 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">from</span> <span class="nn">glob</span> <span class="k">import</span> <span class="n">glob</span>
+<span class="kn">from</span> <span class="nn">sympy</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib.image</span> <span class="k">as</span> <span class="nn">mpimg</span>
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">basename</span>
@@ -529,7 +530,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQh</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -543,7 +544,7 @@ div#notebook {
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q1</span><span class="o">.</span><span class="n">t</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">test_q0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">q_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q1</span><span class="o">.</span><span class="n">q0</span><span class="p">()</span>
+        <span class="n">q_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q1</span><span class="o">.</span><span class="n">q_0</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;q0: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q_z</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">t</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
@@ -551,7 +552,7 @@ div#notebook {
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">test_q1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">q_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q1</span><span class="o">.</span><span class="n">q1</span><span class="p">()</span>
+        <span class="n">q_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q1</span><span class="o">.</span><span class="n">q_1</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;q1: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q_z</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">t</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
@@ -707,7 +708,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQh</span><span class="p">())</span>
@@ -724,7 +725,7 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>.........E..........</pre>
+<pre>....................</pre>
 </div>
 </div>
 
@@ -741,6 +742,9 @@ q_conj 1: -1t  -2i  3j  4k
 q_conj 2: -1t  2i  -3j  4k
 dif: 1t  -6i  0j  -4k
 divide_by: 1.0t  0.0i  0.0j  0.0k
+q1_sq: -28t  -4i  -6j  -8k
+g_shift: 0.997004495503373t  -2.00600900900675i  -3.00901351351013j  -4.01201801801351k
+g squared: -28.1805050815139t  -4.00000000000000i  -6.00000000000000j  -8.00000000000000k
 invert: 0.0t  -0.16i  0.12j  0.0k
 norm: 30t  0i  0j  0k
 norm_of_vector: 29t  0i  0j  0k
@@ -757,20 +761,10 @@ triple product: -2t  124i  -84j  8k
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
-======================================================================
-ERROR: test_g_shift (__main__.TestQh)
 ----------------------------------------------------------------------
-Traceback (most recent call last):
-  File &quot;&lt;ipython-input-4-daf2455f8d8d&gt;&quot;, line 158, in test_g_shift
-    qz = self.q1.g_shift(0.003)
-  File &quot;&lt;ipython-input-3-73befd33a84d&gt;&quot;, line 245, in g_shift
-    exp_g = exp(dimensionless_g)
-NameError: name &apos;exp&apos; is not defined
+Ran 20 tests in 0.012s
 
-----------------------------------------------------------------------
-Ran 20 tests in 0.014s
-
-FAILED (errors=1)
+OK
 </pre>
 </div>
 </div>
@@ -976,47 +970,10 @@ FAILED (errors=1)
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansired">---------------------------------------------------------------------------</span>
-<span class="ansired">NameError</span>                                 Traceback (most recent call last)
-<span class="ansigreen">&lt;ipython-input-7-813756374be5&gt;</span> in <span class="ansicyan">&lt;module&gt;</span><span class="ansiblue">()</span>
-<span class="ansigreen">----&gt; 1</span><span class="ansired"> </span><span class="ansigreen">class</span> TestDoublet<span class="ansiblue">(</span>unittest<span class="ansiblue">.</span>TestCase<span class="ansiblue">)</span><span class="ansiblue">:</span><span class="ansiblue"></span>
-<span class="ansigreen">      2</span>     <span class="ansiblue">&quot;&quot;&quot;Class to make sure all the functions work as expected.&quot;&quot;&quot;</span><span class="ansiblue"></span>
-<span class="ansigreen">      3</span> <span class="ansiblue"></span>
-<span class="ansigreen">      4</span>     d1 <span class="ansiblue">=</span> Doublet<span class="ansiblue">(</span><span class="ansiblue">)</span><span class="ansiblue"></span>
-<span class="ansigreen">      5</span>     d2 <span class="ansiblue">=</span> Doublet<span class="ansiblue">(</span><span class="ansicyan">2</span><span class="ansiblue">)</span><span class="ansiblue"></span>
-
-<span class="ansigreen">&lt;ipython-input-7-813756374be5&gt;</span> in <span class="ansicyan">TestDoublet</span><span class="ansiblue">()</span>
-<span class="ansigreen">      5</span>     d2 <span class="ansiblue">=</span> Doublet<span class="ansiblue">(</span><span class="ansicyan">2</span><span class="ansiblue">)</span><span class="ansiblue"></span>
-<span class="ansigreen">      6</span>     d3 <span class="ansiblue">=</span> Doublet<span class="ansiblue">(</span><span class="ansiblue">-</span><span class="ansicyan">3</span><span class="ansiblue">)</span><span class="ansiblue"></span>
-<span class="ansigreen">----&gt; 7</span><span class="ansired">     </span>dstr12 <span class="ansiblue">=</span> Doublet<span class="ansiblue">(</span><span class="ansiblue">&quot;1 2&quot;</span><span class="ansiblue">)</span><span class="ansiblue"></span>
-<span class="ansigreen">      8</span>     dstr13 <span class="ansiblue">=</span> Doublet<span class="ansiblue">(</span><span class="ansiblue">&quot;3 2&quot;</span><span class="ansiblue">)</span><span class="ansiblue"></span>
-<span class="ansigreen">      9</span> <span class="ansiblue"></span>
-
-<span class="ansigreen">&lt;ipython-input-6-5da8fc4db73f&gt;</span> in <span class="ansicyan">__init__</span><span class="ansiblue">(self, numbers)</span>
-<span class="ansigreen">     17</span>                 self<span class="ansiblue">.</span>n <span class="ansiblue">=</span> <span class="ansicyan">0</span><span class="ansiblue"></span>
-<span class="ansigreen">     18</span> <span class="ansiblue"></span>
-<span class="ansigreen">---&gt; 19</span><span class="ansired">         </span><span class="ansigreen">elif</span> isinstance<span class="ansiblue">(</span>numbers<span class="ansiblue">,</span> Symbol<span class="ansiblue">)</span><span class="ansiblue">:</span><span class="ansiblue"></span>
-<span class="ansigreen">     20</span>             self<span class="ansiblue">.</span>p <span class="ansiblue">=</span> numbers<span class="ansiblue"></span>
-<span class="ansigreen">     21</span>             self<span class="ansiblue">.</span>n <span class="ansiblue">=</span> <span class="ansicyan">0</span><span class="ansiblue"></span>
-
-<span class="ansired">NameError</span>: name &apos;Symbol&apos; is not defined</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestDoublet</span><span class="p">())</span>
@@ -1024,6 +981,24 @@ FAILED (errors=1)
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>..........
+----------------------------------------------------------------------
+Ran 10 tests in 0.014s
+
+OK
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -1040,7 +1015,7 @@ FAILED (errors=1)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Qq</span><span class="p">:</span>
@@ -1318,7 +1293,7 @@ FAILED (errors=1)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQq</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -1573,7 +1548,7 @@ FAILED (errors=1)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQq</span><span class="p">())</span>
@@ -1581,6 +1556,62 @@ FAILED (errors=1)
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>......................</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>abs_of_q: 5.0_I0  0_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+abs_of_vector: 5.0_I0  0_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+add: 1_I0  0_I2  4_i1  2_i3  0_j1  6_j3  0_k1  4_k3
+add reduce: 1_I0  0_I2  2_i1  0_i3  0_j1  6_j3  0_k1  4_k3
+q1_sq: 0_I0  28_I2  0_i1  4_i3  0_j1  6_j3  0_k1  8_k3
+boosted: 1.51802716224446_I0  0.5060090540814867_I2  1.0030180271622444_i1  3.0090540814867333_i3  1.5240542164879485_j1  4.524054216487949_j3  2.0180721626494638_k1  6.018072162649464_k3
+b squared: 0_I0  28.000000000000007_I2  0_i1  4.06028962520837_i3  0_j1  6.072108648977842_j3  0_k1  8.096144865303788_k3
+conj 0: 1_I0  0_I2  2_i1  0_i3  3_j1  0_j3  4_k1  0_k3
+conj 1: 0_I0  1_I2  0_i1  2_i3  3_j1  0_j3  4_k1  0_k3
+conj 2: 0_I0  1_I2  2_i1  0_i3  0_j1  3_j3  4_k1  0_k3
+dif: 1_I0  0_I2  0_i1  6_i3  3_j1  3_j3  0_k1  4_k3
+inverse: 1.0_I0  0.0_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+q1_sq: 0_I0  28_I2  0_i1  4_i3  0_j1  6_j3  0_k1  8_k3
+g_shift: 0.997004495503373_I0  0_I2  0_i1  2.00600900900675_i3  0_j1  3.00901351351013_j3  0_k1  4.01201801801351_k3
+g squared: 0_I0  28.1805050815139_I2  0_i1  4.00000000000000_i3  0_j1  6.00000000000000_j3  0_k1  8.00000000000000_k3
+inverse: 0.0_I0  0.0_I2  0.0_i1  0.16_i3  0.12_j1  0.0_j3  0.0_k1  0.0_k3
+norm: 30_I0  0_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+norm_of_vector: 29_I0  0_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+product: 0_I0  1_I2  0_i1  8_i3  0_j1  19_j3  18_k1  0_k3
+q1: 1_I0  0_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+q0: 0_I0  0_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+q_big reduced: 0_I0  1_I2  0_i1  1_i3  0_j1  1_j3  0_k1  1_k3
+rotate: 1.0_I0  0.0_I2  0.0_i1  2.0_i3  3.0_j1  0.0_j3  4.0_k1  0.0_k3
+square: 1_I0  29_I2  0_i1  4_i3  0_j1  6_j3  0_k1  8_k3
+square reduced: 0_I0  28_I2  0_i1  4_i3  0_j1  6_j3  0_k1  8_k3
+triple: 0_I0  2_I2  124_i1  0_i3  0_j1  84_j3  8_k1  0_k3
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+----------------------------------------------------------------------
+Ran 22 tests in 0.020s
+
+OK
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -1602,7 +1633,7 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">EQ</span><span class="p">():</span>
@@ -1932,7 +1963,7 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestEQ</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -2049,7 +2080,7 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestEQ</span><span class="p">())</span>
@@ -2060,10 +2091,28 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.014s
+
+OK
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">E1</span> <span class="o">=</span> <span class="n">Qh</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
@@ -2081,10 +2130,74 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The equivalence classes for this pair of events are as follows...
+q1: 0t  0i  0j  0k
+q2: 1t  1i  0j  0k
+q1_squared: 0t  0i  0j  0k
+q2_squared: 0t  2i  0j  0k
+q1_norm -1: -1t  0i  0j  0k
+q2_norm -1: 1t  0i  0j  0k
+                time: disjoint
+             space-1: disjoint
+             space-2: here_exact
+             space-3: here_exact
+           causality: light-like_exact
+  space-times-time-1: disjoint
+  space-times-time-2: here-now_exact
+  space-times-time-3: here-now_exact
+       norm_of_unity: disjoint
+
+The equivalence classes for this pair of events are as follows...
+q1: 0t  0i  0j  0k
+q2: 2t  0i  0j  0k
+q1_squared: 0t  0i  0j  0k
+q2_squared: 4t  0i  0j  0k
+q1_norm -1: -1t  0i  0j  0k
+q2_norm -1: 3t  0i  0j  0k
+                time: disjoint
+             space-1: here_exact
+             space-2: here_exact
+             space-3: here_exact
+           causality: disjoint
+  space-times-time-1: here-now_exact
+  space-times-time-2: here-now_exact
+  space-times-time-3: here-now_exact
+       norm_of_unity: disjoint
+
+The equivalence classes for this pair of events are as follows...
+q1: 1t  1i  0j  0k
+q2: 2t  0i  0j  0k
+q1_squared: 0t  2i  0j  0k
+q2_squared: 4t  0i  0j  0k
+q1_norm -1: 1t  0i  0j  0k
+q2_norm -1: 3t  0i  0j  0k
+                time: future
+             space-1: disjoint
+             space-2: here_exact
+             space-3: here_exact
+           causality: disjoint
+  space-times-time-1: disjoint
+  space-times-time-2: here-now_exact
+  space-times-time-3: here-now_exact
+       norm_of_unity: greater_than_unity
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">origin_shift</span> <span class="o">=</span> <span class="n">Qh</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
@@ -2101,10 +2214,40 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The equivalence classes for this pair of events are as follows...
+q1: 4t  0i  0j  5k
+q2: 5t  1i  0j  5k
+q1_squared: -9t  0i  0j  40k
+q2_squared: -1t  10i  0j  50k
+q1_norm -1: 40t  0i  0j  0k
+q2_norm -1: 50t  0i  0j  0k
+                time: future
+             space-1: disjoint
+             space-2: here_exact
+             space-3: near_exact
+           causality: space-like
+  space-times-time-1: disjoint
+  space-times-time-2: here-now_exact
+  space-times-time-3: future-near_exact
+       norm_of_unity: greater_than_unity
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dif_E1_E2</span> <span class="o">=</span> <span class="n">E1</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">E2</span><span class="p">)</span>
@@ -2122,10 +2265,74 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The equivalence classes for this pair of events are as follows...
+q1: -1t  -1i  0j  0k
+q2: -2t  0i  0j  0k
+q1_squared: 0t  2i  0j  0k
+q2_squared: 4t  0i  0j  0k
+q1_norm -1: 1t  0i  0j  0k
+q2_norm -1: 3t  0i  0j  0k
+                time: past
+             space-1: disjoint
+             space-2: here_exact
+             space-3: here_exact
+           causality: disjoint
+  space-times-time-1: disjoint
+  space-times-time-2: here-now_exact
+  space-times-time-3: here-now_exact
+       norm_of_unity: greater_than_unity
+
+The equivalence classes for this pair of events are as follows...
+q1: -1t  -1i  0j  0k
+q2: -1t  1i  0j  0k
+q1_squared: 0t  2i  0j  0k
+q2_squared: 0t  -2i  0j  0k
+q1_norm -1: 1t  0i  0j  0k
+q2_norm -1: 1t  0i  0j  0k
+                time: past_exact
+             space-1: disjoint
+             space-2: here_exact
+             space-3: here_exact
+           causality: light-like_exact
+  space-times-time-1: disjoint
+  space-times-time-2: here-now_exact
+  space-times-time-3: here-now_exact
+       norm_of_unity: greater_than_unity_exact
+
+The equivalence classes for this pair of events are as follows...
+q1: -2t  0i  0j  0k
+q2: -1t  1i  0j  0k
+q1_squared: 4t  0i  0j  0k
+q2_squared: 0t  -2i  0j  0k
+q1_norm -1: 3t  0i  0j  0k
+q2_norm -1: 1t  0i  0j  0k
+                time: past
+             space-1: disjoint
+             space-2: here_exact
+             space-3: here_exact
+           causality: disjoint
+  space-times-time-1: disjoint
+  space-times-time-2: here-now_exact
+  space-times-time-3: here-now_exact
+       norm_of_unity: greater_than_unity
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dif_E1_E2_shift</span> <span class="o">=</span> <span class="n">E1_shift</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">E2_shift</span><span class="p">)</span>
@@ -2143,10 +2350,74 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The equivalence classes for this pair of events are as follows...
+q1: -1t  -1i  0j  0k
+q2: -2t  0i  0j  0k
+q1_squared: 0t  2i  0j  0k
+q2_squared: 4t  0i  0j  0k
+q1_norm -1: 1t  0i  0j  0k
+q2_norm -1: 3t  0i  0j  0k
+                time: past
+             space-1: disjoint
+             space-2: here_exact
+             space-3: here_exact
+           causality: disjoint
+  space-times-time-1: disjoint
+  space-times-time-2: here-now_exact
+  space-times-time-3: here-now_exact
+       norm_of_unity: greater_than_unity
+
+The equivalence classes for this pair of events are as follows...
+q1: -1t  -1i  0j  0k
+q2: -1t  1i  0j  0k
+q1_squared: 0t  2i  0j  0k
+q2_squared: 0t  -2i  0j  0k
+q1_norm -1: 1t  0i  0j  0k
+q2_norm -1: 1t  0i  0j  0k
+                time: past_exact
+             space-1: disjoint
+             space-2: here_exact
+             space-3: here_exact
+           causality: light-like_exact
+  space-times-time-1: disjoint
+  space-times-time-2: here-now_exact
+  space-times-time-3: here-now_exact
+       norm_of_unity: greater_than_unity_exact
+
+The equivalence classes for this pair of events are as follows...
+q1: -2t  0i  0j  0k
+q2: -1t  1i  0j  0k
+q1_squared: 4t  0i  0j  0k
+q2_squared: 0t  -2i  0j  0k
+q1_norm -1: 3t  0i  0j  0k
+q2_norm -1: 1t  0i  0j  0k
+                time: past
+             space-1: disjoint
+             space-2: here_exact
+             space-3: here_exact
+           causality: disjoint
+  space-times-time-1: disjoint
+  space-times-time-2: here-now_exact
+  space-times-time-3: here-now_exact
+       norm_of_unity: greater_than_unity
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">pprint</span><span class="p">(</span><span class="n">eq_dif_E1_E2_E2_E3_shift</span><span class="o">.</span><span class="n">classes</span><span class="p">)</span>
@@ -2159,10 +2430,63 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>{causality: light-like_exact, norm_of_unity: greater_than_unity_exact, space-1
+: disjoint, space-2: here_exact, space-3: here_exact, space-times-time-1: disj
+oint, space-times-time-2: here-now_exact, space-times-time-3: here-now_exact, 
+time: past_exact}
+dict_keys([&apos;norm_of_unity_greater_than_unity_exact&apos;, &apos;norm_of_unity_disjoint&apos;,
+ &apos;space-times-time-2_disjoint&apos;, &apos;time_past&apos;, &apos;space-times-time-1_future-left_e
+xact&apos;, &apos;space-times-time-1_future-right_exact&apos;, &apos;space-3_disjoint&apos;, &apos;space-2_d
+own&apos;, &apos;space-1_right&apos;, &apos;space-times-time-2_future-up_exact&apos;, &apos;norm_of_unity_gr
+eater_than_unity&apos;, &apos;space-2_up_exact&apos;, &apos;space-times-time-2_future-down&apos;, &apos;time
+_future_exact&apos;, &apos;space-times-time-1_future-left&apos;, &apos;time_future&apos;, &apos;space-1_here
+_exact&apos;, &apos;space-times-time-3_future-far_exact&apos;, &apos;space-2_here_exact&apos;, &apos;space-t
+imes-time-1_future-right&apos;, &apos;space-times-time-3_future-near&apos;, &apos;causality_time-l
+ike&apos;, &apos;space-2_down_exact&apos;, &apos;space-1_left_exact&apos;, &apos;space-times-time-2_future-u
+p&apos;, &apos;time_past_exact&apos;, &apos;space-times-time-1_disjoint&apos;, &apos;space-3_far_exact&apos;, &apos;ca
+usality_disjoint&apos;, &apos;space-times-time-3_here-now_exact&apos;, &apos;causality_space-like&apos;
+, &apos;space-times-time-3_disjoint&apos;, &apos;causality_time-like_exact&apos;, &apos;norm_of_unity_u
+nity_exact&apos;, &apos;causality_space-like_exact&apos;, &apos;norm_of_unity_less_than_unity&apos;, &apos;s
+pace-3_far&apos;, &apos;space-3_near&apos;, &apos;time_now_exact&apos;, &apos;space-1_disjoint&apos;, &apos;space-2_di
+sjoint&apos;, &apos;norm_of_unity_less_than_unity_exact&apos;, &apos;space-3_here_exact&apos;, &apos;causali
+ty_light-like_exact&apos;, &apos;space-times-time-2_here-now_exact&apos;, &apos;space-1_left&apos;, &apos;ti
+me_disjoint&apos;, &apos;space-2_up&apos;, &apos;space-1_right_exact&apos;, &apos;space-times-time-3_future-
+far&apos;, &apos;space-3_near_exact&apos;, &apos;space-times-time-2_future-down_exact&apos;, &apos;space-tim
+es-time-1_here-now_exact&apos;, &apos;space-times-time-3_future-near_exact&apos;])
+The equivalence classes for this pair of events are as follows...
+q1: -1t  -1i  0j  0k
+q2: -1t  1i  0j  0k
+q1_squared: 0t  2i  0j  0k
+q2_squared: 0t  -2i  0j  0k
+q1_norm -1: 1t  0i  0j  0k
+q2_norm -1: 1t  0i  0j  0k
+                time: past_exact
+             space-1: disjoint
+             space-2: here_exact
+             space-3: here_exact
+           causality: light-like_exact
+  space-times-time-1: disjoint
+  space-times-time-2: here-now_exact
+  space-times-time-3: here-now_exact
+       norm_of_unity: greater_than_unity_exact
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">eq_dif_E1_E2_E2_E3_shift</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span>
@@ -2175,7 +2499,7 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">eq_dif_E1_E2_E2_E3_shift</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">eq_dif_E1_E2_E2_E3_shift</span><span class="p">)</span>
@@ -2188,13 +2512,163 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">dir</span><span class="p">(</span><span class="n">Qq</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&apos;__class__&apos;,
+ &apos;__delattr__&apos;,
+ &apos;__dict__&apos;,
+ &apos;__dir__&apos;,
+ &apos;__doc__&apos;,
+ &apos;__eq__&apos;,
+ &apos;__format__&apos;,
+ &apos;__ge__&apos;,
+ &apos;__getattribute__&apos;,
+ &apos;__gt__&apos;,
+ &apos;__hash__&apos;,
+ &apos;__init__&apos;,
+ &apos;__le__&apos;,
+ &apos;__lt__&apos;,
+ &apos;__module__&apos;,
+ &apos;__ne__&apos;,
+ &apos;__new__&apos;,
+ &apos;__reduce__&apos;,
+ &apos;__reduce_ex__&apos;,
+ &apos;__repr__&apos;,
+ &apos;__setattr__&apos;,
+ &apos;__sizeof__&apos;,
+ &apos;__str__&apos;,
+ &apos;__subclasshook__&apos;,
+ &apos;__weakref__&apos;,
+ &apos;abs_of_q&apos;,
+ &apos;abs_of_vector&apos;,
+ &apos;add&apos;,
+ &apos;all_products&apos;,
+ &apos;anti_commuting_products&apos;,
+ &apos;boost&apos;,
+ &apos;commuting_products&apos;,
+ &apos;conj&apos;,
+ &apos;dif&apos;,
+ &apos;divide_by&apos;,
+ &apos;g_shift&apos;,
+ &apos;invert&apos;,
+ &apos;norm&apos;,
+ &apos;norm_of_vector&apos;,
+ &apos;product&apos;,
+ &apos;q4&apos;,
+ &apos;q_one&apos;,
+ &apos;q_zero&apos;,
+ &apos;reduce&apos;,
+ &apos;rotate&apos;,
+ &apos;square&apos;,
+ &apos;triple_product&apos;]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">u</span><span class="o">=</span><span class="n">Qq</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<span class="n">r</span><span class="o">=</span><span class="n">Qq</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rrotated</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">triple_product</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">invert</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">rrotated</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rrotated</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>13.033333333333333_I0  8.033333333333333_I2  12.0_i1  9.2_i3  14.566666666666666_j1  7.566666666666666_j3  15.933333333333334_k1  6.333333333333333_k3
+5.0_I0  0_I2  2.8000000000000007_i1  0_i3  7.0_j1  0_j3  9.600000000000001_k1  0_k3
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>rn = r.norm()
+rrn = rrotated.norm()
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">norm</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rrotated</span><span class="o">.</span><span class="n">norm</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rrotated</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>174_I0  0_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+1026.4666666666667_I0  852.4666666666666_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+174.0000000000001_I0  0_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
