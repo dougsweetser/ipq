@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>Rotations of Events in Space-time</title>
+<title>Rotations_of_Events_in_Space-time</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -185,7 +185,26 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this iPython notebook, the one thing quaternions are known for - doing 3D spatial rotations - will be examined. When working with quaternions, it is not possible to work in just three spatial dimensions. There is always a fourth dimension, namely time. So we are thinking about events in space-time, not just events.</p>
+<p>A deep leason from special relativity is that all measurements start as events in space-time. A measurment such as the length of a rod would appear to only involve space. Yet one needs a signal from both ends that gets received by the observer. And who is the observer? Every other system in the Universe is allowed. Since observers can be in very different states, that means the raw data these different observers collect from the same signals can be different. Special relaitivty helps determine what can be agreed upon, namely the interval for two inertial reference frame observers.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Spatial-Rotations">Spatial Rotations<a class="anchor-link" href="#Spatial-Rotations">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this iPython notebook, the one thing quaternions are known for - doing 3D spatial rotations - will be examined. When working with quaternions, it is not possible to work in just three spatial dimensions. There is always a fourth dimension, namely time. Even when thinking about spatial rotations, one must work with events in space-time.</p>
 <p>Create a couple of quaternions to play with.</p>
 
 </div>
@@ -193,12 +212,12 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">Q_tool_devo</span> <span class="k">import</span> <span class="n">Qq</span><span class="p">;</span>
-<span class="n">u</span><span class="o">=</span><span class="n">Qq</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
-<span class="n">r</span><span class="o">=</span><span class="n">Qq</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
+<span class="n">U</span><span class="o">=</span><span class="n">Qq</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<span class="n">R</span><span class="o">=</span><span class="n">Qq</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -211,18 +230,18 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We are using the Qq class that places these 4 numbers in 8 slots like so:</p>
+<p>Use the Qq class that places these 4 numbers in 8 slots like so:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -251,17 +270,17 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>If you are unfamiliar with this notation, the $I^2 = -1,\, i^3=-i,\, j^3=-j,\, k^3=-k$. Only positive numbers are used, with additive inverse put in these placeholders.</p>
-<p>To do a rotaion, one needs to pre-multiply by a quaternion (using u for this role), then post-multiply by the inverse. By doing so, the norm of r will not change because quaternions are a normed division algebra.</p>
+<p>To do a rotation, one needs to pre-multiply by a quaternion (using u for this role), then post-multiply by the inverse. By doing so, the norm of r will not change because quaternions are a normed division algebra.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rrotated</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">triple_product</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">invert</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">R_rotated</span><span class="o">=</span><span class="n">U</span><span class="o">.</span><span class="n">triple_product</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">U</span><span class="o">.</span><span class="n">invert</span><span class="p">())</span>
 </pre></div>
 
 </div>
@@ -275,21 +294,21 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Should we expect the first term to change? Look into the triple product first term where I use Capital variable for 3-vectors to simplify the presentation:</p>
-$$\begin{align}(u, W)&(r, R)(u, -W)/(u^2 + W \cdot W)\\
-&= (u r - W \cdot R, u R + W r + W \times R)(u, -W)/(u^2 + W \cdot W)\\
-&=(u^2 r - uW \cdot R + u W \cdot R + W \cdot W r - W \cdot W \times R, ...)/(u^2 + W \cdot W)\\
-&=\left(\frac{u^2 + W \cdot W}{u^2 + W \cdot W}r,...\right) = (r, ...)\end{align}$$<p>Now look at the rotated event.</p>
+$$\begin{align}(u, W)&(t, R)(u, -W)/(u^2 + W \cdot W)\\
+&= (u t - W \cdot R, u R + W t + W \times R)(u, -W)/(u^2 + W \cdot W)\\
+&=(u^2 t - uW \cdot R + u W \cdot R + W \cdot W t - W \cdot W \times R, ...)/(u^2 + W \cdot W)\\
+&=\left(\frac{u^2 + W \cdot W}{u^2 + W \cdot W}t,...\right) = (t, ...)\end{align}$$<p>Now look at the rotated event.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">rrotated</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">rrotated</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">R_rotated</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R_rotated</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
 </pre></div>
 
 </div>
@@ -335,12 +354,12 @@ $$\begin{align}(u, W)&(r, R)(u, -W)/(u^2 + W \cdot W)\\
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">norm</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">rrotated</span><span class="o">.</span><span class="n">norm</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">rrotated</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">norm</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R_rotated</span><span class="o">.</span><span class="n">norm</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R_rotated</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
 </pre></div>
 
 </div>
@@ -376,12 +395,12 @@ $$\begin{align}(u, W)&(r, R)(u, -W)/(u^2 + W \cdot W)\\
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">square</span><span class="p">()</span><span class="o">.</span><span class="n">norm</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">rrotated</span><span class="o">.</span><span class="n">square</span><span class="p">()</span><span class="o">.</span><span class="n">norm</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">rrotated</span><span class="o">.</span><span class="n">square</span><span class="p">()</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">square</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R_rotated</span><span class="o">.</span><span class="n">square</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R_rotated</span><span class="o">.</span><span class="n">square</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
 </pre></div>
 
 </div>
@@ -394,9 +413,9 @@ $$\begin{align}(u, W)&(r, R)(u, -W)/(u^2 + W \cdot W)\\
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>37726_I0  7450_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
-3054166.394034568_I0  3023890.394034568_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
-30276.0_I0  0_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+<pre>0_I0  124_I2  60_i1  0_i3  70_j1  0_j3  80_k1  0_k3
+877.4666666666666_I0  1001.4666666666667_I2  460.61333333333334_i1  432.61333333333334_i3  501.27555555555557_j1  431.27555555555557_j3  517.0844444444444_k1  421.08444444444444_k3
+0_I0  124.00000000000011_I2  28.0_i1  0_i3  70.0_j1  0_j3  96.0_k1  0_k3
 </pre>
 </div>
 </div>
@@ -412,6 +431,215 @@ $$\begin{align}(u, W)&(r, R)(u, -W)/(u^2 + W \cdot W)\\
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>But what should we make of these non-reduced calculations? Here is my speculation. In classical physics, one always, always, always uses the reduced form of a Qq quaternion measurement. Classical physics involves one thing doing something. Physics gets odd when dealing with relativistic quantum feild theory. That is a rare sport played only when a one packet of protons collides with another inside an atom smasher. In those entirely odd situations, one must start thinking about multiple particles because we cannot know what happened, there is too much energy around, so we sum over all possible histories.</p>
 <p>It is simple to move an event to another place in space-time the same distance from the origin. Because it is a transient event, it feels fleeting, which it should.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Rotations-in-Time">Rotations in Time<a class="anchor-link" href="#Rotations-in-Time">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A rotation in time is commonly called a boost. The idea is that one gets a boost in speed, and that will change measurements of both time and distance. If one rushes toward the source of a signal, both the measurement of time and distance will get shorter in a way that keeps the interval the same.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">R_boosted</span><span class="o">=</span><span class="n">R</span><span class="o">.</span><span class="n">boost</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.003</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;boosted: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">R_boosted</span><span class="o">.</span><span class="n">reduce</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">square</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R_boosted</span><span class="o">.</span><span class="n">square</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R_boosted</span><span class="o">.</span><span class="n">square</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>boosted: 4.556864444001997_I0  0_I2  5.90443135555998_i1  0_i3  6.808862711119961_j1  0_j3  7.971329406667996_k1  0_k3
+0_I0  124_I2  60_i1  0_i3  70_j1  0_j3  80_k1  0_k3
+332.92404269673744_I0  456.92404269673744_I2  168.19865710738904_i1  114.38727049498547_i3  192.72655295590604_j1  130.67242417111888_j3  220.17238038687336_k1  147.52384529752752_k3
+0_I0  124.0_I2  53.81138661240357_i1  0_i3  62.05412878478717_j1  0_j3  72.64853508934584_k1  0_k3
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The reduced interval is $124 \,I^2$, whether boosted or not. The norm will shrink because all the number are a little smaller, no longer quite (5, 6, 7, 8).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R_boosted</span><span class="o">.</span><span class="n">norm</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R_boosted</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>174_I0  0_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+477.6890562577471_I0  312.1590291357278_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+165.5300271220193_I0  0_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Rotations-in-Space-and-Time">Rotations in Space and Time<a class="anchor-link" href="#Rotations-in-Space-and-Time">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Quaternions are just numbers. This makes combining transformations trivial. A measurement can be rotated and boosted. The only thing that should be unchanged is the interval:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">R_rotated_and_boosted</span> <span class="o">=</span> <span class="n">R_rotated</span><span class="o">.</span><span class="n">boost</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.003</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rotated and boosted: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">R_rotated_and_boosted</span><span class="o">.</span><span class="n">reduce</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">square</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R_rotated_and_boosted</span><span class="o">.</span><span class="n">square</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R_rotated_and_boosted</span><span class="o">.</span><span class="n">square</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>rotated and boosted: 4.611292147703185_I0  0_I2  2.703887078522971_i1  0_i3  6.807774157045934_j1  0_j3  9.571166123556893_k1  0_k3
+0_I0  124_I2  60_i1  0_i3  70_j1  0_j3  80_k1  0_k3
+4220.9269820845675_I0  4344.9269820845675_I2  2057.699089275276_i1  2032.7622627683381_i3  2158.177631785001_j1  2095.3923607575553_j3  2183.1193449968646_k1  2094.8484586170234_k3
+0_I0  124.0_I2  24.936826506937905_i1  0_i3  62.78527102744556_j1  0_j3  88.27088637984116_k1  0_k3
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Because of the rotation, the z value was larger. It is a safe bet that the norm turns out to be smaller as happened before:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R_rotated_and_boosted</span><span class="o">.</span><span class="n">norm</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R_rotated_and_boosted</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>174_I0  0_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+4366.190997356037_I0  4199.662966813099_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+166.5280305429378_I0  0_I2  0_i1  0_i3  0_j1  0_j3  0_k1  0_k3
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Ratios-at-Work">Ratios at Work<a class="anchor-link" href="#Ratios-at-Work">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>An angle is a ratio, this side over that side. The velocity used in a boost is a ratio of distance over time. Say we have a reference observer who measures the interval between two events. If another observer see the same events, but was standing on his head, we migh expect the headstand to change how the crazy observer places his numbers into the three spatial slots. Yet the two observers should agree to the inteval, and they do.</p>
+<p>The same happens if there is an observer travelling at a constant velocity relative to the referene observer. It is not surprizing that the math machinery is different because a spatial rotation is different from moving along at certain velocity.</p>
+<p>Combining the spatial rotations and boosts can be done, creating messy results, except for the interval that remains the same.</p>
 
 </div>
 </div>
