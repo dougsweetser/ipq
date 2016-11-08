@@ -3,6 +3,8 @@
 
 # # Simple Rotations
 
+# Author: Doug <sweetser@alum.mit.edu>
+
 # A deep leason from special relativity is that all measurements start as events in space-time. A measurment such as the length of a rod would appear to only involve space. Yet one needs a signal from both ends that gets received by the observer. And who is the observer? Every other system in the Universe is allowed. Since observers can be in very different states, that means the raw data these different observers collect from the same signals can be different. Special relaitivty helps determine what can be agreed upon, namely the interval for two inertial reference frame observers.
 
 # ## Spatial Rotations
@@ -127,8 +129,3 @@ print(R_rotated_and_boosted.norm().reduce())
 # The same happens if there is an observer travelling at a constant velocity relative to the referene observer. It is not surprizing that the math machinery is different because a spatial rotation is different from moving along at certain velocity.
 # 
 # Combining the spatial rotations and boosts can be done, creating messy results, except for the interval that remains the same.
-
-# In[ ]:
-
-
-
