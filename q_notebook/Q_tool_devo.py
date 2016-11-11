@@ -11,7 +11,7 @@
 # 
 # Test driven development was used. The same tests for class Qh were used for Qq.  Either class can be used to study quaternions in physics.
 
-# In[3]:
+# In[1]:
 
 import unittest
 from glob import glob
@@ -23,7 +23,7 @@ from os.path import basename
 
 # Define the stretch factor $\gamma$ and the $\gamma \beta$ used in special relativity.
 
-# In[4]:
+# In[2]:
 
 def sr_gamma(beta_x=0, beta_y=0, beta_z=0):
     """The gamma used in special relativity using 3 velocites, some may be zero."""
@@ -38,9 +38,9 @@ def sr_gamma_betas(beta_x=0, beta_y=0, beta_z=0):
     return [g, g * beta_x, g * beta_y, g * beta_z]
 
 
-# Define a class Qh to manipulate quaternions as Hamilton would have done it so many years ago.
+# Define a class Qh to manipulate quaternions as Hamilton would have done it so many years ago. The "qtype" is a little bit of text to leave a trail of breadcrumbs about how a particular quaternion was generated.
 
-# In[78]:
+# In[3]:
 
 class Qh:
     """Quaternions as Hamilton would have defined them, on the manifold R^4."""
@@ -346,7 +346,7 @@ class Qh:
 
 # Write tests the Qh class.
 
-# In[81]:
+# In[4]:
 
 class TestQh(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
@@ -541,7 +541,7 @@ class TestQh(unittest.TestCase):
         self.assertTrue(q_z2.z == q1_sq.z)
 
 
-# In[80]:
+# In[5]:
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQh())
 unittest.TextTestRunner().run(suite);
@@ -729,12 +729,12 @@ unittest.TextTestRunner().run(suite);
 
 # Write a class to handle quaternions given 8 numbers.
 
-# In[9]:
+# In[28]:
 
 class Qq:
     """Quaternions on a quaternion manifold."""
 
-    def __init__(self, values=None):
+    def __init__(self, values=None, qtype="Q"):
         if values is None:
             self.dt, self.dx, self.dy, self.dz = Doublet(), Doublet(),Doublet(), Doublet()
         elif isinstance(values, list):
@@ -750,51 +750,60 @@ class Qq:
                 self.dy = Doublet([values[4], values[5]])
                 self.dz = Doublet([values[6], values[7]])
                 
+        self.qtype=qtype
                 
     def __str__(self):
         """Customize the output."""
-        return "{tp}_I0  {tn}_I2  {xp}_i1  {xn}_i3  {yp}_j1  {yn}_j3  {zp}_k1  {zn}_k3".format(tp=self.dt.p, tn=self.dt.n, 
+        return "{tp}_I0  {tn}_I2  {xp}_i1  {xn}_i3  {yp}_j1  {yn}_j3  {zp}_k1  {zn}_k3  {qt}".format(tp=self.dt.p, tn=self.dt.n, 
                                                              xp=self.dx.p, xn=self.dx.n, 
                                                              yp=self.dy.p, yn=self.dy.n, 
-                                                             zp=self.dz.p, zn=self.dz.n)
+                                                             zp=self.dz.p, zn=self.dz.n,
+                                                             qt=self.qtype)
     def q4(self):
         """Return a 4 element array."""
         return [self.dt.p - self.dt.n, self.dx.p - self.dx.n, self.dy.p - self.dy.n, self.dz.p - self.dz.n]
         
-        
-    def q_zero(self):
+    def add_qtype(self, qtype):
+            """Adds a qtype to an existing one."""
+            
+            self.qtype += "." + qtype
+            
+    def q_zero(self, qtype="Zero"):
         """Return a zero quaternion."""
         
         return Qq()
       
-    def q_one(self):
+    def q_one(self, qtype="One"):
         """Return a multiplicative identity quaternion."""
         
         return Qq([1, 0, 0, 0])
     
-    def conj(self, type=0):
+    def conj(self, conj_type=0, qtype="*"):
         """Three types of conjugates."""
         
-        conjq = Qq()
+        conjq = Qq(qtype=self.qtype)
 
-        if type == 0:
+        if conj_type == 0:
             conjq.dt = self.dt
             conjq.dx = self.dx.d_flip()
             conjq.dy = self.dy.d_flip()
             conjq.dz = self.dz.d_flip()
         
-        if type == 1:
+        if conj_type == 1:
             conjq.dt = self.dt.d_flip()
             conjq.dx = self.dx
             conjq.dy = self.dy.d_flip()
             conjq.dz = self.dz.d_flip()
-        
-        if type == 2:
+            qtype += "1"
+            
+        if conj_type == 2:
             conjq.dt = self.dt.d_flip()
             conjq.dx = self.dx.d_flip()
             conjq.dy = self.dy
             conjq.dz = self.dz.d_flip()
-
+            qtype += "2"
+            
+        conjq.add_qtype(qtype)
         return conjq
 
     def commuting_products(self, q1):
@@ -826,71 +835,78 @@ class Qq:
         
         return products
     
-    def square(self):
+    def square(self, qtype="sq"):
         """Square a quaternion."""
         
         qxq = self.commuting_products(self)
         
-        sq_q = Qq()        
+        sq_q = Qq(qtype=self.qtype)        
         sq_q.dt = qxq['tt'].d_dif(qxq['xx+yy+zz'])
         sq_q.dx = qxq['tx+xt']
         sq_q.dy = qxq['ty+yt']
         sq_q.dz = qxq['tz+zt']
 
+        sq_q.add_qtype(qtype)
         return sq_q
 
     
-    def reduce(self):
+    def reduce(self, qtype="reduce"):
         """Put all doublets into the reduced form so one of each pair is zero."""
 
-        q_red = Qq()
+        q_red = Qq(qtype=self.qtype)
         q_red.dt = self.dt.d_reduce()
         q_red.dx = self.dx.d_reduce()
         q_red.dy = self.dy.d_reduce()
         q_red.dz = self.dz.d_reduce()
         
+        q_red.add_qtype(qtype)
         return q_red
     
-    def norm(self):
+    def norm(self, qtype="norm"):
         """The norm of a quaternion."""
         
         qxq = self.commuting_products(self)
         
-        n_q = Qq()        
+        n_q = Qq(qtype=self.qtype)        
         n_q.dt = qxq['tt'].d_add(qxq['xx+yy+zz'])
 
+        n_q.add_qtype(qtype)
         return n_q
     
-    def norm_of_vector(self):
+    def norm_of_vector(self, qtype="normV"):
         """The norm of the vector of a quaternion."""
         
         qxq = self.commuting_products(self)
         
-        nv_q = Qq()
+        nv_q = Qq(qtype=self.qtype)
         nv_q.dt = qxq['xx+yy+zz']
 
+        nv_q.add_qtype(qtype)
         return nv_q
     
         
-    def abs_of_q(self):
+    def abs_of_q(self, qtype="abs"):
         """The absolute value, the square root of the norm."""
 
-        a = self.norm()
+        a = self.norm(qtype=self.qtype)
         sqrt_t = a.dt.p ** (1/2)
         a.dt = Doublet(sqrt_t)
         
+        a.add_qtype(qtype)
         return a
 
-    def abs_of_vector(self):
+    def abs_of_vector(self, qtype="absV"):
         """The absolute value of the vector, the square root of the norm of the vector."""
 
         av = self.norm_of_vector()
         sqrt_t = av.dt.p ** (1/2)
         av.dt = Doublet(sqrt_t)
         
+        av.qtype = self.qtype
+        av.add_qtype(qtype)
         return av
     
-    def add(self, q1):
+    def add(self, q1, qtype=""):
         """Form a add given 2 quaternions."""
 
         add_q = Qq()
@@ -899,9 +915,14 @@ class Qq:
         add_q.dy = self.dy.d_add(q1.dy)
         add_q.dz = self.dz.d_add(q1.dz)
                     
+        if qtype:
+            add_q.qtype = qtype
+        else:
+            add_q.qtype = "{f}+{s}".format(f=self.qtype, s=q1.qtype)
+            
         return add_q    
 
-    def dif(self, q1):
+    def dif(self, q1, qtype=""):
         """Form a add given 2 quaternions."""
 
         dif_q = Qq()
@@ -910,9 +931,14 @@ class Qq:
         dif_q.dy = self.dy.d_dif(q1.dy)
         dif_q.dz = self.dz.d_dif(q1.dz)
                     
+        if qtype:
+            dif_q.qtype = qtype
+        else:
+            dif_q.qtype = "{f}-{s}".format(f=self.qtype, s=q1.qtype)
+            
         return dif_q
     
-    def product(self, q1):
+    def product(self, q1, qtype=""):
         """Form a product given 2 quaternions."""
 
         qxq = self.all_products(q1)
@@ -922,9 +948,14 @@ class Qq:
         pq.dy = qxq['ty+yt'].d_add(qxq['zx-xz'])
         pq.dz = qxq['tz+zt'].d_add(qxq['xy-yx'])
                     
+        if qtype:
+            pq.qtype = qtype
+        else:
+            pq.qtype = "{f}x{s}".format(f=self.qtype, s=q1.qtype)
+            
         return pq
 
-    def invert(self):
+    def invert(self, qtype="^-1"):
         """Invert a quaternion."""
         
         q_conj = self.conj()
@@ -934,15 +965,22 @@ class Qq:
             return self.q0()
         
         q_norm_inv = Qq([1.0 / q_norm.dt.p, 0, 0, 0, 0, 0, 0, 0])
-        q_inv = q_conj.product(q_norm_inv)
+        q_inv = q_conj.product(q_norm_inv, qtype=self.qtype)
         
+        q_inv.add_qtype(qtype)
         return q_inv
 
-    def divide_by(self, dq1):
+    def divide_by(self, q1, qtype=""):
         """Divide one quaternion by another. The order matters unless one is using a norm (real number)."""
 
-        q_inv = dq1.invert()
+        q_inv = q1.invert()
         q_div = self.product(q_inv) 
+        
+        if qtype:
+            q_div.qtype = qtype
+        else:
+            q_div.qtype = "{f}/{s}".format(f=self.qtype, s=q1.qtype)
+            
         return q_div
     
     def triple_product(self, q1, q2):
@@ -965,7 +1003,7 @@ class Qq:
     
     # A boost also uses triple products like a rotation, but more of them.
     # This is not a well-known result, but does work.
-    def boost(self, beta_x=0, beta_y=0, beta_z=0):
+    def boost(self, beta_x=0, beta_y=0, beta_z=0, qtype="boost"):
         """A boost along the x, y, and/or z axis."""
         
         boost = Qq(sr_gamma_betas(beta_x, beta_y, beta_z))
@@ -977,29 +1015,31 @@ class Qq:
               
         triple_23 = triple_2.dif(triple_3)
         half_23 = triple_23.product(Qq([0.5, 0, 0, 0, 0, 0, 0, 0]))
-        triple_123 = triple_1.add(half_23)
+        triple_123 = triple_1.add(half_23, qtype=self.qtype)
         
+        triple_123.add_qtype(qtype)
         return triple_123
     
     # g_shift is a function based on the space-times-time invariance proposal for gravity,
     # which proposes that if one changes the distance from a gravitational source, then
     # squares a measurement, the observers at two different hieghts agree to their
     # space-times-time values, but not the intervals.
-    def g_shift(self, dimensionless_g):
+    def g_shift(self, dimensionless_g, qtype="g_shift"):
         """Shift an observation based on a dimensionless GM/c^2 dR."""
         
         exp_g = exp(dimensionless_g)
         
-        g_q = Qq()
+        g_q = Qq(qtype=self.qtype)
         g_q.dt = Doublet([self.dt.p / exp_g, self.dt.n / exp_g])
         g_q.dx = Doublet([self.dx.p * exp_g, self.dx.n * exp_g])
         g_q.dy = Doublet([self.dy.p * exp_g, self.dy.n * exp_g])
         g_q.dz = Doublet([self.dz.p * exp_g, self.dz.n * exp_g])
         
+        g_q.add_qtype(qtype)
         return g_q
 
 
-# In[10]:
+# In[29]:
 
 class TestQq(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
@@ -1246,7 +1286,7 @@ class TestQq(unittest.TestCase):
         self.assertTrue(q_z2.dz.n == q1_sq.dz.n)
 
 
-# In[11]:
+# In[30]:
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQq())
 unittest.TextTestRunner().run(suite);
@@ -1772,32 +1812,32 @@ eq_dif_E1_E2_E2_E3_shift.visualize(eq_dif_E1_E2_E2_E3_shift)
 dir(Qq)
 
 
-# In[29]:
+# In[23]:
 
 u=Qq([1,2,3,4])
 r=Qq([5,6,7,8])
 
 
-# In[30]:
+# In[24]:
 
 rrotated=u.triple_product(r, u.invert())
 
 
-# In[31]:
+# In[25]:
 
 print(rrotated)
 print(rrotated.reduce())
 
 rn = r.norm()
 rrn = rrotated.norm()
-# In[37]:
+# In[26]:
 
 print(r.norm())
 print(rrotated.norm())
 print(rrotated.norm().reduce())
 
 
-# In[98]:
+# In[27]:
 
 Q = Qh([1, -2, -3, -4], qtype="Q")
 P = Qh([0, 4, -3, 0], qtype="P")
