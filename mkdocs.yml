@@ -8,6 +8,3 @@ dev_addr: 127.0.0.1:8012
 
 pages:
 - 'index.md'
-- Quaternion Gravity:
-  - 'Intro markdown': 'QG/QG_intro.md'
-  - 'Intro html': 'QG/QG_intro.html'
