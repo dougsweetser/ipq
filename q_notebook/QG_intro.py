@@ -15,17 +15,33 @@
 
 # I decided to create my own tools for quaternions from scratch. Why? This is the opening few paragraphs of my "Q_tool_devo" notebook:
 
-#     In this notebook, tools for working with quaternions for physics issues are developed. The class Qh treat quaternions as Hamilton would have done: as a 4-vector over the real numbers.
+#     In this notebook, tools for working with quaternions for physics issues are developed. 
+#     The class Qh treat quaternions as Hamilton would have done: as a 4-vector over the real numbers.
 
-#     In physics, group theory plays a central role in the fundamental forces of Nature via the standard model. The  gauge symmetry U(1) a unit circle in the complex plane leads to electric charge conservation. The unit quaternions SU(2) is the symmetry needed for the weak force which leads to beta decay. The group SU(3) is the symmetry of the strong force that keeps a nucleus together.
+#     In physics, group theory plays a central role in the fundamental forces of Nature via 
+#     the standard model. The  gauge symmetry U(1) a unit circle in the complex plane leads 
+#     to electric charge conservation. The unit quaternions SU(2) is the symmetry needed for 
+#     the weak force which leads to beta decay. The group SU(3) is the symmetry of the strong
+#     force that keeps a nucleus together.
 
-#     The class Qq was written in the hope that group theory would be written in first, not added as needed later. I call these "space-time numbers". The problem with such an approach is that one does not use the mathematical field of real numbers. Instead one relies on the set of positive reals. In some ways, this is like reverse engineering some basic computer science. Libraries written in C have a notion of a signed versus unsigned integer. The signed integer behaves like the familiar integers. The unsigned integer is like the positive integers. The difference between the two is whether there is a placeholder for the sign or not. All floats are signed. The modulo operations that work for unsigned integers does not work for floats.
+#     The class Qq was written in the hope that group theory would be written in first, not
+#     added as needed later. I call these "space-time numbers". The problem with such an
+#     approach is that one does not use the mathematical field of real numbers. Instead one
+#     relies on the set of positive reals. In some ways, this is like reverse engineering some
+#     basic computer science. Libraries written in C have a notion of a signed versus unsigned
+#     integer. The signed integer behaves like the familiar integers. The unsigned integer is
+#     like the positive integers. The difference between the two is whether there is a
+#     placeholder for the sign or not. All floats are signed. The modulo operations that work
+#     for unsigned integers does not work for floats.
 
-#      Test driven development was used. The same tests for class Qh were used for Qq.  Either class can be used to study quaternions in physics.
+#      Test driven development was used. The same tests for class Qh were used for Qq.  Either
+#      class can be used to study quaternions in physics.
 
 # Here is a list of the functions that were written for the Qq classes:
 
-#     abs_of_q, abs_of_vector, add, all_products, anti_commuting_products, boost, commuting_products, conj, dif, divide_by, g_shift, invert, norm, norm_of_vector, product, q4, q_one, q_zero, reduce, rotate, square, and triple_product.
+#     abs_of_q, abs_of_vector, add, all_products, anti_commuting_products, boost,
+#     commuting_products, conj, dif, divide_by, g_shift, invert, norm, norm_of_vector, 
+#     product, q4, q_one, q_zero, reduce, rotate, square, and triple_product.
 
 # Like all long list, this makes for dull prose. I had a little fun breaking up the multiplication product into the commuting and anticommuting parts.
 
@@ -35,7 +51,7 @@
 
 # If you have any interst it playing with the iPython notebook, feel free to clone it:
 # 
-# git clone https://github.com/dougsweetser/ipq
+# > git clone https://github.com/dougsweetser/ipq
 
 # ## Equivalence classes
 # 
@@ -65,7 +81,27 @@
 
 # ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/space_classes.png)
 
-# The equivalence class EQ is fed 2 quaternions. It reduces these two to deal with the future/past, left/right, up/down, and near/far equivalance classes. It also calculates the reduced square. With the reduced square calculated, one can asked if the first term of the square both have positive values. If true, then both are time-like events.
+# The equivalence class EQ is fed 2 quaternions. It reduces these two to deal with the future/past, left/right, up/down, and near/far equivalance classes. All events in space-time map into four equivalence classes as one might expect for events in space-time.
+
+# There are two more general classes, one exeptionally narrow, the other the most common of all. The narrow class is when both are zero, the *now* class for time, and the *here* class for space.
+
+# ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/time_now_exact.png)
+
+# ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/space_here_exact.png)
+
+# Observers have all four of these exact matches since they are *here-now*.
+
+# The most common situation for a pair of events is that they are disjoint. As usual, there are four ways to be disjoint:
+
+# ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/time_disjoint.png)
+
+# space-1
+
+# My proposal for special relativity works with the square of a quaternion. This must be done because the Lorentz invariant interval for inertial obserrvers is time squared minus space squared. The expression mathematical is nearly idential to telling the past from the future:
+
+# $$[f] = \{ q \in Q \,|\, f \sim q \;\rm{if} \; \rm{Re}(q^2) > 0 \}$$
+
+# The only difference is the square.
 
 # ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/causality_time-like_time-like_exact.png)
 
