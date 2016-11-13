@@ -53,45 +53,25 @@
 
 # The two classes are easy enough to graph:
 
-# ![sdf](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/time_future.png)
+# ![sdf](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/time_future_future_exact.png)
 
-# <table><tr><td> ![y](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/time_future.png) </td><td>![g](https://raw.githu
-# busercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/time_future_exact.png) </td></tr></table>
-
-# <table><tr><td> ![sd](images/eq_classes/time_future.png) </td><td>![xs](images/eq_classes/time_future_exact.png) </td></tr></table>
-
-# ![sd](images/eq_classes/time_future.png
-
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
-# 
 # Figuring out if a pair of events are both in the past works the same. This time one looks to see if they both have non-zero values in the additive invserse (aka negative) time slot of the Qq class. The same function was used, but telling the function to look at the additive inverses.
-# 
+
 # One can also see if both numbers are neither positive or negative. That only happens if the value of time is zero, or now. If so, the pair events gets marked as now exact.
-# 
+
 # Plucking events at random, the most common situation is that a pair of events would be disjoint: one in the future, the ohter in the past. This was the default case that resulted after all the other situations were investigated.
-# 
+
 # The 6 questions - are you both positive, if so, exact, negative, if so exact, both zeroes or disjoint - can be asked for the three spatial dimensions: left versus right, up versus down, and near versus far. All use the same function to figure out which is the winning equivalence class (although disjoint is not an equivance class).
-# 
-# <table><tr><td> ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/space-1_right.png) </td><td>![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/space-1_right_exact.png) </td>
-# <td> ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/space-2_up.png) </td><td>![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/space-2_up_exact.png) </td>
-# <td> ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/space-3_near.png) </td><td>![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/space-3_near_exact.png) </td>
-# </tr></table>
-# 
+
+# https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/space_classes.png
+
 # The equivalence class EQ is fed 2 quaternions. It reduces these two to deal with the future/past, left/right, up/down, and near/far equivalance classes. It also calculates the reduced square. With the reduced square calculated, one can asked if the first term of the square both have positive values. If true, then both are time-like events.
-# 
-# <table><tr><td> ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/causality_time-like.png) </td><td>![](q_notebook/images/eq_classes/causality_time-like_exact.png) </td></tr></table>
-# 
+
+# ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/causality_time-like_time-like_exact.png)
+
 # Of course it might be the case that the events were both space-like separated because the first term of the square was negative:
-# <table><tr><td> ![](images/eq_classes/causality_space-like.png) </td><td>![](images/eq_classes/causality_space-like_exact.png) </td></tr></table>
-# 
+
+# ![](images/eq_classes/causality_space-like_space-like_exact.png)
 # 
 # 
 
