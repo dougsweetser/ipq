@@ -1,13 +1,13 @@
 
 # coding: utf-8
 
-# # Developing Quaternion Tools for iPython3
+# # Developing Quaternion and Space-time Number Tools for iPython3
 
 # In this notebook, tools for working with quaternions for physics issues are developed. The class Qh treat quaternions as Hamilton would have done: as a 4-vector over the real numbers. 
 # 
 # In physics, group theory plays a central role in the fundamental forces of Nature via the standard model. The gauge symmetry U(1) a unit circle in the complex plane leads to electric charge conservation. The unit quaternions SU(2) is the symmetry needed for the weak force which leads to beta decay. The group SU(3) is the symmetry of the strong force that keeps a nucleus together.
 # 
-# The class Qq was written in the hope that group theory would be written in first, not added as needed later. The problem with such an approach is that one does not use the mathematical field of real numbers. Instead one relies on the set of positive reals. In some ways, this is like reverse engineering some basic computer science. Libraries written in C have a notion of a signed versus unsigned integer. The signed integer behaves like the familiar integers. The unsigned integer is like the positive integers. The difference between the two is whether there is a placeholder for the sign or not. All floats are signed. The modulo operations that work for unsigned integers does not work for floats.
+# The class Qq was written in the hope that group theory would be written in first, not added as needed later. I call these "space-time numbers". The problem with such an approach is that one does not use the mathematical field of real numbers. Instead one relies on the set of positive reals. In some ways, this is like reverse engineering some basic computer science. Libraries written in C have a notion of a signed versus unsigned integer. The signed integer behaves like the familiar integers. The unsigned integer is like the positive integers. The difference between the two is whether there is a placeholder for the sign or not. All floats are signed. The modulo operations that work for unsigned integers does not work for floats.
 # 
 # Test driven development was used. The same tests for class Qh were used for Qq.  Either class can be used to study quaternions in physics.
 
@@ -729,10 +729,10 @@ unittest.TextTestRunner().run(suite);
 
 # Write a class to handle quaternions given 8 numbers.
 
-# In[28]:
+# In[9]:
 
 class Qq:
-    """Quaternions on a quaternion manifold."""
+    """Quaternions on a quaternion manifold or space-time numbers."""
 
     def __init__(self, values=None, qtype="Q"):
         if values is None:
@@ -754,7 +754,7 @@ class Qq:
                 
     def __str__(self):
         """Customize the output."""
-        return "{tp}_I0  {tn}_I2  {xp}_i1  {xn}_i3  {yp}_j1  {yn}_j3  {zp}_k1  {zn}_k3  {qt}".format(tp=self.dt.p, tn=self.dt.n, 
+        return "({tp}, {tn})_I0,2  ({xp}, {xn})_i1,3  ({yp}, {yn})_j1,3  ({zp}, {zn})_k1,3  {qt}".format(tp=self.dt.p, tn=self.dt.n, 
                                                              xp=self.dx.p, xn=self.dx.n, 
                                                              yp=self.dy.p, yn=self.dy.n, 
                                                              zp=self.dz.p, zn=self.dz.n,
@@ -1039,7 +1039,7 @@ class Qq:
         return g_q
 
 
-# In[29]:
+# In[10]:
 
 class TestQq(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
@@ -1286,7 +1286,7 @@ class TestQq(unittest.TestCase):
         self.assertTrue(q_z2.dz.n == q1_sq.dz.n)
 
 
-# In[30]:
+# In[11]:
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQq())
 unittest.TextTestRunner().run(suite);

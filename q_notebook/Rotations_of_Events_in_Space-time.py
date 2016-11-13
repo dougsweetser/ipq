@@ -13,7 +13,7 @@
 # 
 # Create a couple of quaternions to play with.
 
-# In[11]:
+# In[1]:
 
 from Q_tool_devo import Qq;
 U=Qq([1,2,3,4])
