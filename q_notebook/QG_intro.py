@@ -70,11 +70,10 @@
 # 
 # The equivalence class EQ is fed 2 quaternions. It reduces these two to deal with the future/past, left/right, up/down, and near/far equivalance classes. It also calculates the reduced square. With the reduced square calculated, one can asked if the first term of the square both have positive values. If true, then both are time-like events.
 # 
-# <table><tr><td> ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/causality_time-like.png) </td><td>![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/causality_time-like_exact.png) </td></tr></table>
+# <table><tr><td> ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/causality_time-like.png) </td><td>![](q_notebook/images/eq_classes/causality_time-like_exact.png) </td></tr></table>
 # 
 # Of course it might be the case that the events were both space-like separated because the first term of the square was negative:
-# ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/causality_space-like.png)
-# <table><tr><td> ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/causality_space-like.png) </td><td>![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/causality_space-like_exact.png) </td></tr></table>
+# <table><tr><td> ![](images/eq_classes/causality_space-like.png) </td><td>![](images/eq_classes/causality_space-like_exact.png) </td></tr></table>
 # 
 # 
 # 
