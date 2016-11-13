@@ -53,9 +53,14 @@
 
 # The two classes are easy enough to graph:
 
-# <table><tr><td> ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/time_future.png) </td><td>![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/time_future_exact.png) </td></tr></table>
+# ![sdf](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/time_future.png)
 
-# <table><tr><td> ![](images/eq_classes/time_future.png) </td><td>![](images/eq_classes/time_future_exact.png) </td></tr></table>
+# <table><tr><td> ![y](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/time_future.png) </td><td>![g](https://raw.githu
+# busercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/time_future_exact.png) </td></tr></table>
+
+# <table><tr><td> ![sd](images/eq_classes/time_future.png) </td><td>![xs](images/eq_classes/time_future_exact.png) </td></tr></table>
+
+# ![sd](images/eq_classes/time_future.png
 
 # 
 # 
