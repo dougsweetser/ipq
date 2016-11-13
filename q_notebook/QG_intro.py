@@ -63,7 +63,7 @@
 
 # The 6 questions - are you both positive, if so, exact, negative, if so exact, both zeroes or disjoint - can be asked for the three spatial dimensions: left versus right, up versus down, and near versus far. All use the same function to figure out which is the winning equivalence class (although disjoint is not an equivance class).
 
-# https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/space_classes.png
+# ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/space_classes.png)
 
 # The equivalence class EQ is fed 2 quaternions. It reduces these two to deal with the future/past, left/right, up/down, and near/far equivalance classes. It also calculates the reduced square. With the reduced square calculated, one can asked if the first term of the square both have positive values. If true, then both are time-like events.
 
