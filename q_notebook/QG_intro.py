@@ -73,7 +73,7 @@
 # <table><tr><td> ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/causality_time-like.png) </td><td>![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/causality_time-like_exact.png) </td></tr></table>
 # 
 # Of course it might be the case that the events were both space-like separated because the first term of the square was negative:
-# !()[https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/causality_space-like.png]
+# ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/causality_space-like.png)
 # <table><tr><td> ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/causality_space-like.png) </td><td>![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/causality_space-like_exact.png) </td></tr></table>
 # 
 # 
