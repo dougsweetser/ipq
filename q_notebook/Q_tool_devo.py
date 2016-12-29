@@ -308,6 +308,8 @@ class Qh:
 
     # A boost also uses triple products like a rotation, but more of them.
     # This is not a well-known result, but does work.
+    # b -> b' = h b h* + 1/2 ((hhb)* -(h*h*b)*)
+    # where h is of the form (cosh(a), sinh(a))
     def boost(self, beta_x=0, beta_y=0, beta_z=0, qtype="boost"):
         """A boost along the x, y, and/or z axis."""
 

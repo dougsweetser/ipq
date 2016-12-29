@@ -525,6 +525,8 @@ div#notebook {
 
     <span class="c1"># A boost also uses triple products like a rotation, but more of them.</span>
     <span class="c1"># This is not a well-known result, but does work.</span>
+    <span class="c1"># b -&gt; b&#39; = h b h* + 1/2 ((hhb)* -(h*h*b)*)</span>
+    <span class="c1"># where h is of the form (cosh(a), sinh(a))</span>
     <span class="k">def</span> <span class="nf">boost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beta_x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta_y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta_z</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;boost&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;A boost along the x, y, and/or z axis.&quot;&quot;&quot;</span>
 

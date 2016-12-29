@@ -71,11 +71,11 @@
 
 # ![sdf](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/time_future_future_exact.png)
 
-# Figuring out if a pair of events are both in the past works the same. This time one looks to see if they both have non-zero values in the additive invserse (aka negative) time slot of the Qq class. The same function was used, but telling the function to look at the additive inverses.
+# Figuring out if a pair of events are both in the past works the same. This time one looks to see if they both have non-zero values in the additive inverse (aka negative) time slot of the Qq class. The same function was used, but telling the function to look at the additive inverses.
 
 # One can also see if both numbers are neither positive or negative. That only happens if the value of time is zero, or now. If so, the pair events gets marked as now exact.
 
-# Plucking events at random, the most common situation is that a pair of events would be disjoint: one in the future, the ohter in the past. This was the default case that resulted after all the other situations were investigated.
+# Plucking events at random, the most common situation is that a pair of events would be disjoint: one in the future, the other in the past. This was the default case that resulted after all the other situations were investigated.
 
 # The 6 questions - are you both positive, if so, exact, negative, if so exact, both zeroes or disjoint - can be asked for the three spatial dimensions: left versus right, up versus down, and near versus far. All use the same function to figure out which is the winning equivalence class (although disjoint is not an equivance class).
 
@@ -117,10 +117,7 @@
 # 
 # 
 
-# In[ ]:
-
-
-
+# The two exact equivalence classes, time-like exact or space-like exact, mean that the two observers are travelling at a constant velocity to each other. A Lorentz transformation can be used to go from one to the other along the hyperbola. Although there have been claims that one cannot represent the Lorentz group using real-valued quaternions, that is not the case.
 
 # In[ ]:
 

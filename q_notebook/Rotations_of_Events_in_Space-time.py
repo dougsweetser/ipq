@@ -15,9 +15,7 @@
 
 # In[1]:
 
-from Q_tool_devo import Qq;
-U=Qq([1,2,3,4])
-R=Qq([5,6,7,8])
+get_ipython().run_cell_magic('capture', '', 'from Q_tool_devo import Qq;\nU=Qq([1,2,3,4])\nR=Qq([5,6,7,8])')
 
 
 # Use the Qq class that places these 4 numbers in 8 slots like so:
@@ -81,6 +79,11 @@ print(R_rotated.square().reduce())
 # ## Rotations in Time
 
 # A rotation in time is commonly called a boost. The idea is that one gets a boost in speed, and that will change measurements of both time and distance. If one rushes toward the source of a signal, both the measurement of time and distance will get shorter in a way that keeps the interval the same.
+
+# There are published claims in the literature that a boost cannot be done with real valued quaternions. This may be because people followed the form of rotations in space too closely. It is true that swapping hyperbolic cosines for cosines, and hyperbolic sines for sines does not create a Lorentz boost. Rotations are known as a compact Lie group while boosts form a group that is not compact. A slightly more complicated combination of the hyperbolic trig functions does do the work:
+
+# $$\begin{align*} b \rightarrow b' = &(\cosh(\alpha), \sinh(\alpha) (t, R) (\cosh(\alpha), -\sinh(\alpha) \\&- \frac{1}{2}(((\cosh(\alpha), \sinh(\alpha) (\cosh(\alpha), \sinh(\alpha) (t,R))^* -((\cosh(\alpha), -\sinh(\alpha) (\cosh(\alpha), -\sinh(\alpha) (t,R))^*)\\
+# &=(\cosh(\alpha) t - \sinh(\alpha) R, \cosh(\alpha) R - \sinh(\alpha) t)\end{align*}$$
 
 # In[7]:
 

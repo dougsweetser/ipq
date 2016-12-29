@@ -315,333 +315,13 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">Q_tool_devo</span> <span class="k">as</span> <span class="nn">qtd</span><span class="p">;</span>
-<span class="n">Aq1</span><span class="o">=</span><span class="n">qtd</span><span class="o">.</span><span class="n">Qq</span><span class="p">([</span><span class="mi">1470000000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.1421</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.4220</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">Aq2</span><span class="o">=</span><span class="n">qtd</span><span class="o">.</span><span class="n">Qq</span><span class="p">([</span><span class="mi">1580000000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">4.2966</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.3643</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">capture</span>
+import Q_tool_devo as qtd;
+Aq1=qtd.Qq([1470000000,0,1.1421,0,1.4220,0,0,0])
+Aq2=qtd.Qq([1580000000,0,4.2966,0,0,0.3643,0,0])
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>....................
-----------------------------------------------------------------------
-Ran 20 tests in 0.036s
-
-OK
-..........
-----------------------------------------------------------------------
-Ran 10 tests in 0.009s
-
-OK
-......................</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>abs_of_q: 5.0t  0i  0j  0k  P.abs
-abs_of_vector: 5.0t  0i  0j  0k  P.absV
-add: 1t  2i  -6j  -4k  Q+P
-q1_sq: -28t  -4i  -6j  -8k  Q.sq
-boosted: 1.0120181081629736t  -2.006036054324489i  -3.0j  -4.0k  Q.boost
-boosted squared: -28.0t  -4.0602896252083704i  -6.072108648977841j  -8.096144865303788k  Q.boost.sq
-q_conj 0: 1t  2i  3j  4k  Q.*
-q_conj 1: -1t  -2i  3j  4k  Q.*1
-q_conj 2: -1t  2i  -3j  4k  Q.*2
-dif: 1t  -6i  0j  -4k  Q-P
-divide_by: 1.0t  0.0i  0.0j  0.0k  Q/Q
-q1_sq: -28t  -4i  -6j  -8k  Q.sq
-g_shift: 0.997004495503373t  -2.00600900900675i  -3.00901351351013j  -4.01201801801351k  Q.g_shift
-g squared: -28.1805050815139t  -4.00000000000000i  -6.00000000000000j  -8.00000000000000k  Q.g_shift.sq
-invert: 0.0t  -0.16i  0.12j  0.0k  P.^-1
-norm: 30t  0i  0j  0k  Q.norm
-norm_of_vector: 29t  0i  0j  0k  Q.normV
-product: -1t  -8i  -19j  18k  QxP
-q0: 0t  0i  0j  0k  Zero
-q1: 1t  0i  0j  0k  One
-rotate: 1.0t  -2.0i  3.0j  4.0k  Q.rot
-square: -28t  -4i  -6j  -8k  Q.sq
-triple product: -2t  124i  -84j  8k  QxPxQ
-abs_of_q: (5.0, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q.Q.abs
-abs_of_vector: (5.0, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q.absV
-add: (1, 0)_I0,2  (4, 2)_i1,3  (0, 6)_j1,3  (0, 4)_k1,3  Q+Q
-add reduce: (1, 0)_I0,2  (2, 0)_i1,3  (0, 6)_j1,3  (0, 4)_k1,3  Q+Q.reduce
-q1_sq: (0, 28)_I0,2  (0, 4)_i1,3  (0, 6)_j1,3  (0, 8)_k1,3  Q.sq.reduce
-boosted: (1.51802716224446, 0.5060090540814867)_I0,2  (1.0030180271622444, 3.0090540814867333)_i1,3  (1.5240542164879485, 4.524054216487949)_j1,3  (2.0180721626494638, 6.018072162649464)_k1,3  Q.boost
-b squared: (0, 28.000000000000007)_I0,2  (0, 4.06028962520837)_i1,3  (0, 6.072108648977842)_j1,3  (0, 8.096144865303788)_k1,3  Q.boost.sq.reduce
-conj 0: (1, 0)_I0,2  (2, 0)_i1,3  (3, 0)_j1,3  (4, 0)_k1,3  Q.*
-conj 1: (0, 1)_I0,2  (0, 2)_i1,3  (3, 0)_j1,3  (4, 0)_k1,3  Q.*1
-conj 2: (0, 1)_I0,2  (2, 0)_i1,3  (0, 3)_j1,3  (4, 0)_k1,3  Q.*2
-dif: (1, 0)_I0,2  (0, 6)_i1,3  (3, 3)_j1,3  (0, 4)_k1,3  Q-Q
-inverse: (1.0, 0.0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q/Q.reduce
-q1_sq: (0, 28)_I0,2  (0, 4)_i1,3  (0, 6)_j1,3  (0, 8)_k1,3  Q.sq.reduce
-g_shift: (0.997004495503373, 0)_I0,2  (0, 2.00600900900675)_i1,3  (0, 3.00901351351013)_j1,3  (0, 4.01201801801351)_k1,3  Q.g_shift
-g squared: (0, 28.1805050815139)_I0,2  (0, 4.00000000000000)_i1,3  (0, 6.00000000000000)_j1,3  (0, 8.00000000000000)_k1,3  Q.g_shift.sq.reduce
-inverse: (0.0, 0.0)_I0,2  (0.0, 0.16)_i1,3  (0.12, 0.0)_j1,3  (0.0, 0.0)_k1,3  Q.^-1.reduce
-norm: (30, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q.norm
-norm_of_vector: (29, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q.normV
-product: (0, 1)_I0,2  (0, 8)_i1,3  (0, 19)_j1,3  (18, 0)_k1,3  QxQ.reduce
-q1: (1, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q
-q0: (0, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q
-q_big reduced: (0, 1)_I0,2  (0, 1)_i1,3  (0, 1)_j1,3  (0, 1)_k1,3  Q.reduce
-rotate: (1.0, 0.0)_I0,2  (0.0, 2.0)_i1,3  (3.0, 0.0)_j1,3  (4.0, 0.0)_k1,3  Q/Q.Q.absxQxQ/Q.Q.abs.*.reduce
-square: (1, 29)_I0,2  (0, 4)_i1,3  (0, 6)_j1,3  (0, 8)_k1,3  Q.sq
-square reduced: (0, 28)_I0,2  (0, 4)_i1,3  (0, 6)_j1,3  (0, 8)_k1,3  Q.sq.reduce
-triple: (0, 2)_I0,2  (124, 0)_i1,3  (0, 84)_j1,3  (8, 0)_k1,3  QxQxQ.reduce
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>
-----------------------------------------------------------------------
-Ran 22 tests in 0.030s
-
-OK
-.......
-----------------------------------------------------------------------
-Ran 7 tests in 0.017s
-
-OK
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>The equivalence classes for this pair of events are as follows...
-q1: 0t  0i  0j  0k  Q
-q2: 1t  1i  0j  0k  Q
-q1_squared: 0t  0i  0j  0k  Q
-q2_squared: 0t  2i  0j  0k  Q
-q1_norm -1: -1t  0i  0j  0k  Q
-q2_norm -1: 1t  0i  0j  0k  Q
-                time: disjoint
-             space-1: disjoint
-             space-2: here_exact
-             space-3: here_exact
-           causality: light-like_exact
-  space-times-time-1: disjoint
-  space-times-time-2: here-now_exact
-  space-times-time-3: here-now_exact
-       norm_of_unity: disjoint
-
-The equivalence classes for this pair of events are as follows...
-q1: 0t  0i  0j  0k  Q
-q2: 2t  0i  0j  0k  Q
-q1_squared: 0t  0i  0j  0k  Q
-q2_squared: 4t  0i  0j  0k  Q
-q1_norm -1: -1t  0i  0j  0k  Q
-q2_norm -1: 3t  0i  0j  0k  Q
-                time: disjoint
-             space-1: here_exact
-             space-2: here_exact
-             space-3: here_exact
-           causality: disjoint
-  space-times-time-1: here-now_exact
-  space-times-time-2: here-now_exact
-  space-times-time-3: here-now_exact
-       norm_of_unity: disjoint
-
-The equivalence classes for this pair of events are as follows...
-q1: 1t  1i  0j  0k  Q
-q2: 2t  0i  0j  0k  Q
-q1_squared: 0t  2i  0j  0k  Q
-q2_squared: 4t  0i  0j  0k  Q
-q1_norm -1: 1t  0i  0j  0k  Q
-q2_norm -1: 3t  0i  0j  0k  Q
-                time: future
-             space-1: disjoint
-             space-2: here_exact
-             space-3: here_exact
-           causality: disjoint
-  space-times-time-1: disjoint
-  space-times-time-2: here-now_exact
-  space-times-time-3: here-now_exact
-       norm_of_unity: greater_than_unity
-
-The equivalence classes for this pair of events are as follows...
-q1: 4t  0i  0j  5k  Q
-q2: 5t  1i  0j  5k  Q
-q1_squared: -9t  0i  0j  40k  Q
-q2_squared: -1t  10i  0j  50k  Q
-q1_norm -1: 40t  0i  0j  0k  Q
-q2_norm -1: 50t  0i  0j  0k  Q
-                time: future
-             space-1: disjoint
-             space-2: here_exact
-             space-3: near_exact
-           causality: space-like
-  space-times-time-1: disjoint
-  space-times-time-2: here-now_exact
-  space-times-time-3: future-near_exact
-       norm_of_unity: greater_than_unity
-
-The equivalence classes for this pair of events are as follows...
-q1: -1t  -1i  0j  0k  Q
-q2: -2t  0i  0j  0k  Q
-q1_squared: 0t  2i  0j  0k  Q
-q2_squared: 4t  0i  0j  0k  Q
-q1_norm -1: 1t  0i  0j  0k  Q
-q2_norm -1: 3t  0i  0j  0k  Q
-                time: past
-             space-1: disjoint
-             space-2: here_exact
-             space-3: here_exact
-           causality: disjoint
-  space-times-time-1: disjoint
-  space-times-time-2: here-now_exact
-  space-times-time-3: here-now_exact
-       norm_of_unity: greater_than_unity
-
-The equivalence classes for this pair of events are as follows...
-q1: -1t  -1i  0j  0k  Q
-q2: -1t  1i  0j  0k  Q
-q1_squared: 0t  2i  0j  0k  Q
-q2_squared: 0t  -2i  0j  0k  Q
-q1_norm -1: 1t  0i  0j  0k  Q
-q2_norm -1: 1t  0i  0j  0k  Q
-                time: past_exact
-             space-1: disjoint
-             space-2: here_exact
-             space-3: here_exact
-           causality: light-like_exact
-  space-times-time-1: disjoint
-  space-times-time-2: here-now_exact
-  space-times-time-3: here-now_exact
-       norm_of_unity: greater_than_unity_exact
-
-The equivalence classes for this pair of events are as follows...
-q1: -2t  0i  0j  0k  Q
-q2: -1t  1i  0j  0k  Q
-q1_squared: 4t  0i  0j  0k  Q
-q2_squared: 0t  -2i  0j  0k  Q
-q1_norm -1: 3t  0i  0j  0k  Q
-q2_norm -1: 1t  0i  0j  0k  Q
-                time: past
-             space-1: disjoint
-             space-2: here_exact
-             space-3: here_exact
-           causality: disjoint
-  space-times-time-1: disjoint
-  space-times-time-2: here-now_exact
-  space-times-time-3: here-now_exact
-       norm_of_unity: greater_than_unity
-
-The equivalence classes for this pair of events are as follows...
-q1: -1t  -1i  0j  0k  Q
-q2: -2t  0i  0j  0k  Q
-q1_squared: 0t  2i  0j  0k  Q
-q2_squared: 4t  0i  0j  0k  Q
-q1_norm -1: 1t  0i  0j  0k  Q
-q2_norm -1: 3t  0i  0j  0k  Q
-                time: past
-             space-1: disjoint
-             space-2: here_exact
-             space-3: here_exact
-           causality: disjoint
-  space-times-time-1: disjoint
-  space-times-time-2: here-now_exact
-  space-times-time-3: here-now_exact
-       norm_of_unity: greater_than_unity
-
-The equivalence classes for this pair of events are as follows...
-q1: -1t  -1i  0j  0k  Q
-q2: -1t  1i  0j  0k  Q
-q1_squared: 0t  2i  0j  0k  Q
-q2_squared: 0t  -2i  0j  0k  Q
-q1_norm -1: 1t  0i  0j  0k  Q
-q2_norm -1: 1t  0i  0j  0k  Q
-                time: past_exact
-             space-1: disjoint
-             space-2: here_exact
-             space-3: here_exact
-           causality: light-like_exact
-  space-times-time-1: disjoint
-  space-times-time-2: here-now_exact
-  space-times-time-3: here-now_exact
-       norm_of_unity: greater_than_unity_exact
-
-The equivalence classes for this pair of events are as follows...
-q1: -2t  0i  0j  0k  Q
-q2: -1t  1i  0j  0k  Q
-q1_squared: 4t  0i  0j  0k  Q
-q2_squared: 0t  -2i  0j  0k  Q
-q1_norm -1: 3t  0i  0j  0k  Q
-q2_norm -1: 1t  0i  0j  0k  Q
-                time: past
-             space-1: disjoint
-             space-2: here_exact
-             space-3: here_exact
-           causality: disjoint
-  space-times-time-1: disjoint
-  space-times-time-2: here-now_exact
-  space-times-time-3: here-now_exact
-       norm_of_unity: greater_than_unity
-
-{causality: light-like_exact, norm_of_unity: greater_than_unity_exact, space-1
-: disjoint, space-2: here_exact, space-3: here_exact, space-times-time-1: disj
-oint, space-times-time-2: here-now_exact, space-times-time-3: here-now_exact, 
-time: past_exact}
-dict_keys([&apos;time_disjoint&apos;, &apos;norm_of_unity_greater_than_unity_exact&apos;, &apos;space-t
-imes-time-1_future-left&apos;, &apos;time_now_exact&apos;, &apos;space-1_left&apos;, &apos;space-times-time-
-3_future-far_exact&apos;, &apos;space-1_disjoint&apos;, &apos;space-1_here_exact&apos;, &apos;causality_spac
-e-like&apos;, &apos;space-2_up&apos;, &apos;norm_of_unity_less_than_unity&apos;, &apos;causality_space-like_
-space-like_exact&apos;, &apos;time_past&apos;, &apos;time_future&apos;, &apos;space-2_up_exact&apos;, &apos;space_clas
-ses&apos;, &apos;norm_of_unity_unity_exact&apos;, &apos;space-3_near_exact&apos;, &apos;causality_light-like
-_exact&apos;, &apos;space-times-time-1_here-now_exact&apos;, &apos;causality_time-like_exact&apos;, &apos;sp
-ace-1_right&apos;, &apos;space-times-time-2_future-up_exact&apos;, &apos;time_future_future_exact&apos;
-, &apos;space-2_here_exact&apos;, &apos;space-times-time-1_future-right&apos;, &apos;space-times-time-3
-_future-far&apos;, &apos;time_past_exact&apos;, &apos;space-times-time-2_future-down_exact&apos;, &apos;spac
-e-2_down_exact&apos;, &apos;space-1_right_exact&apos;, &apos;space-2_disjoint&apos;, &apos;causality_space-l
-ike_exact&apos;, &apos;causality_disjoint&apos;, &apos;norm_of_unity_disjoint&apos;, &apos;space-1_left_exac
-t&apos;, &apos;space-times-time-1_disjoint&apos;, &apos;time_future_exact&apos;, &apos;causality_time-like_t
-ime-like_exact&apos;, &apos;space-times-time-1_future-left_exact&apos;, &apos;space-2_down&apos;, &apos;spac
-e-times-time-3_future-near&apos;, &apos;causality_time-like&apos;, &apos;space_disjoint&apos;, &apos;space-t
-imes-time-2_future-up&apos;, &apos;space-3_here_exact&apos;, &apos;space-times-time-2_disjoint&apos;, &apos;
-space-times-time-3_here-now_exact&apos;, &apos;space-times-time-3_disjoint&apos;, &apos;space-time
-s-time-2_future-down&apos;, &apos;space-times-time-2_here-now_exact&apos;, &apos;space-3_far_exact
-&apos;, &apos;norm_of_unity_greater_than_unity&apos;, &apos;space-3_disjoint&apos;, &apos;space_here_exact&apos;,
- &apos;norm_of_unity_less_than_unity_exact&apos;, &apos;space-3_far&apos;, &apos;space-3_near&apos;, &apos;space-
-times-time-1_future-right_exact&apos;, &apos;space-times-time-3_future-near_exact&apos;])
-The equivalence classes for this pair of events are as follows...
-q1: -1t  -1i  0j  0k  Q
-q2: -1t  1i  0j  0k  Q
-q1_squared: 0t  2i  0j  0k  Q
-q2_squared: 0t  -2i  0j  0k  Q
-q1_norm -1: 1t  0i  0j  0k  Q
-q2_norm -1: 1t  0i  0j  0k  Q
-                time: past_exact
-             space-1: disjoint
-             space-2: here_exact
-             space-3: here_exact
-           causality: light-like_exact
-  space-times-time-1: disjoint
-  space-times-time-2: here-now_exact
-  space-times-time-3: here-now_exact
-       norm_of_unity: greater_than_unity_exact
-
-(13.033333333333333, 8.033333333333333)_I0,2  (12.0, 9.2)_i1,3  (14.566666666666666, 7.566666666666666)_j1,3  (15.933333333333334, 6.333333333333333)_k1,3  QxQxQ.^-1
-(5.0, 0)_I0,2  (2.8000000000000007, 0)_i1,3  (7.0, 0)_j1,3  (9.600000000000001, 0)_k1,3  QxQxQ.^-1.reduce
-(174, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q.norm
-(1026.4666666666667, 852.4666666666666)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  QxQxQ.^-1.norm
-(174.0000000000001, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  QxQxQ.^-1.norm.reduce
-53t  0i  0j  0k  P-Q.norm
-53.0t  0i  0j  0k  P.rot-Q.rot.norm
-52.999999999999986t  0i  0j  0k  P-Q.rot.norm
-0.0t  0i  0j  0k  P-Q.norm-P.rot-Q.rot.norm
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -655,6 +335,7 @@ q2_norm -1: 1t  0i  0j  0k  Q
 <span class="n">Aq1s</span><span class="o">=</span><span class="n">Aq1</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q_scale</span><span class="p">)</span>
 <span class="n">Aq2s</span><span class="o">=</span><span class="n">Aq2</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q_scale</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">Aq1s</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Aq2s</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -668,6 +349,7 @@ q2_norm -1: 1t  0i  0j  0k  Q
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>(3251493000.0, 0.0)_I0,2  (2.5262109899999996, 0.0)_i1,3  (3.1453217999999996, 0.0)_j1,3  (0.0, 0.0)_k1,3  QxS
+(3494802000.0, 0.0)_I0,2  (9.50364954, 0.0)_i1,3  (0.0, 0.80579517)_j1,3  (0.0, 0.0)_k1,3  QxS
 </pre>
 </div>
 </div>
@@ -779,11 +461,42 @@ q2_norm -1: 1t  0i  0j  0k  Q
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">Bq1</span><span class="o">=</span><span class="n">qtd</span><span class="o">.</span><span class="n">Qq</span><span class="p">([</span><span class="mi">2470000000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.8869</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.8700</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">Bq2</span><span class="o">=</span><span class="n">qtd</span><span class="o">.</span><span class="n">Qq</span><span class="p">([</span><span class="mi">2580000000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">3.9481</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1064</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">Bq1s</span><span class="o">=</span><span class="n">Bq1</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q_scale</span><span class="p">)</span>
+<span class="n">Bq2s</span><span class="o">=</span><span class="n">Bq2</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q_scale</span><span class="p">)</span>
+<span class="n">Bdq</span><span class="o">=</span><span class="n">Bq2s</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">Bq1s</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
 <span class="n">Cq1</span><span class="o">=</span><span class="n">qtd</span><span class="o">.</span><span class="n">Qq</span><span class="p">([</span><span class="mi">3470000000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.1421</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.4220</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.3256</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">Cq2</span><span class="o">=</span><span class="n">qtd</span><span class="o">.</span><span class="n">Qq</span><span class="p">([</span><span class="mi">3580000000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">4.2966</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.3643</span><span class="p">,</span><span class="mf">1.3256</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">Cq1s</span><span class="o">=</span><span class="n">Cq1</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q_scale</span><span class="p">)</span>
+<span class="n">Cq2s</span><span class="o">=</span><span class="n">Cq2</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q_scale</span><span class="p">)</span>
+<span class="n">Cdq</span><span class="o">=</span><span class="n">Cq2s</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">Cq1s</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Bq1s</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Bq2s</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Bdq</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Cq1s</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Cq2s</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Cdq</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(5463393000.0, 0.0)_I0,2  (1.96173411, 0.0)_i1,3  (4.136253, 0.0)_j1,3  (0.0, 0.0)_k1,3  QxS
+(5706702000.0, 0.0)_I0,2  (8.73280239, 0.0)_i1,3  (0.0, 0.23534616)_j1,3  (0.0, 0.0)_k1,3  QxS
+(243309000.0, 0)_I0,2  (6.77106828, 0)_i1,3  (0.0, 4.37159916)_j1,3  (0.0, 0.0)_k1,3  QxS-QxS.reduce
+(7675293000.0, 0.0)_I0,2  (2.5262109899999996, 0.0)_i1,3  (3.1453217999999996, 0.0)_j1,3  (2.93209464, 0.0)_k1,3  QxS
+(7918602000.0, 0.0)_I0,2  (9.50364954, 0.0)_i1,3  (0.0, 0.80579517)_j1,3  (2.93209464, 0.0)_k1,3  QxS
+(243309000.0, 0)_I0,2  (6.9774385500000005, 0)_i1,3  (0.0, 3.9511169699999997)_j1,3  (0, 0)_k1,3  QxS-QxS.reduce
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -803,8 +516,8 @@ q2_norm -1: 1t  0i  0j  0k  Q
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Bdq2</span><span class="o">=</span><span class="n">Bq1</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q_scale</span><span class="p">)</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">Bq2</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q_scale</span><span class="p">))</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span><span class="o">.</span><span class="n">square</span><span class="p">()</span>
-<span class="n">Cdq2</span><span class="o">=</span><span class="n">Cq1</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q_scale</span><span class="p">)</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">Cq2</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q_scale</span><span class="p">))</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span><span class="o">.</span><span class="n">square</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Bdq2</span><span class="o">=</span><span class="n">Bq1s</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">Bq2s</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span><span class="o">.</span><span class="n">square</span><span class="p">()</span>
+<span class="n">Cdq2</span><span class="o">=</span><span class="n">Cq1s</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">Cq2s</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span><span class="o">.</span><span class="n">square</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">Adq2</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">Bdq2</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">Cdq2</span><span class="p">)</span>
@@ -843,10 +556,10 @@ q2_norm -1: 1t  0i  0j  0k  Q
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="p">((</span><span class="mf">64.96</span> <span class="o">-</span> <span class="mf">64.30</span><span class="p">)</span><span class="o">/</span><span class="mf">64.60</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="mf">64.96</span> <span class="o">-</span> <span class="mf">64.30</span><span class="p">)</span><span class="o">/</span><span class="mf">64.60</span>
 </pre></div>
 
 </div>
@@ -857,11 +570,11 @@ q2_norm -1: 1t  0i  0j  0k  Q
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0.10107778324762479</pre>
+<pre>0.010216718266253817</pre>
 </div>
 
 </div>
@@ -875,7 +588,7 @@ q2_norm -1: 1t  0i  0j  0k  Q
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The error is about a tenth of a percent. So while I reported 4 significant digits, only the first three can be trusted.</p>
+<p>The error is about a percent. So while I reported 4 significant digits, only the first two can be trusted.</p>
 
 </div>
 </div>
@@ -885,7 +598,7 @@ q2_norm -1: 1t  0i  0j  0k  Q
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The next experiment involved rotating the graph paper for observer B. This should not change much other than the numbers that get plugged into the inteval calculation.</p>
+<p>The next experiment involved rotating the graph paper for Observer B. This should not change much other than the numbers that get plugged into the inteval calculation.</p>
 
 </div>
 </div>
@@ -903,49 +616,6 @@ q2_norm -1: 1t  0i  0j  0k  Q
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">qtd</span><span class="o">.</span><span class="n">EQ</span><span class="p">(</span><span class="n">Adq2</span><span class="p">,</span><span class="n">Bdq2</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>The equivalence classes for this pair of events are as follows...
-q1: 5.919926948099994e+16t  3395347192.3239i  -1922684637.70746j  0.0k  Q
-q2: 5.919926948099994e+16t  3294923704.27704i  -2127298840.04088j  0.0k  Q
-q1_squared: 3.5045535070840356e+33t  4.0200414683987816e+26i  -2.276430519892453e+26j  0.0k  Q
-q2_squared: 3.504553507084035e+33t  3.9011415257766206e+26i  -2.5186907459639727e+26j  0.0k  Q
-q1_norm -1: 3.5045535070840655e+33t  0i  0j  0k  Q
-q2_norm -1: 3.504553507084066e+33t  0i  0j  0k  Q
-                time: future_exact
-             space-1: right
-             space-2: down
-             space-3: here_exact
-           causality: time-like
-  space-times-time-1: future-right
-  space-times-time-2: future-down
-  space-times-time-3: here-now_exact
-       norm_of_unity: greater_than_unity
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">BRotq1</span><span class="o">=</span><span class="n">qtd</span><span class="o">.</span><span class="n">Qq</span><span class="p">([</span><span class="mi">2470000000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.519</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.9440</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
@@ -980,23 +650,366 @@ q2_norm -1: 3.504553507084066e+33t  0i  0j  0k  Q
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>No surprise here: the graph paper will make a difference in the numbers used, but the distance is the same up to the errors made in the measuring process.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Representations-of-Numbers--Versus-Coordinate-Transformation-of-Vectors">Representations of Numbers  Versus Coordinate Transformation of Vectors<a class="anchor-link" href="#Representations-of-Numbers--Versus-Coordinate-Transformation-of-Vectors">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This notebook is focused on space-time numbers that can be added, subtracted, multiplied, and divided. Formally, they are rank 0 tensors. Yet because space-time numbers have four slots to fill, it is quite easy to mistakenly view them as a four dimensional vector space over the mathematical field of real numbers with four basis vectors. Different representations of numbers changes the values of the numbers that get used, but not their meaning. Let's see this in action for a cylindrical representation of a number. Instead of $x$ and $y$, one uses $R \cos(\alpha)$ and $R \sin(\alpha)$, no change for $z$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="images/Billiards/shot_12_no_felt_polar.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>What needs to be done with the measurements done in cylindrical coordinates is to convert them to Cartesian, the proceed with the same calculations.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="k">def</span> <span class="nf">cyl_2_cart</span><span class="p">(</span><span class="n">q1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a measurment made with cylindrical coordinates in angles to Cartesian cooridantes.&quot;&quot;&quot;</span>
+    
+    <span class="n">t</span> <span class="o">=</span> <span class="n">q1</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">p</span> <span class="o">-</span> <span class="n">q1</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">n</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">q1</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">p</span> <span class="o">-</span> <span class="n">q1</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">n</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">q1</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">p</span> <span class="o">-</span> <span class="n">q1</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">n</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">q1</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">p</span> <span class="o">-</span> <span class="n">q1</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">n</span>
+    
+    <span class="n">x</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">qtd</span><span class="o">.</span><span class="n">Qq</span><span class="p">([</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">h</span><span class="p">])</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For polar coordinates, measure directly the distance between the origin and the billiard ball. Then determine an angle. This constitutes a different approach to making a measurement.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">BPolarq1</span><span class="o">=</span><span class="n">cyl_2_cart</span><span class="p">(</span><span class="n">qtd</span><span class="o">.</span><span class="n">Qq</span><span class="p">([</span><span class="mi">2470000000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">2.0215</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mf">68.0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">BPolarq2</span><span class="o">=</span><span class="n">cyl_2_cart</span><span class="p">(</span><span class="n">qtd</span><span class="o">.</span><span class="n">Qq</span><span class="p">([</span><span class="mi">2580000000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">3.9414</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">BPolardq2</span><span class="o">=</span><span class="n">BPolarq1</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q_scale</span><span class="p">)</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">BPolarq2</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q_scale</span><span class="p">))</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span><span class="o">.</span><span class="n">square</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">BPolardq2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Bdq2</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(5.9199269481e+16, 65.28358588503004)_I0,2  (3426312023.8477516, 0.0)_i1,3  (0.0, 1928561196.6468496)_j1,3  (0.0, 0.0)_k1,3  QxS-QxS.reduce.sq
+(5.9199269481e+16, 64.95824486813486)_I0,2  (3294923704.27704, 0.0)_i1,3  (0.0, 2127298840.04088)_j1,3  (0.0, 0.0)_k1,3  QxS-QxS.reduce.sq
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Yet the result for the interval is the same: the positive time squared term is exactly the same since those numbers were not changed, and the negative numbers for the space terms were only different to the error in measurement.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Observer-B-Boosted">Observer B Boosted<a class="anchor-link" href="#Observer-B-Boosted">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Give Observer B a Lorenz boost. All that is needed is to relocate Observer B in the second frame like so:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="images/Billiards/shot_12_no_felt_boosted.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To make the math simpler, presume all the motion is along $x$, not the slightest wiggle along $y$ or $z$. Constant motion between the frames shown is also presumed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>What velocity is involved? THat would be the change in space, 2, over the time, a big number</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vx</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="n">Bdq</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">p</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vx</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>8.220000082200001e-09
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This feels about right. The speed of observer B is about what a cube ball is.</p>
+<p>Boost the delta by this velocity.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Bdq_boosted</span> <span class="o">=</span> <span class="n">Bdq</span><span class="o">.</span><span class="n">boost</span><span class="p">(</span><span class="n">beta_x</span> <span class="o">=</span> <span class="n">vx</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Bdq_boosted</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Bdq_boosted</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Bdq</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Bdq_boosted</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">Bdq</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(364963500.00000006, 121654500.00000018)_I0,2  (12.15660242, 9.38553414)_i1,3  (2.1857995800000003, 6.55739874)_j1,3  (7.186909090909091e-08, 7.186909090909091e-08)_k1,3  QxS-QxS.reduce.boost
+(243308999.99999988, 0)_I0,2  (2.7710682799999997, 0)_i1,3  (0, 4.37159916)_j1,3  (0, 0)_k1,3  QxS-QxS.reduce.boost.reduce
+(243309000.0, 0)_I0,2  (6.77106828, 0)_i1,3  (0.0, 4.37159916)_j1,3  (0.0, 0.0)_k1,3  QxS-QxS.reduce
+(0, 1.1920928955078125e-07)_I0,2  (0, 3.9999999999999982)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  QxS-QxS.reduce.boost-QxS-QxS.reduce.reduce
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The last line indicates there is no difference between the boosted values of $y$ and $z$, as expected. Both the change in time and in space are negative. Moving in unison is a quality of simple boosts. The change in time is tiny. The change in space is almost 4, but not quite due to the work of the $\gamma$ factor that altered the time measurement.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Compare the squares of the boosted with the non-boosted Observer B</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">Bdq_boosted</span><span class="o">.</span><span class="n">square</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Bdq</span><span class="o">.</span><span class="n">square</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(1.4799817370250035e+17, 8.879890422150043e+16)_I0,2  (11157017260.692606, 9808565556.415565)_i1,3  (3190948260.0613227, 5318247100.102201)_j1,3  (69.94558656000004, 69.94558656000004)_k1,3  QxS-QxS.reduce.boost.sq
+(5.9199269481e+16, 64.95824486813486)_I0,2  (3294923704.27704, 0.0)_i1,3  (0.0, 2127298840.04088)_j1,3  (0.0, 0.0)_k1,3  QxS-QxS.reduce.sq
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Time and space are mixing together for the boosted frame. There are two huge numbers for $I_0$ and $I_2$ instead of a big number and about 65. Are they the same? Compare the reduced squares:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">Bdq_boosted</span><span class="o">.</span><span class="n">square</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Bdq</span><span class="o">.</span><span class="n">square</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(5.919926948099992e+16, 0)_I0,2  (1348451704.2770405, 0)_i1,3  (0, 2127298840.0408788)_j1,3  (0, 0)_k1,3  QxS-QxS.reduce.boost.sq.reduce
+(5.919926948099994e+16, 0)_I0,2  (3294923704.27704, 0.0)_i1,3  (0.0, 2127298840.04088)_j1,3  (0.0, 0.0)_k1,3  QxS-QxS.reduce.sq.reduce
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The reduced intervals are the same. The space-times-time terms are not. The difference between the space-times-time terms can be used to determine how Observer B boosted in moving relative to Observer B (calculation not done here). Even with out going into detail, the motion is only along x because that is the only term that changes.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Observer-C-in-a-Gravity-Field">Observer C in a Gravity Field<a class="anchor-link" href="#Observer-C-in-a-Gravity-Field">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We know from the video of the billiard balls that they are in a gravity field since the eight ball drops into the pocket.</p>
+
+</div>
+</div>
 </div>
     </div>
   </div>
