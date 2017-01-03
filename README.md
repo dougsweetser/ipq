@@ -6,6 +6,23 @@ These notebooks may help people play with both quaternions and space-time
 number. The space-time numbers are my own invention, a variation on quaternions
 that I study because it starts from group theory at its foundation. 
 
+## For Newbies...
+
+If you are new to the world of github and iPython, go watch a tutorial or two.
+For the python, I recommend installing [anaconda from Continuum Analytics.](https://www.continuum.io/downloads)
+It should install on Windows, Mac OS, and Linux machines. Once install, an
+iPython notebook should "just work".
+
+To get my software, open up a terminal and type:
+
+> git clone https://github.com/dougsweetser/ipq
+> cd ipq/q\_notebooks
+> jupyter notebook
+
+This should start the notebook server in your default browser.
+
+## The iPython Notebooks
+
 The first job is to write the basic tools. That work can be found in the 
 following notebook:
 
