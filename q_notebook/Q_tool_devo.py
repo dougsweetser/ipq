@@ -13,12 +13,16 @@
 
 # In[1]:
 
-import unittest
-from glob import glob
-from sympy import *
+import IPython
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import math
+import os
+import unittest
 from os.path import basename
+from glob import glob
+from sympy import *
+get_ipython().magic('matplotlib inline')
 
 
 # Define the stretch factor $\gamma$ and the $\gamma \beta$ used in special relativity.
@@ -50,6 +54,7 @@ class Qh:
             self.t, self.x, self.y, self.z = 0, 0, 0, 0
         elif len(values) == 4:
             self.t, self.x, self.y, self.z = values[0], values[1], values[2], values[3]
+
         elif len(values) == 8:
             self.t, self.x = values[0] - values[1], values[2] - values[3]
             self.y, self.z = values[4] - values[5], values[6] - values[7]
@@ -331,16 +336,24 @@ class Qh:
     # which proposes that if one changes the distance from a gravitational source, then
     # squares a measurement, the observers at two different hieghts agree to their
     # space-times-time values, but not the intervals.
-    def g_shift(self, dimensionless_g, qtype="g_shift"):
+    # g_form is the form of the function, either minimal or exponential
+    # Minimal is what is needed to pass all weak field tests of gravity
+    def g_shift(self, dimensionless_g, g_form="exp", qtype="g_shift"):
         """Shift an observation based on a dimensionless GM/c^2 dR."""
 
-        exp_g = exp(dimensionless_g)
+        if g_form == "exp":
+            g_factor = exp(dimensionless_g)
+        elif g_form == "minimal":
+            g_factor = 1 + 2 * dimensionless_g + 2 * dimensionless_g ** 2
+        else:
+            print("g_form not defined, should be 'exp' or 'minimal': {}".format(g_form))
+            return self
 
         g_q = Qh(qtype=self.qtype)
-        g_q.t = self.t / exp_g
-        g_q.x = self.x * exp_g
-        g_q.y = self.y * exp_g
-        g_q.z = self.z * exp_g
+        g_q.t = self.t / g_factor
+        g_q.x = self.x * g_factor
+        g_q.y = self.y * g_factor
+        g_q.z = self.z * g_factor
 
         g_q.add_qtype(qtype)
         return g_q
@@ -527,13 +540,16 @@ class TestQh(unittest.TestCase):
         if self.verbose: print("q1_sq: {}".format(q1_sq))
         if self.verbose: print("boosted: {}".format(q_z))
         if self.verbose: print("boosted squared: {}".format(q_z2))
-        self.assertTrue(round(q_z2.t, 12) == round(q1_sq.t, 12))
+        print("{}")
+        self.assertTrue(round(q_z2.t, 5) == round(q1_sq.t, 5))
 
     def test_g_shift(self):
         q1 = self.Q.dupe()
         q1_sq = q1.square()
         q_z = q1.g_shift(0.003)
         q_z2 = q_z.square()
+        q_z_minimal = q1.g_shift(0.003, g_form="minimal")
+        q_z2_minimal = q_z_minimal.square()
         if self.verbose: print("q1_sq: {}".format(q1_sq))
         if self.verbose: print("g_shift: {}".format(q_z))
         if self.verbose: print("g squared: {}".format(q_z2))
@@ -541,6 +557,10 @@ class TestQh(unittest.TestCase):
         self.assertTrue(q_z2.x == q1_sq.x)
         self.assertTrue(q_z2.y == q1_sq.y)
         self.assertTrue(q_z2.z == q1_sq.z)
+        self.assertTrue(q_z2_minimal.t != q1_sq.t)
+        self.assertTrue(q_z2_minimal.x == q1_sq.x)
+        self.assertTrue(q_z2_minimal.y == q1_sq.y)
+        self.assertTrue(q_z2_minimal.z == q1_sq.z)
 
 
 # In[5]:
@@ -731,7 +751,7 @@ unittest.TextTestRunner().run(suite);
 
 # Write a class to handle quaternions given 8 numbers.
 
-# In[9]:
+# In[20]:
 
 class Qq:
     """Quaternions on a quaternion manifold or space-time numbers."""
@@ -1026,9 +1046,20 @@ class Qq:
     # which proposes that if one changes the distance from a gravitational source, then
     # squares a measurement, the observers at two different hieghts agree to their
     # space-times-time values, but not the intervals.
-    def g_shift(self, dimensionless_g, qtype="g_shift"):
+    def g_shift(self, dimensionless_g, g_form="exp", qtype="g_shift"):
         """Shift an observation based on a dimensionless GM/c^2 dR."""
         
+        if g_form == "exp":
+            g_factor = exp(dimensionless_g)
+            if qtype == "g_shift":
+                qtype = "g_exp"
+        elif g_form == "minimal":
+            g_factor = 1 + 2 * dimensionless_g + 2 * dimensionless_g ** 2
+            if qtype == "g_shift":
+                qtype = "g_minimal"
+        else:
+            print("g_form not defined, should be 'exp' or 'minimal': {}".format(g_form))
+            return self
         exp_g = exp(dimensionless_g)
         
         g_q = Qq(qtype=self.qtype)
@@ -1041,7 +1072,7 @@ class Qq:
         return g_q
 
 
-# In[10]:
+# In[21]:
 
 class TestQq(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
@@ -1288,7 +1319,7 @@ class TestQq(unittest.TestCase):
         self.assertTrue(q_z2.dz.n == q1_sq.dz.n)
 
 
-# In[11]:
+# In[22]:
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQq())
 unittest.TextTestRunner().run(suite);
@@ -1305,19 +1336,34 @@ unittest.TextTestRunner().run(suite);
 
 # In[12]:
 
+def round_sig_figs(num, sig_figs):
+    """Round to specified number of sigfigs.
+
+    # from http://code.activestate.com/recipes/578114-round-number-to-specified-number-of-significant-di/
+    """
+    if num != 0:
+        return round(num, -int(math.floor(math.log10(abs(num))) - (sig_figs - 1)))
+    else:
+        return 0  # Can't take the log of 0
+
+
+# In[13]:
+
 class EQ():
     """A class that compairs pairs of quaternions."""
     
-    round_to = 13
-    
+    # Read images in once for the class.
     eq_images = {}
+    qtd_dir =  os.path.dirname(IPython.utils.path.filefind('Q_tool_devo.ipynb'))
+    im_dir = "{qd}/images/eq_classes".format(qd=qtd_dir)
+    im_files = "{imd}/*png".format(imd=im_dir)
 
-    for eq_image_file in glob("images/eq_classes/*png"):
+    for eq_image_file in glob(im_files):
         file_name = basename(eq_image_file)
         eq_class_name = (file_name.split(sep='.'))[0]
         eq_images[eq_class_name] = mpimg.imread(eq_image_file)
-    
-    def __init__(self, q1, q2):
+        
+    def __init__(self, q1, q2, sig_figs=10):
         
         # Convert the quaternions into the Qq reduced form.
         if isinstance(q1, Qh):
@@ -1331,7 +1377,7 @@ class EQ():
             
         elif(isinstance(q2, Qq)):
             self.q2 = q2.reduce()
-                        
+                
         # The quaternions used by this class are
         # linear, square, and the norm of a quaternion so do the calculations once.
         
@@ -1343,6 +1389,7 @@ class EQ():
 
         # Store results here
         self.classes = {}
+        self.sig_figs = sig_figs
 
     def get_class(self, q1, q2, names, position):
         """A general tool to figure out a scalar class. 
@@ -1356,14 +1403,14 @@ class EQ():
         # Since the quaternions in the Qq form are reduced just look for non-zero values.
         if q1_d[position].p and q2_d[position].p:
 
-            if round(q1_d[position].p, self.round_to) == round(q2_d[position].p, self.round_to):
+            if round_sig_figs(q1_d[position].p, self.sig_figs) == round_sig_figs(q2_d[position].p, self.sig_figs):
                 result = "{np}_exact".format(np=names["positive"])
             else:
                 result = "{np}".format(np=names["positive"])
                 
         elif q1_d[position].n and q2_d[position].n:
             
-            if round(q1_d[position].n, self.round_to) == round(q2_d[position].n, self.round_to):
+            if round_sig_figs(q1_d[position].n, self.sig_figs) == round_sig_figs(q2_d[position].n, self.sig_figs):
                 result = "{nn}_exact".format(nn=names["negative"])
             else:
                 result = "{nn}".format(nn=names["negative"])
@@ -1493,11 +1540,9 @@ class EQ():
             ax21.imshow(self.eq_images['space-1_' + self.classes['space-1']])
             plt.axis('off');
 
-
             ax22 = fig.add_subplot(3, 5, 7)
             ax22.imshow(self.eq_images['space-2_' + self.classes['space-2']])
             plt.axis('off');
-
 
             ax23 = fig.add_subplot(3, 5, 12)
             ax23.imshow(self.eq_images['space-3_' + self.classes['space-3']])
@@ -1625,7 +1670,7 @@ class EQ():
     
 
 
-# In[13]:
+# In[14]:
 
 class TestEQ(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
@@ -1734,13 +1779,13 @@ class TestEQ(unittest.TestCase):
         self.assertTrue(eq_small_tiny.norm_of_unity() == 'less_than_unity')
 
 
-# In[14]:
+# In[15]:
 
 suite = unittest.TestLoader().loadTestsFromModule(TestEQ())
 unittest.TextTestRunner().run(suite);
 
 
-# In[15]:
+# In[16]:
 
 E1 = Qh([0, 0, 0, 0])
 E2 = Qh([1,1,0,0])
@@ -1749,108 +1794,24 @@ eq_E12 = EQ(E1, E2)
 eq_E13 = EQ(E1, E3)
 eq_E23 = EQ(E2, E3)
 print(eq_E12)
-print(eq_E13)
-print(eq_E23)
-
-
-# In[16]:
-
-origin_shift = Qh([4, 0, 0, 5])
-E1_shift = Qh([0, 0, 0, 0]).add(origin_shift)
-E2_shift = Qh([1,1,0,0]).add(origin_shift)
-E3_shift = Qh([2,0, 0, 0]).add(origin_shift)
-eq_E12_shift = EQ(E1_shift, E2_shift)
-eq_E13_shift = EQ(E1_shift, E3_shift)
-eq_E23_shift = EQ(E2_shift, E3_shift)
-print(eq_E12_shift)
+eq_E12.visualize()
 
 
 # In[17]:
 
-dif_E1_E2 = E1.dif(E2)
-dif_E1_E3 = E1.dif(E3)
-dif_E2_E3 = E2.dif(E3)
-eq_dif_E1_E2_E1_E3 = EQ(dif_E1_E2, dif_E1_E3)
-eq_dif_E1_E2_E2_E3 = EQ(dif_E1_E2, dif_E2_E3)
-eq_dif_E1_E3_E2_E3 = EQ(dif_E1_E3, dif_E2_E3)
-print(eq_dif_E1_E2_E1_E3)
-print(eq_dif_E1_E2_E2_E3)
-print(eq_dif_E1_E3_E2_E3)
+print(eq_E13)
+eq_E13.visualize()
 
 
 # In[18]:
 
-dif_E1_E2_shift = E1_shift.dif(E2_shift)
-dif_E1_E3_shift = E1_shift.dif(E3_shift)
-dif_E2_E3_shift = E2_shift.dif(E3_shift)
-eq_dif_E1_E2_E1_E3_shift = EQ(dif_E1_E2_shift, dif_E1_E3_shift)
-eq_dif_E1_E2_E2_E3_shift = EQ(dif_E1_E2_shift, dif_E2_E3_shift)
-eq_dif_E1_E3_E2_E3_shift = EQ(dif_E1_E3_shift, dif_E2_E3_shift)
-print(eq_dif_E1_E2_E1_E3_shift)
-print(eq_dif_E1_E2_E2_E3_shift)
-print(eq_dif_E1_E3_E2_E3_shift)
+print(eq_E23)
+eq_E23.visualize()
 
 
-# In[19]:
-
-pprint(eq_dif_E1_E2_E2_E3_shift.classes)
-pprint(eq_dif_E1_E2_E2_E3_shift.eq_images.keys())
-print(eq_dif_E1_E2_E2_E3_shift)
-eq_dif_E1_E2_E2_E3_shift.visualize()
+# In[ ]:
 
 
-# In[20]:
-
-eq_dif_E1_E2_E2_E3_shift.visualize()
-
-
-# In[21]:
-
-eq_dif_E1_E2_E2_E3_shift.visualize(eq_dif_E1_E2_E2_E3_shift)
-
-
-# In[22]:
-
-dir(Qq)
-
-
-# In[23]:
-
-u=Qq([1,2,3,4])
-r=Qq([5,6,7,8])
-
-
-# In[24]:
-
-rrotated=u.triple_product(r, u.invert())
-
-
-# In[25]:
-
-print(rrotated)
-print(rrotated.reduce())
-
-rn = r.norm()
-rrn = rrotated.norm()
-# In[26]:
-
-print(r.norm())
-print(rrotated.norm())
-print(rrotated.norm().reduce())
-
-
-# In[27]:
-
-Q = Qh([1, -2, -3, -4], qtype="Q")
-P = Qh([0, 4, -3, 0], qtype="P")
-dpN = P.dif(Q).norm()
-print(dpN)
-Qrot = Q.rotate(.1, .2, .3)
-Prot = P.rotate(.1, .2, .3)
-dprotN = Prot.dif(Qrot).norm()
-print(dprotN)
-print(P.dif(Q).rotate(.1, .2, .3).norm())
-print(dpN.dif(dprotN))
 
 
 # In[ ]:
