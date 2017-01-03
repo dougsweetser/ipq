@@ -49,9 +49,18 @@ Lie group is simpler than a non-compact one, and the form of the operation had
 to change. It is not that bad, but it is different to do a boost. The details
 of how to do a boost are in the "Tools" notebook.
 
-A notebook that remains under development concerns my new approach to graviy,
-space-times-times invariance as gravity. It is all about equivalence classes,
-ways we can say things are similar or exactly the same.
+*Observing Billiards Using Space-time Numbers*
+
+This iPython notebook shows that space-time numbers can be used for simple
+observerations of events.
+
+[Billiards](https://github.com/dougsweetser/ipq/blob/master/q_notebook/billiard_calculations.ipynb)
+
+The space-times-time equivalence class for gravity proposal is demonstrated.
+
+Another iPython notebook for the gravity proposal is under development. It is
+all about equivalence classes, ways we can say things are similar or exactly
+the same.
 
 [A Padantic Introduction to the Quaternion Gravity Proposal](https://github.com/dougsweetser/ipq/blob/master/q_notebook/QG_intro.ipynb)
 
