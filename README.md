@@ -16,7 +16,7 @@ iPython jupyter notebook should "just work".
 To get my software, open up a terminal and type:
 ```
 > git clone https://github.com/dougsweetser/ipq
-> cd ipq/q\_notebooks
+> cd ipq/q_notebooks
 > jupyter notebook
 ```
 This should start the notebook server in your default browser.
