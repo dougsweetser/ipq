@@ -11,14 +11,14 @@ that I study because it starts from group theory at its foundation.
 If you are new to the world of github and iPython, go watch a tutorial or two.
 For the python, I recommend installing [anaconda from Continuum Analytics.](https://www.continuum.io/downloads)
 It should install on Windows, Mac OS, and Linux machines. Once install, an
-iPython notebook should "just work".
+iPython jupyter notebook should "just work".
 
 To get my software, open up a terminal and type:
-
+```
 > git clone https://github.com/dougsweetser/ipq
 > cd ipq/q\_notebooks
 > jupyter notebook
-
+```
 This should start the notebook server in your default browser.
 
 ## The iPython Notebooks
