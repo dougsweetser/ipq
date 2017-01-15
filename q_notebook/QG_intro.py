@@ -16,7 +16,7 @@
 # I decided to create my own tools for quaternions from scratch. Why? This is the opening few paragraphs of my "Q_tool_devo" notebook:
 
 #     In this notebook, tools for working with quaternions for physics issues are developed. 
-#     The class Qh treat quaternions as Hamilton would have done: as a 4-vector over the real numbers.
+#     The class QH treat quaternions as Hamilton would have done: as a 4-vector over the real numbers.
 
 #     In physics, group theory plays a central role in the fundamental forces of Nature via 
 #     the standard model. The  gauge symmetry U(1) a unit circle in the complex plane leads 
@@ -24,7 +24,7 @@
 #     the weak force which leads to beta decay. The group SU(3) is the symmetry of the strong
 #     force that keeps a nucleus together.
 
-#     The class Qq was written in the hope that group theory would be written in first, not
+#     The class Q8 was written in the hope that group theory would be written in first, not
 #     added as needed later. I call these "space-time numbers". The problem with such an
 #     approach is that one does not use the mathematical field of real numbers. Instead one
 #     relies on the set of positive reals. In some ways, this is like reverse engineering some
@@ -34,10 +34,10 @@
 #     placeholder for the sign or not. All floats are signed. The modulo operations that work
 #     for unsigned integers does not work for floats.
 
-#      Test driven development was used. The same tests for class Qh were used for Qq.  Either
+#      Test driven development was used. The same tests for class QH were used for Q8.  Either
 #      class can be used to study quaternions in physics.
 
-# Here is a list of the functions that were written for the Qq classes:
+# Here is a list of the functions that were written for the Q8 classes:
 
 #     abs_of_q, abs_of_vector, add, all_products, anti_commuting_products, boost,
 #     commuting_products, conj, dif, divide_by, g_shift, invert, norm, norm_of_vector, 
@@ -45,9 +45,9 @@
 
 # Like all long list, this makes for dull prose. I had a little fun breaking up the multiplication product into the commuting and anticommuting parts.
 
-# The most unusual method is "reduce". The Qq class uses 8 positive numbers to represent a quaternion. Any number can be represented an inifinite number of ways, so long as the difference between the positive and negative number remains the same. There is however only one reduced form for a number. That will have either the positive or its additive inverse set to zero (both can be zero also). It is mildly amusing to see a complicated calculation that fills up all eight slots that after the reduce step ends up with precisely the same result as appears from the Qh or Hamilton quaternion class that uses real numbers. It feels uncomfortable to me to see these eight numbers since it is not my experience with calculations. Numbers in Nature do deeply odd things (think of the great boson/fermion divide in how states should be filled). 
+# The most unusual method is "reduce". The Q8 class uses 8 positive numbers to represent a quaternion. Any number can be represented an inifinite number of ways, so long as the difference between the positive and negative number remains the same. There is however only one reduced form for a number. That will have either the positive or its additive inverse set to zero (both can be zero also). It is mildly amusing to see a complicated calculation that fills up all eight slots that after the reduce step ends up with precisely the same result as appears from the QH or Hamilton quaternion class that uses real numbers. It feels uncomfortable to me to see these eight numbers since it is not my experience with calculations. Numbers in Nature do deeply odd things (think of the great boson/fermion divide in how states should be filled). 
 
-# I program using a method called Test Driven Development. This means that all methods get a test so one knows each piece is working. That is critcal with programs since one typo will means a tool does not work as expected. The same tests were applied to the Hamilton Qq class as the Quaternion Group Q<sub>8</sub> class Qq. The reduced form of all Qq calculations are the same as the Qh class.
+# I program using a method called Test Driven Development. This means that all methods get a test so one knows each piece is working. That is critcal with programs since one typo will means a tool does not work as expected. The same tests were applied to the Hamilton Q8 class as the Quaternion Group Q<sub>8</sub> class Q8. The reduced form of all Q8 calculations are the same as the QH class.
 
 # If you have any interst it playing with the iPython notebook, feel free to clone it:
 # 
@@ -65,13 +65,13 @@
 
 # $$[f_e] = \{ q \in Q \,|\, f_e \sim q \;\rm{if} \; \rm{Re}(q) > 0 \; \rm{and} \; \rm{Re}(q) = \rm{Re}(f_e)\}$$
 
-# One question can be asked of a pair of quaternions: are they both in the future equivalence class, and if so, are they exactly equal to one another? This type of question was particularly easy to ask of with the Qq class in the reduced form. They would both be positive in the future if they had a non-zero time value. In the case that both were in the future, then one could ask futher if the values were the same, up to a defined rounding error. The computer code felt like it was doing basic set theory: a pair of numbers was in or out. No inequalities were needed.
+# One question can be asked of a pair of quaternions: are they both in the future equivalence class, and if so, are they exactly equal to one another? This type of question was particularly easy to ask of with the Q8 class in the reduced form. They would both be positive in the future if they had a non-zero time value. In the case that both were in the future, then one could ask futher if the values were the same, up to a defined rounding error. The computer code felt like it was doing basic set theory: a pair of numbers was in or out. No inequalities were needed.
 
 # The two classes are easy enough to graph:
 
 # ![sdf](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/time_future_future_exact.png)
 
-# Figuring out if a pair of events are both in the past works the same. This time one looks to see if they both have non-zero values in the additive inverse (aka negative) time slot of the Qq class. The same function was used, but telling the function to look at the additive inverses.
+# Figuring out if a pair of events are both in the past works the same. This time one looks to see if they both have non-zero values in the additive inverse (aka negative) time slot of the Q8 class. The same function was used, but telling the function to look at the additive inverses.
 
 # One can also see if both numbers are neither positive or negative. That only happens if the value of time is zero, or now. If so, the pair events gets marked as now exact.
 

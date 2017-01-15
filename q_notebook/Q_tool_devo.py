@@ -3,13 +3,13 @@
 
 # # Developing Quaternion and Space-time Number Tools for iPython3
 
-# In this notebook, tools for working with quaternions for physics issues are developed. The class Qh treat quaternions as Hamilton would have done: as a 4-vector over the real numbers. 
+# In this notebook, tools for working with quaternions for physics issues are developed. The class QH treat quaternions as Hamilton would have done: as a 4-vector over the real numbers. 
 # 
 # In physics, group theory plays a central role in the fundamental forces of Nature via the standard model. The gauge symmetry U(1) a unit circle in the complex plane leads to electric charge conservation. The unit quaternions SU(2) is the symmetry needed for the weak force which leads to beta decay. The group SU(3) is the symmetry of the strong force that keeps a nucleus together.
 # 
-# The class Qq was written in the hope that group theory would be written in first, not added as needed later. I call these "space-time numbers". The problem with such an approach is that one does not use the mathematical field of real numbers. Instead one relies on the set of positive reals. In some ways, this is like reverse engineering some basic computer science. Libraries written in C have a notion of a signed versus unsigned integer. The signed integer behaves like the familiar integers. The unsigned integer is like the positive integers. The difference between the two is whether there is a placeholder for the sign or not. All floats are signed. The modulo operations that work for unsigned integers does not work for floats.
+# The class Q8 was written in the hope that group theory would be written in first, not added as needed later. I call these "space-time numbers". The problem with such an approach is that one does not use the mathematical field of real numbers. Instead one relies on the set of positive reals. In some ways, this is like reverse engineering some basic computer science. Libraries written in C have a notion of a signed versus unsigned integer. The signed integer behaves like the familiar integers. The unsigned integer is like the positive integers. The difference between the two is whether there is a placeholder for the sign or not. All floats are signed. The modulo operations that work for unsigned integers does not work for floats.
 # 
-# Test driven development was used. The same tests for class Qh were used for Qq.  Either class can be used to study quaternions in physics.
+# Test driven development was used. The same tests for class QH were used for Q8.  Either class can be used to study quaternions in physics.
 
 # In[1]:
 
@@ -42,11 +42,11 @@ def sr_gamma_betas(beta_x=0, beta_y=0, beta_z=0):
     return [g, g * beta_x, g * beta_y, g * beta_z]
 
 
-# Define a class Qh to manipulate quaternions as Hamilton would have done it so many years ago. The "qtype" is a little bit of text to leave a trail of breadcrumbs about how a particular quaternion was generated.
+# Define a class QH to manipulate quaternions as Hamilton would have done it so many years ago. The "qtype" is a little bit of text to leave a trail of breadcrumbs about how a particular quaternion was generated.
 
 # In[3]:
 
-class Qh:
+class QH:
     """Quaternions as Hamilton would have defined them, on the manifold R^4."""
 
     def __init__(self, values=None, qtype="Q"):
@@ -67,23 +67,23 @@ class Qh:
     def q_0(self, qtype="Zero"):
         """Return a zero quaternion."""
 
-        return Qh([0, 0, 0, 0], qtype=qtype)
+        return QH([0, 0, 0, 0], qtype=qtype)
 
     def q_1(self, qtype="One"):
         """Return a multiplicative identity quaternion."""
 
-        return Qh([1, 0, 0, 0], qtype=qtype)
+        return QH([1, 0, 0, 0], qtype=qtype)
     
     def dupe(self, qtype=""):
         """Return a duplicate copy, good for testing since qtypes persist"""
         
-        return Qh([self.t, self.x, self.y, self.z], qtype=self.qtype)
+        return QH([self.t, self.x, self.y, self.z], qtype=self.qtype)
     
     def conj(self, conj_type=0, qtype="*"):
         """Three types of conjugates."""
 
         t, x, y, z = self.t, self.x, self.y, self.z
-        conjq = Qh(qtype=self.qtype)
+        conjq = QH(qtype=self.qtype)
 
         if conj_type == 0:
             conjq.t = t
@@ -153,7 +153,7 @@ class Qh:
 
         qxq = self.commuting_products(self)
 
-        sq_q = Qh(qtype=self.qtype)
+        sq_q = QH(qtype=self.qtype)
         sq_q.t = qxq['tt'] - qxq['xx+yy+zz']
         sq_q.x = qxq['tx+xt']
         sq_q.y = qxq['ty+yt']
@@ -167,7 +167,7 @@ class Qh:
 
         qxq = self.commuting_products(self)
 
-        n_q = Qh(qtype=self.qtype)
+        n_q = QH(qtype=self.qtype)
         n_q.t = qxq['tt'] + qxq['xx+yy+zz']
 
         n_q.add_qtype(qtype)
@@ -178,7 +178,7 @@ class Qh:
 
         qxq = self.commuting_products(self)
 
-        nv_q = Qh(qtype=self.qtype)
+        nv_q = QH(qtype=self.qtype)
         nv_q.t = qxq['xx+yy+zz']
 
         nv_q.add_qtype(qtype)
@@ -212,7 +212,7 @@ class Qh:
         t_1, x_1, y_1, z_1 = self.t, self.x, self.y, self.z
         t_2, x_2, y_2, z_2 = qh_1.t, qh_1.x, qh_1.y, qh_1.z
 
-        add_q = Qh()
+        add_q = QH()
         add_q.t = t_1 + t_2
         add_q.x = x_1 + x_2
         add_q.y = y_1 + y_2
@@ -231,7 +231,7 @@ class Qh:
         t_1, x_1, y_1, z_1 = self.t, self.x, self.y, self.z
         t_2, x_2, y_2, z_2 = qh_1.t, qh_1.x, qh_1.y, qh_1.z
 
-        dif_q = Qh()
+        dif_q = QH()
         dif_q.t = t_1 - t_2
         dif_q.x = x_1 - x_2
         dif_q.y = y_1 - y_2
@@ -248,7 +248,7 @@ class Qh:
         """Form a product given 2 quaternions."""
 
         qxq = self.all_products(q1)
-        pq = Qh()
+        pq = QH()
         pq.t = qxq['tt'] - qxq['xx+yy+zz']
         pq.x = qxq['tx+xt'] + qxq['yz-zy']
         pq.y = qxq['ty+yt'] + qxq['zx-xz']
@@ -271,7 +271,7 @@ class Qh:
             print("oops, zero on the norm.")
             return self.q0()
 
-        q_norm_inv = Qh([1.0 / q_norm.t, 0, 0, 0])
+        q_norm_inv = QH([1.0 / q_norm.t, 0, 0, 0])
         q_inv = q_conj.product(q_norm_inv, qtype=self.qtype)
         
         q_inv.add_qtype(qtype)
@@ -301,7 +301,7 @@ class Qh:
     def rotate(self, a_1=0, a_2=0, a_3=0, qtype="rot"):
         """Do a rotation given up to three angles."""
 
-        u = Qh([0, a_1, a_2, a_3])
+        u = QH([0, a_1, a_2, a_3])
         u_abs = u.abs_of_q()
         u_normalized = u.divide_by(u_abs)
 
@@ -318,7 +318,7 @@ class Qh:
     def boost(self, beta_x=0, beta_y=0, beta_z=0, qtype="boost"):
         """A boost along the x, y, and/or z axis."""
 
-        boost = Qh(sr_gamma_betas(beta_x, beta_y, beta_z))      
+        boost = QH(sr_gamma_betas(beta_x, beta_y, beta_z))      
         b_conj = boost.conj()
 
         triple_1 = boost.triple_product(self, b_conj)
@@ -326,7 +326,7 @@ class Qh:
         triple_3 = b_conj.triple_product(b_conj, self).conj()
       
         triple_23 = triple_2.dif(triple_3)
-        half_23 = triple_23.product(Qh([0.5, 0, 0, 0]))
+        half_23 = triple_23.product(QH([0.5, 0, 0, 0]))
         triple_123 = triple_1.add(half_23, qtype=self.qtype)
         
         triple_123.add_qtype(qtype)
@@ -349,7 +349,7 @@ class Qh:
             print("g_form not defined, should be 'exp' or 'minimal': {}".format(g_form))
             return self
 
-        g_q = Qh(qtype=self.qtype)
+        g_q = QH(qtype=self.qtype)
         g_q.t = self.t / g_factor
         g_q.x = self.x * g_factor
         g_q.y = self.y * g_factor
@@ -359,15 +359,15 @@ class Qh:
         return g_q
 
 
-# Write tests the Qh class.
+# Write tests the QH class.
 
 # In[4]:
 
-class TestQh(unittest.TestCase):
+class TestQH(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
 
-    Q = Qh([1, -2, -3, -4], qtype="Q")
-    P = Qh([0, 4, -3, 0], qtype="P")
+    Q = QH([1, -2, -3, -4], qtype="Q")
+    P = QH([0, 4, -3, 0], qtype="P")
     verbose = True
 
     def test_qt(self):
@@ -565,7 +565,7 @@ class TestQh(unittest.TestCase):
 
 # In[5]:
 
-suite = unittest.TestLoader().loadTestsFromModule(TestQh())
+suite = unittest.TestLoader().loadTestsFromModule(TestQH())
 unittest.TextTestRunner().run(suite);
 
 
@@ -753,7 +753,7 @@ unittest.TextTestRunner().run(suite);
 
 # In[20]:
 
-class Qq:
+class Q8:
     """Quaternions on a quaternion manifold or space-time numbers."""
 
     def __init__(self, values=None, qtype="Q"):
@@ -793,17 +793,17 @@ class Qq:
     def q_zero(self, qtype="Zero"):
         """Return a zero quaternion."""
         
-        return Qq()
+        return Q8()
       
     def q_one(self, qtype="One"):
         """Return a multiplicative identity quaternion."""
         
-        return Qq([1, 0, 0, 0])
+        return Q8([1, 0, 0, 0])
     
     def conj(self, conj_type=0, qtype="*"):
         """Three types of conjugates."""
         
-        conjq = Qq(qtype=self.qtype)
+        conjq = Q8(qtype=self.qtype)
 
         if conj_type == 0:
             conjq.dt = self.dt
@@ -862,7 +862,7 @@ class Qq:
         
         qxq = self.commuting_products(self)
         
-        sq_q = Qq(qtype=self.qtype)        
+        sq_q = Q8(qtype=self.qtype)        
         sq_q.dt = qxq['tt'].d_dif(qxq['xx+yy+zz'])
         sq_q.dx = qxq['tx+xt']
         sq_q.dy = qxq['ty+yt']
@@ -875,7 +875,7 @@ class Qq:
     def reduce(self, qtype="reduce"):
         """Put all doublets into the reduced form so one of each pair is zero."""
 
-        q_red = Qq(qtype=self.qtype)
+        q_red = Q8(qtype=self.qtype)
         q_red.dt = self.dt.d_reduce()
         q_red.dx = self.dx.d_reduce()
         q_red.dy = self.dy.d_reduce()
@@ -889,7 +889,7 @@ class Qq:
         
         qxq = self.commuting_products(self)
         
-        n_q = Qq(qtype=self.qtype)        
+        n_q = Q8(qtype=self.qtype)        
         n_q.dt = qxq['tt'].d_add(qxq['xx+yy+zz'])
 
         n_q.add_qtype(qtype)
@@ -900,7 +900,7 @@ class Qq:
         
         qxq = self.commuting_products(self)
         
-        nv_q = Qq(qtype=self.qtype)
+        nv_q = Q8(qtype=self.qtype)
         nv_q.dt = qxq['xx+yy+zz']
 
         nv_q.add_qtype(qtype)
@@ -931,7 +931,7 @@ class Qq:
     def add(self, q1, qtype=""):
         """Form a add given 2 quaternions."""
 
-        add_q = Qq()
+        add_q = Q8()
         add_q.dt = self.dt.d_add(q1.dt)
         add_q.dx = self.dx.d_add(q1.dx)
         add_q.dy = self.dy.d_add(q1.dy)
@@ -947,7 +947,7 @@ class Qq:
     def dif(self, q1, qtype=""):
         """Form a add given 2 quaternions."""
 
-        dif_q = Qq()
+        dif_q = Q8()
         dif_q.dt = self.dt.d_dif(q1.dt)
         dif_q.dx = self.dx.d_dif(q1.dx)
         dif_q.dy = self.dy.d_dif(q1.dy)
@@ -964,7 +964,7 @@ class Qq:
         """Form a product given 2 quaternions."""
 
         qxq = self.all_products(q1)
-        pq = Qq()
+        pq = Q8()
         pq.dt = qxq['tt'].d_dif(qxq['xx+yy+zz'])
         pq.dx = qxq['tx+xt'].d_add(qxq['yz-zy'])
         pq.dy = qxq['ty+yt'].d_add(qxq['zx-xz'])
@@ -986,7 +986,7 @@ class Qq:
         if q_norm.dt.p == 0:
             return self.q0()
         
-        q_norm_inv = Qq([1.0 / q_norm.dt.p, 0, 0, 0, 0, 0, 0, 0])
+        q_norm_inv = Q8([1.0 / q_norm.dt.p, 0, 0, 0, 0, 0, 0, 0])
         q_inv = q_conj.product(q_norm_inv, qtype=self.qtype)
         
         q_inv.add_qtype(qtype)
@@ -1016,7 +1016,7 @@ class Qq:
     def rotate(self, a_1p=0, a_1n=0, a_2p=0, a_2n=0, a_3p=0, a_3n=0):
         """Do a rotation given up to three angles."""
     
-        u = Qq([0, 0, a_1p, a_1n, a_2p, a_2n, a_3p, a_3n])
+        u = Q8([0, 0, a_1p, a_1n, a_2p, a_2n, a_3p, a_3n])
         u_abs = u.abs_of_q()
         u_normalized = u.divide_by(u_abs)
 
@@ -1028,7 +1028,7 @@ class Qq:
     def boost(self, beta_x=0, beta_y=0, beta_z=0, qtype="boost"):
         """A boost along the x, y, and/or z axis."""
         
-        boost = Qq(sr_gamma_betas(beta_x, beta_y, beta_z))
+        boost = Q8(sr_gamma_betas(beta_x, beta_y, beta_z))
         b_conj = boost.conj()
         
         triple_1 = boost.triple_product(self, b_conj)
@@ -1036,7 +1036,7 @@ class Qq:
         triple_3 = b_conj.triple_product(b_conj, self).conj()
               
         triple_23 = triple_2.dif(triple_3)
-        half_23 = triple_23.product(Qq([0.5, 0, 0, 0, 0, 0, 0, 0]))
+        half_23 = triple_23.product(Q8([0.5, 0, 0, 0, 0, 0, 0, 0]))
         triple_123 = triple_1.add(half_23, qtype=self.qtype)
         
         triple_123.add_qtype(qtype)
@@ -1062,7 +1062,7 @@ class Qq:
             return self
         exp_g = exp(dimensionless_g)
         
-        g_q = Qq(qtype=self.qtype)
+        g_q = Q8(qtype=self.qtype)
         g_q.dt = Doublet([self.dt.p / exp_g, self.dt.n / exp_g])
         g_q.dx = Doublet([self.dx.p * exp_g, self.dx.n * exp_g])
         g_q.dy = Doublet([self.dy.p * exp_g, self.dy.n * exp_g])
@@ -1074,12 +1074,12 @@ class Qq:
 
 # In[21]:
 
-class TestQq(unittest.TestCase):
+class TestQ8(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
     
-    q1 = Qq([1, 0, 0, 2, 0, 3, 0, 4])
-    q2 = Qq([0, 0, 4, 0, 0, 3, 0, 0])
-    q_big = Qq([1, 2, 3, 4, 5, 6, 7, 8])
+    q1 = Q8([1, 0, 0, 2, 0, 3, 0, 4])
+    q2 = Q8([0, 0, 4, 0, 0, 3, 0, 0])
+    q_big = Q8([1, 2, 3, 4, 5, 6, 7, 8])
     verbose = True
     
     def test_qt(self):
@@ -1321,7 +1321,7 @@ class TestQq(unittest.TestCase):
 
 # In[22]:
 
-suite = unittest.TestLoader().loadTestsFromModule(TestQq())
+suite = unittest.TestLoader().loadTestsFromModule(TestQ8())
 unittest.TextTestRunner().run(suite);
 
 
@@ -1365,17 +1365,17 @@ class EQ():
         
     def __init__(self, q1, q2, sig_figs=10):
         
-        # Convert the quaternions into the Qq reduced form.
-        if isinstance(q1, Qh):
-            self.q1 = Qq([q1.t, q1.x, q1.y, q1.z])
+        # Convert the quaternions into the Q8 reduced form.
+        if isinstance(q1, QH):
+            self.q1 = Q8([q1.t, q1.x, q1.y, q1.z])
         
-        elif(isinstance(q1, Qq)):
+        elif(isinstance(q1, Q8)):
             self.q1 = q1.reduce()
             
-        if isinstance(q2, Qh):
-            self.q2 = Qq([q2.t, q2.x, q2.y, q2.z])
+        if isinstance(q2, QH):
+            self.q2 = Q8([q2.t, q2.x, q2.y, q2.z])
             
-        elif(isinstance(q2, Qq)):
+        elif(isinstance(q2, Q8)):
             self.q2 = q2.reduce()
                 
         # The quaternions used by this class are
@@ -1400,7 +1400,7 @@ class EQ():
         q2_d = {'dt': q2.dt, 'dy': q2.dy, 'dx': q2.dx, 'dz': q2.dz}
 
         
-        # Since the quaternions in the Qq form are reduced just look for non-zero values.
+        # Since the quaternions in the Q8 form are reduced just look for non-zero values.
         if q1_d[position].p and q2_d[position].p:
 
             if round_sig_figs(q1_d[position].p, self.sig_figs) == round_sig_figs(q2_d[position].p, self.sig_figs):
@@ -1656,12 +1656,12 @@ class EQ():
         
         result = "The equivalence classes for this pair of events are as follows...\n"
         
-        result += "q1: {}\n".format(Qh(self.q1.q4()))
-        result += "q2: {}\n".format(Qh(self.q2.q4()))
-        result += "q1_squared: {}\n".format(Qh(self.q1_square.q4()))
-        result += "q2_squared: {}\n".format(Qh(self.q2_square.q4()))
-        result += "q1_norm -1: {}\n".format(Qh(self.q1_norm_minus_1.q4()))
-        result += "q2_norm -1: {}\n".format(Qh(self.q2_norm_minus_1.q4()))
+        result += "q1: {}\n".format(QH(self.q1.q4()))
+        result += "q2: {}\n".format(QH(self.q2.q4()))
+        result += "q1_squared: {}\n".format(QH(self.q1_square.q4()))
+        result += "q2_squared: {}\n".format(QH(self.q2_square.q4()))
+        result += "q1_norm -1: {}\n".format(QH(self.q1_norm_minus_1.q4()))
+        result += "q2_norm -1: {}\n".format(QH(self.q2_norm_minus_1.q4()))
         
         for class_name in class_names:
             result += "{cn:>20}: {c}\n".format(cn=class_name, c=self.classes[class_name])
@@ -1675,8 +1675,8 @@ class EQ():
 class TestEQ(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
     
-    q1 = Qq([1.0, 0, 0, 2.0, 0, 3.0, 0, 4.0])
-    q2 = Qh([0, 4.0, -3.0, 0])
+    q1 = Q8([1.0, 0, 0, 2.0, 0, 3.0, 0, 4.0])
+    q2 = QH([0, 4.0, -3.0, 0])
     eq_11 = EQ(q1, q1)
     eq_12 = EQ(q1, q2)
     
@@ -1699,23 +1699,23 @@ class TestEQ(unittest.TestCase):
     
     def test_time(self):
         """Test all time equivalence classes."""
-        q_now = Qq()
+        q_now = Q8()
         eq_zero = EQ(q_now, q_now)
         self.assertTrue(eq_zero.time() == 'now_exact')
         self.assertTrue(self.eq_12.time() == 'disjoint')
-        q1f = Qh([4.0, 4.0, 4.0, 4.0])
-        q1fe = Qh([1.0, 4.0, 4.0, 4.0])
+        q1f = QH([4.0, 4.0, 4.0, 4.0])
+        q1fe = QH([1.0, 4.0, 4.0, 4.0])
         self.assertTrue(EQ(self.q1, q1f).time() == 'future')
         self.assertTrue(EQ(self.q1, q1fe).time() == 'future_exact')
-        q1p = Qh([-4.0, 4.0, 4.0, 4.0])
-        q1pe = Qh([-4.0, 1.0, 2.0, 3.0])
-        q1pp = Qh([-1.0, 1.0, 2.0, 3.0])
+        q1p = QH([-4.0, 4.0, 4.0, 4.0])
+        q1pe = QH([-4.0, 1.0, 2.0, 3.0])
+        q1pp = QH([-1.0, 1.0, 2.0, 3.0])
         self.assertTrue(EQ(q1p, q1pp).time() == 'past')
         self.assertTrue(EQ(q1p, q1pe).time() == 'past_exact')
         
     def test_space(self):
         """Test space equivalence class."""
-        q_now = Qq()
+        q_now = Q8()
         eq_zero = EQ(q_now, q_now)
         self.assertTrue(eq_zero.space()[0] == 'here_exact')
         self.assertTrue(eq_zero.space()[1] == 'here_exact')
@@ -1727,7 +1727,7 @@ class TestEQ(unittest.TestCase):
         self.assertTrue(self.eq_12.space()[1] == 'down_exact')
         self.assertTrue(self.eq_12.space()[2] == 'disjoint')
         
-        q_sp = Qq([1, 0, 0, 4, 0, 6, 0, 8])
+        q_sp = Q8([1, 0, 0, 4, 0, 6, 0, 8])
         eq_sp = EQ(self.q1, q_sp)
         self.assertTrue(eq_sp.space()[0] == 'left')
         self.assertTrue(eq_sp.space()[1] == 'down')
@@ -1735,14 +1735,14 @@ class TestEQ(unittest.TestCase):
         
     def test_causality(self):
         """Test all time equivalence classes."""
-        q_now = Qq()
+        q_now = Q8()
         eq_zero = EQ(q_now, q_now)
         self.assertTrue(eq_zero.causality() == 'light-like_exact')
         self.assertTrue(self.eq_12.causality() == 'space-like')
         self.assertTrue(self.eq_11.causality() == 'space-like_exact')
-        tl = Qq([4, 0, 0, 0, 0, 0, 0, 0])
-        t2 = Qq([5, 0, 0, 3, 0, 0, 0, 0])
-        t3 = Qq([5, 0, 3, 0, 1, 0, 0, 0])
+        tl = Q8([4, 0, 0, 0, 0, 0, 0, 0])
+        t2 = Q8([5, 0, 0, 3, 0, 0, 0, 0])
+        t3 = Q8([5, 0, 3, 0, 1, 0, 0, 0])
         eq_t1_t2 = EQ(tl, t2)
         eq_t1_t3 = EQ(tl, t3)
         self.assertTrue(eq_t1_t2.causality() == 'time-like_exact')
@@ -1750,7 +1750,7 @@ class TestEQ(unittest.TestCase):
 
     def test_space_times_time(self):
         """Test space equivalence class."""
-        q_now = Qq()
+        q_now = Q8()
         eq_zero = EQ(q_now, q_now)
         self.assertTrue(eq_zero.space_times_time()[0] == 'here-now_exact')
         self.assertTrue(eq_zero.space_times_time()[1] == 'here-now_exact')
@@ -1764,9 +1764,9 @@ class TestEQ(unittest.TestCase):
 
     def test_norm_of_unity(self):
         self.assertTrue(self.eq_11.norm_of_unity() == 'greater_than_unity_exact')
-        q_one = Qq([1, 0, 0, 0, 0, 0, 0, 0])
-        q_small = Qq([0.1, 0, 0, 0.2, 0, 0, 0, 0])
-        q_tiny = Qq([0.001, 0, 0, 0.002, 0, 0, 0, 0])
+        q_one = Q8([1, 0, 0, 0, 0, 0, 0, 0])
+        q_small = Q8([0.1, 0, 0, 0.2, 0, 0, 0, 0])
+        q_tiny = Q8([0.001, 0, 0, 0.002, 0, 0, 0, 0])
 
         eq_one = EQ(q_one, q_one)
         eq_q1_small = EQ(q_one, q_small)
@@ -1787,9 +1787,9 @@ unittest.TextTestRunner().run(suite);
 
 # In[16]:
 
-E1 = Qh([0, 0, 0, 0])
-E2 = Qh([1,1,0,0])
-E3 = Qh([2,0, 0, 0])
+E1 = QH([0, 0, 0, 0])
+E2 = QH([1,1,0,0])
+E3 = QH([2,0, 0, 0])
 eq_E12 = EQ(E1, E2)
 eq_E13 = EQ(E1, E3)
 eq_E23 = EQ(E2, E3)

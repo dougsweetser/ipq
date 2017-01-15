@@ -38,12 +38,12 @@
 
 # In[1]:
 
-get_ipython().run_cell_magic('capture', '', 'import Q_tool_devo as qtd;\nAq1=qtd.Qq([1470000000,0,1.1421,0,1.4220,0,0,0])\nAq2=qtd.Qq([1580000000,0,4.2966,0,0,0.3643,0,0])')
+get_ipython().run_cell_magic('capture', '', 'import Q_tool_devo as qtd;\nAq1=qtd.Q8([1470000000,0,1.1421,0,1.4220,0,0,0])\nAq2=qtd.Q8([1580000000,0,4.2966,0,0,0.3643,0,0])')
 
 
 # In[2]:
 
-q_scale = qtd.Qq([2.2119,0,0,0,0,0,0,0], qtype="S")
+q_scale = qtd.Q8([2.2119,0,0,0,0,0,0,0], qtype="S")
 Aq1s=Aq1.product(q_scale)
 Aq2s=Aq2.product(q_scale)
 print(Aq1s)
@@ -78,13 +78,13 @@ print(Adq2.reduce())
 
 # In[5]:
 
-Bq1=qtd.Qq([2470000000,0,0.8869,0,1.8700,0,0,0])
-Bq2=qtd.Qq([2580000000,0,3.9481,0,0,0.1064,0,0])
+Bq1=qtd.Q8([2470000000,0,0.8869,0,1.8700,0,0,0])
+Bq2=qtd.Q8([2580000000,0,3.9481,0,0,0.1064,0,0])
 Bq1s=Bq1.product(q_scale)
 Bq2s=Bq2.product(q_scale)
 Bdq=Bq2s.dif(Bq1s).reduce()
-Cq1=qtd.Qq([3470000000,0,1.1421,0,1.4220,0,1.3256,0])
-Cq2=qtd.Qq([3580000000,0,4.2966,0,0,0.3643,1.3256,0])
+Cq1=qtd.Q8([3470000000,0,1.1421,0,1.4220,0,1.3256,0])
+Cq2=qtd.Q8([3580000000,0,4.2966,0,0,0.3643,1.3256,0])
 Cq1s=Cq1.product(q_scale)
 Cq2s=Cq2.product(q_scale)
 Cdq=Cq2s.dif(Cq1s).reduce()
@@ -122,8 +122,8 @@ print(Cdq2)
 
 # In[8]:
 
-BRotq1=qtd.Qq([2470000000,0,0.519,0,1.9440,0,0,0])
-BRotq2=qtd.Qq([2580000000,0,3.9114,0,0.5492,0,0,0])
+BRotq1=qtd.Q8([2470000000,0,0.519,0,1.9440,0,0,0])
+BRotq2=qtd.Q8([2580000000,0,3.9114,0,0.5492,0,0,0])
 BRotdq2=BRotq1.product(q_scale).dif(BRotq2.product(q_scale)).reduce().square()
 print(BRotdq2)
 print(Bdq2)
@@ -154,15 +154,15 @@ def cyl_2_cart(q1):
     x = r * math.cos(a * math.pi / 180)
     y = r * math.sin(a * math.pi / 180)
     
-    return qtd.Qq([t, x, y, h])
+    return qtd.Q8([t, x, y, h])
 
 
 # For polar coordinates, measure directly the distance between the origin and the billiard ball. Then determine an angle. This constitutes a different approach to making a measurement.
 
 # In[10]:
 
-BPolarq1=cyl_2_cart(qtd.Qq([2470000000,0,2.0215,0, 68.0,0,0,0]))
-BPolarq2=cyl_2_cart(qtd.Qq([2580000000,0,3.9414,0,1.2,0,0,0]))
+BPolarq1=cyl_2_cart(qtd.Q8([2470000000,0,2.0215,0, 68.0,0,0,0]))
+BPolarq2=cyl_2_cart(qtd.Q8([2580000000,0,3.9414,0,1.2,0,0,0]))
 BPolardq2=BPolarq1.product(q_scale).dif(BPolarq2.product(q_scale)).reduce().square()
 print(BPolardq2)
 print(Bdq2)
