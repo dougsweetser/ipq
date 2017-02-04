@@ -260,14 +260,14 @@ qb.visualize()
 
 from sympy import symbols
 M = symbols('M')
-(1/(1 - 2 * M)).series(M, 0, n=2)
+(1/(1 - 2 * M)).series(M, 0, n=5)
 
 
 # Even in the "classical realm", the space-times-time equivalence class as gravity proposal is different from Newtonian gravity. From my brief study of the rotation of thin disk galaxies, this term is not applied to such calculations. This now strikes me as odd. The Schwarzschild solution has this same term, the "first order in M/R", yet only the dt correction is used in practice. The rotation profile calculation is quite complex, needing elliptical integrals. An analytic solution like that would be altered by this well know term. It will be interesting in time to explore if the extra term has consequences.
 
 # Since we are analyzing the square, the delta quaternion would be the square root of with these two terms that use the dimensionless gravitational length:
 
-# $$ \begin{align*} dq &= \left(\sqrt{1 - 2 \frac{G M}{c^2 R}} dt, \sqrt{1 + 2 \frac{G M}{c^2 R}} dR/c \right) \\ dq^2 &= \left( \left(1 - 2 \frac{G M}{c^2 R}\right) dt^2 - \left(1 + 2 \frac{G M}{c^2 R}\right) dR^2/c^2, 2 ~dt ~dR/c  \right) \\
+# $$ \begin{align*} dq &= \left(\sqrt{1 - 2 \frac{G M}{c^2 R}} dt, \frac{1}{\sqrt{1 - 2 \frac{G M}{c^2 R}}} dR/c \right) \\ dq^2 &= \left( \left(1 - 2 \frac{G M}{c^2 R}\right) dt^2 - \left(1 + 2 \frac{G M}{c^2 R} + O(2)\right) dR^2/c^2, 2 ~dt ~dR/c  \right) \\
 # &= \left( d\tau^2, 2 ~dt ~dR/c \right) \end{align*} $$
 
 # To be consistent with the weak gravity field tests and the algebraic constraints of the equivalence class proposal requires six terms not five:
@@ -279,7 +279,7 @@ M = symbols('M')
 
 # Here are the delta quaternion and its square in a gravity field that will be consistent with all weak field gravitational tests.
 
-# $$ \begin{align*} dq &= \left(\sqrt{1 - 2 \frac{G M}{c^2 R} + 2 \left(\frac{G M}{c^2 R}\right)^2} dt, \sqrt{1 + 2 \frac{G M}{c^2 R} + 2 \left(\frac{G M}{c^2 R}\right)^2} dR/c \right) \\ dq^2 &= \left( \left(1 - 2 \frac{G M}{c^2 R} + 2 \left(\frac{G M}{c^2 R}\right)^2\right) dt^2 - \left(1 + 2 \frac{G M}{c^2 R} + 2 \left(\frac{G M}{c^2 R}\right)^2\right) dR^2/c^2, 2 ~dt ~dR/c  \right) \\
+# $$ \begin{align*} dq &= \left(\sqrt{1 - 2 \frac{G M}{c^2 R} + 2 \left(\frac{G M}{c^2 R}\right)^2} dt, \frac{1}{\sqrt{1 - 2 \frac{G M}{c^2 R} + 2 \left(\frac{G M}{c^2 R}\right)^2}} dR/c \right) \\ dq^2 &= \left( \left(1 - 2 \frac{G M}{c^2 R} + 2 \left(\frac{G M}{c^2 R}\right)^2\right) dt^2 - \left(1 + 2 \frac{G M}{c^2 R} + 2 \left(\frac{G M}{c^2 R}\right)^2+O(3)\right) dR^2/c^2, 2 ~dt ~dR/c  \right) \\
 # &= \left( d\tau^2, 2 ~dt ~dR/c \right) \end{align*} $$
 
 # The second order term for $ dR^2 $ has consequences that are tricky to discuss. Notice that no mention has been made of metric, not field equations, nor covariant and contra-variant vectors. That is because numbers are tensors of rank 0 that are equipped with rules of multiplication and division. As discussed above, there are different representations of numbers like a Cartesian representation, a cylindrical representation, and a spherical representation. My default is to use the Cartesian representation because I find it simplest to manage.
@@ -360,7 +360,20 @@ eq_g.visualize()
 
 # Space-time numbers should feel odd. We expect numbers to be unique. Yet Nature plays unusual games with the numbers for particles such as boson versus fermion statistics. Space-time numbers may be rich enough to reflect these kinds of properties. This notebook represents a proof of concept.
 
+# In[24]:
+
+print(BPolardq2.reduce())
+print(Bdq2.reduce())
+print(Adq2.reduce())
+print(Cdq2.reduce())
+print(BPolardq2.norm_squared().reduce())
+print(Bdq2.norm_squared().reduce())
+print(Adq2.norm_squared().reduce())
+print(Cdq2.norm_squared().reduce())
+print(Bdq_boosted.norm_squared().reduce())
+
+
 # In[ ]:
 
-
+Cdq2.nor
 

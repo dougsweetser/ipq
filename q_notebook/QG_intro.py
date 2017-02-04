@@ -3,15 +3,15 @@
 
 # # A Padantic Introduction to the Quaternion Gravity Proposal
 
-# The quaternion gravity proposal is the imaginary twin of special relativity. Two observers record the difference between two events. When the difference written as quaternion is squared, if the real interval is identical and thus the imaginary parts hereby called space-times-time must have difference, this is the domain of special relativity. Special relativity is viewed as an equivalence class for the real part which uses a Lorentz transformation to go between the two. The space-times-time can be used to determine exactly the relative motion of the two observers.
+# The quaternion gravity proposal is the imaginary twin of special relativity. Two observers record the difference between two events. When the difference written as quaternion is squared, if the real interval is identical and thus the imaginary parts hereby called space-times-time must have differences, this is the domain of special relativity. Special relativity is viewed as an equivalence class for the real part which uses a Lorentz transformation to go between the two. The space-times-time can be used to determine exactly the relative motion of the two observers.
 
-# If the space-times-time values are identical, the real interval is different. This is what happens seamingly by chance in general relativity for the Schwarzschild solution in Schwarzschild coordinates outside a static, uncharged, non-rotating spherically-symmetric gravitational source mass. In the quaternion gravity proposal, observers that agree on the three space-times-time values is the equivalence class for gravity. Since this is an eqivalence class, there is a transformation that can be constructed between the two.
+# If the space-times-time values are identical, the real interval is different. This is what happens seemingly by chance in general relativity for the Schwarzschild solution in Schwarzschild coordinates outside a static, uncharged, non-rotating spherically-symmetric gravitational source mass. In the quaternion gravity proposal, observers that agree on the three space-times-time values is the equivalence class for gravity. Since this is an equivalence class, there is a transformation that can be constructed between the two.
 
-# In this notebook/blog, I will go through some detail to demonstrate these two equivalence classes.
+# In this iPython notebook, I will go through some detail to demonstrate these two equivalence classes.
 
 # ## Calculation Tools
 # 
-# In the past, I used Mathematica to confirm my algebra was correct (it has caught errors in the past). The software used to be crazy expensive (~\$2k), but has come down in price (\$300). Still, I would prefer to use an open source project. This motivated me to look into the iPython Notebook. Since I am a fan of the Python language, I took a closer look. I am quite impressed at the current state of affairs. It looked easy to mix and match real python code with text and images. But how to get iPython Notebook up and running? Anaconda.org is a commercial company that provides a free python environment. They are trying to get by through paid support and cloud services for companies. I liked that after installing anaconda, running "jupyter notebook" just worked. Jupyter is the notebook that then attaches to a variety of math tools of your choosing. This blog is being drafted as an iPython Notebook.
+# In the past, I used Mathematica to confirm my algebra was correct (it has caught errors in the past). The software at the time was crazy expensive (~\$2k), but has come down in price (\$300). Still, I would prefer to use an open source project. This motivated me to look into the iPython Notebook. Since I am a fan of the Python language, I took a closer look. I am quite impressed at the current state of affairs. It looked easy to mix and match real python code with text and images. But how to get iPython Notebook up and running? Anaconda.org is a commercial company that provides a free python environment. They are trying to get by through paid support and cloud services for companies. I liked that after installing anaconda, running "jupyter notebook" just worked. Jupyter is the notebook that then attaches to a variety of math tools of your choosing. This blog is being drafted as an iPython Notebook.
 
 # I decided to create my own tools for quaternions from scratch. Why? This is the opening few paragraphs of my "Q_tool_devo" notebook:
 
@@ -43,13 +43,13 @@
 #     commuting_products, conj, dif, divide_by, g_shift, invert, norm, norm_of_vector, 
 #     product, q4, q_one, q_zero, reduce, rotate, square, and triple_product.
 
-# Like all long list, this makes for dull prose. I had a little fun breaking up the multiplication product into the commuting and anticommuting parts.
+# Like all long list, this makes for dull prose. I had a little fun breaking up the multiplication product into the commuting and anti-commuting parts.
 
-# The most unusual method is "reduce". The Q8 class uses 8 positive numbers to represent a quaternion. Any number can be represented an inifinite number of ways, so long as the difference between the positive and negative number remains the same. There is however only one reduced form for a number. That will have either the positive or its additive inverse set to zero (both can be zero also). It is mildly amusing to see a complicated calculation that fills up all eight slots that after the reduce step ends up with precisely the same result as appears from the QH or Hamilton quaternion class that uses real numbers. It feels uncomfortable to me to see these eight numbers since it is not my experience with calculations. Numbers in Nature do deeply odd things (think of the great boson/fermion divide in how states should be filled). 
+# The most unusual method is "reduce". The Q8 class uses 8 positive numbers to represent a quaternion. Any number can be represented an infinite number of ways, so long as the difference between the positive and negative number remains the same. There is however only one reduced form for a number. That will have either the positive or its additive inverse set to zero (both can be zero also). It is mildly amusing to see a complicated calculation that fills up all eight slots that after the reduce step ends up with precisely the same result as appears from the QH or Hamilton quaternion class that uses real numbers. It feels uncomfortable to me to see these eight numbers since it is not my experience with calculations. Numbers in Nature do deeply odd things (think of the great boson/fermion divide in how states should be filled). 
 
-# I program using a method called Test Driven Development. This means that all methods get a test so one knows each piece is working. That is critcal with programs since one typo will means a tool does not work as expected. The same tests were applied to the Hamilton Q8 class as the Quaternion Group Q<sub>8</sub> class Q8. The reduced form of all Q8 calculations are the same as the QH class.
+# I program using a method called Test Driven Development. This means that all methods get a test so one knows each piece is working. That is critical with programs since one typo will means a tool does not work as expected. The same tests were applied to the Hamilton Q8 class as the Quaternion Group Q<sub>8</sub> class QH. The reduced form of all Q8 calculations are the same as the QH class.
 
-# If you have any interst it playing with the iPython notebook, feel free to clone it:
+# If you have any interest it playing with the iPython notebook, feel free to clone it:
 # 
 # > git clone https://github.com/dougsweetser/ipq
 
@@ -65,31 +65,31 @@
 
 # $$[f_e] = \{ q \in Q \,|\, f_e \sim q \;\rm{if} \; \rm{Re}(q) > 0 \; \rm{and} \; \rm{Re}(q) = \rm{Re}(f_e)\}$$
 
-# One question can be asked of a pair of quaternions: are they both in the future equivalence class, and if so, are they exactly equal to one another? This type of question was particularly easy to ask of with the Q8 class in the reduced form. They would both be positive in the future if they had a non-zero time value. In the case that both were in the future, then one could ask futher if the values were the same, up to a defined rounding error. The computer code felt like it was doing basic set theory: a pair of numbers was in or out. No inequalities were needed.
+# One question can be asked of a pair of quaternions: are they both in the future equivalence class, and if so, are they exactly equal to one another? This type of question was particularly easy to ask of with the Q8 class in the reduced form. They would both be positive in the future if they had a non-zero time value. In the case that both were in the future, then one could ask further if the values were the same, up to a defined rounding error. The computer code felt like it was doing basic set theory: a pair of numbers was in or out. No inequalities were needed.
 
 # The two classes are easy enough to graph:
 
 # ![sdf](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/time_future_future_exact.png)
 
-# Figuring out if a pair of events are both in the past works the same. This time one looks to see if they both have non-zero values in the additive inverse (aka negative) time slot of the Q8 class. The same function was used, but telling the function to look at the additive inverses.
+# Figuring out if a pair of events are both in the past works the same. This time one looks to see if they both have non-zero values in the additive inverse $I^2$ (aka negative) time slot of the Q8 class. The same function was used, but telling the function to look at the additive inverses.
 
 # One can also see if both numbers are neither positive or negative. That only happens if the value of time is zero, or now. If so, the pair events gets marked as now exact.
 
 # Plucking events at random, the most common situation is that a pair of events would be disjoint: one in the future, the other in the past. This was the default case that resulted after all the other situations were investigated.
 
-# The 6 questions - are you both positive, if so, exact, negative, if so exact, both zeroes or disjoint - can be asked for the three spatial dimensions: left versus right, up versus down, and near versus far. All use the same function to figure out which is the winning equivalence class (although disjoint is not an equivance class).
+# The 6 questions - are you both positive, if so, exact, negative, if so exact, both zeros or disjoint - can be asked for the three spatial dimensions: left versus right, up versus down, and near versus far. All use the same function to figure out which is the winning equivalence class (although disjoint is not an equivalence class).
 
 # ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/space_classes.png)
 
-# The equivalence class EQ is fed 2 quaternions. It reduces these two to deal with the future/past, left/right, up/down, and near/far equivalance classes. All events in space-time map into four equivalence classes as one might expect for events in space-time.
+# The equivalence class EQ is fed 2 quaternions. It reduces these two to deal with the future/past, left/right, up/down, and near/far equivalence classes. All events in space-time map into four equivalence classes as one might expect for events in space-time.
 
-# There are two more general classes, one exeptionally narrow, the other the most common of all. The narrow class is when both are zero, the *now* class for time, and the *here* class for space.
+# There are two more general classes, one exceptionally narrow, the other the most common of all. The narrow class is when both are zero, the *now* class for time, and the *here* class for space.
 
 # ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/time_now_exact.png)
 
 # ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/space_here_exact.png)
 
-# Observers have all four of these exact matches since they are *here-now*.
+# Observers have all four of these exact matches since they are *here-now*. Being at here-now is the operational definition of an observer.
 
 # The most common situation for a pair of events is that they are disjoint. As usual, there are four ways to be disjoint:
 
@@ -97,13 +97,15 @@
 
 # ![](https://raw.githubusercontent.com/dougsweetser/ipq/master/q_notebook/images/eq_classes/space_disjoint.png)
 
-# Physics is an observational science. Every pair of events ever belongs in four of these equivalence classes or the disjoint classes. Every combination of these classes is out there in the event library of the Universe. This is the raw data of events. A problem with the raw data is that no observer can ever stay at one here-now. How do we deal with transient number?
+# Physics is an observational science. Every pair of events ever belongs in four of these equivalence classes or the disjoint classes. Every combination of these classes is out there in the event library of the Universe. This is the raw data of events. A problem with the raw data is that no observer can ever stay at one here-now. How do we deal with transient numbers?
 
 # ## Ever Changing Events, Fixed Differences
 
+# It is simple enough for an observer to declare that a particular moment and location was the origin for all subsequent measurements. The problem is that even the observer herself cannot go back to the origin. This is in stark contrast to origins we are familiar with in analytic geometry. Go back years later, and where $z=0$ crosses $y=0$ remains the origin. How can one manage the transience of events? The difference between two events will be the same no matter how far in the future it is analyzed. A difference effectively removes 
+
 # ## Special Relativity as the Square of a Delta Quaternion
 
-# My proposal for special relativity works with the square of a quaternion. This must be done because the Lorentz invariant interval for inertial obserrvers is time squared minus space squared. The expression mathematical is nearly idential to telling the past from the future:
+# My proposal for special relativity works with the square of a quaternion. This must be done because the Lorentz invariant interval for inertial observers is time squared minus space squared. The expression mathematical is nearly identical to telling the past from the future:
 
 # $$[df] = \{ dq \in Q \,|\, df \sim dq \;\rm{if} \; \rm{Re}(dq^2) > 0 \}$$
 
@@ -117,7 +119,7 @@
 # 
 # 
 
-# The two exact equivalence classes, time-like exact or space-like exact, mean that the two observers are travelling at a constant velocity to each other. A Lorentz transformation can be used to go from one to the other along the hyperbola. Although there have been claims that one cannot represent the Lorentz group using real-valued quaternions, that is not the case.
+# The two exact equivalence classes, time-like exact or space-like exact, mean that the two observers are traveling at a constant velocity to each other. A Lorentz transformation can be used to go from one to the other along the hyperbola. Although there have been claims that one cannot represent the Lorentz group using real-valued quaternions, that is not the case. Wherever there is an exact equivalence class, there is a paired transformation.
 
 # In[ ]:
 

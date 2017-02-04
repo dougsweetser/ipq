@@ -162,8 +162,8 @@ class QH:
         sq_q.add_qtype(qtype)
         return sq_q
 
-    def norm(self, qtype="norm"):
-        """The norm of a quaternion."""
+    def norm_squared(self, qtype="norm_squared"):
+        """The norm_squared of a quaternion."""
 
         qxq = self.commuting_products(self)
 
@@ -173,8 +173,8 @@ class QH:
         n_q.add_qtype(qtype)
         return n_q
 
-    def norm_of_vector(self, qtype="normV"):
-        """The norm of the vector of a quaternion."""
+    def norm_squared_of_vector(self, qtype="norm_squaredV"):
+        """The norm_squared of the vector of a quaternion."""
 
         qxq = self.commuting_products(self)
 
@@ -185,9 +185,9 @@ class QH:
         return nv_q
 
     def abs_of_q(self, qtype="abs"):
-        """The absolute value, the square root of the norm."""
+        """The absolute value, the square root of the norm_squared."""
 
-        a = self.norm()
+        a = self.norm_squared()
         sqrt_t = a.t ** 0.5
         a.t = sqrt_t
 
@@ -196,9 +196,9 @@ class QH:
         return a
 
     def abs_of_vector(self, qtype="absV"):
-        """The absolute value of the vector, the square root of the norm of the vector."""
+        """The absolute value of the vector, the square root of the norm_squared of the vector."""
 
-        av = self.norm_of_vector()
+        av = self.norm_squared_of_vector()
         sqrt_t = av.t ** 0.5
         av.t = sqrt_t
 
@@ -265,20 +265,20 @@ class QH:
         """The inverse of a quaternion."""
 
         q_conj = self.conj()
-        q_norm = self.norm()
+        q_norm_squared = self.norm_squared()
 
-        if q_norm.t == 0:
-            print("oops, zero on the norm.")
+        if q_norm_squared.t == 0:
+            print("oops, zero on the norm_squared.")
             return self.q0()
 
-        q_norm_inv = QH([1.0 / q_norm.t, 0, 0, 0])
-        q_inv = q_conj.product(q_norm_inv, qtype=self.qtype)
+        q_norm_squared_inv = QH([1.0 / q_norm_squared.t, 0, 0, 0])
+        q_inv = q_conj.product(q_norm_squared_inv, qtype=self.qtype)
         
         q_inv.add_qtype(qtype)
         return q_inv
 
     def divide_by(self, q1, qtype=""):
-        """Divide one quaternion by another. The order matters unless one is using a norm (real number)."""
+        """Divide one quaternion by another. The order matters unless one is using a norm_squared (real number)."""
 
         q1_inv = q1.invert()
         q_div = self.product(q1.invert())
@@ -297,15 +297,15 @@ class QH:
         return triple
 
     # Quaternion rotation involves a triple product:  UQU∗
-    # where the U is a unitary quaternion (having a norm of one).
+    # where the U is a unitary quaternion (having a norm_squared of one).
     def rotate(self, a_1=0, a_2=0, a_3=0, qtype="rot"):
         """Do a rotation given up to three angles."""
 
         u = QH([0, a_1, a_2, a_3])
         u_abs = u.abs_of_q()
-        u_normalized = u.divide_by(u_abs)
+        u_norm_squaredalized = u.divide_by(u_abs)
 
-        q_rot = u_normalized.triple_product(self, u_normalized.conj())
+        q_rot = u_norm_squaredalized.triple_product(self, u_norm_squaredalized.conj())
   
         q_rot.qtype = self.qtype
         q_rot.add_qtype(qtype)
@@ -428,19 +428,19 @@ class TestQH(unittest.TestCase):
         self.assertTrue(q_z.y == -6)
         self.assertTrue(q_z.z == -8)
 
-    def test_norm(self):
+    def test_norm_squared(self):
         q1 = self.Q.dupe()
-        q_z = q1.norm()
-        if self.verbose: print("norm: {}".format(q_z))
+        q_z = q1.norm_squared()
+        if self.verbose: print("norm_squared: {}".format(q_z))
         self.assertTrue(q_z.t == 30)
         self.assertTrue(q_z.x == 0)
         self.assertTrue(q_z.y == 0)
         self.assertTrue(q_z.z == 0)
 
-    def test_norm_of_vector(self):
+    def test_norm_squared_of_vector(self):
         q1 = self.Q.dupe()
-        q_z = q1.norm_of_vector()
-        if self.verbose: print("norm_of_vector: {}".format(q_z))
+        q_z = q1.norm_squared_of_vector()
+        if self.verbose: print("norm_squared_of_vector: {}".format(q_z))
         self.assertTrue(q_z.t == 29)
         self.assertTrue(q_z.x == 0)
         self.assertTrue(q_z.y == 0)
@@ -646,17 +646,6 @@ class Doublet:
                         
         return Doublet([pa0 + p1, n0 + n1])
 
-    def d_flip(self):
-        """Flips additive inverses."""
-                        
-        return Doublet([self.n, self.p])
-                        
-    def d_dif(self, d1):
-        """Take the difference by flipping and adding."""
-        d2 = d1.d_flip()
-                        
-        return self.d_add(d2)
-    
     def d_reduce(self):
         """If p and n are not zero, subtract """
         if self.p == 0 or self.n == 0:
@@ -670,6 +659,21 @@ class Doublet:
         
         else:
             return Doublet()
+        
+    def d_additive_inverse_up_to_an_automorphism(self, n=0):
+        """Creates one additive inverses up to an arbitrary positive n."""
+        
+        if n == 0:
+            return Doublet([self.n + n, self.p + n])
+        else:
+            red = self.d_reduce()
+            return Doublet([red.n + n, red.p +n])
+                        
+    def d_dif(self, d1, n=0):
+        """Take the difference by flipping and adding."""
+        d2 = d1.d_additive_inverse_up_to_an_automorphism(n)
+                        
+        return self.d_add(d2)
         
     def Z2_product(self, d1):
         """Uset the Abelian cyclic group Z2 to form the product of 2 doublets."""
@@ -711,8 +715,8 @@ class TestDoublet(unittest.TestCase):
         self.assertTrue(d_add.p == 2)
         self.assertTrue(d_add.n == 3)
         
-    def test_d_flip(self):
-        d_f = self.d2.d_flip()
+    def test_d_additive_inverse_up_to_an_automorphism(self):
+        d_f = self.d2.d_additive_inverse_up_to_an_automorphism()
         self.assertTrue(d_f.p == 0)
         self.assertTrue(d_f.n == 2)
         
@@ -751,7 +755,7 @@ unittest.TextTestRunner().run(suite);
 
 # Write a class to handle quaternions given 8 numbers.
 
-# In[20]:
+# In[9]:
 
 class Q8:
     """Quaternions on a quaternion manifold or space-time numbers."""
@@ -807,22 +811,22 @@ class Q8:
 
         if conj_type == 0:
             conjq.dt = self.dt
-            conjq.dx = self.dx.d_flip()
-            conjq.dy = self.dy.d_flip()
-            conjq.dz = self.dz.d_flip()
+            conjq.dx = self.dx.d_additive_inverse_up_to_an_automorphism()
+            conjq.dy = self.dy.d_additive_inverse_up_to_an_automorphism()
+            conjq.dz = self.dz.d_additive_inverse_up_to_an_automorphism()
         
         if conj_type == 1:
-            conjq.dt = self.dt.d_flip()
+            conjq.dt = self.dt.d_additive_inverse_up_to_an_automorphism()
             conjq.dx = self.dx
-            conjq.dy = self.dy.d_flip()
-            conjq.dz = self.dz.d_flip()
+            conjq.dy = self.dy.d_additive_inverse_up_to_an_automorphism()
+            conjq.dz = self.dz.d_additive_inverse_up_to_an_automorphism()
             qtype += "1"
             
         if conj_type == 2:
-            conjq.dt = self.dt.d_flip()
-            conjq.dx = self.dx.d_flip()
+            conjq.dt = self.dt.d_additive_inverse_up_to_an_automorphism()
+            conjq.dx = self.dx.d_additive_inverse_up_to_an_automorphism()
             conjq.dy = self.dy
-            conjq.dz = self.dz.d_flip()
+            conjq.dz = self.dz.d_additive_inverse_up_to_an_automorphism()
             qtype += "2"
             
         conjq.add_qtype(qtype)
@@ -884,8 +888,8 @@ class Q8:
         q_red.add_qtype(qtype)
         return q_red
     
-    def norm(self, qtype="norm"):
-        """The norm of a quaternion."""
+    def norm_squared(self, qtype="norm_squared"):
+        """The norm_squared of a quaternion."""
         
         qxq = self.commuting_products(self)
         
@@ -895,8 +899,8 @@ class Q8:
         n_q.add_qtype(qtype)
         return n_q
     
-    def norm_of_vector(self, qtype="normV"):
-        """The norm of the vector of a quaternion."""
+    def norm_squared_of_vector(self, qtype="norm_squaredV"):
+        """The norm_squared of the vector of a quaternion."""
         
         qxq = self.commuting_products(self)
         
@@ -908,9 +912,9 @@ class Q8:
     
         
     def abs_of_q(self, qtype="abs"):
-        """The absolute value, the square root of the norm."""
+        """The absolute value, the square root of the norm_squared."""
 
-        a = self.norm(qtype=self.qtype)
+        a = self.norm_squared(qtype=self.qtype)
         sqrt_t = a.dt.p ** (1/2)
         a.dt = Doublet(sqrt_t)
         
@@ -918,9 +922,9 @@ class Q8:
         return a
 
     def abs_of_vector(self, qtype="absV"):
-        """The absolute value of the vector, the square root of the norm of the vector."""
+        """The absolute value of the vector, the square root of the norm_squared of the vector."""
 
-        av = self.norm_of_vector()
+        av = self.norm_squared_of_vector()
         sqrt_t = av.dt.p ** (1/2)
         av.dt = Doublet(sqrt_t)
         
@@ -981,19 +985,20 @@ class Q8:
         """Invert a quaternion."""
         
         q_conj = self.conj()
-        q_norm = self.norm()
+        q_norm_squared = self.norm_squared().reduce()
         
-        if q_norm.dt.p == 0:
+        if q_norm_squared.dt.p == 0:
             return self.q0()
         
-        q_norm_inv = Q8([1.0 / q_norm.dt.p, 0, 0, 0, 0, 0, 0, 0])
-        q_inv = q_conj.product(q_norm_inv, qtype=self.qtype)
+        q_norm_squared_inv = Q8([1.0 / q_norm_squared.dt.p, 0, 0, 0, 0, 0, 0, 0])
+
+        q_inv = q_conj.product(q_norm_squared_inv, qtype=self.qtype)
         
         q_inv.add_qtype(qtype)
         return q_inv
 
     def divide_by(self, q1, qtype=""):
-        """Divide one quaternion by another. The order matters unless one is using a norm (real number)."""
+        """Divide one quaternion by another. The order matters unless one is using a norm_squared (real number)."""
 
         q_inv = q1.invert()
         q_div = self.product(q_inv) 
@@ -1012,15 +1017,15 @@ class Q8:
         return triple
     
     # Quaternion rotation involves a triple product:  UQU∗
-    # where the U is a unitary quaternion (having a norm of one).
+    # where the U is a unitary quaternion (having a norm_squared of one).
     def rotate(self, a_1p=0, a_1n=0, a_2p=0, a_2n=0, a_3p=0, a_3n=0):
         """Do a rotation given up to three angles."""
     
         u = Q8([0, 0, a_1p, a_1n, a_2p, a_2n, a_3p, a_3n])
         u_abs = u.abs_of_q()
-        u_normalized = u.divide_by(u_abs)
+        u_norm_squaredalized = u.divide_by(u_abs)
 
-        q_rot = u_normalized.triple_product(self, u_normalized.conj())
+        q_rot = u_norm_squaredalized.triple_product(self, u_norm_squaredalized.conj())
         return q_rot
     
     # A boost also uses triple products like a rotation, but more of them.
@@ -1072,7 +1077,7 @@ class Q8:
         return g_q
 
 
-# In[21]:
+# In[10]:
 
 class TestQ8(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
@@ -1150,9 +1155,9 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_red.dz.p == 0)
         self.assertTrue(q_red.dz.n == 1)
         
-    def test_norm(self):
-        q_z = self.q1.norm()
-        if self.verbose: print("norm: {}".format(q_z))
+    def test_norm_squared(self):
+        q_z = self.q1.norm_squared()
+        if self.verbose: print("norm_squared: {}".format(q_z))
         self.assertTrue(q_z.dt.p == 30)
         self.assertTrue(q_z.dt.n == 0)
         self.assertTrue(q_z.dx.p == 0)
@@ -1162,9 +1167,9 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.p == 0)
         self.assertTrue(q_z.dz.n == 0)
         
-    def test_norm_of_vector(self):
-        q_z = self.q1.norm_of_vector()
-        if self.verbose: print("norm_of_vector: {}".format(q_z))
+    def test_norm_squared_of_vector(self):
+        q_z = self.q1.norm_squared_of_vector()
+        if self.verbose: print("norm_squared_of_vector: {}".format(q_z))
         self.assertTrue(q_z.dt.p == 29)
         self.assertTrue(q_z.dt.n == 0)
         self.assertTrue(q_z.dx.p == 0)
@@ -1319,7 +1324,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z2.dz.n == q1_sq.dz.n)
 
 
-# In[22]:
+# In[11]:
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8())
 unittest.TextTestRunner().run(suite);
@@ -1379,13 +1384,13 @@ class EQ():
             self.q2 = q2.reduce()
                 
         # The quaternions used by this class are
-        # linear, square, and the norm of a quaternion so do the calculations once.
+        # linear, square, and the norm_squared of a quaternion so do the calculations once.
         
         self.q1_square = self.q1.square().reduce()
         self.q2_square = self.q2.square().reduce()
         
-        self.q1_norm_minus_1 = self.q1.norm().dif(self.q1.q_one()).reduce()
-        self.q2_norm_minus_1 = self.q2.norm().dif(self.q1.q_one()).reduce()
+        self.q1_norm_squared_minus_1 = self.q1.norm_squared().dif(self.q1.q_one()).reduce()
+        self.q2_norm_squared_minus_1 = self.q2.norm_squared().dif(self.q1.q_one()).reduce()
 
         # Store results here
         self.classes = {}
@@ -1491,11 +1496,11 @@ class EQ():
         results.extend(self.space_times_time())
         return results
 
-    def norm_of_unity(self):
-        """Find out if the norm of both is greater than, less than, exactly equal or both different from unity."""
+    def norm_squared_of_unity(self):
+        """Find out if the norm_squared of both is greater than, less than, exactly equal or both different from unity."""
 
-        names = {'class': 'norm_of_unity', 'positive': 'greater_than_unity', 'negative': 'less_than_unity', 'divider': 'unity'}
-        result = self.get_class(self.q1_norm_minus_1, self.q2_norm_minus_1, names, 'dt')
+        names = {'class': 'norm_squared_of_unity', 'positive': 'greater_than_unity', 'negative': 'less_than_unity', 'divider': 'unity'}
+        result = self.get_class(self.q1_norm_squared_minus_1, self.q2_norm_squared_minus_1, names, 'dt')
         return result
 
     def compare(self, eq_2):
@@ -1520,8 +1525,8 @@ class EQ():
                 eq_class.causality()
             if 'space-times-time' not in eq_class.classes:
                 eq_class.space_times_time()
-            if 'norm_of_unity' not in eq_class.classes:
-                eq_class.norm_of_unity()
+            if 'norm_squared_of_unity' not in eq_class.classes:
+                eq_class.norm_squared_of_unity()
 
     def visualize(self, eq_2=None):
         """Visualize one or two rows of classes with icons for each of the 5 classes."""
@@ -1565,7 +1570,7 @@ class EQ():
             plt.axis('off');
 
             ax5 = fig.add_subplot(3, 5, 5)
-            ax5.imshow(self.eq_images['norm_of_unity_' + self.classes['norm_of_unity']])
+            ax5.imshow(self.eq_images['norm_squared_of_unity_' + self.classes['norm_squared_of_unity']])
             plt.axis('off');
 
         else:
@@ -1605,7 +1610,7 @@ class EQ():
             plt.axis('off');
 
             ax5 = fig.add_subplot(6, 5, 5)
-            ax5.imshow(self.eq_images['norm_of_unity_' + self.classes['norm_of_unity']])
+            ax5.imshow(self.eq_images['norm_squared_of_unity_' + self.classes['norm_squared_of_unity']])
             plt.axis('off');
             
 
@@ -1642,7 +1647,7 @@ class EQ():
             plt.axis('off');
 
             ax25 = fig.add_subplot(6, 5, 20)
-            ax25.imshow(self.eq_images['norm_of_unity_' + eq_2.classes['norm_of_unity']])
+            ax25.imshow(self.eq_images['norm_squared_of_unity_' + eq_2.classes['norm_squared_of_unity']])
             plt.axis('off');
             
     def __str__(self):
@@ -1652,7 +1657,7 @@ class EQ():
         
         class_names = ["time", "space-1", "space-2", "space-3", "causality", 
                        "space-times-time-1", "space-times-time-2", "space-times-time-3", 
-                       "norm_of_unity"]
+                       "norm_squared_of_unity"]
         
         result = "The equivalence classes for this pair of events are as follows...\n"
         
@@ -1660,8 +1665,8 @@ class EQ():
         result += "q2: {}\n".format(QH(self.q2.q4()))
         result += "q1_squared: {}\n".format(QH(self.q1_square.q4()))
         result += "q2_squared: {}\n".format(QH(self.q2_square.q4()))
-        result += "q1_norm -1: {}\n".format(QH(self.q1_norm_minus_1.q4()))
-        result += "q2_norm -1: {}\n".format(QH(self.q2_norm_minus_1.q4()))
+        result += "q1_norm_squared -1: {}\n".format(QH(self.q1_norm_squared_minus_1.q4()))
+        result += "q2_norm_squared -1: {}\n".format(QH(self.q2_norm_squared_minus_1.q4()))
         
         for class_name in class_names:
             result += "{cn:>20}: {c}\n".format(cn=class_name, c=self.classes[class_name])
@@ -1686,8 +1691,8 @@ class TestEQ(unittest.TestCase):
         self.assertTrue(self.eq_12.q1.dt.n == 0)
         self.assertTrue(self.eq_12.q1_square.dt.p == 0)
         self.assertTrue(self.eq_12.q1_square.dt.n == 28)
-        self.assertTrue(self.eq_12.q1_norm_minus_1.dt.p == 29)
-        self.assertTrue(self.eq_12.q1_norm_minus_1.dt.n == 0)
+        self.assertTrue(self.eq_12.q1_norm_squared_minus_1.dt.p == 29)
+        self.assertTrue(self.eq_12.q1_norm_squared_minus_1.dt.n == 0)
         self.assertTrue(self.eq_12.q2.dt.p == 0)
         self.assertTrue(self.eq_12.q2.dt.n == 0)
         
@@ -1762,8 +1767,8 @@ class TestEQ(unittest.TestCase):
         self.assertTrue(self.eq_12.space_times_time()[1] == 'future-down_exact')
         self.assertTrue(self.eq_12.space_times_time()[2] == 'disjoint')
 
-    def test_norm_of_unity(self):
-        self.assertTrue(self.eq_11.norm_of_unity() == 'greater_than_unity_exact')
+    def test_norm_squared_of_unity(self):
+        self.assertTrue(self.eq_11.norm_squared_of_unity() == 'greater_than_unity_exact')
         q_one = Q8([1, 0, 0, 0, 0, 0, 0, 0])
         q_small = Q8([0.1, 0, 0, 0.2, 0, 0, 0, 0])
         q_tiny = Q8([0.001, 0, 0, 0.002, 0, 0, 0, 0])
@@ -1773,10 +1778,10 @@ class TestEQ(unittest.TestCase):
         eq_small_small = EQ(q_small, q_small)
         eq_small_tiny = EQ(q_small, q_tiny)
         
-        self.assertTrue(eq_one.norm_of_unity() == 'unity_exact')
-        self.assertTrue(eq_q1_small.norm_of_unity() == 'disjoint')
-        self.assertTrue(eq_small_small.norm_of_unity() == 'less_than_unity_exact')
-        self.assertTrue(eq_small_tiny.norm_of_unity() == 'less_than_unity')
+        self.assertTrue(eq_one.norm_squared_of_unity() == 'unity_exact')
+        self.assertTrue(eq_q1_small.norm_squared_of_unity() == 'disjoint')
+        self.assertTrue(eq_small_small.norm_squared_of_unity() == 'less_than_unity_exact')
+        self.assertTrue(eq_small_tiny.norm_squared_of_unity() == 'less_than_unity')
 
 
 # In[15]:
@@ -1809,9 +1814,61 @@ print(eq_E23)
 eq_E23.visualize()
 
 
-# In[ ]:
+# In[19]:
+
+q12 = Q8([1,2,0,0,0,0,0,0])
+q12inv = q12.invert()
+q1221 = q12.product(q12inv)
+q1221n2 = q1221.norm_squared()
+print(q12)
+print(q12inv)
+print(q1221)
+print(q1221n2)
+print(q1221n2.reduce())
 
 
+# In[20]:
+
+Q12 = QH([1, 2,0, 0, 0, 0, 0,0])
+Q12inv = Q12.invert()
+Q1221 = Q12.product(Q12inv)
+print(Q1221)
+
+
+# In[21]:
+
+q12 = Q8([1,2,0,0,0,0,0,0])
+qcrazy = Q8([1,12,2,3,13,2,7,5])
+print(q12.product(q12.invert()).reduce())
+print(q12.invert())
+print(qcrazy.product(qcrazy.invert()).reduce())
+
+
+# In[22]:
+
+print(q12)
+print(q12.invert())
+print(q12.product(q12.invert()))
+print(q12.product(q12.invert()).norm_squared())
+
+
+# In[23]:
+
+print(qcrazy.product(qcrazy.invert()).reduce())
+
+
+# In[24]:
+
+print(qcrazy.norm_squared())
+print(qcrazy.invert().norm_squared())
+print(q12.norm_squared().product(qcrazy.invert().norm_squared()))
+
+
+# In[25]:
+
+d12 = Doublet([1,2])
+d12.Z2_product(d12)
+print("{} {}".format(d12.p, d12.n))
 
 
 # In[ ]:
