@@ -54,13 +54,13 @@ print(R_rotated.reduce())
 # 
 # When the Q8 is reduced, it ends up being a 5 as expected. This may be of interest because we keep more information about the change with the eight positions to fill in the Q8 representation (none of which are empty after the rotation).
 
-# We expect the norms to be identical in the reduce form:
+# We expect the square of the norms to be identical in the reduce form:
 
 # In[5]:
 
-print(R.norm())
-print(R_rotated.norm())
-print(R_rotated.norm().reduce())
+print(R.norm_squared())
+print(R_rotated.norm_squared())
+print(R_rotated.norm_squared().reduce())
 
 
 # If squared, the reduced interval should be the same too:
@@ -98,9 +98,9 @@ print(R_boosted.square().reduce())
 
 # In[8]:
 
-print(R.norm().reduce())
-print(R_boosted.norm())
-print(R_boosted.norm().reduce())
+print(R.norm_squared().reduce())
+print(R_boosted.norm_squared())
+print(R_boosted.norm_squared().reduce())
 
 
 # ## Rotations in Space and Time
@@ -120,9 +120,9 @@ print(R_rotated_and_boosted.square().reduce())
 
 # In[10]:
 
-print(R.norm().reduce())
-print(R_rotated_and_boosted.norm())
-print(R_rotated_and_boosted.norm().reduce())
+print(R.norm_squared().reduce())
+print(R_rotated_and_boosted.norm_squared())
+print(R_rotated_and_boosted.norm_squared().reduce())
 
 
 # ## Ratios at Work
@@ -132,3 +132,23 @@ print(R_rotated_and_boosted.norm().reduce())
 # The same happens if there is an observer travelling at a constant velocity relative to the referene observer. It is not surprizing that the math machinery is different because a spatial rotation is different from moving along at certain velocity.
 # 
 # Combining the spatial rotations and boosts can be done, creating messy results, except for the interval that remains the same.
+
+# In[11]:
+
+print(R.product(U).dif(U.product(R)))
+
+
+# In[12]:
+
+print(R.vahlen_conj().product(U.vahlen_conj()).dif(U.vahlen_conj().product(R.vahlen_conj())))
+
+
+# In[13]:
+
+print(R.vahlen_conj("'").product(U.vahlen_conj("'")).dif(U.vahlen_conj("'").product(R.vahlen_conj("'"))))
+
+
+# In[ ]:
+
+
+

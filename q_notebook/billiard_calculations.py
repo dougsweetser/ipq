@@ -131,6 +131,20 @@ print(Bdq2)
 
 # No surprise here: the graph paper will make a difference in the numbers used, but the distance is the same up to the errors made in the measuring process.
 
+# ## The Space-times-time term
+
+# What happens with the space-times-time term for these observers that have no relative velocities to each other? The space part always points in a different direction since the spatial origin is in a different location. If we consider the norm squared of the the space-times-time term, that would be $dt^2(dx^2 + dy^2 + dz^2)$. This is something observers with different perspectives will agree upon:
+
+# In[34]:
+
+print(Adq2.norm_squared_of_vector().reduce())
+print(Bdq2.norm_squared_of_vector().reduce())
+print(Cdq2.norm_squared_of_vector().reduce())
+print(BRotdq2.norm_squared_of_vector().reduce())
+
+
+# These are the same within the margin of error of the measurements.
+
 # ## Representations of Numbers  Versus Coordinate Transformation of Vectors
 
 # This notebook is focused on space-time numbers that can be added, subtracted, multiplied, and divided. Formally, they are rank 0 tensors. Yet because space-time numbers have four slots to fill, it is quite easy to mistakenly view them as a four dimensional vector space over the mathematical field of real numbers with four basis vectors. Different representations of numbers changes the values of the numbers that get used, but not their meaning. Let's see this in action for a cylindrical representation of a number. Instead of $x$ and $y$, one uses $R \cos(\alpha)$ and $R \sin(\alpha)$, no change for $z$.
@@ -359,21 +373,3 @@ eq_g.visualize()
 # If two observers are in an equivalence class because the difference between two events squared space-times-time values are exactly the same, this is a new proposal for how gravity works. There is no metric tensor, connection, nor field equations. Rather, the proposal is a twin of special relativity. In both cases it is the square that matters. The difference between the two is if the observers agree to the reduced real values, that is special relativity, where if they agree to the reduced imaginary values, that is space-times-time equivalence class as gravity.
 
 # Space-time numbers should feel odd. We expect numbers to be unique. Yet Nature plays unusual games with the numbers for particles such as boson versus fermion statistics. Space-time numbers may be rich enough to reflect these kinds of properties. This notebook represents a proof of concept.
-
-# In[24]:
-
-print(BPolardq2.reduce())
-print(Bdq2.reduce())
-print(Adq2.reduce())
-print(Cdq2.reduce())
-print(BPolardq2.norm_squared().reduce())
-print(Bdq2.norm_squared().reduce())
-print(Adq2.norm_squared().reduce())
-print(Cdq2.norm_squared().reduce())
-print(Bdq_boosted.norm_squared().reduce())
-
-
-# In[ ]:
-
-Cdq2.nor
-

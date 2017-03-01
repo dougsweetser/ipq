@@ -108,6 +108,36 @@ class QH:
         conjq.add_qtype(qtype)
         return conjq
 
+    def vahlen_conj(self, conj_type="-", qtype="vc"):
+        """Three types of conjugates -'* done by Vahlen in 1901."""
+
+        t, x, y, z = self.t, self.x, self.y, self.z
+        conjq = QH(qtype=self.qtype)
+
+        if conj_type == '-':
+            conjq.t = t
+            conjq.x = -1 * x
+            conjq.y = -1 * y
+            conjq.z = -1 * z
+            qtype += "*-"
+
+        if conj_type == "'":
+            conjq.t = t
+            conjq.x = -1 * x
+            conjq.y = -1 * y
+            conjq.z = z
+            qtype += "*'"
+            
+        if conj_type == '*':
+            conjq.t = t
+            conjq.x = x
+            conjq.y = y
+            conjq.z = -1 * z
+            qtype += "*"
+            
+        conjq.add_qtype(qtype)
+        return conjq
+
     def add_qtype(self, qtype):
         """Adds a qtype to an exiting qtype."""
         
@@ -418,6 +448,33 @@ class TestQH(unittest.TestCase):
         self.assertTrue(q_z.x == 2)
         self.assertTrue(q_z.y == -3)
         self.assertTrue(q_z.z == 4)
+
+    def test_vahlen_conj_minus(self):
+        q1 = self.Q.dupe()
+        q_z = q1.vahlen_conj()
+        if self.verbose: print("q_vahlen_conj -: {}".format(q_z))
+        self.assertTrue(q_z.t == 1)
+        self.assertTrue(q_z.x == 2)
+        self.assertTrue(q_z.y == 3)
+        self.assertTrue(q_z.z == 4)
+
+    def test_vahlen_conj_star(self):
+        q1 = self.Q.dupe()
+        q_z = q1.vahlen_conj('*')
+        if self.verbose: print("q_vahlen_conj *: {}".format(q_z))
+        self.assertTrue(q_z.t == 1)
+        self.assertTrue(q_z.x == -2)
+        self.assertTrue(q_z.y == -3)
+        self.assertTrue(q_z.z == 4)
+
+    def test_vahlen_conj_prime(self):
+        q1 = self.Q.dupe()
+        q_z = q1.vahlen_conj("'")
+        if self.verbose: print("q_vahlen_conj ': {}".format(q_z))
+        self.assertTrue(q_z.t == 1)
+        self.assertTrue(q_z.x == 2)
+        self.assertTrue(q_z.y == 3)
+        self.assertTrue(q_z.z == -4)
 
     def test_square(self):
         q1 = self.Q.dupe()
@@ -831,6 +888,34 @@ class Q8:
             
         conjq.add_qtype(qtype)
         return conjq
+    
+    def vahlen_conj(self, conj_type="-", qtype="vc"):
+        """Three types of conjugates -'* done by Vahlen in 1901."""
+        conjq = Q8(qtype=self.qtype)
+
+        if conj_type == "-":
+            conjq.dt = self.dt
+            conjq.dx = self.dx.d_additive_inverse_up_to_an_automorphism()
+            conjq.dy = self.dy.d_additive_inverse_up_to_an_automorphism()
+            conjq.dz = self.dz.d_additive_inverse_up_to_an_automorphism()
+            qtype += "-"
+            
+        if conj_type == "'":
+            conjq.dt = self.dt
+            conjq.dx = self.dx.d_additive_inverse_up_to_an_automorphism()
+            conjq.dy = self.dy.d_additive_inverse_up_to_an_automorphism()
+            conjq.dz = self.dz
+            qtype += "'"
+            
+        if conj_type == "*":
+            conjq.dt = self.dt
+            conjq.dx = self.dx
+            conjq.dy = self.dy
+            conjq.dz = self.dz.d_additive_inverse_up_to_an_automorphism()
+            qtype += "*"
+            
+        conjq.add_qtype(qtype)
+        return conjq
 
     def commuting_products(self, q1):
         """Returns a dictionary with the commuting products."""
@@ -861,7 +946,7 @@ class Q8:
         
         return products
     
-    def square(self, qtype="sq"):
+    def square(self, qtype=""):
         """Square a quaternion."""
         
         qxq = self.commuting_products(self)
@@ -871,8 +956,11 @@ class Q8:
         sq_q.dx = qxq['tx+xt']
         sq_q.dy = qxq['ty+yt']
         sq_q.dz = qxq['tz+zt']
-
-        sq_q.add_qtype(qtype)
+        
+        if qtype:
+            sq_q.qtype = qtype
+        else:
+            sq_q.add_qtype("{s}_sq".format(s=self.qtype))
         return sq_q
 
     
@@ -1127,6 +1215,30 @@ class TestQ8(unittest.TestCase):
         if self.verbose: print("conj 2: {}".format(q_z))
         self.assertTrue(q_z.dt.n == 1)
         self.assertTrue(q_z.dx.p == 2)
+        self.assertTrue(q_z.dy.n == 3)
+        self.assertTrue(q_z.dz.p == 4)
+        
+    def test_vahlen_conj_0(self):
+        q_z = self.q1.vahlen_conj()
+        if self.verbose: print("vahlen conj -: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 1)
+        self.assertTrue(q_z.dx.p == 2)
+        self.assertTrue(q_z.dy.p == 3)
+        self.assertTrue(q_z.dz.p == 4)
+                 
+    def test_vahlen_conj_1(self):
+        q_z = self.q1.vahlen_conj("'")
+        if self.verbose: print("vahlen conj ': {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 1)
+        self.assertTrue(q_z.dx.p == 2)
+        self.assertTrue(q_z.dy.p == 3)
+        self.assertTrue(q_z.dz.n == 4)
+                 
+    def test_vahlen_conj_2(self):
+        q_z = self.q1.vahlen_conj('*')
+        if self.verbose: print("vahlen conj *: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 1)
+        self.assertTrue(q_z.dx.n == 2)
         self.assertTrue(q_z.dy.n == 3)
         self.assertTrue(q_z.dz.p == 4)
         
@@ -1869,6 +1981,46 @@ print(q12.norm_squared().product(qcrazy.invert().norm_squared()))
 d12 = Doublet([1,2])
 d12.Z2_product(d12)
 print("{} {}".format(d12.p, d12.n))
+
+
+# In[26]:
+
+
+qa = Q8([1,2,3,4])
+qi = Q8([0,1,0,0])
+print(qi.product(qa).product(qi).conj())
+
+
+# In[27]:
+
+q1n=Q8([-1,0,0,0])
+print(qa.conj().conj(1).conj(2).product(q1n))
+print(qa.conj().conj(2).conj(1).product(q1n))
+print(qa.conj(2).conj(1).conj().product(q1n))
+
+
+# In[28]:
+
+qa = QH([1,2,3,4])
+print(qa.vahlen_conj())
+print(qa.vahlen_conj("'"))
+print(qa.vahlen_conj("*"))
+
+
+# In[29]:
+
+print(qa)
+print(qa.product(QH([0, 0, 1, 0])))
+print(QH([0, 0, 1, 0]).product(qa.product(QH([0, 0, -1, 0]))))
+print(qa.square().norm_squared_of_vector())
+print(QH([0, 0, 1, 0]).product(qa.product(QH([0, 0, -1, 0]))).square().norm_squared_of_vector())
+print(qa.norm_squared())
+print(QH([0, 0, 1, 0]).product(qa.product(QH([0, 0, -1, 0]))).norm_squared())
+
+
+# In[30]:
+
+
 
 
 # In[ ]:

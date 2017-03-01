@@ -325,6 +325,36 @@ div#notebook {
         <span class="n">conjq</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">conjq</span>
 
+    <span class="k">def</span> <span class="nf">vahlen_conj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conj_type</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;vc&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Three types of conjugates -&#39;* done by Vahlen in 1901.&quot;&quot;&quot;</span>
+
+        <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
+        <span class="n">conjq</span> <span class="o">=</span> <span class="n">QH</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">conj_type</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span><span class="p">:</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">x</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">y</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">z</span>
+            <span class="n">qtype</span> <span class="o">+=</span> <span class="s2">&quot;*-&quot;</span>
+
+        <span class="k">if</span> <span class="n">conj_type</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">:</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">x</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">y</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span>
+            <span class="n">qtype</span> <span class="o">+=</span> <span class="s2">&quot;*&#39;&quot;</span>
+            
+        <span class="k">if</span> <span class="n">conj_type</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">z</span>
+            <span class="n">qtype</span> <span class="o">+=</span> <span class="s2">&quot;*&quot;</span>
+            
+        <span class="n">conjq</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">conjq</span>
+
     <span class="k">def</span> <span class="nf">add_qtype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Adds a qtype to an exiting qtype.&quot;&quot;&quot;</span>
         
@@ -652,6 +682,33 @@ div#notebook {
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="o">-</span><span class="mi">3</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">test_vahlen_conj_minus</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">q1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="o">.</span><span class="n">dupe</span><span class="p">()</span>
+        <span class="n">q_z</span> <span class="o">=</span> <span class="n">q1</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;q_vahlen_conj -: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q_z</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">t</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_vahlen_conj_star</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">q1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="o">.</span><span class="n">dupe</span><span class="p">()</span>
+        <span class="n">q_z</span> <span class="o">=</span> <span class="n">q1</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;q_vahlen_conj *: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q_z</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">t</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="o">-</span><span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_vahlen_conj_prime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">q1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="o">.</span><span class="n">dupe</span><span class="p">()</span>
+        <span class="n">q_z</span> <span class="o">=</span> <span class="n">q1</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;q_vahlen_conj &#39;: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q_z</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">t</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="o">-</span><span class="mi">4</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">test_square</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">q1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="o">.</span><span class="n">dupe</span><span class="p">()</span>
         <span class="n">q_z</span> <span class="o">=</span> <span class="n">q1</span><span class="o">.</span><span class="n">square</span><span class="p">()</span>
@@ -820,7 +877,7 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>....................</pre>
+<pre>.......................</pre>
 </div>
 </div>
 
@@ -850,6 +907,9 @@ q1: 1t  0i  0j  0k  One
 rotate: 1.0t  -2.0i  3.0j  4.0k  Q.rot
 square: -28t  -4i  -6j  -8k  Q.sq
 triple product: -2t  124i  -84j  8k  QxPxQ
+q_vahlen_conj -: 1t  2i  3j  4k  Q.vc*-
+q_vahlen_conj &apos;: 1t  2i  3j  -4k  Q.vc*&apos;
+q_vahlen_conj *: 1t  -2i  -3j  4k  Q.vc*
 </pre>
 </div>
 </div>
@@ -858,7 +918,7 @@ triple product: -2t  124i  -84j  8k  QxPxQ
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 20 tests in 0.015s
+Ran 23 tests in 0.017s
 
 OK
 </pre>
@@ -1092,7 +1152,7 @@ OK
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>..........
 ----------------------------------------------------------------------
-Ran 10 tests in 0.009s
+Ran 10 tests in 0.015s
 
 OK
 </pre>
@@ -1192,6 +1252,34 @@ OK
             
         <span class="n">conjq</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">conjq</span>
+    
+    <span class="k">def</span> <span class="nf">vahlen_conj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conj_type</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;vc&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Three types of conjugates -&#39;* done by Vahlen in 1901.&quot;&quot;&quot;</span>
+        <span class="n">conjq</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">conj_type</span> <span class="o">==</span> <span class="s2">&quot;-&quot;</span><span class="p">:</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">dx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">d_additive_inverse_up_to_an_automorphism</span><span class="p">()</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">dy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">d_additive_inverse_up_to_an_automorphism</span><span class="p">()</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">dz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">d_additive_inverse_up_to_an_automorphism</span><span class="p">()</span>
+            <span class="n">qtype</span> <span class="o">+=</span> <span class="s2">&quot;-&quot;</span>
+            
+        <span class="k">if</span> <span class="n">conj_type</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">:</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">dx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">d_additive_inverse_up_to_an_automorphism</span><span class="p">()</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">dy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">d_additive_inverse_up_to_an_automorphism</span><span class="p">()</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">dz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dz</span>
+            <span class="n">qtype</span> <span class="o">+=</span> <span class="s2">&quot;&#39;&quot;</span>
+            
+        <span class="k">if</span> <span class="n">conj_type</span> <span class="o">==</span> <span class="s2">&quot;*&quot;</span><span class="p">:</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">dx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dx</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">dy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy</span>
+            <span class="n">conjq</span><span class="o">.</span><span class="n">dz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">d_additive_inverse_up_to_an_automorphism</span><span class="p">()</span>
+            <span class="n">qtype</span> <span class="o">+=</span> <span class="s2">&quot;*&quot;</span>
+            
+        <span class="n">conjq</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">conjq</span>
 
     <span class="k">def</span> <span class="nf">commuting_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns a dictionary with the commuting products.&quot;&quot;&quot;</span>
@@ -1222,7 +1310,7 @@ OK
         
         <span class="k">return</span> <span class="n">products</span>
     
-    <span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;sq&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Square a quaternion.&quot;&quot;&quot;</span>
         
         <span class="n">qxq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commuting_products</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -1232,8 +1320,11 @@ OK
         <span class="n">sq_q</span><span class="o">.</span><span class="n">dx</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;tx+xt&#39;</span><span class="p">]</span>
         <span class="n">sq_q</span><span class="o">.</span><span class="n">dy</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;ty+yt&#39;</span><span class="p">]</span>
         <span class="n">sq_q</span><span class="o">.</span><span class="n">dz</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;tz+zt&#39;</span><span class="p">]</span>
-
-        <span class="n">sq_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">qtype</span><span class="p">:</span>
+            <span class="n">sq_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">qtype</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sq_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{s}</span><span class="s2">_sq&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">sq_q</span>
 
     
@@ -1499,6 +1590,30 @@ OK
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
         
+    <span class="k">def</span> <span class="nf">test_vahlen_conj_0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">q_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q1</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;vahlen conj -: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q_z</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
+                 
+    <span class="k">def</span> <span class="nf">test_vahlen_conj_1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">q_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q1</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;vahlen conj &#39;: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q_z</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
+                 
+    <span class="k">def</span> <span class="nf">test_vahlen_conj_2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">q_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q1</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;vahlen conj *: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q_z</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
+        
     <span class="k">def</span> <span class="nf">test_square</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">q_sq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q1</span><span class="o">.</span><span class="n">square</span><span class="p">()</span>
         <span class="n">q_sq_red</span> <span class="o">=</span> <span class="n">q_sq</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
@@ -1717,7 +1832,7 @@ OK
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>......................</pre>
+<pre>.........................</pre>
 </div>
 </div>
 
@@ -1727,17 +1842,17 @@ OK
 abs_of_vector: (5.0, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q.absV
 add: (1, 0)_I0,2  (4, 2)_i1,3  (0, 6)_j1,3  (0, 4)_k1,3  Q+Q
 add reduce: (1, 0)_I0,2  (2, 0)_i1,3  (0, 6)_j1,3  (0, 4)_k1,3  Q+Q.reduce
-q1_sq: (0, 28)_I0,2  (0, 4)_i1,3  (0, 6)_j1,3  (0, 8)_k1,3  Q.sq.reduce
+q1_sq: (0, 28)_I0,2  (0, 4)_i1,3  (0, 6)_j1,3  (0, 8)_k1,3  Q.Q_sq.reduce
 boosted: (1.51802716224446, 0.5060090540814867)_I0,2  (1.0030180271622444, 3.0090540814867333)_i1,3  (1.5240542164879485, 4.524054216487949)_j1,3  (2.0180721626494638, 6.018072162649464)_k1,3  Q.boost
-b squared: (0, 28.000000000000007)_I0,2  (0, 4.06028962520837)_i1,3  (0, 6.072108648977842)_j1,3  (0, 8.096144865303788)_k1,3  Q.boost.sq.reduce
+b squared: (0, 28.000000000000007)_I0,2  (0, 4.06028962520837)_i1,3  (0, 6.072108648977842)_j1,3  (0, 8.096144865303788)_k1,3  Q.boost.Q.boost_sq.reduce
 conj 0: (1, 0)_I0,2  (2, 0)_i1,3  (3, 0)_j1,3  (4, 0)_k1,3  Q.*
 conj 1: (0, 1)_I0,2  (0, 2)_i1,3  (3, 0)_j1,3  (4, 0)_k1,3  Q.*1
 conj 2: (0, 1)_I0,2  (2, 0)_i1,3  (0, 3)_j1,3  (4, 0)_k1,3  Q.*2
 dif: (1, 0)_I0,2  (0, 6)_i1,3  (3, 3)_j1,3  (0, 4)_k1,3  Q-Q
 inverse: (1.0, 0.0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q/Q.reduce
-q1_sq: (0, 28)_I0,2  (0, 4)_i1,3  (0, 6)_j1,3  (0, 8)_k1,3  Q.sq.reduce
+q1_sq: (0, 28)_I0,2  (0, 4)_i1,3  (0, 6)_j1,3  (0, 8)_k1,3  Q.Q_sq.reduce
 g_shift: (0.997004495503373, 0)_I0,2  (0, 2.00600900900675)_i1,3  (0, 3.00901351351013)_j1,3  (0, 4.01201801801351)_k1,3  Q.g_exp
-g squared: (0, 28.1805050815139)_I0,2  (0, 4.00000000000000)_i1,3  (0, 6.00000000000000)_j1,3  (0, 8.00000000000000)_k1,3  Q.g_exp.sq.reduce
+g squared: (0, 28.1805050815139)_I0,2  (0, 4.00000000000000)_i1,3  (0, 6.00000000000000)_j1,3  (0, 8.00000000000000)_k1,3  Q.g_exp.Q.g_exp_sq.reduce
 inverse: (0.0, 0.0)_I0,2  (0.0, 0.16)_i1,3  (0.12, 0.0)_j1,3  (0.0, 0.0)_k1,3  Q.^-1.reduce
 norm_squared: (30, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q.norm_squared
 norm_squared_of_vector: (29, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q.norm_squaredV
@@ -1746,9 +1861,12 @@ q1: (1, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q
 q0: (0, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q
 q_big reduced: (0, 1)_I0,2  (0, 1)_i1,3  (0, 1)_j1,3  (0, 1)_k1,3  Q.reduce
 rotate: (1.0, 0.0)_I0,2  (0.0, 2.0)_i1,3  (3.0, 0.0)_j1,3  (4.0, 0.0)_k1,3  Q/Q.Q.absxQxQ/Q.Q.abs.*.reduce
-square: (1, 29)_I0,2  (0, 4)_i1,3  (0, 6)_j1,3  (0, 8)_k1,3  Q.sq
-square reduced: (0, 28)_I0,2  (0, 4)_i1,3  (0, 6)_j1,3  (0, 8)_k1,3  Q.sq.reduce
+square: (1, 29)_I0,2  (0, 4)_i1,3  (0, 6)_j1,3  (0, 8)_k1,3  Q.Q_sq
+square reduced: (0, 28)_I0,2  (0, 4)_i1,3  (0, 6)_j1,3  (0, 8)_k1,3  Q.Q_sq.reduce
 triple: (0, 2)_I0,2  (124, 0)_i1,3  (0, 84)_j1,3  (8, 0)_k1,3  QxQxQ.reduce
+vahlen conj -: (1, 0)_I0,2  (2, 0)_i1,3  (3, 0)_j1,3  (4, 0)_k1,3  Q.vc-
+vahlen conj &apos;: (1, 0)_I0,2  (2, 0)_i1,3  (3, 0)_j1,3  (0, 4)_k1,3  Q.vc&apos;
+vahlen conj *: (1, 0)_I0,2  (0, 2)_i1,3  (0, 3)_j1,3  (4, 0)_k1,3  Q.vc*
 </pre>
 </div>
 </div>
@@ -1757,7 +1875,7 @@ triple: (0, 2)_I0,2  (124, 0)_i1,3  (0, 84)_j1,3  (8, 0)_k1,3  QxQxQ.reduce
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 22 tests in 0.022s
+Ran 25 tests in 0.022s
 
 OK
 </pre>
@@ -2134,79 +2252,6 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>causality_disjoint /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/causality_disjoint.png
-causality_light-like_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/causality_light-like_exact.png
-causality_space-like /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/causality_space-like.png
-causality_space-like_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/causality_space-like_exact.png
-causality_space-like_space-like_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/causality_space-like_space-like_exact.png
-causality_time-like /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/causality_time-like.png
-causality_time-like_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/causality_time-like_exact.png
-causality_time-like_time-like_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/causality_time-like_time-like_exact.png
-norm_squared_of_unity_disjoint /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/norm_squared_of_unity_disjoint.png
-norm_squared_of_unity_greater_than_unity /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/norm_squared_of_unity_greater_than_unity.png
-norm_squared_of_unity_greater_than_unity_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/norm_squared_of_unity_greater_than_unity_exact.png
-norm_squared_of_unity_less_than_unity /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/norm_squared_of_unity_less_than_unity.png
-norm_squared_of_unity_less_than_unity_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/norm_squared_of_unity_less_than_unity_exact.png
-norm_squared_of_unity_unity_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/norm_squared_of_unity_unity_exact.png
-space-1_disjoint /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-1_disjoint.png
-space-1_here_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-1_here_exact.png
-space-1_left /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-1_left.png
-space-1_left_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-1_left_exact.png
-space-1_right /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-1_right.png
-space-1_right_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-1_right_exact.png
-space-2_disjoint /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-2_disjoint.png
-space-2_down /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-2_down.png
-space-2_down_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-2_down_exact.png
-space-2_here_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-2_here_exact.png
-space-2_up /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-2_up.png
-space-2_up_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-2_up_exact.png
-space-3_disjoint /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-3_disjoint.png
-space-3_far /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-3_far.png
-space-3_far_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-3_far_exact.png
-space-3_here_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-3_here_exact.png
-space-3_near /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-3_near.png
-space-3_near_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-3_near_exact.png
-space-times-time-1_disjoint /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-1_disjoint.png
-space-times-time-1_future-left /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-1_future-left.png
-space-times-time-1_future-left_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-1_future-left_exact.png
-space-times-time-1_future-right /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-1_future-right.png
-space-times-time-1_future-right_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-1_future-right_exact.png
-space-times-time-1_here-now_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-1_here-now_exact.png
-space-times-time-2_disjoint /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-2_disjoint.png
-space-times-time-2_future-down /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-2_future-down.png
-space-times-time-2_future-down_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-2_future-down_exact.png
-space-times-time-2_future-up /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-2_future-up.png
-space-times-time-2_future-up_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-2_future-up_exact.png
-space-times-time-2_here-now_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-2_here-now_exact.png
-space-times-time-3_disjoint /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-3_disjoint.png
-space-times-time-3_future-far /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-3_future-far.png
-space-times-time-3_future-far_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-3_future-far_exact.png
-space-times-time-3_future-near /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-3_future-near.png
-space-times-time-3_future-near_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-3_future-near_exact.png
-space-times-time-3_here-now_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space-times-time-3_here-now_exact.png
-space_classes /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space_classes.png
-space_disjoint /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space_disjoint.png
-space_here_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/space_here_exact.png
-time_disjoint /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/time_disjoint.png
-time_future /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/time_future.png
-time_future_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/time_future_exact.png
-time_future_future_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/time_future_future_exact.png
-time_now_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/time_now_exact.png
-time_past /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/time_past.png
-time_past_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_classes/time_past_exact.png
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -2346,7 +2391,7 @@ time_past_exact /Users/doug/Google Drive/IPython_notebooks/q_notebook/images/eq_
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>.......
 ----------------------------------------------------------------------
-Ran 7 tests in 0.013s
+Ran 7 tests in 0.012s
 
 OK
 </pre>
@@ -26876,6 +26921,170 @@ GGOMMcYYY4wxxhhjjDHGGGOMMcYYY4wxxrw1/P+0/ou99k7fZQAAAABJRU5ErkJggg==
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>1 2
 </pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">qa</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<span class="n">qi</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">qi</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">qa</span><span class="p">)</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">qi</span><span class="p">)</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(0, 1)_I0,2  (2, 0)_i1,3  (0, 3)_j1,3  (0, 4)_k1,3  QxQxQ.*
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">q1n</span><span class="o">=</span><span class="n">Q8</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">qa</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q1n</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">qa</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q1n</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">qa</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q1n</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(0, 1)_I0,2  (0, 2)_i1,3  (0, 3)_j1,3  (4, 0)_k1,3  Q.*.*1.*2xQ
+(0, 1)_I0,2  (0, 2)_i1,3  (0, 3)_j1,3  (4, 0)_k1,3  Q.*.*2.*1xQ
+(0, 1)_I0,2  (0, 2)_i1,3  (0, 3)_j1,3  (4, 0)_k1,3  Q.*2.*1.*xQ
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">qa</span> <span class="o">=</span> <span class="n">QH</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">qa</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">qa</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">qa</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1t  -2i  -3j  -4k  Q.vc*-
+1t  -2i  -3j  4k  Q.vc*&apos;
+1t  2i  3j  -4k  Q.vc*
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">qa</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">qa</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">qa</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">qa</span><span class="o">.</span><span class="n">square</span><span class="p">()</span><span class="o">.</span><span class="n">norm_squared_of_vector</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">qa</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span><span class="o">.</span><span class="n">square</span><span class="p">()</span><span class="o">.</span><span class="n">norm_squared_of_vector</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">qa</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">qa</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1t  2i  3j  4k  Q
+-3t  -4i  1j  2k  QxQ
+1t  -2i  3j  -4k  QxQxQ
+116t  0i  0j  0k  Q.sq.norm_squaredV
+116t  0i  0j  0k  QxQxQ.sq.norm_squaredV
+30t  0i  0j  0k  Q.norm_squared
+30t  0i  0j  0k  QxQxQ.norm_squared
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansired">---------------------------------------------------------------------------</span>
+<span class="ansired">NameError</span>                                 Traceback (most recent call last)
+<span class="ansigreen">&lt;ipython-input-30-dea274603701&gt;</span> in <span class="ansicyan">&lt;module&gt;</span><span class="ansiblue">()</span>
+<span class="ansigreen">----&gt; 1</span><span class="ansired"> </span>Adq2<span class="ansiblue">.</span>norm_squared_of_vector<span class="ansiblue">(</span><span class="ansiblue">)</span><span class="ansiblue">.</span>reduced<span class="ansiblue">(</span><span class="ansiblue">)</span><span class="ansiblue"></span>
+
+<span class="ansired">NameError</span>: name &apos;Adq2&apos; is not defined</pre>
 </div>
 </div>
 
