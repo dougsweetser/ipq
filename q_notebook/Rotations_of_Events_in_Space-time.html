@@ -227,8 +227,9 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span><span class="k">capture</span>
 from Q_tool_devo import Q8;
-U=Q8([1,2,3,4])
-R=Q8([5,6,7,8])
+U=Q8([1,2,-3,4])
+V=Q8([4,-2,3,1])
+R=Q8([5,6,7,-8])
 </pre></div>
 
 </div>
@@ -265,8 +266,8 @@ R=Q8([5,6,7,8])
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(1, 0)_I0,2  (2, 0)_i1,3  (3, 0)_j1,3  (4, 0)_k1,3  Q
-(5, 0)_I0,2  (6, 0)_i1,3  (7, 0)_j1,3  (8, 0)_k1,3  Q
+<pre>(1, 0)_I0,2  (2, 0)_i1,3  (0, 3)_j1,3  (4, 0)_k1,3  Q
+(5, 0)_I0,2  (6, 0)_i1,3  (7, 0)_j1,3  (0, 8)_k1,3  Q
 </pre>
 </div>
 </div>
@@ -281,7 +282,7 @@ R=Q8([5,6,7,8])
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>If you are unfamiliar with this notation, the $I^2 = -1,\, i^3=-i,\, j^3=-j,\, k^3=-k$. Only positive numbers are used, with additive inverse put in these placeholders.</p>
-<p>To do a rotation, one needs to pre-multiply by a quaternion (using u for this role), then post-multiply by the inverse. By doing so, the norm of r will not change because quaternions are a normed division algebra.</p>
+<p>To do a rotation, one needs to pre-multiply by a quaternion, then post-multiply by its inverse. By doing so, the norm of R will not change because quaternions are a normed division algebra. A quaternion times its inverse has a norm of unity.</p>
 
 </div>
 </div>
@@ -291,7 +292,11 @@ R=Q8([5,6,7,8])
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">R_rotated</span><span class="o">=</span><span class="n">U</span><span class="o">.</span><span class="n">triple_product</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">U</span><span class="o">.</span><span class="n">invert</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">rotate_R_by_U</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Given a space-time number R, rotate it by Q.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">U</span><span class="o">.</span><span class="n">triple_product</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">U</span><span class="o">.</span><span class="n">invert</span><span class="p">())</span>
+
+<span class="n">R_rotated</span> <span class="o">=</span> <span class="n">rotate_R_by_U</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">U</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -308,7 +313,8 @@ R=Q8([5,6,7,8])
 $$\begin{align}(u, W)&(t, R)(u, -W)/(u^2 + W \cdot W)\\
 &= (u t - W \cdot R, u R + W t + W \times R)(u, -W)/(u^2 + W \cdot W)\\
 &=(u^2 t - uW \cdot R + u W \cdot R + W \cdot W t - W \cdot W \times R, ...)/(u^2 + W \cdot W)\\
-&=\left(\frac{u^2 + W \cdot W}{u^2 + W \cdot W}t,...\right) = (t, ...)\end{align}$$<p>Now look at the rotated event.</p>
+&=\left(\frac{u^2 + W \cdot W}{u^2 + W \cdot W}t,...\right) = (t, ...)\end{align}$$<p>Another way to see this is that the norm of $||R||$ does not change. That means the scalar plust the 3-vector norm do not change. While the 3-vector can shift who has values, the first term only has one term so should not change.</p>
+<p>Now look at the rotated event.</p>
 
 </div>
 </div>
@@ -332,8 +338,8 @@ $$\begin{align}(u, W)&(t, R)(u, -W)/(u^2 + W \cdot W)\\
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(13.033333333333333, 8.033333333333333)_I0,2  (12.0, 9.2)_i1,3  (14.566666666666666, 7.566666666666666)_j1,3  (15.933333333333334, 6.333333333333333)_k1,3  QxQxQ.^-1
-(5.0, 0)_I0,2  (2.8000000000000007, 0)_i1,3  (7.0, 0)_j1,3  (9.600000000000001, 0)_k1,3  QxQxQ.^-1.reduce
+<pre>(13.033333333333333, 8.033333333333333)_I0,2  (4.933333333333334, 16.266666666666666)_i1,3  (13.233333333333334, 8.9)_j1,3  (10.466666666666667, 11.8)_k1,3  QxQxQ.^-1
+(5.0, 0)_I0,2  (0, 11.333333333333332)_i1,3  (4.333333333333334, 0)_j1,3  (0, 1.333333333333334)_k1,3  QxQxQ.^-1.reduce
 </pre>
 </div>
 </div>
@@ -384,8 +390,8 @@ $$\begin{align}(u, W)&(t, R)(u, -W)/(u^2 + W \cdot W)\\
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>(174, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q.norm_squared
-(1026.4666666666667, 852.4666666666666)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  QxQxQ.^-1.norm_squared
-(174.0000000000001, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  QxQxQ.^-1.norm_squared.reduce
+(1026.4666666666667, 852.4666666666667)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  QxQxQ.^-1.norm_squared
+(174.0, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  QxQxQ.^-1.norm_squared.reduce
 </pre>
 </div>
 </div>
@@ -424,9 +430,9 @@ $$\begin{align}(u, W)&(t, R)(u, -W)/(u^2 + W \cdot W)\\
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(0, 124)_I0,2  (60, 0)_i1,3  (70, 0)_j1,3  (80, 0)_k1,3  Q.sq.reduce
-(877.4666666666666, 1001.4666666666667)_I0,2  (460.61333333333334, 432.61333333333334)_i1,3  (501.27555555555557, 431.27555555555557)_j1,3  (517.0844444444444, 421.08444444444444)_k1,3  QxQxQ.^-1.sq
-(0, 124.00000000000011)_I0,2  (28.0, 0)_i1,3  (70.0, 0)_j1,3  (96.0, 0)_k1,3  QxQxQ.^-1.sq.reduce
+<pre>(0, 124)_I0,2  (60, 0)_i1,3  (70, 0)_j1,3  (0, 80)_k1,3  Q.Q_sq.reduce
+(877.4666666666667, 1001.4666666666667)_I0,2  (389.94666666666666, 503.28)_i1,3  (487.94222222222226, 444.60888888888894)_j1,3  (462.4177777777778, 475.7511111111112)_k1,3  QxQxQ.^-1.QxQxQ.^-1_sq
+(0, 124.0)_I0,2  (0, 113.33333333333331)_i1,3  (43.333333333333314, 0)_j1,3  (0, 13.333333333333371)_k1,3  QxQxQ.^-1.QxQxQ.^-1_sq.reduce
 </pre>
 </div>
 </div>
@@ -451,7 +457,72 @@ $$\begin{align}(u, W)&(t, R)(u, -W)/(u^2 + W \cdot W)\\
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Rotations-in-Time">Rotations in Time<a class="anchor-link" href="#Rotations-in-Time">&#182;</a></h2>
+<h2 id="Rotations-as-a-Well-behaved-Function">Rotations as a Well-behaved Function<a class="anchor-link" href="#Rotations-as-a-Well-behaved-Function">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Do rotations preserve the group structure of quaternions with multiplication? If it did, then:</p>
+$$\rm{Rot}(V*U) R = \rm{Rot}(V) *\rm{Rot}(U) R $$<p>The product of V*U into the rotation function is identical to doing one after the other.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">product_UV</span> <span class="o">=</span> <span class="n">rotate_R_by_U</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">V</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">U</span><span class="p">))</span>
+<span class="n">product_rotations</span> <span class="o">=</span> <span class="n">rotate_R_by_U</span><span class="p">(</span><span class="n">rotate_R_by_U</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">V</span><span class="p">),</span> <span class="n">U</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">product_UV</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">product_rotations</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">product_UV</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">product_rotations</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(38.55777777777778, 33.55777777777777)_I0,2  (32.315555555555555, 39.871111111111105)_i1,3  (37.84, 34.41777777777778)_j1,3  (40.64222222222222, 31.686666666666667)_k1,3  QxQxQxQxQ.^-1
+(38.55777777777778, 33.55777777777778)_I0,2  (37.92666666666667, 34.260000000000005)_i1,3  (41.19555555555556, 31.06222222222222)_j1,3  (33.297777777777775, 39.03111111111111)_k1,3  QxQxQxQ.^-1xQ.^-1
+(5.000000000000007, 0)_I0,2  (0, 7.55555555555555)_i1,3  (3.4222222222222243, 0)_j1,3  (8.955555555555556, 0)_k1,3  QxQxQxQxQ.^-1.reduce
+(5.0, 0)_I0,2  (3.6666666666666643, 0)_i1,3  (10.133333333333336, 0)_j1,3  (0, 5.733333333333334)_k1,3  QxQxQxQ.^-1xQ.^-1.reduce
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This looks well-behaved because the the U and V if the U and V form a product before being applied, it results in the same answer as doing one after the other. I was a bit surprised this work without having to reduce the results.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="A-Rotation-of-Time-and-Space">A Rotation of Time and Space<a class="anchor-link" href="#A-Rotation-of-Time-and-Space">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -470,7 +541,7 @@ $$\begin{align}(u, W)&(t, R)(u, -W)/(u^2 + W \cdot W)\\
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>There are published claims in the literature that a boost cannot be done with real valued quaternions. This may be because people followed the form of rotations in space too closely. It is true that swapping hyperbolic cosines for cosines, and hyperbolic sines for sines does not create a Lorentz boost. Rotations are known as a compact Lie group while boosts form a group that is not compact. A slightly more complicated combination of the hyperbolic trig functions does do the work:</p>
+<p>There are published claims in the literature that a boost cannot be done with real-valued quaternions. This may be because people followed the form of rotations in space too closely. It is true that swapping hyperbolic cosines for cosines, and hyperbolic sines for sines does not create a Lorentz boost. Rotations are known as a compact Lie group while boosts form a group that is not compact. A slightly more complicated combination of the hyperbolic trig functions does do the work:</p>
 
 </div>
 </div>
@@ -487,7 +558,7 @@ $$\begin{align*} b \rightarrow b' = &(\cosh(\alpha), \sinh(\alpha) (t, R) (\cosh
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">R_boosted</span><span class="o">=</span><span class="n">R</span><span class="o">.</span><span class="n">boost</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.003</span><span class="p">)</span>
@@ -507,10 +578,10 @@ $$\begin{align*} b \rightarrow b' = &(\cosh(\alpha), \sinh(\alpha) (t, R) (\cosh
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>boosted: (4.556864444001997, 0)_I0,2  (5.90443135555998, 0)_i1,3  (6.808862711119961, 0)_j1,3  (7.971329406667996, 0)_k1,3  Q.boost.reduce
-(0, 124)_I0,2  (60, 0)_i1,3  (70, 0)_j1,3  (80, 0)_k1,3  Q.sq.reduce
-(332.92404269673744, 456.92404269673744)_I0,2  (168.19865710738904, 114.38727049498547)_i1,3  (192.72655295590604, 130.67242417111888)_j1,3  (220.17238038687336, 147.52384529752752)_k1,3  Q.boost.sq
-(0, 124.0)_I0,2  (53.81138661240357, 0)_i1,3  (62.05412878478717, 0)_j1,3  (72.64853508934584, 0)_k1,3  Q.boost.sq.reduce
+<pre>boosted: (4.65291333288644, 0)_I0,2  (5.903470866671137, 0)_i1,3  (6.80694173334227, 0)_j1,3  (0, 8.028958739998657)_k1,3  Q.boost.reduce
+(0, 124)_I0,2  (60, 0)_i1,3  (70, 0)_j1,3  (0, 80)_k1,3  Q.Q_sq.reduce
+(332.92404269673744, 456.9240426967374)_I0,2  (168.7613021070281, 113.8246254953465)_i1,3  (193.37159851076186, 130.0273786162631)_j1,3  (146.4900636716656, 221.20616201273532)_k1,3  Q.boost.Q.boost_sq
+(0, 123.99999999999994)_I0,2  (54.93667661168159, 0)_i1,3  (63.344219894498764, 0)_j1,3  (0, 74.71609834106971)_k1,3  Q.boost.Q.boost_sq.reduce
 </pre>
 </div>
 </div>
@@ -531,7 +602,7 @@ $$\begin{align*} b \rightarrow b' = &(\cosh(\alpha), \sinh(\alpha) (t, R) (\cosh
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
@@ -550,8 +621,8 @@ $$\begin{align*} b \rightarrow b' = &(\cosh(\alpha), \sinh(\alpha) (t, R) (\cosh
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>(174, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q.norm_squared.reduce
-(477.6890562577471, 312.1590291357278)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q.boost.norm_squared
-(165.5300271220193, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q.boost.norm_squared.reduce
+(478.5736451800898, 311.27444021338505)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q.boost.norm_squared
+(167.29920496670474, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q.boost.norm_squared.reduce
 </pre>
 </div>
 </div>
@@ -581,7 +652,7 @@ $$\begin{align*} b \rightarrow b' = &(\cosh(\alpha), \sinh(\alpha) (t, R) (\cosh
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">R_rotated_and_boosted</span> <span class="o">=</span> <span class="n">R_rotated</span><span class="o">.</span><span class="n">boost</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.003</span><span class="p">)</span>
@@ -601,10 +672,10 @@ $$\begin{align*} b \rightarrow b' = &(\cosh(\alpha), \sinh(\alpha) (t, R) (\cosh
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>rotated and boosted: (4.611292147703185, 0)_I0,2  (2.703887078522971, 0)_i1,3  (6.807774157045934, 0)_j1,3  (9.571166123556893, 0)_k1,3  QxQxQ.^-1.boost.reduce
-(0, 124)_I0,2  (60, 0)_i1,3  (70, 0)_j1,3  (80, 0)_k1,3  Q.sq.reduce
-(4220.9269820845675, 4344.9269820845675)_I0,2  (2057.699089275276, 2032.7622627683381)_i1,3  (2158.177631785001, 2095.3923607575553)_j1,3  (2183.1193449968646, 2094.8484586170234)_k1,3  QxQxQ.^-1.boost.sq
-(0, 124.0)_I0,2  (24.936826506937905, 0)_i1,3  (62.78527102744556, 0)_j1,3  (88.27088637984116, 0)_k1,3  QxQxQ.^-1.boost.sq.reduce
+<pre>rotated and boosted: (5.066457160027788, 0)_I0,2  (0, 11.43399790493362)_i1,3  (4.132004190132783, 0)_j1,3  (0, 1.3635327048134158)_k1,3  QxQxQ.^-1.boost.reduce
+(0, 124)_I0,2  (60, 0)_i1,3  (70, 0)_j1,3  (0, 80)_k1,3  Q.Q_sq.reduce
+(4220.926982084568, 4344.926982084568)_I0,2  (1987.3008154686133, 2103.1605365750006)_i1,3  (2147.719618485641, 2105.850374056915)_j1,3  (2132.0756217717103, 2145.892181842178)_k1,3  QxQxQ.^-1.boost.QxQxQ.^-1.boost_sq
+(0, 124.0)_I0,2  (0, 115.85972110638727)_i1,3  (41.86924442872623, 0)_j1,3  (0, 13.816560070467858)_k1,3  QxQxQ.^-1.boost.QxQxQ.^-1.boost_sq.reduce
 </pre>
 </div>
 </div>
@@ -625,7 +696,7 @@ $$\begin{align*} b \rightarrow b' = &(\cosh(\alpha), \sinh(\alpha) (t, R) (\cosh
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
@@ -644,8 +715,8 @@ $$\begin{align*} b \rightarrow b' = &(\cosh(\alpha), \sinh(\alpha) (t, R) (\cosh
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>(174, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  Q.norm_squared.reduce
-(4366.190997356037, 4199.662966813099)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  QxQxQ.^-1.boost.norm_squared
-(166.5280305429378, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  QxQxQ.^-1.boost.norm_squared.reduce
+(4370.5959702389655, 4195.257993930171)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  QxQxQ.^-1.boost.norm_squared
+(175.33797630879417, 0)_I0,2  (0, 0)_i1,3  (0, 0)_j1,3  (0, 0)_k1,3  QxQxQ.^-1.boost.norm_squared.reduce
 </pre>
 </div>
 </div>
@@ -677,7 +748,7 @@ $$\begin{align*} b \rightarrow b' = &(\cosh(\alpha), \sinh(\alpha) (t, R) (\cosh
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">U</span><span class="p">)</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">R</span><span class="p">)))</span>
@@ -693,7 +764,7 @@ $$\begin{align*} b \rightarrow b' = &(\cosh(\alpha), \sinh(\alpha) (t, R) (\cosh
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(70, 70)_I0,2  (72, 64)_i1,3  (54, 70)_j1,3  (64, 56)_k1,3  QxQ-QxQ
+<pre>(70, 70)_I0,2  (72, 64)_i1,3  (22, 102)_j1,3  (28, 92)_k1,3  QxQ-QxQ
 </pre>
 </div>
 </div>
@@ -704,7 +775,7 @@ $$\begin{align*} b \rightarrow b' = &(\cosh(\alpha), \sinh(\alpha) (t, R) (\cosh
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">())</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">())))</span>
@@ -720,7 +791,7 @@ $$\begin{align*} b \rightarrow b' = &(\cosh(\alpha), \sinh(\alpha) (t, R) (\cosh
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(70, 70)_I0,2  (72, 64)_i1,3  (54, 70)_j1,3  (64, 56)_k1,3  Q.vc-xQ.vc--Q.vc-xQ.vc-
+<pre>(70, 70)_I0,2  (72, 64)_i1,3  (22, 102)_j1,3  (28, 92)_k1,3  Q.vc-xQ.vc--Q.vc-xQ.vc-
 </pre>
 </div>
 </div>
@@ -731,7 +802,7 @@ $$\begin{align*} b \rightarrow b' = &(\cosh(\alpha), \sinh(\alpha) (t, R) (\cosh
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">))))</span>
@@ -747,7 +818,7 @@ $$\begin{align*} b \rightarrow b' = &(\cosh(\alpha), \sinh(\alpha) (t, R) (\cosh
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(70, 70)_I0,2  (64, 72)_i1,3  (70, 54)_j1,3  (64, 56)_k1,3  Q.vc&apos;xQ.vc&apos;-Q.vc&apos;xQ.vc&apos;
+<pre>(70, 70)_I0,2  (64, 72)_i1,3  (102, 22)_j1,3  (28, 92)_k1,3  Q.vc&apos;xQ.vc&apos;-Q.vc&apos;xQ.vc&apos;
 </pre>
 </div>
 </div>
