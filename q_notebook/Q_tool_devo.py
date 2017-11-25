@@ -11,23 +11,27 @@
 # 
 # Test driven development was used. The same tests for class QH were used for Q8.  Either class can be used to study quaternions in physics.
 
-# In[1]:
+# In[9]:
+
 
 import IPython
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import math
+import sympy as sp
 import os
 import unittest
+
+from IPython.display import display
 from os.path import basename
 from glob import glob
-from sympy import *
-get_ipython().magic('matplotlib inline')
+get_ipython().run_line_magic('matplotlib', 'inline')
 
 
 # Define the stretch factor $\gamma$ and the $\gamma \beta$ used in special relativity.
 
 # In[2]:
+
 
 def sr_gamma(beta_x=0, beta_y=0, beta_z=0):
     """The gamma used in special relativity using 3 velocites, some may be zero."""
@@ -44,9 +48,10 @@ def sr_gamma_betas(beta_x=0, beta_y=0, beta_z=0):
 
 # Define a class QH to manipulate quaternions as Hamilton would have done it so many years ago. The "qtype" is a little bit of text to leave a trail of breadcrumbs about how a particular quaternion was generated.
 
-# In[3]:
+# In[10]:
 
-class QH:
+
+class QH(object):
     """Quaternions as Hamilton would have defined them, on the manifold R^4."""
 
     def __init__(self, values=None, qtype="Q"):
@@ -62,8 +67,24 @@ class QH:
 
     def __str__(self):
         """Customize the output."""
-        return "{t}t  {x}i  {y}j  {z}k  {qt}".format(t=self.t, x=self.x, y=self.y, z=self.z, qt=self.qtype)
+        return "({t}, {x}, {y}, {z}) {qt}".format(t=self.t, x=self.x, y=self.y, z=self.z, qt=self.qtype)
+    
+    def display_q(self):
+        """display each terms in a pretty way."""
+
+        display((self.t, self.x, self.y, self.z, self.qtype))
+        return
+
+    
+    def simple_q(self):
+        """display each terms in a pretty way."""
         
+        self.t = sp.simplify(self.t)
+        self.x = sp.simplify(self.x)
+        self.y = sp.simplify(self.y)
+        self.z = sp.simplify(self.z)
+        return
+    
     def q_0(self, qtype="Zero"):
         """Return a zero quaternion."""
 
@@ -309,7 +330,7 @@ class QH:
 
     def divide_by(self, q1, qtype=""):
         """Divide one quaternion by another. The order matters unless one is using a norm_squared (real number)."""
-
+        
         q1_inv = q1.invert()
         q_div = self.product(q1.invert())
         
@@ -372,7 +393,7 @@ class QH:
         """Shift an observation based on a dimensionless GM/c^2 dR."""
 
         if g_form == "exp":
-            g_factor = exp(dimensionless_g)
+            g_factor = sp.exp(dimensionless_g)
         elif g_form == "minimal":
             g_factor = 1 + 2 * dimensionless_g + 2 * dimensionless_g ** 2
         else:
@@ -387,11 +408,38 @@ class QH:
 
         g_q.add_qtype(qtype)
         return g_q
+    
+    def q_sin(self, qtype="sin"):
+        """Take the sine of a quaternion, (sin(t) cosh(|R|), cos(t) sinh(|R|) R/|R|)"""
+
+        q_out = QH(qtype=self.qtype)
+        v_norm = self.norm_squared_of_vector()
+        
+        if v_norm.t == 0:
+            
+            q_out.t = sp.sin(self.t)
+            q_out.x = 0
+            q_out.y = 0
+            q_out.z = 0
+            
+        else:
+            
+            v_factor = sp.cos(self.t) * sp.sinh(v_norm.t) / v_norm.t
+            
+            q_out.t = math.trunc(sp.sin(self.t) * sp.cosh(v_norm.t))
+            q_out.x = math.trunc(v_factor * self.x)
+            q_out.y = math.trunc(v_factor * self.y)
+            q_out.z = math.trunc(v_factor * self.z)
+
+        q_out.add_qtype(qtype)
+        return q_out
+        
 
 
 # Write tests the QH class.
 
-# In[4]:
+# In[ ]:
+
 
 class TestQH(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
@@ -618,9 +666,13 @@ class TestQH(unittest.TestCase):
         self.assertTrue(q_z2_minimal.x == q1_sq.x)
         self.assertTrue(q_z2_minimal.y == q1_sq.y)
         self.assertTrue(q_z2_minimal.z == q1_sq.z)
+        
+    def test_q_sin(self):
+        QH([0, 0, 0, 0]).q_sin()
 
 
-# In[5]:
+# In[ ]:
+
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQH())
 unittest.TextTestRunner().run(suite);
@@ -628,9 +680,10 @@ unittest.TextTestRunner().run(suite);
 
 # My long term goal is to deal with quaternions on a quaternion manifold. This will have 4 pairs of doublets. Each doublet is paired with its additive inverse. Instead of using real numbers, one uses (3, 0) and (0, 2) to represent +3 and -2 respectively. Numbers such as (5, 6) are allowed. That can be "reduced" to (0, 1).  My sense is that somewhere deep in the depths of relativistic quantum field theory, this will be a "good thing". For now, it is a minor pain to program.
 
-# In[6]:
+# In[ ]:
 
-class Doublet:
+
+class Doublet(object):
     """A pair of number that are additive inverses. It can take
     ints, floats, Symbols, or strings."""
     
@@ -648,7 +701,7 @@ class Doublet:
                 self.p = numbers
                 self.n = 0
         
-        elif isinstance(numbers, Symbol):
+        elif isinstance(numbers, sp.Symbol):
             self.p = numbers
             self.n = 0
             
@@ -675,19 +728,19 @@ class Doublet:
                         self.n = 0
                         
                 else:
-                    self.p = Symbol(n_list[0])
+                    self.p = sp.Symbol(n_list[0])
                     self.n = 0
                       
             if (len(n_list) == 2):
                 if n_list[0].isnumeric():
                     self.p = float(n_list[0])
                 else:
-                    self.p = Symbol(n_list[0])
+                    self.p = sp.Symbol(n_list[0])
                     
                 if n_list[1].isnumeric():
                     self.n = float(n_list[1])
                 else:
-                    self.n = Symbol(n_list[1])
+                    self.n = sp.Symbol(n_list[1])
         else:
             print ("unable to parse this Double.")
 
@@ -740,7 +793,8 @@ class Doublet:
         return Doublet([p1, n1])
 
 
-# In[7]:
+# In[ ]:
+
 
 class TestDoublet(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
@@ -804,7 +858,8 @@ class TestDoublet(unittest.TestCase):
         self.assertTrue(Z2p_red.n == Z2p_2.n)
 
 
-# In[8]:
+# In[ ]:
+
 
 suite = unittest.TestLoader().loadTestsFromModule(TestDoublet())
 unittest.TextTestRunner().run(suite);
@@ -812,9 +867,10 @@ unittest.TextTestRunner().run(suite);
 
 # Write a class to handle quaternions given 8 numbers.
 
-# In[9]:
+# In[ ]:
 
-class Q8:
+
+class Q8(object):
     """Quaternions on a quaternion manifold or space-time numbers."""
 
     def __init__(self, values=None, qtype="Q"):
@@ -837,7 +893,7 @@ class Q8:
                 
     def __str__(self):
         """Customize the output."""
-        return "({tp}, {tn})_I0,2  ({xp}, {xn})_i1,3  ({yp}, {yn})_j1,3  ({zp}, {zn})_k1,3  {qt}".format(tp=self.dt.p, tn=self.dt.n, 
+        return "(({tp}, {tn}), ({xp}, {xn}), ({yp}, {yn}), ({zp}, {zn})) {qt}".format(tp=self.dt.p, tn=self.dt.n, 
                                                              xp=self.dx.p, xn=self.dx.n, 
                                                              yp=self.dy.p, yn=self.dy.n, 
                                                              zp=self.dz.p, zn=self.dz.n,
@@ -1143,7 +1199,7 @@ class Q8:
         """Shift an observation based on a dimensionless GM/c^2 dR."""
         
         if g_form == "exp":
-            g_factor = exp(dimensionless_g)
+            g_factor = sp.exp(dimensionless_g)
             if qtype == "g_shift":
                 qtype = "g_exp"
         elif g_form == "minimal":
@@ -1153,7 +1209,7 @@ class Q8:
         else:
             print("g_form not defined, should be 'exp' or 'minimal': {}".format(g_form))
             return self
-        exp_g = exp(dimensionless_g)
+        exp_g = sp.exp(dimensionless_g)
         
         g_q = Q8(qtype=self.qtype)
         g_q.dt = Doublet([self.dt.p / exp_g, self.dt.n / exp_g])
@@ -1165,7 +1221,8 @@ class Q8:
         return g_q
 
 
-# In[10]:
+# In[ ]:
+
 
 class TestQ8(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
@@ -1436,7 +1493,8 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z2.dz.n == q1_sq.dz.n)
 
 
-# In[11]:
+# In[ ]:
+
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8())
 unittest.TextTestRunner().run(suite);
@@ -1451,7 +1509,8 @@ unittest.TextTestRunner().run(suite);
 # Such an exact relation is not of much interest to physicists since Einstein showed that holds for only one set of observers. If one is moving relative to the reference observer, the two events would look like they occured at different times in the future, presuming perfectly accurate measuring devices.
 # 
 
-# In[12]:
+# In[ ]:
+
 
 def round_sig_figs(num, sig_figs):
     """Round to specified number of sigfigs.
@@ -1464,9 +1523,10 @@ def round_sig_figs(num, sig_figs):
         return 0  # Can't take the log of 0
 
 
-# In[13]:
+# In[ ]:
 
-class EQ():
+
+class EQ(object):
     """A class that compairs pairs of quaternions."""
     
     # Read images in once for the class.
@@ -1787,7 +1847,8 @@ class EQ():
     
 
 
-# In[14]:
+# In[ ]:
+
 
 class TestEQ(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
@@ -1896,13 +1957,169 @@ class TestEQ(unittest.TestCase):
         self.assertTrue(eq_small_tiny.norm_squared_of_unity() == 'less_than_unity')
 
 
-# In[15]:
+# In[ ]:
+
 
 suite = unittest.TestLoader().loadTestsFromModule(TestEQ())
 unittest.TextTestRunner().run(suite);
 
 
-# In[16]:
+# Create a class that can make many, many quaternions.
+
+# In[ ]:
+
+
+class QHArray(QH):
+    """A class that can generate many quaternions."""
+    
+    def __init__(self, q_min=QH([0, 0, 0, 0]), q_max=QH([0, 0, 0, 0]), n_steps=100):
+        """Store min, max, and number of step data."""
+        self.q_min = q_min
+        self.q_max = q_max
+        self.n_steps = n_steps
+    
+    def range(self, q_start, q_delta, n_steps, function=QH.add):
+        """Can generate n quaternions"""
+        
+        functions = {}
+        functions["add"] = QH.add
+        functions["dif"] = QH.dif
+        functions["product"] = QH.product
+        
+        # To do: figure out the operator used in qtype
+        
+        q_0 = q_start
+        q_0_qtype = q_0.qtype
+        self.set_min_max(q_0, first=True)
+        yield q_0
+        
+        for n in range(1, n_steps + 1):
+            q_1 = function(q_0, q_delta)
+            q_1.qtype = "{q0q}+{n}dQ".format(q0q=q_0_qtype, n=n)
+            q_0 = q_1.dupe()
+            self.set_min_max(q_1, first=False)
+            yield q_1
+            
+    def set_min_max(self, q1, first=False):
+        """Sets the minimum and maximum of a set of quaternions as needed."""
+        
+        if first:
+            self.q_min = q1.dupe()
+            self.q_max = q1.dupe()
+            
+        else:
+            if q1.t < self.q_min.t:
+                self.q_min.t = q1.t
+            elif q1.t > self.q_max.t:
+                self.q_max.t = q1.t
+                
+            if q1.x < self.q_min.x:
+                self.q_min.x = q1.x
+            elif q1.x > self.q_max.x:
+                self.q_max.x = q1.x
+
+            if q1.y < self.q_min.y:
+                self.q_min.y = q1.y
+            elif q1.y > self.q_max.y:
+                self.q_max.y = q1.y
+            
+            if q1.z < self.q_min.z:
+                self.q_min.z = q1.z
+            elif q1.z > self.q_max.z:
+                self.q_max.z = q1.z
+            
+    def symbol_sub(self, TXYZ_expression, q1):
+        """Given a Symbol expression in terms of T X, Y, and Z, plugs in values for q1.t, q1.x, q1.y, and q1.z"""
+        
+        new_t = TXYZ_expression.t.subs(T, q1.t).subs(X, q1.x).subs(Y, q1.y).subs(Z, q1.z)
+        new_x = TXYZ_expression.x.subs(T, q1.t).subs(X, q1.x).subs(Y, q1.y).subs(Z, q1.z)
+        new_y = TXYZ_expression.y.subs(T, q1.t).subs(X, q1.x).subs(Y, q1.y).subs(Z, q1.z)
+        new_z = TXYZ_expression.z.subs(T, q1.t).subs(X, q1.x).subs(Y, q1.y).subs(Z, q1.z)
+        
+        return QH([new_t, new_x, new_y, new_z])
+
+
+# In[ ]:
+
+
+class TestQHArray(unittest.TestCase):
+    """Test array making software."""
+    
+    t1=QH([1,2,3,4])
+    qd=QH([10, .2, .3, 1])
+    qha = QHArray()
+    
+    def test_range(self):
+        q_list = list(self.qha.range(self.t1, self.qd, 10))
+        self.assertTrue(len(q_list) == 11)
+        self.assertTrue(q_list[10].qtype == "Q+10dQ")
+        self.assertTrue(q_list[10].z == 14)
+    
+    def test_min_max(self):
+        q_list = list(self.qha.range(self.t1, self.qd, 10))
+        self.assertTrue(self.qha.q_min.t < 1.01)
+        self.assertTrue(self.qha.q_max.t > 100)
+        self.assertTrue(self.qha.q_min.x < 2.01)
+        self.assertTrue(self.qha.q_max.x > 2.9)
+        self.assertTrue(self.qha.q_min.y < 4.01)
+        self.assertTrue(self.qha.q_max.y > 5.8)
+        self.assertTrue(self.qha.q_min.z < 6.01)
+        self.assertTrue(self.qha.q_max.z > 13.9)
+
+
+# In[ ]:
+
+
+suite = unittest.TestLoader().loadTestsFromModule(TestQHArray())
+unittest.TextTestRunner().run(suite);
+
+
+# In[ ]:
+
+
+qha = QHArray()
+t1=QH([1.0,2.0,3.0,4.0])
+qd=QH([10, .2, .3, 1])
+for q in qha.range(t1,qd,10):
+    print(q)
+ql=list(qha.range(t1,qd,10))
+print(ql[0])
+
+
+# In[ ]:
+
+
+T, X, Y, Z = sp.symbols('T X Y Z')
+qabstract=QH([T, sp.cos(T), Y + sp.sin(T), Z+T])
+print(qabstract)
+print(qabstract.t.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
+print(qabstract.x.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
+print(qabstract.y.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
+print(qabstract.z.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
+q2=qha.symbol_sub(qabstract, t1)
+print(q2)
+for q in qha.range(t1,qd,10):
+    print(qha.symbol_sub(qabstract, q))
+
+
+# In[ ]:
+
+
+T, X, Y, Z = sp.symbols('T X Y Z')
+qabstract=QH([T, X + sp.cos(T), Y + sp.sin(T), Z+T])
+print(qabstract)
+print(qabstract.t.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
+print(qabstract.x.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
+print(qabstract.y.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
+print(qabstract.z.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
+
+
+# So I can make a long list of quaternions. I can make an abstract function and fill that with this list of quaternions. Now I need to sort the quaternions by time
+
+# In[ ]:
+
+
+
 
 E1 = QH([0, 0, 0, 0])
 E2 = QH([1,1,0,0])
@@ -1914,19 +2131,22 @@ print(eq_E12)
 eq_E12.visualize()
 
 
-# In[17]:
+# In[ ]:
+
 
 print(eq_E13)
 eq_E13.visualize()
 
 
-# In[18]:
+# In[ ]:
+
 
 print(eq_E23)
 eq_E23.visualize()
 
 
-# In[19]:
+# In[ ]:
+
 
 q12 = Q8([1,2,0,0,0,0,0,0])
 q12inv = q12.invert()
@@ -1939,7 +2159,8 @@ print(q1221n2)
 print(q1221n2.reduce())
 
 
-# In[20]:
+# In[ ]:
+
 
 Q12 = QH([1, 2,0, 0, 0, 0, 0,0])
 Q12inv = Q12.invert()
@@ -1947,7 +2168,8 @@ Q1221 = Q12.product(Q12inv)
 print(Q1221)
 
 
-# In[21]:
+# In[ ]:
+
 
 q12 = Q8([1,2,0,0,0,0,0,0])
 qcrazy = Q8([1,12,2,3,13,2,7,5])
@@ -1956,7 +2178,8 @@ print(q12.invert())
 print(qcrazy.product(qcrazy.invert()).reduce())
 
 
-# In[22]:
+# In[ ]:
+
 
 print(q12)
 print(q12.invert())
@@ -1964,26 +2187,30 @@ print(q12.product(q12.invert()))
 print(q12.product(q12.invert()).norm_squared())
 
 
-# In[23]:
+# In[ ]:
+
 
 print(qcrazy.product(qcrazy.invert()).reduce())
 
 
-# In[24]:
+# In[ ]:
+
 
 print(qcrazy.norm_squared())
 print(qcrazy.invert().norm_squared())
 print(q12.norm_squared().product(qcrazy.invert().norm_squared()))
 
 
-# In[25]:
+# In[ ]:
+
 
 d12 = Doublet([1,2])
 d12.Z2_product(d12)
 print("{} {}".format(d12.p, d12.n))
 
 
-# In[26]:
+# In[ ]:
+
 
 
 qa = Q8([1,2,3,4])
@@ -1991,7 +2218,8 @@ qi = Q8([0,1,0,0])
 print(qi.product(qa).product(qi).conj())
 
 
-# In[27]:
+# In[ ]:
+
 
 q1n=Q8([-1,0,0,0])
 print(qa.conj().conj(1).conj(2).product(q1n))
@@ -1999,7 +2227,8 @@ print(qa.conj().conj(2).conj(1).product(q1n))
 print(qa.conj(2).conj(1).conj().product(q1n))
 
 
-# In[28]:
+# In[ ]:
+
 
 qa = QH([1,2,3,4])
 print(qa.vahlen_conj())
@@ -2007,7 +2236,8 @@ print(qa.vahlen_conj("'"))
 print(qa.vahlen_conj("*"))
 
 
-# In[29]:
+# In[ ]:
+
 
 print(qa)
 print(qa.product(QH([0, 0, 1, 0])))
@@ -2016,14 +2246,4 @@ print(qa.square().norm_squared_of_vector())
 print(QH([0, 0, 1, 0]).product(qa.product(QH([0, 0, -1, 0]))).square().norm_squared_of_vector())
 print(qa.norm_squared())
 print(QH([0, 0, 1, 0]).product(qa.product(QH([0, 0, -1, 0]))).norm_squared())
-
-
-# In[30]:
-
-
-
-
-# In[ ]:
-
-
 
