@@ -11783,6 +11783,15 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>by Doug Sweetser, sweetser@alum.mit.edu - please feel free to email</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>In this IPython notebook, efforts will be made to understand quaternion triple products and how they are related to distances in space and intervals in space-time as seen in special relativity. Rather than follow a historical story, I will try a more abstract approach. Initialize a few tools.</p>
 
 </div>
@@ -12552,10 +12561,34 @@ $$\beta \gamma = \sinh(\alpha)$$</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>$$\sin(\alpha) = \frac{e^{i \alpha} - e^{-i \alpha}}{2 i}$$
-$$\cos(\alpha) = \frac{e^{i \alpha} + e^{-i \alpha}}{2 i}$$
-$$\sinh(\alpha) = \frac{e^{\alpha} - e^{-\alpha}}{2}$$
-$$\cosh(\alpha) = \frac{e^{\alpha} + e^{-\alpha}}{2}$$</p>
+<p>$$\sin(\alpha) = \frac{e^{i \alpha} - e^{-i \alpha}}{2 i}$$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$$\cos(\alpha) = \frac{e^{i \alpha} + e^{-i \alpha}}{2 i}$$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$$\sinh(\alpha) = \frac{e^{\alpha} - e^{-\alpha}}{2}$$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$$\cosh(\alpha) = \frac{e^{\alpha} + e^{-\alpha}}{2}$$</p>
 
 </div>
 </div>
@@ -13691,6 +13724,23 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Composite functions are associative, at least according to wikipedia.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="The-Difference-Between-composite_rotation-and-composite_quadratic">The Difference Between composite_rotation and composite_quadratic<a class="anchor-link" href="#The-Difference-Between-composite_rotation-and-composite_quadratic">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Both of these composite functions call another function twice, next_rotation and next_quadratic respectively. Both functions do a normalization. The next_rotation normalizes to the norm squared which can be zero if the parameter $P$ is zero, otherwise it is positive. The next_rotation function always does one thing, $P R P^{-1}$. The next_quadratic normalizes to the first term of the square. That value can be positive, negative, or zero. When the first term of the square is positive or negative, the next_quadratic function treats both cases identically. Three triple quaternion products are used, $P R P^* + \frac{1}{2}((P P R)^* - (P^* P^* R)^*)$. The first term is identical to a rotation so long as the norm is equal to one. Otherwise, it is off just by a scaling factor. The difference happens when it is zero which indicates the properties of light come into play. It is the lightcone that separates time-like events from space-like events. For a time-like value of the paramter $P$, the triple-triple returns zero which is not a member of the group. If one uses the first triple, no matter what its norm of light-like parameter $P$ happens to be, the resulting $R-&gt;R'$ remains in the group. The rotation group $SO(3)$ is compact, while the Lorentz group $O(1, 3)$ is not. The change in algebra needed for light-light parameter $P$ may be another way to view this difference.</p>
 
 </div>
 </div>

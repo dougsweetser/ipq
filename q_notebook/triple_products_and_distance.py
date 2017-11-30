@@ -3,6 +3,8 @@
 
 # # Quaternion Triple Products and Distance
 
+# by Doug Sweetser, sweetser@alum.mit.edu - please feel free to email
+
 # In this IPython notebook, efforts will be made to understand quaternion triple products and how they are related to distances in space and intervals in space-time as seen in special relativity. Rather than follow a historical story, I will try a more abstract approach. Initialize a few tools.
 
 # In[1]:
@@ -178,8 +180,11 @@ display(sp.simplify(ppr.t))
 # The trig functions are based on a circle in the plane, while the hyperbolic trig functions start with hyperbolas. The definitions are remarkably similar:
 
 # $$\sin(\alpha) = \frac{e^{i \alpha} - e^{-i \alpha}}{2 i}$$
+
 # $$\cos(\alpha) = \frac{e^{i \alpha} + e^{-i \alpha}}{2 i}$$
+
 # $$\sinh(\alpha) = \frac{e^{\alpha} - e^{-\alpha}}{2}$$
+
 # $$\cosh(\alpha) = \frac{e^{\alpha} + e^{-\alpha}}{2}$$
 
 # The hyperbolic trig functions oddly are "more real", never needing an imaginary factor. The hyperbola of the hyperbolic cosine does touch the unit circle at its minimum, suggesting a solitary link to the trig functions.
@@ -409,6 +414,10 @@ print(composite_quadratic(composite_quadratic(R, Qi, Qj, True, True, True, False
 # The identity composition was shown to do its fine work in the first composite_quadratic(R) example.
 
 # Composite functions are associative, at least according to wikipedia.
+
+# ## The Difference Between composite_rotation and composite_quadratic
+
+# Both of these composite functions call another function twice, next_rotation and next_quadratic respectively. Both functions do a normalization. The next_rotation normalizes to the norm squared which can be zero if the parameter $P$ is zero, otherwise it is positive. The next_rotation function always does one thing, $P R P^{-1}$. The next_quadratic normalizes to the first term of the square. That value can be positive, negative, or zero. When the first term of the square is positive or negative, the next_quadratic function treats both cases identically. Three triple quaternion products are used, $P R P^* + \frac{1}{2}((P P R)^* - (P^* P^* R)^*)$. The first term is identical to a rotation so long as the norm is equal to one. Otherwise, it is off just by a scaling factor. The difference happens when it is zero which indicates the properties of light come into play. It is the lightcone that separates time-like events from space-like events. For a time-like value of the paramter $P$, the triple-triple returns zero which is not a member of the group. If one uses the first triple, no matter what its norm of light-like parameter $P$ happens to be, the resulting $R->R'$ remains in the group. The rotation group $SO(3)$ is compact, while the Lorentz group $O(1, 3)$ is not. The change in algebra needed for light-light parameter $P$ may be another way to view this difference.
 
 # ## Degrees of Freedom
 
