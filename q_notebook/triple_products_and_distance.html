@@ -11940,7 +11940,7 @@ $$s^{2} x + 2 s v z - 2 s w y + u^{2} x + 2 u v y + 2 u w z - v^{2} x - w^{2} x$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Show the norm is unchanged up to the norm of the parameter $P$:</p>
+<p>Show the interval of $R$ is unchanged up to the norm of the parameter $P$:</p>
 
 </div>
 </div>
@@ -11998,7 +11998,7 @@ $$\left(s^{2} + u^{2} + v^{2} + w^{2}\right)^{2} \left(t^{2} - x^{2} - y^{2} - z
     <span class="k">return</span> <span class="n">triple_sandwich</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">qtd</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="n">sp</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">a</span><span class="p">)]))</span>
 
 <span class="k">def</span> <span class="nf">is_quadratic</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Tests if the the first term of the square of a quaternion is equal to t^2 - (x^2 + y^2 + z^2).&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Tests if the the first term of the square of a quaternion is equal to t^2 - x^2 - y^2 - z^2.&quot;&quot;&quot;</span>
     
     <span class="n">r2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">square</span><span class="p">()</span>
     <span class="n">simple_r2</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">r2</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
@@ -12386,7 +12386,7 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">triple_2_on_1</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">qtd</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])):</span>
-    <span class="sd">&quot;&quot;&quot;The two are on one side, minus a two on one side.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;The two are on one side, minus a different two on one side.&quot;&quot;&quot;</span>
     
     <span class="n">ppr</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">r</span><span class="p">))</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
     <span class="n">pcpcr</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">r</span><span class="p">))</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
@@ -12480,7 +12480,7 @@ $$2.0 s \left(- t w - u y + v x\right)$$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If $s=0$, then the triple would contribute nothing, leaving behind only the triple sandwich term.</p>
+<p>If $s=0$, then triple_2_on_1 would contribute nothing.</p>
 
 </div>
 </div>
@@ -12606,7 +12606,7 @@ $$\beta \gamma = \sinh(\alpha)$$</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Combine the three triples and test if they do the work of a Lorentz boost:
+<p>Combine the three triples and test if they do all the work of a Lorentz boost:
 $$\rm{triple-triple}(R, P) \equiv P R P^* + \frac{1}{2}((P P R)^* - (P^* P^* R)^*)$$</p>
 
 </div>
@@ -12797,7 +12797,7 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>What is so special about setting the first term equal to zero? Is there a more general form? Perhaps all that is needed is for the norm squared to be equal to negative one. Test this out:</p>
+<p>What is so special about setting the first term equal to zero? Is there a more general form? Perhaps all that is needed is for the first term of the square to be equal to negative one. Test this out:</p>
 
 </div>
 </div>
@@ -12808,6 +12808,7 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">minus_1</span> <span class="o">=</span> <span class="n">qtd</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">minus_1</span><span class="o">.</span><span class="n">square</span><span class="p">()</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
 <span class="n">display</span><span class="p">((</span><span class="n">triple_triple</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">minus_1</span><span class="p">)</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">triple_triple</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">minus_1</span><span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">triple_triple</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">minus_1</span><span class="p">)</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">triple_triple</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">minus_1</span><span class="p">)</span><span class="o">.</span><span class="n">z</span><span class="p">))</span>
 <span class="n">is_quadratic</span><span class="p">(</span><span class="n">triple_triple</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">minus_1</span><span class="p">))</span>
 </pre></div>
@@ -12819,6 +12820,17 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
 <div class="output_wrapper">
 <div class="output">
 
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>-1
+</pre>
+</div>
+</div>
 
 <div class="output_area">
 
@@ -13002,7 +13014,7 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Perfect. It was this result that began my investigation of triple_triple quaternion products.</p>
+<p>Perfect. It was this result that began my investigation of triple_triple quaternion products. This is what the boost looks like using gammas and betas: $$(\gamma t - \gamma \beta x, \gamma x - \gamma \beta t, y, z)$$</p>
 
 </div>
 </div>
@@ -13223,13 +13235,13 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
         <span class="k">if</span> <span class="n">pt_squared</span><span class="o">.</span><span class="n">is_negative</span><span class="p">:</span>
             <span class="n">pt_squared</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
         
-    <span class="n">sqrt_t</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">pt_squared</span><span class="p">)</span>
+    <span class="n">sqrt_pt_squared</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">pt_squared</span><span class="p">)</span>
     
     <span class="c1"># A light-like parameter P can rotate but not boost R.</span>
-    <span class="k">if</span> <span class="n">sqrt_t</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">sqrt_pt_squared</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">rot_calc</span> <span class="o">=</span> <span class="n">next_rotation</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> 
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">p_normalized</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">qtd</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="mi">1</span><span class="o">/</span><span class="n">sqrt_t</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
+        <span class="n">p_normalized</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">qtd</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="mi">1</span><span class="o">/</span><span class="n">sqrt_pt_squared</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
         <span class="n">rot_calc</span> <span class="o">=</span> <span class="n">triple_triple</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">p_normalized</span><span class="p">)</span>
     
     <span class="k">if</span> <span class="n">conj</span><span class="p">:</span>
@@ -13333,7 +13345,7 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>No matter what values are used for the parameter $P$, the next_quadratic function will preserve the interval. Even a light-like interval works:</p>
+<p>No matter what values are used for the parameter $P$, the next_quadratic function will preserve the interval of $R$. Even a light-like interval works:</p>
 
 </div>
 </div>
@@ -13614,7 +13626,7 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Each of these composite functions generates exactly the same quadratic as required to be part of the Lorentz group. These five examples argue for closure: every possible choice for what one puts in the composite_quadratic function will have the same quadratic. I don't have the math skills to prove closure. These examples make it is reasonable to think this is closed.</p>
+<p>Each of these composite functions generates exactly the same quadratic as required to be part of the Lorentz group. These five examples argue for closure: every possible choice for what one puts in the composite_quadratic function will have the same quadratic. I don't have the math skills to prove closure (unless one thinks the earlier general case is enough).</p>
 
 </div>
 </div>
@@ -13740,7 +13752,7 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Both of these composite functions call another function twice, next_rotation and next_quadratic respectively. Both functions do a normalization. The next_rotation normalizes to the norm squared which can be zero if the parameter $P$ is zero, otherwise it is positive. The next_rotation function always does one thing, $P R P^{-1}$. The next_quadratic normalizes to the first term of the square. That value can be positive, negative, or zero. When the first term of the square is positive or negative, the next_quadratic function treats both cases identically. Three triple quaternion products are used, $P R P^* + \frac{1}{2}((P P R)^* - (P^* P^* R)^*)$. The first term is identical to a rotation so long as the norm is equal to one. Otherwise, it is off just by a scaling factor. The difference happens when it is zero which indicates the properties of light come into play. It is the lightcone that separates time-like events from space-like events. For a time-like value of the paramter $P$, the triple-triple returns zero which is not a member of the group. If one uses the first triple, no matter what its norm of light-like parameter $P$ happens to be, the resulting $R-&gt;R'$ remains in the group. The rotation group $SO(3)$ is compact, while the Lorentz group $O(1, 3)$ is not. The change in algebra needed for light-light parameter $P$ may be another way to view this difference.</p>
+<p>Both of these composite functions call another function twice, next_rotation and next_quadratic respectively. Both functions do a normalization. The next_rotation normalizes to the norm squared which can be zero if the parameter $P$ is zero, otherwise it is positive. The next_rotation function always does one thing, $P R P^{-1}$. The next_quadratic normalizes to the first term of the square of parameter $P$. That value can be positive, negative, or zero. When the first term of the square is positive or negative, the next_quadratic function treats both cases identically. Three triple quaternion products are used, $P R P^* + \frac{1}{2}((P P R)^* - (P^* P^* R)^*)$. The first term is identical to a rotation so long as the norm is equal to one. Otherwise, it is off just by a scaling factor. The difference happens when it is zero which indicates the properties of light come into play. It is the lightcone that separates time-like events from space-like events. For a time-like value of the parameter $P$, the triple-triple returns zero which is not a member of the group. If one uses the first triple, no matter what its norm of light-like parameter $P$ happens to be, the resulting $R-&gt;R'$ remains in the group. The rotation group $SO(3)$ is compact, while the Lorentz group $O(1, 3)$ is not. The change in algebra needed for light-light parameter $P$ may be another way to view this difference.</p>
 
 </div>
 </div>
@@ -13825,7 +13837,7 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Notice that the value of the first squared term is negative. That value gets normalized to one in the composite_quadratic function (via the next_quadratic function that gets called twice). What makes these rotations be only spacial is the zero in the first position of the parameter $P$. It is easy enough to look at situations where the first term of the square is negative, and the first term of the parameter is not equal to zero:</p>
+<p>Notice that the value of the first squared term is negative. That value gets normalized to negative one in the composite_quadratic function (via the next_quadratic function that gets called twice). What makes these rotations be only spacial is the zero in the first position of the parameter $P$. It is easy enough to look at situations where the first term of the square is negative, and the first term of the parameter is not equal to zero:</p>
 
 </div>
 </div>

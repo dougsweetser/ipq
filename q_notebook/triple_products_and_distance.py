@@ -46,7 +46,7 @@ sp.simplify(RP_sandwich.t)
 sp.simplify(RP_sandwich.x)
 
 
-# Show the norm is unchanged up to the norm of the parameter $P$:
+# Show the interval of $R$ is unchanged up to the norm of the parameter $P$:
 
 # In[5]:
 
@@ -65,7 +65,7 @@ def triple_trig_z(r, a):
     return triple_sandwich(r, qtd.QH([sp.cos(a), 0, 0, sp.sin(a)]))
 
 def is_quadratic(r):
-    """Tests if the the first term of the square of a quaternion is equal to t^2 - (x^2 + y^2 + z^2)."""
+    """Tests if the the first term of the square of a quaternion is equal to t^2 - x^2 - y^2 - z^2."""
     
     r2 = r.square()
     simple_r2 = sp.simplify(r2.t)
@@ -141,7 +141,7 @@ is_quadratic(composite_rotation(R, qtd.QH([s, u, v, w])))
 
 
 def triple_2_on_1(r, p=qtd.QH([1, 0, 0, 0])):
-    """The two are on one side, minus a two on one side."""
+    """The two are on one side, minus a different two on one side."""
     
     ppr = p.product(p.product(r)).conj()
     pcpcr = p.conj().product(p.conj().product(r)).conj()
@@ -160,7 +160,7 @@ display(sp.simplify(rq_321.y))
 display(sp.simplify(rq_321.z))
 
 
-# If $s=0$, then the triple would contribute nothing, leaving behind only the triple sandwich term.
+# If $s=0$, then triple_2_on_1 would contribute nothing.
 
 # Explore the hyperbolic sine and cosines:
 
@@ -189,7 +189,7 @@ display(sp.simplify(ppr.t))
 
 # The hyperbolic trig functions oddly are "more real", never needing an imaginary factor. The hyperbola of the hyperbolic cosine does touch the unit circle at its minimum, suggesting a solitary link to the trig functions.
 
-# Combine the three triples and test if they do the work of a Lorentz boost:
+# Combine the three triples and test if they do all the work of a Lorentz boost:
 # $$\rm{triple-triple}(R, P) \equiv P R P^* + \frac{1}{2}((P P R)^* - (P^* P^* R)^*)$$
 
 # In[14]:
@@ -227,12 +227,13 @@ print(triple_triple(R, Qi.product(Qj)))
 
 # The fact that one cannot find a super close neighbor is a big technical change.
 
-# What is so special about setting the first term equal to zero? Is there a more general form? Perhaps all that is needed is for the norm squared to be equal to negative one. Test this out:
+# What is so special about setting the first term equal to zero? Is there a more general form? Perhaps all that is needed is for the first term of the square to be equal to negative one. Test this out:
 
 # In[17]:
 
 
 minus_1 = qtd.QH([2, 2, 1, 0])
+print(minus_1.square().t)
 display((triple_triple(R, minus_1).t, triple_triple(R, minus_1).x, triple_triple(R, minus_1).y, triple_triple(R, minus_1).z))
 is_quadratic(triple_triple(R, minus_1))
 
@@ -253,7 +254,7 @@ display(sp.simplify(triple_triple(R, bx).z))
 is_quadratic(triple_triple(R, bx))
 
 
-# Perfect. It was this result that began my investigation of triple_triple quaternion products.
+# Perfect. It was this result that began my investigation of triple_triple quaternion products. This is what the boost looks like using gammas and betas: $$(\gamma t - \gamma \beta x, \gamma x - \gamma \beta t, y, z)$$
 
 # The first term of the square of the hyperbolic parameter $P=bx$ is equal to positive one. So long as the triple_triple function is fed a quaternion parameter $P$ whose first term of the square has an absolute value of one, the interval is invariant. That is surprisingly simple.
 
@@ -306,13 +307,13 @@ def next_quadratic(r, p=qtd.QH([1, 0, 0, 0]), conj=False, sign_flip=False):
         if pt_squared.is_negative:
             pt_squared *= -1
         
-    sqrt_t = sp.sqrt(pt_squared)
+    sqrt_pt_squared = sp.sqrt(pt_squared)
     
     # A light-like parameter P can rotate but not boost R.
-    if sqrt_t == 0:
+    if sqrt_pt_squared == 0:
         rot_calc = next_rotation(r, p) 
     else:
-        p_normalized = p.product(qtd.QH([1/sqrt_t, 0, 0, 0]))
+        p_normalized = p.product(qtd.QH([1/sqrt_pt_squared, 0, 0, 0]))
         rot_calc = triple_triple(r, p_normalized)
     
     if conj:
@@ -341,7 +342,7 @@ display(sp.simplify(next_quadratic(R, P, True, True).x))
 is_quadratic(next_quadratic(R, P, True, True))
 
 
-# No matter what values are used for the parameter $P$, the next_quadratic function will preserve the interval. Even a light-like interval works:
+# No matter what values are used for the parameter $P$, the next_quadratic function will preserve the interval of $R$. Even a light-like interval works:
 
 # In[23]:
 
@@ -390,7 +391,7 @@ print(composite_quadratic(composite_quadratic(R, bx, bx)))
 is_quadratic(composite_quadratic(composite_quadratic(R, bx, bx)))
 
 
-# Each of these composite functions generates exactly the same quadratic as required to be part of the Lorentz group. These five examples argue for closure: every possible choice for what one puts in the composite_quadratic function will have the same quadratic. I don't have the math skills to prove closure. These examples make it is reasonable to think this is closed.
+# Each of these composite functions generates exactly the same quadratic as required to be part of the Lorentz group. These five examples argue for closure: every possible choice for what one puts in the composite_quadratic function will have the same quadratic. I don't have the math skills to prove closure (unless one thinks the earlier general case is enough).
 
 # Quaternions are a division algebra. As such, it is reasonable to expect an inverse to exist. Look for one for the $Qi$, $Qk$ parameter case:
 
@@ -417,7 +418,7 @@ print(composite_quadratic(composite_quadratic(R, Qi, Qj, True, True, True, False
 
 # ## The Difference Between composite_rotation and composite_quadratic
 
-# Both of these composite functions call another function twice, next_rotation and next_quadratic respectively. Both functions do a normalization. The next_rotation normalizes to the norm squared which can be zero if the parameter $P$ is zero, otherwise it is positive. The next_rotation function always does one thing, $P R P^{-1}$. The next_quadratic normalizes to the first term of the square. That value can be positive, negative, or zero. When the first term of the square is positive or negative, the next_quadratic function treats both cases identically. Three triple quaternion products are used, $P R P^* + \frac{1}{2}((P P R)^* - (P^* P^* R)^*)$. The first term is identical to a rotation so long as the norm is equal to one. Otherwise, it is off just by a scaling factor. The difference happens when it is zero which indicates the properties of light come into play. It is the lightcone that separates time-like events from space-like events. For a time-like value of the paramter $P$, the triple-triple returns zero which is not a member of the group. If one uses the first triple, no matter what its norm of light-like parameter $P$ happens to be, the resulting $R->R'$ remains in the group. The rotation group $SO(3)$ is compact, while the Lorentz group $O(1, 3)$ is not. The change in algebra needed for light-light parameter $P$ may be another way to view this difference.
+# Both of these composite functions call another function twice, next_rotation and next_quadratic respectively. Both functions do a normalization. The next_rotation normalizes to the norm squared which can be zero if the parameter $P$ is zero, otherwise it is positive. The next_rotation function always does one thing, $P R P^{-1}$. The next_quadratic normalizes to the first term of the square of parameter $P$. That value can be positive, negative, or zero. When the first term of the square is positive or negative, the next_quadratic function treats both cases identically. Three triple quaternion products are used, $P R P^* + \frac{1}{2}((P P R)^* - (P^* P^* R)^*)$. The first term is identical to a rotation so long as the norm is equal to one. Otherwise, it is off just by a scaling factor. The difference happens when it is zero which indicates the properties of light come into play. It is the lightcone that separates time-like events from space-like events. For a time-like value of the parameter $P$, the triple-triple returns zero which is not a member of the group. If one uses the first triple, no matter what its norm of light-like parameter $P$ happens to be, the resulting $R->R'$ remains in the group. The rotation group $SO(3)$ is compact, while the Lorentz group $O(1, 3)$ is not. The change in algebra needed for light-light parameter $P$ may be another way to view this difference.
 
 # ## Degrees of Freedom
 
@@ -432,7 +433,7 @@ print(composite_quadratic(R, qtd.QH([0, 1,0,1]), qtd.QH([0, 1,1,0])))
 is_quadratic(composite_quadratic(R, qtd.QH([0, 1,0,1]), qtd.QH([0, 1,1,0])))
 
 
-# Notice that the value of the first squared term is negative. That value gets normalized to one in the composite_quadratic function (via the next_quadratic function that gets called twice). What makes these rotations be only spacial is the zero in the first position of the parameter $P$. It is easy enough to look at situations where the first term of the square is negative, and the first term of the parameter is not equal to zero:
+# Notice that the value of the first squared term is negative. That value gets normalized to negative one in the composite_quadratic function (via the next_quadratic function that gets called twice). What makes these rotations be only spacial is the zero in the first position of the parameter $P$. It is easy enough to look at situations where the first term of the square is negative, and the first term of the parameter is not equal to zero:
 
 # In[29]:
 
