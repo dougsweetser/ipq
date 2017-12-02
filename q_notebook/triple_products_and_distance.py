@@ -83,12 +83,12 @@ def is_quadratic(r):
 # In[7]:
 
 
-α = sp.Symbol('α')
-display(sp.simplify(triple_trig_z(R, α).t))
-display(sp.simplify(triple_trig_z(R, α).x))
-display(sp.simplify(triple_trig_z(R, α).y))
-display(sp.simplify(triple_trig_z(R, α).z))
-is_quadratic(triple_trig_z(R, α))
+a = sp.Symbol('a')
+display(sp.simplify(triple_trig_z(R, a).t))
+display(sp.simplify(triple_trig_z(R, a).x))
+display(sp.simplify(triple_trig_z(R, a).y))
+display(sp.simplify(triple_trig_z(R, a).z))
+is_quadratic(triple_trig_z(R, a))
 
 
 # An important thing to notice is that rotations work for arbitrarily small values of an angle.
@@ -167,7 +167,7 @@ display(sp.simplify(rq_321.z))
 # In[13]:
 
 
-phx = qtd.QH([sp.cosh(α), sp.sinh(α), 0, 0])
+phx = qtd.QH([sp.cosh(a), sp.sinh(a), 0, 0])
 ppr = triple_2_on_1(R, phx)
 display(sp.simplify(ppr.t))
 
@@ -245,7 +245,7 @@ is_quadratic(triple_triple(R, minus_1))
 # In[18]:
 
 
-bx = qtd.QH([sp.cosh(α), sp.sinh(α), 0, 0])
+bx = qtd.QH([sp.cosh(a), sp.sinh(a), 0, 0])
 display(sp.simplify(bx.square().t))
 display(sp.simplify(triple_triple(R, bx).t))
 display(sp.simplify(triple_triple(R, bx).x))
