@@ -453,3 +453,114 @@ print(composite_quadratic(R, qtd.QH([5, 4,0,0])))
 # The first two terms are exactly the same. Now the last two terms don't flip signs because there is no rotation. Both the (4, 5) and (5, 4) parameter composites will have the same first term for the square. This real-valued quaternion representation makes it possible to see.
 
 # At first blush, one looks into the next_quadratic function and sees six degrees of freedom: four for the quaternion parameter $P$, one for the conjugate operator and one for the sign_flip. These last two are needed to generate spatial reflection and time reversal. The quaternion parameter $P$ normalizes to the first term of the square of the quaternion parameter $P$. This means that once three of the values are chosen, then the value of the fourth one is set by this algebraic constraint. The same thing happens with the composite_rotation function defined earlier: a 4D quaternion may go in, but they way it gets normalized means there is an equivalence class to those quaternions that have a norm of one, and thus only 3 degrees of freedom. Representing the Lorentz group with only five degrees of freedom with this real-valued quaternion representation would be an interesting result if it can be rigorously proved.
+
+# ## Comparing the Real 4x4 Matrix Representation of the Lorentz Transformation to composite_quadratic
+
+# There are several canonical examples of the real 4x4 matrix representation of the Lorentz transformation used to generate new members of the Lorentz group. Some transformations are quite simple and direct, like the matrix needed to reverse time and a spatial reflection:
+
+# In[31]:
+
+
+event_v = sp.Matrix([t, x, y, z])
+L_time = sp.Matrix([[-1, 0, 0, 0],[0, 1, 0, 0],[0, 0, 1, 0],[0, 0, 0, 1]])
+event_time_reversal = L_time * event_v
+display(sp.transpose(event_time_reversal))
+
+
+# To be in the Lorentz group, the Minkowski metric contraction of both the 4-vectors $(t, x, y, z)$ and $(-t, x, y, z)$ must be the same. This is obvious by inspection, but I wanted to see if I could do the calculation anyway in this notebook so for more complex calculations, it would be clear how to proceed.
+
+# In[32]:
+
+
+import sympy.tensor.tensor as stt
+FlatMetric = stt.TensorIndexType('Lorentz',eps_dim=4,dummy_fmt='L')
+m, n = stt.tensor_indices('m, n', FlatMetric)
+FlatMetric.data=[1,-1,-1,-1]
+p = stt.tensorhead('p',[FlatMetric],[[1]])
+q = stt.tensorhead('q',[FlatMetric],[[1]])
+p.data = [t, x, y, z]
+q.data = [-t, x, y, z]
+FlatMetric.metric.data = FlatMetric.data
+display((FlatMetric.metric(-m, -n) * p(m) * p(n)).data)
+display((FlatMetric.metric(-m, -n) * q(m) * q(n)).data)
+
+
+# Both event_v and event_time_reversal are in the Lorentz group. The 4x4 real matrix is the tool to transform from one to the other and back again. The same thing exists for the quaternion representation where everything in the chain of tools is a quaternion.
+
+# In[33]:
+
+
+R_time_reversal = composite_quadratic(R, conj1=True, sign_flip2=True)
+print(R_time_reversal)
+
+
+# There are 4 ways to call composite_quadratic that create the quaternion $(-t, x, y, z)$ that is an element in the Lorentz group:
+
+# In[34]:
+
+
+print(composite_quadratic(R, conj1=True, sign_flip1=True))
+print(composite_quadratic(R, conj1=True, sign_flip2=True))
+print(composite_quadratic(R, conj2=True, sign_flip1=True))
+print(composite_quadratic(R, conj2=True, sign_flip2=True))
+
+
+# I don't see that the redundancy for ways to do the transformation is an issue. What matters is an inverse exists:
+
+# In[35]:
+
+
+print(composite_quadratic(composite_quadratic(R, conj1=True, sign_flip1=True), conj2=True, sign_flip2=True))
+
+
+# and there is an identity (not many identities):
+
+# In[36]:
+
+
+print(composite_quadratic(composite_quadratic(R, conj1=True, sign_flip1=True)))
+
+
+# Another simple case for the 4x4 representation is a spatial reflection:
+
+# In[37]:
+
+
+L_space_x = sp.Matrix([[1, 0, 0, 0],[0, -1, 0, 0],[0, 0, 1, 0],[0, 0, 0, 1]])
+event_space_reflection = L_space_x * event_v
+display(sp.transpose(event_space_reflection))
+q.data = [t, -x, y, z]
+display((FlatMetric.metric(-m, -n) * q(m) * q(n)).data)
+
+
+# Do this again, and one returns to the start, so it is its own inverse:
+
+# In[38]:
+
+
+display(sp.transpose(L_space_x * (L_space_x * event_v)))
+
+
+# The same thing happens with the composite_quadratic:
+
+# In[39]:
+
+
+print(composite_quadratic(R, Qi, conj1=True))
+print(composite_quadratic(composite_quadratic(R, Qi, conj1=True), Qi, conj1=True))
+is_quadratic(composite_quadratic(R, Qi, conj1=True))
+
+
+# I spent an hour trying to get sympy to do a boost. That did not work out. I can get it to work with composite_quadratic:
+
+# In[40]:
+
+
+bx = qtd.QH([sp.cosh(a), sp.sinh(a), 0, 0])
+bxr = qtd.QH([sp.cosh(-a), sp.sinh(-a), 0, 0])
+print(composite_quadratic(R, bx))
+print(composite_quadratic(composite_quadratic(R, bx), bxr))
+is_quadratic(composite_quadratic(R, bx))
+
+
+# It appears reasonable to me at this point that anything that can be done with the 4x4 real matrix Lorentz transformations can be done by the composite_quadratic function.
