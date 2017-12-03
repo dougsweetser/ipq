@@ -14260,7 +14260,7 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">L_space_x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
 <span class="n">event_space_reflection</span> <span class="o">=</span> <span class="n">L_space_x</span> <span class="o">*</span> <span class="n">event_v</span>
 <span class="n">display</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">event_space_reflection</span><span class="p">))</span>
-<span class="n">q</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">-</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">]</span>
+<span class="n">q</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">event_space_reflection</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">event_space_reflection</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">event_space_reflection</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">event_space_reflection</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
 <span class="n">display</span><span class="p">((</span><span class="n">FlatMetric</span><span class="o">.</span><span class="n">metric</span><span class="p">(</span><span class="o">-</span><span class="n">m</span><span class="p">,</span> <span class="o">-</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">q</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">q</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 
@@ -14417,7 +14417,7 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>I spent an hour trying to get sympy to do a boost. That did not work out. I can get it to work with composite_quadratic:</p>
+<p>Let's do a pure boost with a 4x4 real matrix A:</p>
 
 </div>
 </div>
@@ -14427,11 +14427,68 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
 <div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bx</span> <span class="o">=</span> <span class="n">qtd</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="n">sp</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">sp</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">bxr</span> <span class="o">=</span> <span class="n">qtd</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="n">sp</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="o">-</span><span class="n">a</span><span class="p">),</span> <span class="n">sp</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="o">-</span><span class="n">a</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">composite_quadratic</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">bx</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">composite_quadratic</span><span class="p">(</span><span class="n">composite_quadratic</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">bx</span><span class="p">),</span> <span class="n">bxr</span><span class="p">))</span>
-<span class="n">is_quadratic</span><span class="p">(</span><span class="n">composite_quadratic</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">bx</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([[</span><span class="mi">5</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="n">pure_boost</span> <span class="o">=</span> <span class="n">A</span> <span class="o">*</span> <span class="n">event_v</span>
+<span class="n">display</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">pure_boost</span><span class="p">))</span>
+<span class="n">q</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">pure_boost</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pure_boost</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pure_boost</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">pure_boost</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
+<span class="n">sp</span><span class="o">.</span><span class="n">simplify</span><span class="p">((</span><span class="n">FlatMetric</span><span class="o">.</span><span class="n">metric</span><span class="p">(</span><span class="o">-</span><span class="n">m</span><span class="p">,</span> <span class="o">-</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">q</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">q</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_latex output_subarea ">
+$$\left[\begin{matrix}1.25 t + 0.75 x & 0.75 t + 1.25 x & y & z\end{matrix}\right]$$
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[40]:</div>
+
+
+
+
+<div class="output_latex output_subarea output_execute_result">
+$$1.0 t^{2} - 1.0 x^{2} - 1.0 y^{2} - 1.0 z^{2}$$
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Get the same thing to work for the composite_quadratic.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Aq</span> <span class="o">=</span> <span class="n">qtd</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="mi">5</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">composite_quadratic</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">Aq</span><span class="p">))</span>
+<span class="n">is_quadratic</span><span class="p">(</span><span class="n">composite_quadratic</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">Aq</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -14448,8 +14505,7 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(1.0*t*cosh(2*a) - 1.0*x*sinh(2*a), -1.0*t*sinh(2*a) + 1.0*x*cosh(2*a), 1.0*y, 1.0*z) L
-(1.0*t, 1.0*x, 1.0*y, 1.0*z) L
+<pre>(2.125*t + 1.875*x, 1.875*t + 2.125*x, 1.0*y, 1.0*z) L
 </pre>
 </div>
 </div>
@@ -14469,7 +14525,7 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[40]:</div>
+<div class="prompt output_prompt">Out[41]:</div>
 
 
 
@@ -14488,7 +14544,378 @@ $$t^{2} - x^{2} - y^{2} - z^{2}$$
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>It appears reasonable to me at this point that anything that can be done with the 4x4 real matrix Lorentz transformations can be done by the composite_quadratic function.</p>
+<p>So why are the values different? Recall the factor of 2 in the angle that appears in each and every triple product? So give the value a little nudge to acknowledge that factor of 2:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Aq</span> <span class="o">=</span> <span class="n">qtd</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="mi">12</span><span class="o">/</span><span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="o">/</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">composite_quadratic</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">Aq</span><span class="p">))</span>
+<span class="n">is_quadratic</span><span class="p">(</span><span class="n">composite_quadratic</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">Aq</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(1.25*t + 0.75*x, 0.75*t + 1.25*x, 1.0*y, 1.0*z) L
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_latex output_subarea ">
+$$t^{2} - x^{2} - y^{2} - z^{2}$$
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[42]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is precisely the same Lorentz boost transformation as done before.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's to a rotation with a 4x4 real matrix.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">B</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="n">pure_rotation</span> <span class="o">=</span> <span class="n">B</span> <span class="o">*</span> <span class="n">event_v</span>
+<span class="n">display</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">pure_rotation</span><span class="p">))</span>
+<span class="n">q</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">pure_rotation</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pure_rotation</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pure_rotation</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">pure_rotation</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
+<span class="n">sp</span><span class="o">.</span><span class="n">simplify</span><span class="p">((</span><span class="n">FlatMetric</span><span class="o">.</span><span class="n">metric</span><span class="p">(</span><span class="o">-</span><span class="n">m</span><span class="p">,</span> <span class="o">-</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">q</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">q</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_latex output_subarea ">
+$$\left[\begin{matrix}t & 0.6 x + 0.8 y & - 0.8 x + 0.6 y & z\end{matrix}\right]$$
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[43]:</div>
+
+
+
+
+<div class="output_latex output_subarea output_execute_result">
+$$1.0 t^{2} - 1.0 x^{2} - 1.0 y^{2} - 1.0 z^{2}$$
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Perfect. Repeat with quaternions, again adjusting the numbers to account for the double angle.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Bq</span> <span class="o">=</span> <span class="n">qtd</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">composite_quadratic</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">Bq</span><span class="p">))</span>
+<span class="n">is_quadratic</span><span class="p">(</span><span class="n">composite_quadratic</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">Bq</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(1.0*t, -0.6*x - 0.8*y, -0.8*x + 0.6*y, -1.0*z) L
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_latex output_subarea ">
+$$t^{2} - x^{2} - y^{2} - z^{2}$$
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[44]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Close, but not quite. The signs for terms 2 and 4 are just plain wrong. Correct them:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Bq</span> <span class="o">=</span> <span class="n">qtd</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">composite_quadratic</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">Bq</span><span class="p">,</span> <span class="n">Qj</span><span class="p">))</span>
+<span class="n">is_quadratic</span><span class="p">(</span><span class="n">composite_quadratic</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">Bq</span><span class="p">,</span> <span class="n">Qj</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(1.0*t, 0.6*x + 0.8*y, -0.8*x + 0.6*y, 1.0*z) L
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_latex output_subarea ">
+$$t^{2} - x^{2} - y^{2} - z^{2}$$
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[45]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This quaternion rotation is identical to what was done with the 4x4 real B Lorentz transformation. Nice. I will confess I did have to hunt around like a monkey on a typewriter to find the right combination of signs and factors to make that happen. That only indicates limitations on the author.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([[</span><span class="mi">5</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="o">/</span><span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="n">rotation_and_boost</span> <span class="o">=</span> <span class="n">C</span> <span class="o">*</span> <span class="n">event_v</span>
+<span class="n">display</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">rotation_and_boost</span><span class="p">))</span>
+<span class="n">q</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">rotation_and_boost</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rotation_and_boost</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rotation_and_boost</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">rotation_and_boost</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
+<span class="n">sp</span><span class="o">.</span><span class="n">simplify</span><span class="p">((</span><span class="n">FlatMetric</span><span class="o">.</span><span class="n">metric</span><span class="p">(</span><span class="o">-</span><span class="n">m</span><span class="p">,</span> <span class="o">-</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">q</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">*</span> <span class="n">q</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_latex output_subarea ">
+$$\left[\begin{matrix}1.25 t + 0.45 x + 0.6 y & 0.75 t + 0.75 x + y & - 0.8 x + 0.6 y & z\end{matrix}\right]$$
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[46]:</div>
+
+
+
+
+<div class="output_latex output_subarea output_execute_result">
+$$1.0 t^{2} - 1.0 x^{2} - 1.0 y^{2} - 1.0 z^{2}$$
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The Lorentz transformation accomplished by C is a combination of the previous two. For the quaternion example, use the previous values in the composite_quadratic, one after the other.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">composite_quadratic</span><span class="p">(</span><span class="n">composite_quadratic</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">Bq</span><span class="p">,</span> <span class="n">Aq</span><span class="o">.</span><span class="n">conj</span><span class="p">()),</span> <span class="n">Qj</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(1.25*t + 0.45*x + 0.6*y, 0.75*t + 0.75*x + 1.0*y, -0.8*x + 0.6*y, 1.0*z) L
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>All the signs are the same (I am a good monkey at the typewriter).</p>
 
 </div>
 </div>

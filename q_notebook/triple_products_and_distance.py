@@ -529,7 +529,7 @@ print(composite_quadratic(composite_quadratic(R, conj1=True, sign_flip1=True)))
 L_space_x = sp.Matrix([[1, 0, 0, 0],[0, -1, 0, 0],[0, 0, 1, 0],[0, 0, 0, 1]])
 event_space_reflection = L_space_x * event_v
 display(sp.transpose(event_space_reflection))
-q.data = [t, -x, y, z]
+q.data = [event_space_reflection[0], event_space_reflection[1], event_space_reflection[2], event_space_reflection[3]]
 display((FlatMetric.metric(-m, -n) * q(m) * q(n)).data)
 
 
@@ -551,16 +551,90 @@ print(composite_quadratic(composite_quadratic(R, Qi, conj1=True), Qi, conj1=True
 is_quadratic(composite_quadratic(R, Qi, conj1=True))
 
 
-# I spent an hour trying to get sympy to do a boost. That did not work out. I can get it to work with composite_quadratic:
+# Let's do a pure boost with a 4x4 real matrix A:
 
 # In[40]:
 
 
-bx = qtd.QH([sp.cosh(a), sp.sinh(a), 0, 0])
-bxr = qtd.QH([sp.cosh(-a), sp.sinh(-a), 0, 0])
-print(composite_quadratic(R, bx))
-print(composite_quadratic(composite_quadratic(R, bx), bxr))
-is_quadratic(composite_quadratic(R, bx))
+A = sp.Matrix([[5/4, 3/4, 0, 0],[3/4, 5/4, 0, 0],[0, 0, 1, 0],[0, 0, 0, 1]])
+pure_boost = A * event_v
+display(sp.transpose(pure_boost))
+q.data = [pure_boost[0], pure_boost[1], pure_boost[2], pure_boost[3]]
+sp.simplify((FlatMetric.metric(-m, -n) * q(m) * q(n)).data)
 
 
-# It appears reasonable to me at this point that anything that can be done with the 4x4 real matrix Lorentz transformations can be done by the composite_quadratic function.
+# Get the same thing to work for the composite_quadratic.
+
+# In[41]:
+
+
+Aq = qtd.QH([5/4, -3/4, 0, 0])
+print(composite_quadratic(R, Aq))
+is_quadratic(composite_quadratic(R, Aq))
+
+
+# So why are the values different? Recall the factor of 2 in the angle that appears in each and every triple product? So give the value a little nudge to acknowledge that factor of 2:
+
+# In[42]:
+
+
+Aq = qtd.QH([12/8, -4/8, 0, 0])
+print(composite_quadratic(R, Aq))
+is_quadratic(composite_quadratic(R, Aq))
+
+
+# This is precisely the same Lorentz boost transformation as done before.
+
+# Let's to a rotation with a 4x4 real matrix.
+
+# In[43]:
+
+
+B = sp.Matrix([[1, 0, 0, 0], [0, 3/5, 4/5, 0],[0, -4/5, 3/5, 0],[0, 0, 0, 1]])
+pure_rotation = B * event_v
+display(sp.transpose(pure_rotation))
+q.data = [pure_rotation[0], pure_rotation[1], pure_rotation[2], pure_rotation[3]]
+sp.simplify((FlatMetric.metric(-m, -n) * q(m) * q(n)).data)
+
+
+# Perfect. Repeat with quaternions, again adjusting the numbers to account for the double angle.
+
+# In[44]:
+
+
+Bq = qtd.QH([0, 1, -2, 0])
+print(composite_quadratic(R, Bq))
+is_quadratic(composite_quadratic(R, Bq))
+
+
+# Close, but not quite. The signs for terms 2 and 4 are just plain wrong. Correct them:
+
+# In[45]:
+
+
+Bq = qtd.QH([0, 1, -2, 0])
+print(composite_quadratic(R, Bq, Qj))
+is_quadratic(composite_quadratic(R, Bq, Qj))
+
+
+# This quaternion rotation is identical to what was done with the 4x4 real B Lorentz transformation. Nice. I will confess I did have to hunt around like a monkey on a typewriter to find the right combination of signs and factors to make that happen. That only indicates limitations on the author.
+
+# In[46]:
+
+
+C = sp.Matrix([[5/4, 9/20, 3/5, 0], [3/4, 3/4, 1, 0],[0, -4/5, 3/5, 0],[0, 0, 0, 1]])
+rotation_and_boost = C * event_v
+display(sp.transpose(rotation_and_boost))
+q.data = [rotation_and_boost[0], rotation_and_boost[1], rotation_and_boost[2], rotation_and_boost[3]]
+sp.simplify((FlatMetric.metric(-m, -n) * q(m) * q(n)).data)
+
+
+# The Lorentz transformation accomplished by C is a combination of the previous two. For the quaternion example, use the previous values in the composite_quadratic, one after the other.
+
+# In[47]:
+
+
+print(composite_quadratic(composite_quadratic(R, Bq, Aq.conj()), Qj))
+
+
+# All the signs are the same (I am a good monkey at the typewriter).
