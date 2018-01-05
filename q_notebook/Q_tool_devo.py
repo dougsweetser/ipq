@@ -11,13 +11,14 @@
 # 
 # Test driven development was used. The same tests for class QH were used for Q8.  Either class can be used to study quaternions in physics.
 
-# In[9]:
+# In[3]:
 
 
 import IPython
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import math
+import numpy as np
 import sympy as sp
 import os
 import unittest
@@ -30,7 +31,7 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 
 # Define the stretch factor $\gamma$ and the $\gamma \beta$ used in special relativity.
 
-# In[2]:
+# In[4]:
 
 
 def sr_gamma(beta_x=0, beta_y=0, beta_z=0):
@@ -48,7 +49,7 @@ def sr_gamma_betas(beta_x=0, beta_y=0, beta_z=0):
 
 # Define a class QH to manipulate quaternions as Hamilton would have done it so many years ago. The "qtype" is a little bit of text to leave a trail of breadcrumbs about how a particular quaternion was generated.
 
-# In[10]:
+# In[40]:
 
 
 class QH(object):
@@ -56,74 +57,74 @@ class QH(object):
 
     def __init__(self, values=None, qtype="Q"):
         if values is None:
-            self.t, self.x, self.y, self.z = 0, 0, 0, 0
+            self.a = np.array([0.0, 0.0, 0.0, 0.0])
         elif len(values) == 4:
-            self.t, self.x, self.y, self.z = values[0], values[1], values[2], values[3]
+            self.a = np.array([values[0], values[1], values[2], values[3]])
 
         elif len(values) == 8:
-            self.t, self.x = values[0] - values[1], values[2] - values[3]
-            self.y, self.z = values[4] - values[5], values[6] - values[7]
+            self.a = np.array([values[0] - values[1], values[2] - values[3], values[4] - values[5], values[6] - values[7]])
+        
         self.qtype = qtype
 
     def __str__(self):
         """Customize the output."""
-        return "({t}, {x}, {y}, {z}) {qt}".format(t=self.t, x=self.x, y=self.y, z=self.z, qt=self.qtype)
+        return "({t}, {x}, {y}, {z}) {qt}".format(t=self.a[0], x=self.a[1], y=self.a[2], z=self.a[3], qt=self.qtype)
     
     def display_q(self):
         """display each terms in a pretty way."""
 
-        display((self.t, self.x, self.y, self.z, self.qtype))
+        display((self.a[0], self.a[1], self.a[2], self.a[3], self.qtype))
         return
 
     
     def simple_q(self):
         """display each terms in a pretty way."""
         
-        self.t = sp.simplify(self.t)
-        self.x = sp.simplify(self.x)
-        self.y = sp.simplify(self.y)
-        self.z = sp.simplify(self.z)
+        self.a[0] = sp.simplify(self.a[0])
+        self.a[1] = sp.simplify(self.a[1])
+        self.a[2] = sp.simplify(self.a[2])
+        self.a[3] = sp.simplify(self.a[3])
         return
     
     def q_0(self, qtype="Zero"):
         """Return a zero quaternion."""
 
-        return QH([0, 0, 0, 0], qtype=qtype)
+        return QH([0.0, 0.0, 0.0, 0.0], qtype=qtype)
 
     def q_1(self, qtype="One"):
         """Return a multiplicative identity quaternion."""
 
-        return QH([1, 0, 0, 0], qtype=qtype)
+        return QH([1.0, 0.0, 0.0, 0.0], qtype=qtype)
     
     def dupe(self, qtype=""):
         """Return a duplicate copy, good for testing since qtypes persist"""
         
-        return QH([self.t, self.x, self.y, self.z], qtype=self.qtype)
+        return QH([self.a[0], self.a[1], self.a[2], self.a[3]], qtype=self.qtype)
     
     def conj(self, conj_type=0, qtype="*"):
         """Three types of conjugates."""
 
-        t, x, y, z = self.t, self.x, self.y, self.z
+        t, x, y, z = self.a[0], self.a[1], self.a[2], self.a[3]
         conjq = QH(qtype=self.qtype)
 
         if conj_type == 0:
-            conjq.t = t
-            conjq.x = -1 * x
-            conjq.y = -1 * y
-            conjq.z = -1 * z
+            conjq.a[0] = 1.0 * t
+            conjq.a[1] = -1.0 * x
+            conjq.a[2] = -1.0 * y
+            conjq.a[3] = -1.0 * z
 
         if conj_type == 1:
-            conjq.t = -1 * t
-            conjq.x = x
-            conjq.y = -1 * y
-            conjq.z = -1 * z
+            conjq.a[0] = -1.0 * t
+            conjq.a[1] = 1.0 * x
+            conjq.a[2] = -1.0 * y
+            conjq.a[3] = -1.0 * z
             qtype += "1"
             
         if conj_type == 2:
-            conjq.t = -1 * t
-            conjq.x = -1 * x
-            conjq.y = y
-            conjq.z = -1 * z
+            conjq.a[0] = -1 * t
+            conjq.a[1] = -1 * x
+            conjq.a[2] = 1.0 * y
+            conjq.a[3] = -1 * z
             qtype += "2"
             
         conjq.add_qtype(qtype)
@@ -132,28 +133,28 @@ class QH(object):
     def vahlen_conj(self, conj_type="-", qtype="vc"):
         """Three types of conjugates -'* done by Vahlen in 1901."""
 
-        t, x, y, z = self.t, self.x, self.y, self.z
+        t, x, y, z = self.a[0], self.a[1], self.a[2], self.a[3]
         conjq = QH(qtype=self.qtype)
 
         if conj_type == '-':
-            conjq.t = t
-            conjq.x = -1 * x
-            conjq.y = -1 * y
-            conjq.z = -1 * z
+            conjq.a[0] = 1.0 * t
+            conjq.a[1] = -1.0 * x
+            conjq.a[2] = -1.0 * y
+            conjq.a[3] = -1.0 * z
             qtype += "*-"
 
         if conj_type == "'":
-            conjq.t = t
-            conjq.x = -1 * x
-            conjq.y = -1 * y
-            conjq.z = z
+            conjq.a[0] = 1.0 * t
+            conjq.a[1] = -1.0 * x
+            conjq.a[2] = -1.0 * y
+            conjq.a[3] = 1.0 * z
             qtype += "*'"
             
         if conj_type == '*':
-            conjq.t = t
-            conjq.x = x
-            conjq.y = y
-            conjq.z = -1 * z
+            conjq.a[0] = 1.0 * t
+            conjq.a[1] = 1.0 * x
+            conjq.a[2] = 1.0 * y
+            conjq.a[3] = -1.0 * z
             qtype += "*"
             
         conjq.add_qtype(qtype)
@@ -164,11 +165,11 @@ class QH(object):
         
         self.qtype += "." + qtype
     
-    def commuting_products(self, q1):
+    def _commuting_products(self, q1):
         """Returns a dictionary with the commuting products."""
 
-        s_t, s_x, s_y, s_z = self.t, self.x, self.y, self.z
-        q1_t, q1_x, q1_y, q1_z = q1.t, q1.x, q1.y, q1.z
+        s_t, s_x, s_y, s_z = self.a[0], self.a[1], self.a[2], self.a[3]
+        q1_t, q1_x, q1_y, q1_z = q1.a[0], q1.a[1], q1.a[2], q1.a[3]
 
         products = {'tt': s_t * q1_t,
                     'xx+yy+zz': s_x * q1_x + s_y * q1_y + s_z * q1_z,
@@ -178,11 +179,11 @@ class QH(object):
 
         return products
 
-    def anti_commuting_products(self, q1):
+    def _anti_commuting_products(self, q1):
         """Returns a dictionary with the three anti-commuting products."""
 
-        s_x, s_y, s_z = self.x, self.y, self.z
-        q1_x, q1_y, q1_z = q1.x, q1.y, q1.z
+        s_x, s_y, s_z = self.a[1], self.a[2], self.a[3]
+        q1_x, q1_y, q1_z = q1.a[1], q1.a[2], q1.a[3]
 
         products = {'yz-zy': s_y * q1_z - s_z * q1_y,
                     'zx-xz': s_z * q1_x - s_x * q1_z,
@@ -191,24 +192,24 @@ class QH(object):
 
         return products
 
-    def all_products(self, q1):
+    def _all_products(self, q1):
         """Returns a dictionary with all possible products."""
 
-        products = self.commuting_products(q1)
-        products.update(self.anti_commuting_products(q1))
+        products = self._commuting_products(q1)
+        products.update(self._anti_commuting_products(q1))
 
         return products
 
     def square(self, qtype="sq"):
         """Square a quaternion."""
 
-        qxq = self.commuting_products(self)
+        qxq = self._commuting_products(self)
 
         sq_q = QH(qtype=self.qtype)
-        sq_q.t = qxq['tt'] - qxq['xx+yy+zz']
-        sq_q.x = qxq['tx+xt']
-        sq_q.y = qxq['ty+yt']
-        sq_q.z = qxq['tz+zt']
+        sq_q.a[0] = qxq['tt'] - qxq['xx+yy+zz']
+        sq_q.a[1] = qxq['tx+xt']
+        sq_q.a[2] = qxq['ty+yt']
+        sq_q.a[3] = qxq['tz+zt']
 
         sq_q.add_qtype(qtype)
         return sq_q
@@ -216,10 +217,10 @@ class QH(object):
     def norm_squared(self, qtype="norm_squared"):
         """The norm_squared of a quaternion."""
 
-        qxq = self.commuting_products(self)
+        qxq = self._commuting_products(self)
 
         n_q = QH(qtype=self.qtype)
-        n_q.t = qxq['tt'] + qxq['xx+yy+zz']
+        n_q.a[0] = qxq['tt'] + qxq['xx+yy+zz']
 
         n_q.add_qtype(qtype)
         return n_q
@@ -227,10 +228,10 @@ class QH(object):
     def norm_squared_of_vector(self, qtype="norm_squaredV"):
         """The norm_squared of the vector of a quaternion."""
 
-        qxq = self.commuting_products(self)
+        qxq = self._commuting_products(self)
 
         nv_q = QH(qtype=self.qtype)
-        nv_q.t = qxq['xx+yy+zz']
+        nv_q.a[0] = qxq['xx+yy+zz']
 
         nv_q.add_qtype(qtype)
         return nv_q
@@ -238,20 +239,20 @@ class QH(object):
     def abs_of_q(self, qtype="abs"):
         """The absolute value, the square root of the norm_squared."""
 
-        a = self.norm_squared()
-        sqrt_t = a.t ** 0.5
-        a.t = sqrt_t
+        ns = self.norm_squared()
+        sqrt_t = ns.a[0] ** 0.5
+        ns.a[0] = sqrt_t
 
-        a.qtype = self.qtype
-        a.add_qtype(qtype)
-        return a
+        ns.qtype = self.qtype
+        ns.add_qtype(qtype)
+        return ns
 
     def abs_of_vector(self, qtype="absV"):
         """The absolute value of the vector, the square root of the norm_squared of the vector."""
 
         av = self.norm_squared_of_vector()
-        sqrt_t = av.t ** 0.5
-        av.t = sqrt_t
+        sqrt_t = av.a[0] ** 0.5
+        av.a[0] = sqrt_t
 
         av.qtype = self.qtype
         av.add_qtype(qtype)
@@ -260,14 +261,14 @@ class QH(object):
     def add(self, qh_1, qtype=""):
         """Form a add given 2 quaternions."""
 
-        t_1, x_1, y_1, z_1 = self.t, self.x, self.y, self.z
-        t_2, x_2, y_2, z_2 = qh_1.t, qh_1.x, qh_1.y, qh_1.z
+        t_1, x_1, y_1, z_1 = self.a[0], self.a[1], self.a[2], self.a[3]
+        t_2, x_2, y_2, z_2 = qh_1.a[0], qh_1.a[1], qh_1.a[2], qh_1.a[3]
 
         add_q = QH()
-        add_q.t = t_1 + t_2
-        add_q.x = x_1 + x_2
-        add_q.y = y_1 + y_2
-        add_q.z = z_1 + z_2
+        add_q.a[0] = t_1 + t_2
+        add_q.a[1] = x_1 + x_2
+        add_q.a[2] = y_1 + y_2
+        add_q.a[3] = z_1 + z_2
         
         if qtype:
             add_q.qtype = qtype
@@ -279,14 +280,14 @@ class QH(object):
     def dif(self, qh_1, qtype=""):
         """Form a add given 2 quaternions."""
 
-        t_1, x_1, y_1, z_1 = self.t, self.x, self.y, self.z
-        t_2, x_2, y_2, z_2 = qh_1.t, qh_1.x, qh_1.y, qh_1.z
+        t_1, x_1, y_1, z_1 = self.a[0], self.a[1], self.a[2], self.a[3]
+        t_2, x_2, y_2, z_2 = qh_1.a[0], qh_1.a[1], qh_1.a[2], qh_1.a[3]
 
         dif_q = QH()
-        dif_q.t = t_1 - t_2
-        dif_q.x = x_1 - x_2
-        dif_q.y = y_1 - y_2
-        dif_q.z = z_1 - z_2
+        dif_q.a[0] = t_1 - t_2
+        dif_q.a[1] = x_1 - x_2
+        dif_q.a[2] = y_1 - y_2
+        dif_q.a[3] = z_1 - z_2
 
         if qtype:
             dif_q.qtype = qtype
@@ -298,12 +299,12 @@ class QH(object):
     def product(self, q1, qtype=""):
         """Form a product given 2 quaternions."""
 
-        qxq = self.all_products(q1)
+        qxq = self._all_products(q1)
         pq = QH()
-        pq.t = qxq['tt'] - qxq['xx+yy+zz']
-        pq.x = qxq['tx+xt'] + qxq['yz-zy']
-        pq.y = qxq['ty+yt'] + qxq['zx-xz']
-        pq.z = qxq['tz+zt'] + qxq['xy-yx']
+        pq.a[0] = qxq['tt'] - qxq['xx+yy+zz']
+        pq.a[1] = qxq['tx+xt'] + qxq['yz-zy']
+        pq.a[2] = qxq['ty+yt'] + qxq['zx-xz']
+        pq.a[3] = qxq['tz+zt'] + qxq['xy-yx']
             
         if qtype:
             pq.qtype = qtype
@@ -318,11 +319,11 @@ class QH(object):
         q_conj = self.conj()
         q_norm_squared = self.norm_squared()
 
-        if q_norm_squared.t == 0:
+        if q_norm_squared.a[0] == 0:
             print("oops, zero on the norm_squared.")
             return self.q0()
 
-        q_norm_squared_inv = QH([1.0 / q_norm_squared.t, 0, 0, 0])
+        q_norm_squared_inv = QH([1.0 / q_norm_squared.a[0], 0, 0, 0])
         q_inv = q_conj.product(q_norm_squared_inv, qtype=self.qtype)
         
         q_inv.add_qtype(qtype)
@@ -366,7 +367,7 @@ class QH(object):
     # This is not a well-known result, but does work.
     # b -> b' = h b h* + 1/2 ((hhb)* -(h*h*b)*)
     # where h is of the form (cosh(a), sinh(a))
-    def boost(self, beta_x=0, beta_y=0, beta_z=0, qtype="boost"):
+    def boost(self, beta_x=0.0, beta_y=0.0, beta_z=0.0, qtype="boost"):
         """A boost along the x, y, and/or z axis."""
 
         boost = QH(sr_gamma_betas(beta_x, beta_y, beta_z))      
@@ -377,7 +378,7 @@ class QH(object):
         triple_3 = b_conj.triple_product(b_conj, self).conj()
       
         triple_23 = triple_2.dif(triple_3)
-        half_23 = triple_23.product(QH([0.5, 0, 0, 0]))
+        half_23 = triple_23.product(QH([0.5, 0.0, 0.0, 0.0]))
         triple_123 = triple_1.add(half_23, qtype=self.qtype)
         
         triple_123.add_qtype(qtype)
@@ -401,10 +402,10 @@ class QH(object):
             return self
 
         g_q = QH(qtype=self.qtype)
-        g_q.t = self.t / g_factor
-        g_q.x = self.x * g_factor
-        g_q.y = self.y * g_factor
-        g_q.z = self.z * g_factor
+        g_q.a[0] = self.a[0] / g_factor
+        g_q.a[1] = self.a[1] * g_factor
+        g_q.a[2] = self.a[2] * g_factor
+        g_q.a[3] = self.a[3] * g_factor
 
         g_q.add_qtype(qtype)
         return g_q
@@ -415,21 +416,21 @@ class QH(object):
         q_out = QH(qtype=self.qtype)
         v_norm = self.norm_squared_of_vector()
         
-        if v_norm.t == 0:
+        if v_norm.a[0] == 0:
             
-            q_out.t = sp.sin(self.t)
-            q_out.x = 0
-            q_out.y = 0
-            q_out.z = 0
+            q_out.a[0] = sp.sin(self.a[0])
+            q_out.a[1] = 0.0
+            q_out.a[2] = 0.0
+            q_out.a[3] = 0.0
             
         else:
             
-            v_factor = sp.cos(self.t) * sp.sinh(v_norm.t) / v_norm.t
+            v_factor = sp.cos(self.a[0]) * sp.sinh(v_norm.a[0]) / v_norm.a[0]
             
-            q_out.t = math.trunc(sp.sin(self.t) * sp.cosh(v_norm.t))
-            q_out.x = math.trunc(v_factor * self.x)
-            q_out.y = math.trunc(v_factor * self.y)
-            q_out.z = math.trunc(v_factor * self.z)
+            q_out.a[0] = math.trunc(sp.sin(self.a[0]) * sp.cosh(v_norm.t))
+            q_out.a[1] = math.trunc(v_factor * self.a[1])
+            q_out.a[2] = math.trunc(v_factor * self.a[2])
+            q_out.a[3] = math.trunc(v_factor * self.a[3])
 
         q_out.add_qtype(qtype)
         return q_out
@@ -438,204 +439,204 @@ class QH(object):
 
 # Write tests the QH class.
 
-# In[ ]:
+# In[47]:
 
 
 class TestQH(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
 
-    Q = QH([1, -2, -3, -4], qtype="Q")
-    P = QH([0, 4, -3, 0], qtype="P")
+    Q = QH([1.0, -2.0, -3.0, -4.0], qtype="Q")
+    P = QH([0.0, 4.0, -3.0, 0.0], qtype="P")
     verbose = True
 
     def test_qt(self):
         q1 = self.Q.dupe()
-        self.assertTrue(q1.t == 1)
+        self.assertTrue(q1.a[0] == 1)
 
     def test_q0(self):
         q1 = self.Q.dupe()
         q_z = q1.q_0()
         if self.verbose: print("q0: {}".format(q_z))
-        self.assertTrue(q_z.t == 0)
-        self.assertTrue(q_z.x == 0)
-        self.assertTrue(q_z.y == 0)
-        self.assertTrue(q_z.z == 0)
+        self.assertTrue(q_z.a[0] == 0)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[3] == 0)
 
     def test_q1(self):
         q1 = self.Q.dupe()
         q_z = q1.q_1()
         if self.verbose: print("q1: {}".format(q_z))
-        self.assertTrue(q_z.t == 1)
-        self.assertTrue(q_z.x == 0)
-        self.assertTrue(q_z.y == 0)
-        self.assertTrue(q_z.z == 0)
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[3] == 0)
 
     def test_conj_0(self):
         q1 = self.Q.dupe()
         q_z = q1.conj()
         if self.verbose: print("q_conj 0: {}".format(q_z))
-        self.assertTrue(q_z.t == 1)
-        self.assertTrue(q_z.x == 2)
-        self.assertTrue(q_z.y == 3)
-        self.assertTrue(q_z.z == 4)
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[1] == 2)
+        self.assertTrue(q_z.a[2] == 3)
+        self.assertTrue(q_z.a[3] == 4)
 
     def test_conj_1(self):
         q1 = self.Q.dupe()
         q_z = q1.conj(1)
         if self.verbose: print("q_conj 1: {}".format(q_z))
-        self.assertTrue(q_z.t == -1)
-        self.assertTrue(q_z.x == -2)
-        self.assertTrue(q_z.y == 3)
-        self.assertTrue(q_z.z == 4)
+        self.assertTrue(q_z.a[0] == -1)
+        self.assertTrue(q_z.a[1] == -2)
+        self.assertTrue(q_z.a[2] == 3)
+        self.assertTrue(q_z.a[3] == 4)
 
     def test_conj_2(self):
         q1 = self.Q.dupe()
         q_z = q1.conj(2)
         if self.verbose: print("q_conj 2: {}".format(q_z))
-        self.assertTrue(q_z.t == -1)
-        self.assertTrue(q_z.x == 2)
-        self.assertTrue(q_z.y == -3)
-        self.assertTrue(q_z.z == 4)
+        self.assertTrue(q_z.a[0] == -1)
+        self.assertTrue(q_z.a[1] == 2)
+        self.assertTrue(q_z.a[2] == -3)
+        self.assertTrue(q_z.a[3] == 4)
 
     def test_vahlen_conj_minus(self):
         q1 = self.Q.dupe()
         q_z = q1.vahlen_conj()
         if self.verbose: print("q_vahlen_conj -: {}".format(q_z))
-        self.assertTrue(q_z.t == 1)
-        self.assertTrue(q_z.x == 2)
-        self.assertTrue(q_z.y == 3)
-        self.assertTrue(q_z.z == 4)
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[1] == 2)
+        self.assertTrue(q_z.a[2] == 3)
+        self.assertTrue(q_z.a[3] == 4)
 
     def test_vahlen_conj_star(self):
         q1 = self.Q.dupe()
         q_z = q1.vahlen_conj('*')
         if self.verbose: print("q_vahlen_conj *: {}".format(q_z))
-        self.assertTrue(q_z.t == 1)
-        self.assertTrue(q_z.x == -2)
-        self.assertTrue(q_z.y == -3)
-        self.assertTrue(q_z.z == 4)
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[1] == -2)
+        self.assertTrue(q_z.a[2] == -3)
+        self.assertTrue(q_z.a[3] == 4)
 
     def test_vahlen_conj_prime(self):
         q1 = self.Q.dupe()
         q_z = q1.vahlen_conj("'")
         if self.verbose: print("q_vahlen_conj ': {}".format(q_z))
-        self.assertTrue(q_z.t == 1)
-        self.assertTrue(q_z.x == 2)
-        self.assertTrue(q_z.y == 3)
-        self.assertTrue(q_z.z == -4)
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[1] == 2)
+        self.assertTrue(q_z.a[2] == 3)
+        self.assertTrue(q_z.a[3] == -4)
 
     def test_square(self):
         q1 = self.Q.dupe()
         q_z = q1.square()
         if self.verbose: print("square: {}".format(q_z))
-        self.assertTrue(q_z.t == -28)
-        self.assertTrue(q_z.x == -4)
-        self.assertTrue(q_z.y == -6)
-        self.assertTrue(q_z.z == -8)
+        self.assertTrue(q_z.a[0] == -28)
+        self.assertTrue(q_z.a[1] == -4)
+        self.assertTrue(q_z.a[2] == -6)
+        self.assertTrue(q_z.a[3] == -8)
 
     def test_norm_squared(self):
         q1 = self.Q.dupe()
         q_z = q1.norm_squared()
         if self.verbose: print("norm_squared: {}".format(q_z))
-        self.assertTrue(q_z.t == 30)
-        self.assertTrue(q_z.x == 0)
-        self.assertTrue(q_z.y == 0)
-        self.assertTrue(q_z.z == 0)
+        self.assertTrue(q_z.a[0] == 30)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[3] == 0)
 
     def test_norm_squared_of_vector(self):
         q1 = self.Q.dupe()
         q_z = q1.norm_squared_of_vector()
         if self.verbose: print("norm_squared_of_vector: {}".format(q_z))
-        self.assertTrue(q_z.t == 29)
-        self.assertTrue(q_z.x == 0)
-        self.assertTrue(q_z.y == 0)
-        self.assertTrue(q_z.z == 0)
+        self.assertTrue(q_z.a[0] == 29)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[3] == 0)
         
     def test_abs_of_q(self):
         q2 = self.P.dupe()
         q_z = q2.abs_of_q()
         if self.verbose: print("abs_of_q: {}".format(q_z))
-        self.assertTrue(q_z.t == 5)
-        self.assertTrue(q_z.x == 0)
-        self.assertTrue(q_z.y == 0)
-        self.assertTrue(q_z.z == 0)
+        self.assertTrue(q_z.a[0] == 5.0)
+        self.assertTrue(q_z.a[1] == 0.0)
+        self.assertTrue(q_z.a[2] == 0.0)
+        self.assertTrue(q_z.a[3] == 0.0)
         
     def test_abs_of_vector(self):
         q2 = self.P.dupe()
         q_z = q2.abs_of_vector()
         if self.verbose: print("abs_of_vector: {}".format(q_z))
-        self.assertTrue(q_z.t == 5)
-        self.assertTrue(q_z.x == 0)
-        self.assertTrue(q_z.y == 0)
-        self.assertTrue(q_z.z == 0)
+        self.assertTrue(q_z.a[0] == 5)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[3] == 0)
         
     def test_add(self):
         q1 = self.Q.dupe()
         q2 = self.P.dupe()
         q_z = q1.add(q2)
         if self.verbose: print("add: {}".format(q_z))
-        self.assertTrue(q_z.t == 1)
-        self.assertTrue(q_z.x == 2)
-        self.assertTrue(q_z.y == -6)
-        self.assertTrue(q_z.z == -4)
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[1] == 2)
+        self.assertTrue(q_z.a[2] == -6)
+        self.assertTrue(q_z.a[3] == -4)
         
     def test_dif(self):
         q1 = self.Q.dupe()
         q2 = self.P.dupe()
         q_z = q1.dif(q2)
         if self.verbose: print("dif: {}".format(q_z))
-        self.assertTrue(q_z.t == 1)
-        self.assertTrue(q_z.x == -6)
-        self.assertTrue(q_z.y == 0)
-        self.assertTrue(q_z.z == -4) 
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[1] == -6)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[3] == -4) 
 
     def test_product(self):
         q1 = self.Q.dupe()
         q2 = self.P.dupe()
         q_z = q1.product(q2)
         if self.verbose: print("product: {}".format(q_z))
-        self.assertTrue(q_z.t == -1)
-        self.assertTrue(q_z.x == -8)
-        self.assertTrue(q_z.y == -19)
-        self.assertTrue(q_z.z == 18)
+        self.assertTrue(q_z.a[0] == -1)
+        self.assertTrue(q_z.a[1] == -8)
+        self.assertTrue(q_z.a[2] == -19)
+        self.assertTrue(q_z.a[3] == 18)
         
     def test_invert(self):
         q1 = self.Q.dupe()
         q2 = self.P.dupe()
         q_z = q2.invert()
         if self.verbose: print("invert: {}".format(q_z))
-        self.assertTrue(q_z.t == 0)
-        self.assertTrue(q_z.x == -0.16)
-        self.assertTrue(q_z.y == 0.12)
-        self.assertTrue(q_z.z == 0)
+        self.assertTrue(q_z.a[0] == 0)
+        self.assertTrue(q_z.a[1] == -0.16)
+        self.assertTrue(q_z.a[2] == 0.12)
+        self.assertTrue(q_z.a[3] == 0)
                 
     def test_divide_by(self):
         q1 = self.Q.dupe()
         q_z = q1.divide_by(q1)
         if self.verbose: print("divide_by: {}".format(q_z))
-        self.assertTrue(q_z.t == 1)
-        self.assertTrue(q_z.x == 0)
-        self.assertTrue(q_z.y == 0)
-        self.assertTrue(q_z.z == 0) 
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[3] == 0) 
         
     def test_triple_product(self):
         q1 = self.Q.dupe()
         q2 = self.P.dupe()
         q_z = q1.triple_product(q2, q1)
         if self.verbose: print("triple product: {}".format(q_z))
-        self.assertTrue(q_z.t == -2)
-        self.assertTrue(q_z.x == 124)
-        self.assertTrue(q_z.y == -84)
-        self.assertTrue(q_z.z == 8)
+        self.assertTrue(q_z.a[0] == -2)
+        self.assertTrue(q_z.a[1] == 124)
+        self.assertTrue(q_z.a[2] == -84)
+        self.assertTrue(q_z.a[3] == 8)
         
     def test_rotate(self):
         q1 = self.Q.dupe()
         q_z = q1.rotate(1)
         if self.verbose: print("rotate: {}".format(q_z))
-        self.assertTrue(q_z.t == 1)
-        self.assertTrue(q_z.x == -2)
-        self.assertTrue(q_z.y == 3)
-        self.assertTrue(q_z.z == 4)
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[1] == -2)
+        self.assertTrue(q_z.a[2] == 3)
+        self.assertTrue(q_z.a[3] == 4)
         
     def test_boost(self):
         q1 = self.Q.dupe()
@@ -646,7 +647,7 @@ class TestQH(unittest.TestCase):
         if self.verbose: print("boosted: {}".format(q_z))
         if self.verbose: print("boosted squared: {}".format(q_z2))
         print("{}")
-        self.assertTrue(round(q_z2.t, 5) == round(q1_sq.t, 5))
+        self.assertTrue(round(q_z2.a[0], 5) == round(q1_sq.a[0], 5))
 
     def test_g_shift(self):
         q1 = self.Q.dupe()
@@ -658,20 +659,27 @@ class TestQH(unittest.TestCase):
         if self.verbose: print("q1_sq: {}".format(q1_sq))
         if self.verbose: print("g_shift: {}".format(q_z))
         if self.verbose: print("g squared: {}".format(q_z2))
-        self.assertTrue(q_z2.t != q1_sq.t)
-        self.assertTrue(q_z2.x == q1_sq.x)
-        self.assertTrue(q_z2.y == q1_sq.y)
-        self.assertTrue(q_z2.z == q1_sq.z)
-        self.assertTrue(q_z2_minimal.t != q1_sq.t)
-        self.assertTrue(q_z2_minimal.x == q1_sq.x)
-        self.assertTrue(q_z2_minimal.y == q1_sq.y)
-        self.assertTrue(q_z2_minimal.z == q1_sq.z)
+        self.assertTrue(q_z2.a[0] != q1_sq.a[0])
+        self.assertTrue(q_z2.a[1] == q1_sq.a[1])
+        self.assertTrue(q_z2.a[2] == q1_sq.a[2])
+        self.assertTrue(q_z2.a[3] == q1_sq.a[3])
+        self.assertTrue(q_z2_minimal.a[0] != q1_sq.a[0])
+        self.assertTrue(q_z2_minimal.a[1] == q1_sq.a[1])
+        self.assertTrue(q_z2_minimal.a[2] == q1_sq.a[2])
+        self.assertTrue(q_z2_minimal.a[3] == q1_sq.a[3])
         
     def test_q_sin(self):
         QH([0, 0, 0, 0]).q_sin()
 
 
-# In[ ]:
+# In[48]:
+
+
+tq = QH([1.0, 2.0, 3.0, 4.0])
+print(tq.abs_of_q())
+
+
+# In[49]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQH())
@@ -680,7 +688,7 @@ unittest.TextTestRunner().run(suite);
 
 # My long term goal is to deal with quaternions on a quaternion manifold. This will have 4 pairs of doublets. Each doublet is paired with its additive inverse. Instead of using real numbers, one uses (3, 0) and (0, 2) to represent +3 and -2 respectively. Numbers such as (5, 6) are allowed. That can be "reduced" to (0, 1).  My sense is that somewhere deep in the depths of relativistic quantum field theory, this will be a "good thing". For now, it is a minor pain to program.
 
-# In[ ]:
+# In[55]:
 
 
 class Doublet(object):
@@ -690,27 +698,21 @@ class Doublet(object):
     def __init__(self, numbers=None):
         
         if numbers is None:
-            self.p = 0
-            self.n = 0
+            self.d = np.array([0.0, 0.0])
             
         elif isinstance(numbers, (int, float)):
             if numbers < 0:
-                self.n = -1 * numbers
-                self.p = 0
+                self.d = np.array([0, -1 * numbers])
             else:
-                self.p = numbers
-                self.n = 0
-        
+                self.d = np.array([numbers, 0])
+                        
         elif isinstance(numbers, sp.Symbol):
-            self.p = numbers
-            self.n = 0
+            self.d = np.array([numbers, 0])
             
         elif isinstance(numbers, list):
             
             if len(numbers) == 2:
-                self.p = numbers[0]
-                self.n = numbers[1]
-
+                self.d = np.array([numbers[0], numbers[1]])
                       
         elif isinstance(numbers, str):
             n_list = numbers.split()
@@ -720,52 +722,44 @@ class Doublet(object):
                     n_value = float(numbers)
                       
                     if n_value < 0:
-                        self.n = -1 * n_list[0]
-                        self.p = 0
+                        self.d = np.array([0, -1 * n_list[0]])
                       
                     else:
-                        self.p = n_list[0]
-                        self.n = 0
+                        self.d = np.array([n_list[0], 0])
                         
                 else:
-                    self.p = sp.Symbol(n_list[0])
-                    self.n = 0
+                    self.d = np.array([sp.Symbol(n_list[0]), 0])
                       
             if (len(n_list) == 2):
                 if n_list[0].isnumeric():
-                    self.p = float(n_list[0])
+                    self.d = np.array([float(n_list[0]), float(n_list[1])])
                 else:
-                    self.p = sp.Symbol(n_list[0])
-                    
-                if n_list[1].isnumeric():
-                    self.n = float(n_list[1])
-                else:
-                    self.n = sp.Symbol(n_list[1])
+                    self.d = np.array([sp.Symbol(n_list[0]), sp.Symbol(n_list[1])]) 
         else:
             print ("unable to parse this Double.")
 
     def __str__(self):
         """Customize the output."""
-        return "{p}p  {n}n".format(p=self.p, n=self.n)
+        return "{p}p  {n}n".format(p=self.d[0], n=self.d[1])
         
     def d_add(self, d1):
         """Add a doublet to another."""
                         
-        pa0, n0 = self.p, self.n
-        p1, n1 = d1.p, d1.n
+        pa0, n0 = self.d[0], self.d[1]
+        p1, n1 = d1.d[0], d1.d[1]
                         
         return Doublet([pa0 + p1, n0 + n1])
 
     def d_reduce(self):
         """If p and n are not zero, subtract """
-        if self.p == 0 or self.n == 0:
-            return Doublet([self.p, self.n])
+        if self.d[0] == 0 or self.d[1] == 0:
+            return Doublet([self.d[0], self.d[1]])
         
-        elif self.p > self.n:
-            return Doublet([self.p - self.n, 0])
+        elif self.d[0] > self.d[1]:
+            return Doublet([self.d[0] - self.d[1], 0])
         
-        elif self.p < self.n:
-            return Doublet([0, self.n - self.p])
+        elif self.d[0] < self.d[1]:
+            return Doublet([0, self.d[1] - self.d[0]])
         
         else:
             return Doublet()
@@ -774,10 +768,10 @@ class Doublet(object):
         """Creates one additive inverses up to an arbitrary positive n."""
         
         if n == 0:
-            return Doublet([self.n + n, self.p + n])
+            return Doublet([self.d[1], self.d[0]])
         else:
             red = self.d_reduce()
-            return Doublet([red.n + n, red.p +n])
+            return Doublet([red.d[1] + n, red.d[0] + n])
                         
     def d_dif(self, d1, n=0):
         """Take the difference by flipping and adding."""
@@ -787,13 +781,13 @@ class Doublet(object):
         
     def Z2_product(self, d1):
         """Uset the Abelian cyclic group Z2 to form the product of 2 doublets."""
-        p1 = self.p * d1.p + self.n * d1.n
-        n1 = self.p * d1.n + self.n * d1.p
+        p1 = self.d[0] * d1.d[0] + self.d[1] * d1.d[1]
+        n1 = self.d[0] * d1.d[1] + self.d[1] * d1.d[0]
         
         return Doublet([p1, n1])
 
 
-# In[ ]:
+# In[56]:
 
 
 class TestDoublet(unittest.TestCase):
@@ -806,46 +800,46 @@ class TestDoublet(unittest.TestCase):
     dstr13 = Doublet("3 2")
     
     def test_null(self):
-        self.assertTrue(self.d1.p == 0)
-        self.assertTrue(self.d1.n == 0)
+        self.assertTrue(self.d1.d[0] == 0)
+        self.assertTrue(self.d1.d[1] == 0)
        
     def test_2(self):
-        self.assertTrue(self.d2.p == 2)
-        self.assertTrue(self.d2.n == 0)
+        self.assertTrue(self.d2.d[0] == 2)
+        self.assertTrue(self.d2.d[1] == 0)
         
     def test_3(self):
-        self.assertTrue(self.d3.p == 0)
-        self.assertTrue(self.d3.n == 3)
+        self.assertTrue(self.d3.d[0] == 0)
+        self.assertTrue(self.d3.d[1] == 3)
     
     def test_str12(self):
-        self.assertTrue(self.dstr12.p == 1)
-        self.assertTrue(self.dstr12.n == 2)
+        self.assertTrue(self.dstr12.d[0] == 1)
+        self.assertTrue(self.dstr12.d[1] == 2)
     
     def test_add(self):
         d_add = self.d2.d_add(self.d3)
-        self.assertTrue(d_add.p == 2)
-        self.assertTrue(d_add.n == 3)
+        self.assertTrue(d_add.d[0] == 2)
+        self.assertTrue(d_add.d[1] == 3)
         
     def test_d_additive_inverse_up_to_an_automorphism(self):
         d_f = self.d2.d_additive_inverse_up_to_an_automorphism()
-        self.assertTrue(d_f.p == 0)
-        self.assertTrue(d_f.n == 2)
+        self.assertTrue(d_f.d[0] == 0)
+        self.assertTrue(d_f.d[1] == 2)
         
     def test_dif(self):
         d_d = self.d2.d_dif(self.d3)
-        self.assertTrue(d_d.p == 5)
-        self.assertTrue(d_d.n == 0)
+        self.assertTrue(d_d.d[0] == 5)
+        self.assertTrue(d_d.d[1] == 0)
             
     def test_reduce(self):
         d_add = self.d2.d_add(self.d3)
         d_r = d_add.d_reduce()
-        self.assertTrue(d_r.p == 0)
-        self.assertTrue(d_r.n == 1)
+        self.assertTrue(d_r.d[0] == 0)
+        self.assertTrue(d_r.d[1] == 1)
         
     def test_Z2_product(self):
         Z2p = self.dstr12.Z2_product(self.dstr13)
-        self.assertTrue(Z2p.p == 7)
-        self.assertTrue(Z2p.n == 8)
+        self.assertTrue(Z2p.d[0] == 7)
+        self.assertTrue(Z2p.d[1] == 8)
         
     def test_reduced_product(self):
         """Reduce before or after, should make no difference."""
@@ -854,11 +848,11 @@ class TestDoublet(unittest.TestCase):
         d_r_1 = self.dstr12.d_reduce()
         d_r_2 = self.dstr13.d_reduce()
         Z2p_2 = d_r_1.Z2_product(d_r_2)
-        self.assertTrue(Z2p_red.p == Z2p_2.p)
-        self.assertTrue(Z2p_red.n == Z2p_2.n)
+        self.assertTrue(Z2p_red.d[0] == Z2p_2.d[0])
+        self.assertTrue(Z2p_red.d[1] == Z2p_2.d[1])
 
 
-# In[ ]:
+# In[57]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestDoublet())
@@ -867,7 +861,7 @@ unittest.TextTestRunner().run(suite);
 
 # Write a class to handle quaternions given 8 numbers.
 
-# In[ ]:
+# In[122]:
 
 
 class Q8(object):
@@ -875,32 +869,34 @@ class Q8(object):
 
     def __init__(self, values=None, qtype="Q"):
         if values is None:
-            self.dt, self.dx, self.dy, self.dz = Doublet(), Doublet(),Doublet(), Doublet()
+            d_zero = Doublet()
+            self.a = np.array([d_zero.d[0], d_zero.d[0], d_zero.d[0], d_zero.d[0], d_zero.d[0], d_zero.d[0], d_zero.d[0], d_zero.d[0]])
+     
         elif isinstance(values, list):
             if len(values) == 4:
-                self.dt = Doublet(values[0])
-                self.dx = Doublet(values[1])
-                self.dy = Doublet(values[2])
-                self.dz = Doublet(values[3])
+                self.a = np.array([Doublet(values[0]).d[0], Doublet(values[0]).d[1], 
+                                   Doublet(values[1]).d[0], Doublet(values[1]).d[1], 
+                                   Doublet(values[2]).d[0], Doublet(values[2]).d[1], 
+                                   Doublet(values[3]).d[0], Doublet(values[3]).d[1]])
         
             if len(values) == 8:
-                self.dt = Doublet([values[0], values[1]])
-                self.dx = Doublet([values[2], values[3]])
-                self.dy = Doublet([values[4], values[5]])
-                self.dz = Doublet([values[6], values[7]])
-                
+                self.a = np.array([Doublet([values[0], values[1]]).d[0], Doublet([values[0], values[1]]).d[1],
+                                   Doublet([values[2], values[3]]).d[0], Doublet([values[2], values[3]]).d[1],
+                                   Doublet([values[4], values[5]]).d[0], Doublet([values[4], values[5]]).d[1],
+                                   Doublet([values[6], values[7]]).d[0], Doublet([values[6], values[7]]).d[1]])
+                                  
         self.qtype=qtype
                 
     def __str__(self):
         """Customize the output."""
-        return "(({tp}, {tn}), ({xp}, {xn}), ({yp}, {yn}), ({zp}, {zn})) {qt}".format(tp=self.dt.p, tn=self.dt.n, 
-                                                             xp=self.dx.p, xn=self.dx.n, 
-                                                             yp=self.dy.p, yn=self.dy.n, 
-                                                             zp=self.dz.p, zn=self.dz.n,
+        return "(({tp}, {tn}), ({xp}, {xn}), ({yp}, {yn}), ({zp}, {zn})) {qt}".format(tp=self.a[0], tn=self.a[1], 
+                                                             xp=self.a[2], xn=self.a[3], 
+                                                             yp=self.a[4], yn=self.a[5], 
+                                                             zp=self.a[6], zn=self.a[7],
                                                              qt=self.qtype)
     def q4(self):
         """Return a 4 element array."""
-        return [self.dt.p - self.dt.n, self.dx.p - self.dx.n, self.dy.p - self.dy.n, self.dz.p - self.dz.n]
+        return [self.a[0] - self.a[1], self.a[0] - self.a[1], self.a[4] - self.a[5], self.a[6] - self.a[7]]
         
     def add_qtype(self, qtype):
             """Adds a qtype to an existing one."""
@@ -915,32 +911,47 @@ class Q8(object):
     def q_one(self, qtype="One"):
         """Return a multiplicative identity quaternion."""
         
-        return Q8([1, 0, 0, 0])
+        return Q8([1, 0, 0, 0, 0, 0, 0, 0])
     
     def conj(self, conj_type=0, qtype="*"):
         """Three types of conjugates."""
         
         conjq = Q8(qtype=self.qtype)
 
+        # Flip all but t.                          
         if conj_type == 0:
-            conjq.dt = self.dt
-            conjq.dx = self.dx.d_additive_inverse_up_to_an_automorphism()
-            conjq.dy = self.dy.d_additive_inverse_up_to_an_automorphism()
-            conjq.dz = self.dz.d_additive_inverse_up_to_an_automorphism()
+            conjq.a[0] = self.a[0]
+            conjq.a[1] = self.a[1]
+            conjq.a[2] = self.a[3]
+            conjq.a[3] = self.a[2]
+            conjq.a[4] = self.a[5]
+            conjq.a[5] = self.a[4]
+            conjq.a[6] = self.a[7]
+            conjq.a[7] = self.a[6]
         
+        # Flip all but x.
         if conj_type == 1:
-            conjq.dt = self.dt.d_additive_inverse_up_to_an_automorphism()
-            conjq.dx = self.dx
-            conjq.dy = self.dy.d_additive_inverse_up_to_an_automorphism()
-            conjq.dz = self.dz.d_additive_inverse_up_to_an_automorphism()
-            qtype += "1"
-            
+            conjq.a[0] = self.a[1]
+            conjq.a[1] = self.a[0]
+            conjq.a[2] = self.a[2]
+            conjq.a[3] = self.a[3]
+            conjq.a[4] = self.a[5]
+            conjq.a[5] = self.a[4]
+            conjq.a[6] = self.a[7]
+            conjq.a[7] = self.a[6]
+            qtype += "*1"
+
+        # Flip all but y.                                 
         if conj_type == 2:
-            conjq.dt = self.dt.d_additive_inverse_up_to_an_automorphism()
-            conjq.dx = self.dx.d_additive_inverse_up_to_an_automorphism()
-            conjq.dy = self.dy
-            conjq.dz = self.dz.d_additive_inverse_up_to_an_automorphism()
-            qtype += "2"
+            conjq.a[0] = self.a[1]
+            conjq.a[1] = self.a[0]
+            conjq.a[2] = self.a[3]
+            conjq.a[3] = self.a[2]
+            conjq.a[4] = self.a[4]
+            conjq.a[5] = self.a[5]
+            conjq.a[6] = self.a[7]
+            conjq.a[7] = self.a[6]
+            qtype += "*2"
             
         conjq.add_qtype(qtype)
         return conjq
@@ -950,95 +961,150 @@ class Q8(object):
         conjq = Q8(qtype=self.qtype)
 
         if conj_type == "-":
-            conjq.dt = self.dt
-            conjq.dx = self.dx.d_additive_inverse_up_to_an_automorphism()
-            conjq.dy = self.dy.d_additive_inverse_up_to_an_automorphism()
-            conjq.dz = self.dz.d_additive_inverse_up_to_an_automorphism()
+            conjq.a[0] = self.a[0]
+            conjq.a[1] = self.a[1]
+            conjq.a[2] = self.a[3]
+            conjq.a[3] = self.a[2]
+            conjq.a[4] = self.a[5]
+            conjq.a[5] = self.a[4]
+            conjq.a[6] = self.a[7]
+            conjq.a[7] = self.a[6]
             qtype += "-"
-            
+
+        # Flip the sign of x and y.
         if conj_type == "'":
-            conjq.dt = self.dt
-            conjq.dx = self.dx.d_additive_inverse_up_to_an_automorphism()
-            conjq.dy = self.dy.d_additive_inverse_up_to_an_automorphism()
-            conjq.dz = self.dz
+            conjq.a[0] = self.a[0]
+            conjq.a[1] = self.a[1]
+            conjq.a[2] = self.a[3]
+            conjq.a[3] = self.a[2]
+            conjq.a[4] = self.a[5]
+            conjq.a[5] = self.a[4]
+            conjq.a[6] = self.a[6]
+            conjq.a[7] = self.a[7]
             qtype += "'"
             
+        # Flip the sign of only z.
         if conj_type == "*":
-            conjq.dt = self.dt
-            conjq.dx = self.dx
-            conjq.dy = self.dy
-            conjq.dz = self.dz.d_additive_inverse_up_to_an_automorphism()
+            conjq.a[0] = self.a[0]
+            conjq.a[1] = self.a[1]
+            conjq.a[2] = self.a[2]
+            conjq.a[3] = self.a[3]
+            conjq.a[4] = self.a[4]
+            conjq.a[5] = self.a[5]
+            conjq.a[6] = self.a[7]
+            conjq.a[7] = self.a[6]
             qtype += "*"
             
         conjq.add_qtype(qtype)
         return conjq
 
-    def commuting_products(self, q1):
+    def _commuting_products(self, q1):
         """Returns a dictionary with the commuting products."""
 
-        products = {'tt': self.dt.Z2_product(q1.dt),
-                    'xx+yy+zz': self.dx.Z2_product(q1.dx).d_add(self.dy.Z2_product(q1.dy)).d_add(self.dz.Z2_product(q1.dz)),
-        
-                    'tx+xt': self.dt.Z2_product(q1.dx).d_add(self.dx.Z2_product(q1.dt)),
-                    'ty+yt': self.dt.Z2_product(q1.dy).d_add(self.dy.Z2_product(q1.dt)),
-                    'tz+zt': self.dt.Z2_product(q1.dz).d_add(self.dz.Z2_product(q1.dt))}
+        products = {'tt0': self.a[0] * q1.a[0] + self.a[1] * q1.a[1],
+                    'tt1': self.a[0] * q1.a[1] + self.a[1] * q1.a[0],
+                    
+                    'xx+yy+zz0': self.a[2] * q1.a[2] + self.a[3] * q1.a[3] + self.a[4] * q1.a[4] + self.a[5] * q1.a[5] + self.a[6] * q1.a[6] + self.a[7] * q1.a[7], 
+                    'xx+yy+zz1': self.a[2] * q1.a[3] + self.a[3] * q1.a[2] + self.a[4] * q1.a[5] + self.a[5] * q1.a[4] + self.a[6] * q1.a[7] + self.a[7] * q1.a[6], 
+                    
+                    'tx+xt0': self.a[0] * q1.a[2] + self.a[1] * q1.a[3] + self.a[2] * q1.a[0] + self.a[3] * q1.a[1],
+                    'tx+xt1': self.a[0] * q1.a[3] + self.a[1] * q1.a[2] + self.a[3] * q1.a[0] + self.a[2] * q1.a[1],
+                    
+                    'ty+yt0': self.a[0] * q1.a[4] + self.a[1] * q1.a[5] + self.a[4] * q1.a[0] + self.a[5] * q1.a[1],
+                    'ty+yt1': self.a[0] * q1.a[5] + self.a[1] * q1.a[4] + self.a[5] * q1.a[0] + self.a[4] * q1.a[1],
+                    
+                    'tz+zt0': self.a[0] * q1.a[6] + self.a[1] * q1.a[7] + self.a[6] * q1.a[0] + self.a[7] * q1.a[1],
+                    'tz+zt1': self.a[0] * q1.a[7] + self.a[1] * q1.a[6] + self.a[7] * q1.a[0] + self.a[6] * q1.a[1]
+                    }
         
         return products
     
-    def anti_commuting_products(self, q1):
+    def _anti_commuting_products(self, q1):
         """Returns a dictionary with the three anti-commuting products."""
 
-        products = {'yz-zy': self.dy.Z2_product(q1.dz).d_dif(self.dz.Z2_product(q1.dy)),
-                    'zx-xz': self.dz.Z2_product(q1.dx).d_dif(self.dx.Z2_product(q1.dz)),
-                    'xy-yx': self.dx.Z2_product(q1.dy).d_dif(self.dy.Z2_product(q1.dx))}
+        yz0 = self.a[4] * q1.a[6] + self.a[5] * q1.a[7]
+        yz1 = self.a[4] * q1.a[7] + self.a[5] * q1.a[6]
+        zy0 = self.a[6] * q1.a[4] + self.a[7] * q1.a[5]
+        zy1 = self.a[6] * q1.a[5] + self.a[7] * q1.a[4]
+
+        zx0 = self.a[6] * q1.a[2] + self.a[7] * q1.a[3]
+        zx1 = self.a[6] * q1.a[3] + self.a[7] * q1.a[2]
+        xz0 = self.a[2] * q1.a[6] + self.a[3] * q1.a[7]
+        xz1 = self.a[2] * q1.a[7] + self.a[3] * q1.a[6]
+
+        xy0 = self.a[2] * q1.a[4] + self.a[3] * q1.a[5]
+        xy1 = self.a[2] * q1.a[5] + self.a[3] * q1.a[4]
+        yx0 = self.a[4] * q1.a[2] + self.a[5] * q1.a[3]
+        yx1 = self.a[4] * q1.a[3] + self.a[5] * q1.a[2]
+                                   
+        products = {'yz-zy0': yz0 + zy1,
+                    'yz-zy1': yz1 + zy0,
+                    
+                    'zx-xz0': zx0 + xz1,
+                    'zx-xz1': zx1 + xz0,
+                    
+                    'xy-yx0': xy0 + yx1,
+                    'xy-yx1': xy1 + yx0}
         
         return products
     
-    def all_products(self, q1):
+    def _all_products(self, q1):
         """Returns a dictionary with all possible products."""
 
-        products = self.commuting_products(q1)
-        products.update(self.anti_commuting_products(q1))
+        products = self._commuting_products(q1)
+        products.update(self._anti_commuting_products(q1))
         
         return products
     
     def square(self, qtype=""):
         """Square a quaternion."""
         
-        qxq = self.commuting_products(self)
+        qxq = self._commuting_products(self)
         
         sq_q = Q8(qtype=self.qtype)        
-        sq_q.dt = qxq['tt'].d_dif(qxq['xx+yy+zz'])
-        sq_q.dx = qxq['tx+xt']
-        sq_q.dy = qxq['ty+yt']
-        sq_q.dz = qxq['tz+zt']
+        sq_q.a[0] = qxq['tt0'] + (qxq['xx+yy+zz1'])
+        sq_q.a[1] = qxq['tt1'] + (qxq['xx+yy+zz0'])
+        sq_q.a[2] = qxq['tx+xt0']
+        sq_q.a[3] = qxq['tx+xt1']
+        sq_q.a[4] = qxq['ty+yt0']
+        sq_q.a[5] = qxq['ty+yt1']
+        sq_q.a[6] = qxq['tz+zt0']
+        sq_q.a[7] = qxq['tz+zt1']
         
         if qtype:
             sq_q.qtype = qtype
         else:
             sq_q.add_qtype("{s}_sq".format(s=self.qtype))
         return sq_q
-
     
     def reduce(self, qtype="reduce"):
         """Put all doublets into the reduced form so one of each pair is zero."""
 
+        red_t = Doublet([self.a[0], self.a[1]]).d_reduce()
+        red_x = Doublet([self.a[2], self.a[3]]).d_reduce()
+        red_y = Doublet([self.a[4], self.a[5]]).d_reduce()
+        red_z = Doublet([self.a[6], self.a[7]]).d_reduce()
+            
         q_red = Q8(qtype=self.qtype)
-        q_red.dt = self.dt.d_reduce()
-        q_red.dx = self.dx.d_reduce()
-        q_red.dy = self.dy.d_reduce()
-        q_red.dz = self.dz.d_reduce()
-        
+        q_red.a[0] = red_t.d[0]
+        q_red.a[1] = red_t.d[1]
+        q_red.a[2] = red_x.d[0]
+        q_red.a[3] = red_x.d[1]
+        q_red.a[4] = red_y.d[0]
+        q_red.a[5] = red_y.d[1]
+        q_red.a[6] = red_z.d[0]
+        q_red.a[7] = red_z.d[1]
+
         q_red.add_qtype(qtype)
         return q_red
     
     def norm_squared(self, qtype="norm_squared"):
         """The norm_squared of a quaternion."""
         
-        qxq = self.commuting_products(self)
+        qxq = self._commuting_products(self)
         
         n_q = Q8(qtype=self.qtype)        
-        n_q.dt = qxq['tt'].d_add(qxq['xx+yy+zz'])
+        n_q.a[0] = qxq['tt0'] + qxq['xx+yy+zz0']
 
         n_q.add_qtype(qtype)
         return n_q
@@ -1046,10 +1112,10 @@ class Q8(object):
     def norm_squared_of_vector(self, qtype="norm_squaredV"):
         """The norm_squared of the vector of a quaternion."""
         
-        qxq = self.commuting_products(self)
+        qxq = self._commuting_products(self)
         
         nv_q = Q8(qtype=self.qtype)
-        nv_q.dt = qxq['xx+yy+zz']
+        nv_q.a[0] = qxq['xx+yy+zz0']
 
         nv_q.add_qtype(qtype)
         return nv_q
@@ -1058,19 +1124,19 @@ class Q8(object):
     def abs_of_q(self, qtype="abs"):
         """The absolute value, the square root of the norm_squared."""
 
-        a = self.norm_squared(qtype=self.qtype)
-        sqrt_t = a.dt.p ** (1/2)
-        a.dt = Doublet(sqrt_t)
+        abq = self.norm_squared(qtype=self.qtype)
+        sqrt_t = abq.a[0] ** (1/2)
+        abq.a[0] = sqrt_t
         
-        a.add_qtype(qtype)
-        return a
+        abq.add_qtype(qtype)
+        return abq
 
     def abs_of_vector(self, qtype="absV"):
         """The absolute value of the vector, the square root of the norm_squared of the vector."""
 
         av = self.norm_squared_of_vector()
-        sqrt_t = av.dt.p ** (1/2)
-        av.dt = Doublet(sqrt_t)
+        sqrt_t = av.a[0] ** (1/2)
+        av.a[0] = sqrt_t
         
         av.qtype = self.qtype
         av.add_qtype(qtype)
@@ -1080,10 +1146,8 @@ class Q8(object):
         """Form a add given 2 quaternions."""
 
         add_q = Q8()
-        add_q.dt = self.dt.d_add(q1.dt)
-        add_q.dx = self.dx.d_add(q1.dx)
-        add_q.dy = self.dy.d_add(q1.dy)
-        add_q.dz = self.dz.d_add(q1.dz)
+        for i in range(0, 8):
+            add_q.a[i] = self.a[i] + q1.a[i]
                     
         if qtype:
             add_q.qtype = qtype
@@ -1096,11 +1160,16 @@ class Q8(object):
         """Form a add given 2 quaternions."""
 
         dif_q = Q8()
-        dif_q.dt = self.dt.d_dif(q1.dt)
-        dif_q.dx = self.dx.d_dif(q1.dx)
-        dif_q.dy = self.dy.d_dif(q1.dy)
-        dif_q.dz = self.dz.d_dif(q1.dz)
-                    
+
+        dif_q.a[0] = self.a[0] + q1.a[1]
+        dif_q.a[1] = self.a[1] + q1.a[0]
+        dif_q.a[2] = self.a[2] + q1.a[3]
+        dif_q.a[3] = self.a[3] + q1.a[2]
+        dif_q.a[4] = self.a[4] + q1.a[5]
+        dif_q.a[5] = self.a[5] + q1.a[4]
+        dif_q.a[6] = self.a[6] + q1.a[7]
+        dif_q.a[7] = self.a[7] + q1.a[6]
+     
         if qtype:
             dif_q.qtype = qtype
         else:
@@ -1111,12 +1180,17 @@ class Q8(object):
     def product(self, q1, qtype=""):
         """Form a product given 2 quaternions."""
 
-        qxq = self.all_products(q1)
+        qxq = self._all_products(q1)
         pq = Q8()
-        pq.dt = qxq['tt'].d_dif(qxq['xx+yy+zz'])
-        pq.dx = qxq['tx+xt'].d_add(qxq['yz-zy'])
-        pq.dy = qxq['ty+yt'].d_add(qxq['zx-xz'])
-        pq.dz = qxq['tz+zt'].d_add(qxq['xy-yx'])
+                                   
+        pq.a[0] = qxq['tt0'] + qxq['xx+yy+zz1']
+        pq.a[1] = qxq['tt1'] + qxq['xx+yy+zz0']
+        pq.a[2] = qxq['tx+xt0'] + qxq['yz-zy0']
+        pq.a[3] = qxq['tx+xt1'] + qxq['yz-zy1']
+        pq.a[4] = qxq['ty+yt0'] + qxq['zx-xz0']
+        pq.a[5] = qxq['ty+yt1'] + qxq['zx-xz1']
+        pq.a[6] = qxq['tz+zt0'] + qxq['xy-yx0']
+        pq.a[7] = qxq['tz+zt1'] + qxq['xy-yx1']
                     
         if qtype:
             pq.qtype = qtype
@@ -1131,10 +1205,10 @@ class Q8(object):
         q_conj = self.conj()
         q_norm_squared = self.norm_squared().reduce()
         
-        if q_norm_squared.dt.p == 0:
+        if q_norm_squared.a[0] == 0:
             return self.q0()
         
-        q_norm_squared_inv = Q8([1.0 / q_norm_squared.dt.p, 0, 0, 0, 0, 0, 0, 0])
+        q_norm_squared_inv = Q8([1.0 / q_norm_squared.a[0], 0, 0, 0, 0, 0, 0, 0])
 
         q_inv = q_conj.product(q_norm_squared_inv, qtype=self.qtype)
         
@@ -1211,17 +1285,26 @@ class Q8(object):
             return self
         exp_g = sp.exp(dimensionless_g)
         
+        dt = Doublet([self.a[0] / exp_g, self.a[1] / exp_g])
+        dx = Doublet([self.a[2] * exp_g, self.a[3] * exp_g])
+        dy = Doublet([self.a[4] * exp_g, self.a[5] * exp_g])
+        dz = Doublet([self.a[6] * exp_g, self.a[7] * exp_g])
+        
         g_q = Q8(qtype=self.qtype)
-        g_q.dt = Doublet([self.dt.p / exp_g, self.dt.n / exp_g])
-        g_q.dx = Doublet([self.dx.p * exp_g, self.dx.n * exp_g])
-        g_q.dy = Doublet([self.dy.p * exp_g, self.dy.n * exp_g])
-        g_q.dz = Doublet([self.dz.p * exp_g, self.dz.n * exp_g])
+        g_q.a[0] = dt.d[0]
+        g_q.a[1] = dt.d[1]
+        g_q.a[2] = dx.d[0]
+        g_q.a[3] = dx.d[1]
+        g_q.a[4] = dy.d[0]
+        g_q.a[5] = dy.d[1]
+        g_q.a[6] = dz.d[0]
+        g_q.a[7] = dz.d[1]
         
         g_q.add_qtype(qtype)
         return g_q
 
 
-# In[ ]:
+# In[123]:
 
 
 class TestQ8(unittest.TestCase):
@@ -1233,240 +1316,240 @@ class TestQ8(unittest.TestCase):
     verbose = True
     
     def test_qt(self):
-        self.assertTrue(self.q1.dt.p == 1)
+        self.assertTrue(self.q1.a[0] == 1)
     
     def test_q_zero(self):
         q_z = self.q1.q_zero()
         if self.verbose: print("q0: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 0)
-        self.assertTrue(q_z.dx.p == 0)
-        self.assertTrue(q_z.dy.n == 0)
-        self.assertTrue(q_z.dz.p == 0)
+        self.assertTrue(q_z.a[0] == 0)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[5] == 0)
+        self.assertTrue(q_z.a[6] == 0)
         
     def test_q_one(self):
         q_z = self.q1.q_one()
         if self.verbose: print("q1: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 1)
-        self.assertTrue(q_z.dx.p == 0)
-        self.assertTrue(q_z.dy.p == 0)
-        self.assertTrue(q_z.dz.p == 0)
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[4] == 0)
+        self.assertTrue(q_z.a[6] == 0)
                 
     def test_conj_0(self):
         q_z = self.q1.conj()
         if self.verbose: print("conj 0: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 1)
-        self.assertTrue(q_z.dx.p == 2)
-        self.assertTrue(q_z.dy.p == 3)
-        self.assertTrue(q_z.dz.p == 4)
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[2] == 2)
+        self.assertTrue(q_z.a[4] == 3)
+        self.assertTrue(q_z.a[6] == 4)
                  
     def test_conj_1(self):
         q_z = self.q1.conj(1)
         if self.verbose: print("conj 1: {}".format(q_z))
-        self.assertTrue(q_z.dt.n == 1)
-        self.assertTrue(q_z.dx.n == 2)
-        self.assertTrue(q_z.dy.p == 3)
-        self.assertTrue(q_z.dz.p == 4)
+        self.assertTrue(q_z.a[1] == 1)
+        self.assertTrue(q_z.a[3] == 2)
+        self.assertTrue(q_z.a[4] == 3)
+        self.assertTrue(q_z.a[6] == 4)
                  
     def test_conj_2(self):
         q_z = self.q1.conj(2)
         if self.verbose: print("conj 2: {}".format(q_z))
-        self.assertTrue(q_z.dt.n == 1)
-        self.assertTrue(q_z.dx.p == 2)
-        self.assertTrue(q_z.dy.n == 3)
-        self.assertTrue(q_z.dz.p == 4)
+        self.assertTrue(q_z.a[1] == 1)
+        self.assertTrue(q_z.a[2] == 2)
+        self.assertTrue(q_z.a[5] == 3)
+        self.assertTrue(q_z.a[6] == 4)
         
     def test_vahlen_conj_0(self):
         q_z = self.q1.vahlen_conj()
         if self.verbose: print("vahlen conj -: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 1)
-        self.assertTrue(q_z.dx.p == 2)
-        self.assertTrue(q_z.dy.p == 3)
-        self.assertTrue(q_z.dz.p == 4)
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[2] == 2)
+        self.assertTrue(q_z.a[4] == 3)
+        self.assertTrue(q_z.a[6] == 4)
                  
     def test_vahlen_conj_1(self):
         q_z = self.q1.vahlen_conj("'")
         if self.verbose: print("vahlen conj ': {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 1)
-        self.assertTrue(q_z.dx.p == 2)
-        self.assertTrue(q_z.dy.p == 3)
-        self.assertTrue(q_z.dz.n == 4)
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[2] == 2)
+        self.assertTrue(q_z.a[4] == 3)
+        self.assertTrue(q_z.a[7] == 4)
                  
     def test_vahlen_conj_2(self):
         q_z = self.q1.vahlen_conj('*')
         if self.verbose: print("vahlen conj *: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 1)
-        self.assertTrue(q_z.dx.n == 2)
-        self.assertTrue(q_z.dy.n == 3)
-        self.assertTrue(q_z.dz.p == 4)
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[3] == 2)
+        self.assertTrue(q_z.a[5] == 3)
+        self.assertTrue(q_z.a[6] == 4)
         
     def test_square(self):
         q_sq = self.q1.square()
         q_sq_red = q_sq.reduce()
         if self.verbose: print("square: {}".format(q_sq))
         if self.verbose: print("square reduced: {}".format(q_sq_red))
-        self.assertTrue(q_sq.dt.p == 1)
-        self.assertTrue(q_sq.dt.n == 29)
-        self.assertTrue(q_sq.dx.n == 4)
-        self.assertTrue(q_sq.dy.n == 6)
-        self.assertTrue(q_sq.dz.n == 8)
-        self.assertTrue(q_sq_red.dt.p == 0)
-        self.assertTrue(q_sq_red.dt.n == 28)
+        self.assertTrue(q_sq.a[0] == 1)
+        self.assertTrue(q_sq.a[1] == 29)
+        self.assertTrue(q_sq.a[3] == 4)
+        self.assertTrue(q_sq.a[5] == 6)
+        self.assertTrue(q_sq.a[7] == 8)
+        self.assertTrue(q_sq_red.a[0] == 0)
+        self.assertTrue(q_sq_red.a[1] == 28)
                 
     def test_reduce(self):
         q_red = self.q_big.reduce()
         if self.verbose: print("q_big reduced: {}".format(q_red))
-        self.assertTrue(q_red.dt.p == 0)
-        self.assertTrue(q_red.dt.n == 1)
-        self.assertTrue(q_red.dx.p == 0)
-        self.assertTrue(q_red.dx.n == 1)
-        self.assertTrue(q_red.dy.p == 0)
-        self.assertTrue(q_red.dy.n == 1)
-        self.assertTrue(q_red.dz.p == 0)
-        self.assertTrue(q_red.dz.n == 1)
+        self.assertTrue(q_red.a[0] == 0)
+        self.assertTrue(q_red.a[1] == 1)
+        self.assertTrue(q_red.a[2] == 0)
+        self.assertTrue(q_red.a[3] == 1)
+        self.assertTrue(q_red.a[4] == 0)
+        self.assertTrue(q_red.a[5] == 1)
+        self.assertTrue(q_red.a[6] == 0)
+        self.assertTrue(q_red.a[7] == 1)
         
     def test_norm_squared(self):
         q_z = self.q1.norm_squared()
         if self.verbose: print("norm_squared: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 30)
-        self.assertTrue(q_z.dt.n == 0)
-        self.assertTrue(q_z.dx.p == 0)
-        self.assertTrue(q_z.dx.n == 0)
-        self.assertTrue(q_z.dy.p == 0)
-        self.assertTrue(q_z.dy.n == 0)
-        self.assertTrue(q_z.dz.p == 0)
-        self.assertTrue(q_z.dz.n == 0)
+        self.assertTrue(q_z.a[0] == 30)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[3] == 0)
+        self.assertTrue(q_z.a[4] == 0)
+        self.assertTrue(q_z.a[5] == 0)
+        self.assertTrue(q_z.a[6] == 0)
+        self.assertTrue(q_z.a[7] == 0)
         
     def test_norm_squared_of_vector(self):
         q_z = self.q1.norm_squared_of_vector()
         if self.verbose: print("norm_squared_of_vector: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 29)
-        self.assertTrue(q_z.dt.n == 0)
-        self.assertTrue(q_z.dx.p == 0)
-        self.assertTrue(q_z.dx.n == 0)
-        self.assertTrue(q_z.dy.p == 0)
-        self.assertTrue(q_z.dy.n == 0)
-        self.assertTrue(q_z.dz.p == 0)
-        self.assertTrue(q_z.dz.n == 0)
+        self.assertTrue(q_z.a[0] == 29)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[3] == 0)
+        self.assertTrue(q_z.a[4] == 0)
+        self.assertTrue(q_z.a[5] == 0)
+        self.assertTrue(q_z.a[6] == 0)
+        self.assertTrue(q_z.a[7] == 0)
         
     def test_abs_of_q(self):
         q_z = self.q2.abs_of_q()
         if self.verbose: print("abs_of_q: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 5)
-        self.assertTrue(q_z.dx.p == 0)
-        self.assertTrue(q_z.dy.p == 0)
-        self.assertTrue(q_z.dz.p == 0)
-        self.assertTrue(q_z.dt.n == 0)
-        self.assertTrue(q_z.dx.n == 0)
-        self.assertTrue(q_z.dy.n == 0)
-        self.assertTrue(q_z.dz.n == 0)
+        self.assertTrue(q_z.a[0] == 5)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[4] == 0)
+        self.assertTrue(q_z.a[6] == 0)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[3] == 0)
+        self.assertTrue(q_z.a[5] == 0)
+        self.assertTrue(q_z.a[7] == 0)
         
     def test_abs_of_vector(self):
         q_z = self.q2.abs_of_vector()
         if self.verbose: print("abs_of_vector: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 5)
-        self.assertTrue(q_z.dx.p == 0)
-        self.assertTrue(q_z.dy.p == 0)
-        self.assertTrue(q_z.dz.p == 0)
-        self.assertTrue(q_z.dt.n == 0)
-        self.assertTrue(q_z.dx.n == 0)
-        self.assertTrue(q_z.dy.n == 0)
-        self.assertTrue(q_z.dz.n == 0)
+        self.assertTrue(q_z.a[0] == 5)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[4] == 0)
+        self.assertTrue(q_z.a[6] == 0)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[3] == 0)
+        self.assertTrue(q_z.a[5] == 0)
+        self.assertTrue(q_z.a[7] == 0)
         
     def test_add(self):
         q_z = self.q1.add(self.q2)
         if self.verbose: print("add: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 1)
-        self.assertTrue(q_z.dt.n == 0)
-        self.assertTrue(q_z.dx.p == 4)
-        self.assertTrue(q_z.dx.n == 2)
-        self.assertTrue(q_z.dy.p == 0)
-        self.assertTrue(q_z.dy.n == 6)
-        self.assertTrue(q_z.dz.p == 0)
-        self.assertTrue(q_z.dz.n == 4)
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[2] == 4)
+        self.assertTrue(q_z.a[3] == 2)
+        self.assertTrue(q_z.a[4] == 0)
+        self.assertTrue(q_z.a[5] == 6)
+        self.assertTrue(q_z.a[6] == 0)
+        self.assertTrue(q_z.a[7] == 4)
         
     def test_add_reduce(self):
         q_z_red = self.q1.add(self.q2).reduce()
         if self.verbose: print("add reduce: {}".format(q_z_red))
-        self.assertTrue(q_z_red.dt.p == 1)
-        self.assertTrue(q_z_red.dt.n == 0)
-        self.assertTrue(q_z_red.dx.p == 2)
-        self.assertTrue(q_z_red.dx.n == 0)
-        self.assertTrue(q_z_red.dy.p == 0)
-        self.assertTrue(q_z_red.dy.n == 6)
-        self.assertTrue(q_z_red.dz.p == 0)
-        self.assertTrue(q_z_red.dz.n == 4)
+        self.assertTrue(q_z_red.a[0] == 1)
+        self.assertTrue(q_z_red.a[1] == 0)
+        self.assertTrue(q_z_red.a[2] == 2)
+        self.assertTrue(q_z_red.a[3] == 0)
+        self.assertTrue(q_z_red.a[4] == 0)
+        self.assertTrue(q_z_red.a[5] == 6)
+        self.assertTrue(q_z_red.a[6] == 0)
+        self.assertTrue(q_z_red.a[7] == 4)
         
     def test_dif(self):
         q_z = self.q1.dif(self.q2)
         if self.verbose: print("dif: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 1)
-        self.assertTrue(q_z.dt.n == 0)
-        self.assertTrue(q_z.dx.p == 0)
-        self.assertTrue(q_z.dx.n == 6) 
-        self.assertTrue(q_z.dy.p == 3)
-        self.assertTrue(q_z.dy.n == 3)
-        self.assertTrue(q_z.dz.p == 0)
-        self.assertTrue(q_z.dz.n == 4) 
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[3] == 6) 
+        self.assertTrue(q_z.a[4] == 3)
+        self.assertTrue(q_z.a[5] == 3)
+        self.assertTrue(q_z.a[6] == 0)
+        self.assertTrue(q_z.a[7] == 4) 
 
     def test_product(self):
         q_z = self.q1.product(self.q2).reduce()
         if self.verbose: print("product: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 0)
-        self.assertTrue(q_z.dt.n == 1)
-        self.assertTrue(q_z.dx.p == 0)
-        self.assertTrue(q_z.dx.n == 8)
-        self.assertTrue(q_z.dy.p == 0)
-        self.assertTrue(q_z.dy.n == 19)
-        self.assertTrue(q_z.dz.p == 18)
-        self.assertTrue(q_z.dz.n == 0)
+        self.assertTrue(q_z.a[0] == 0)
+        self.assertTrue(q_z.a[1] == 1)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[3] == 8)
+        self.assertTrue(q_z.a[4] == 0)
+        self.assertTrue(q_z.a[5] == 19)
+        self.assertTrue(q_z.a[6] == 18)
+        self.assertTrue(q_z.a[7] == 0)
         
     def test_invert(self):
         q_z = self.q2.invert().reduce()
         if self.verbose: print("inverse: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 0)
-        self.assertTrue(q_z.dt.n == 0)
-        self.assertTrue(q_z.dx.p == 0)
-        self.assertTrue(q_z.dx.n == 0.16)
-        self.assertTrue(q_z.dy.p == 0.12)
-        self.assertTrue(q_z.dy.n == 0)
-        self.assertTrue(q_z.dz.p == 0)
-        self.assertTrue(q_z.dz.n == 0)
+        self.assertTrue(q_z.a[0] == 0)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[3] == 0.16)
+        self.assertTrue(q_z.a[4] == 0.12)
+        self.assertTrue(q_z.a[5] == 0)
+        self.assertTrue(q_z.a[6] == 0)
+        self.assertTrue(q_z.a[7] == 0)
 
     def test_divide_by(self):
         q_z = self.q1.divide_by(self.q1).reduce()
         if self.verbose: print("inverse: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 1)
-        self.assertTrue(q_z.dt.n == 0)
-        self.assertTrue(q_z.dx.p == 0)
-        self.assertTrue(q_z.dx.n == 0)
-        self.assertTrue(q_z.dy.p == 0)
-        self.assertTrue(q_z.dy.n == 0)
-        self.assertTrue(q_z.dz.p == 0)
-        self.assertTrue(q_z.dz.n == 0) 
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[3] == 0)
+        self.assertTrue(q_z.a[4] == 0)
+        self.assertTrue(q_z.a[5] == 0)
+        self.assertTrue(q_z.a[6] == 0)
+        self.assertTrue(q_z.a[7] == 0) 
         
     def test_triple_product(self):
         q_z = self.q1.triple_product(self.q2, self.q1).reduce()
         if self.verbose: print("triple: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 0)
-        self.assertTrue(q_z.dt.n == 2)
-        self.assertTrue(q_z.dx.p == 124)
-        self.assertTrue(q_z.dx.n == 0)
-        self.assertTrue(q_z.dy.p == 0)
-        self.assertTrue(q_z.dy.n == 84)
-        self.assertTrue(q_z.dz.p == 8)
-        self.assertTrue(q_z.dz.n == 0)
+        self.assertTrue(q_z.a[0] == 0)
+        self.assertTrue(q_z.a[1] == 2)
+        self.assertTrue(q_z.a[2] == 124)
+        self.assertTrue(q_z.a[3] == 0)
+        self.assertTrue(q_z.a[4] == 0)
+        self.assertTrue(q_z.a[5] == 84)
+        self.assertTrue(q_z.a[6] == 8)
+        self.assertTrue(q_z.a[7] == 0)
         
     def test_rotate(self):
         q_z = self.q1.rotate(1).reduce()
         if self.verbose: print("rotate: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 1)
-        self.assertTrue(q_z.dt.n == 0)
-        self.assertTrue(q_z.dx.p == 0)
-        self.assertTrue(q_z.dx.n == 2)
-        self.assertTrue(q_z.dy.p == 3)
-        self.assertTrue(q_z.dy.n == 0)
-        self.assertTrue(q_z.dz.p == 4)
-        self.assertTrue(q_z.dz.n == 0)
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[2] == 0)
+        self.assertTrue(q_z.a[3] == 2)
+        self.assertTrue(q_z.a[4] == 3)
+        self.assertTrue(q_z.a[5] == 0)
+        self.assertTrue(q_z.a[6] == 4)
+        self.assertTrue(q_z.a[7] == 0)
         
     def test_boost(self):
         q1_sq = self.q1.square().reduce()
@@ -1475,7 +1558,7 @@ class TestQ8(unittest.TestCase):
         if self.verbose: print("q1_sq: {}".format(q1_sq))
         if self.verbose: print("boosted: {}".format(q_z))
         if self.verbose: print("b squared: {}".format(q_z2))
-        self.assertTrue(round(q_z2.dt.n, 12) == round(q1_sq.dt.n, 12))
+        self.assertTrue(round(q_z2.a[1], 12) == round(q1_sq.a[1], 12))
         
     def test_g_shift(self):
         q1_sq = self.q1.square().reduce()
@@ -1484,20 +1567,29 @@ class TestQ8(unittest.TestCase):
         if self.verbose: print("q1_sq: {}".format(q1_sq))
         if self.verbose: print("g_shift: {}".format(q_z))
         if self.verbose: print("g squared: {}".format(q_z2))
-        self.assertTrue(q_z2.dt.n != q1_sq.dt.n)
-        self.assertTrue(q_z2.dx.p == q1_sq.dx.p)
-        self.assertTrue(q_z2.dx.n == q1_sq.dx.n)
-        self.assertTrue(q_z2.dy.p == q1_sq.dy.p)
-        self.assertTrue(q_z2.dy.n == q1_sq.dy.n)
-        self.assertTrue(q_z2.dz.p == q1_sq.dz.p)
-        self.assertTrue(q_z2.dz.n == q1_sq.dz.n)
+        self.assertTrue(q_z2.a[1] != q1_sq.a[1])
+        self.assertTrue(q_z2.a[2] == q1_sq.a[2])
+        self.assertTrue(q_z2.a[3] == q1_sq.a[3])
+        self.assertTrue(q_z2.a[4] == q1_sq.a[4])
+        self.assertTrue(q_z2.a[5] == q1_sq.a[5])
+        self.assertTrue(q_z2.a[6] == q1_sq.a[6])
+        self.assertTrue(q_z2.a[7] == q1_sq.a[7])
 
 
-# In[ ]:
+# In[124]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8())
 unittest.TextTestRunner().run(suite);
+
+
+# In[118]:
+
+
+q1 = Q8([1, 0, 0, 2, 0, 3, 0, 4])
+q2 = Q8([0, 0, 4, 0, 0, 3, 0, 0])
+print(q1.triple_product(q2, q1))
+print(q1.triple_product(q2, q1).reduce())
 
 
 # Create a class that can figure out if two quaternions are in the same equivalence class. An equivalence class of space-time is a subset of events in space-time. For example, the future equivalence class would have any event that happens in the future. All time-like events have an interval that is positive.
@@ -1509,7 +1601,7 @@ unittest.TextTestRunner().run(suite);
 # Such an exact relation is not of much interest to physicists since Einstein showed that holds for only one set of observers. If one is moving relative to the reference observer, the two events would look like they occured at different times in the future, presuming perfectly accurate measuring devices.
 # 
 
-# In[ ]:
+# In[129]:
 
 
 def round_sig_figs(num, sig_figs):
@@ -1523,7 +1615,7 @@ def round_sig_figs(num, sig_figs):
         return 0  # Can't take the log of 0
 
 
-# In[ ]:
+# In[133]:
 
 
 class EQ(object):
@@ -1544,13 +1636,13 @@ class EQ(object):
         
         # Convert the quaternions into the Q8 reduced form.
         if isinstance(q1, QH):
-            self.q1 = Q8([q1.t, q1.x, q1.y, q1.z])
+            self.q1 = Q8([q1.a[0], q1.a[1], q1.a[2], q1.a[3]])
         
         elif(isinstance(q1, Q8)):
             self.q1 = q1.reduce()
             
         if isinstance(q2, QH):
-            self.q2 = Q8([q2.t, q2.x, q2.y, q2.z])
+            self.q2 = Q8([q2.a[0], q2.a[1], q2.a[2], q2.a[3]])
             
         elif(isinstance(q2, Q8)):
             self.q2 = q2.reduce()
@@ -1573,26 +1665,27 @@ class EQ(object):
            Names is a dictionary that needs values for 'class', 'positive', 'negative', and 'divider'.
            position needs to be dt, dx, dy or dz"""
         
-        q1_d = {'dt': q1.dt, 'dy': q1.dy, 'dx': q1.dx, 'dz': q1.dz}
-        q2_d = {'dt': q2.dt, 'dy': q2.dy, 'dx': q2.dx, 'dz': q2.dz}
-
+        q1_p = {'dt': q1.a[0], 'dx': q1.a[2], 'dy': q1.a[4], 'dz': q1.a[6]}
+        q2_p = {'dt': q2.a[0], 'dx': q2.a[2], 'dy': q2.a[4], 'dz': q2.a[6]}
+        q1_n = {'dt': q1.a[1], 'dx': q1.a[3], 'dy': q1.a[5], 'dz': q1.a[7]}
+        q2_n = {'dt': q2.a[1], 'dx': q2.a[3], 'dy': q2.a[5], 'dz': q2.a[7]}
         
         # Since the quaternions in the Q8 form are reduced just look for non-zero values.
-        if q1_d[position].p and q2_d[position].p:
+        if q1_p[position] and q2_p[position]:
 
-            if round_sig_figs(q1_d[position].p, self.sig_figs) == round_sig_figs(q2_d[position].p, self.sig_figs):
+            if round_sig_figs(q1_p[position], self.sig_figs) == round_sig_figs(q2_p[position], self.sig_figs):
                 result = "{np}_exact".format(np=names["positive"])
             else:
                 result = "{np}".format(np=names["positive"])
                 
-        elif q1_d[position].n and q2_d[position].n:
+        elif q1_n[position] and q2_n[position]:
             
-            if round_sig_figs(q1_d[position].n, self.sig_figs) == round_sig_figs(q2_d[position].n, self.sig_figs):
+            if round_sig_figs(q1_n[position], self.sig_figs) == round_sig_figs(q2_n[position], self.sig_figs):
                 result = "{nn}_exact".format(nn=names["negative"])
             else:
                 result = "{nn}".format(nn=names["negative"])
                 
-        elif not q1_d[position].p and not q1_d[position].n and not q2_d[position].p and not q2_d[position].n:
+        elif not q1_p[position] and not q1_n[position] and not q2_p[position] and not q2_n[position]:
             result = "{nd}_exact".format(nd=names["divider"])
             
         else:
@@ -1847,7 +1940,7 @@ class EQ(object):
     
 
 
-# In[ ]:
+# In[134]:
 
 
 class TestEQ(unittest.TestCase):
@@ -1860,14 +1953,14 @@ class TestEQ(unittest.TestCase):
     
     def test_EQ_assignment(self):
         
-        self.assertTrue(self.eq_12.q1.dt.p == 1)
-        self.assertTrue(self.eq_12.q1.dt.n == 0)
-        self.assertTrue(self.eq_12.q1_square.dt.p == 0)
-        self.assertTrue(self.eq_12.q1_square.dt.n == 28)
-        self.assertTrue(self.eq_12.q1_norm_squared_minus_1.dt.p == 29)
-        self.assertTrue(self.eq_12.q1_norm_squared_minus_1.dt.n == 0)
-        self.assertTrue(self.eq_12.q2.dt.p == 0)
-        self.assertTrue(self.eq_12.q2.dt.n == 0)
+        self.assertTrue(self.eq_12.q1.a[0] == 1)
+        self.assertTrue(self.eq_12.q1.a[1] == 0)
+        self.assertTrue(self.eq_12.q1_square.a[0] == 0)
+        self.assertTrue(self.eq_12.q1_square.a[1] == 28)
+        self.assertTrue(self.eq_12.q1_norm_squared_minus_1.a[0] == 29)
+        self.assertTrue(self.eq_12.q1_norm_squared_minus_1.a[1] == 0)
+        self.assertTrue(self.eq_12.q2.a[0] == 0)
+        self.assertTrue(self.eq_12.q2.a[1] == 0)
         
     def test_get_class(self):
         """Test all time equivalence classes."""
@@ -1957,7 +2050,7 @@ class TestEQ(unittest.TestCase):
         self.assertTrue(eq_small_tiny.norm_squared_of_unity() == 'less_than_unity')
 
 
-# In[ ]:
+# In[135]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestEQ())
@@ -1966,7 +2059,7 @@ unittest.TextTestRunner().run(suite);
 
 # Create a class that can make many, many quaternions.
 
-# In[ ]:
+# In[136]:
 
 
 class QHArray(QH):
@@ -2008,242 +2101,81 @@ class QHArray(QH):
             self.q_max = q1.dupe()
             
         else:
-            if q1.t < self.q_min.t:
-                self.q_min.t = q1.t
-            elif q1.t > self.q_max.t:
-                self.q_max.t = q1.t
+            if q1.a[0] < self.q_min.a[0]:
+                self.q_min.a[0] = q1.a[0]
+            elif q1.a[0] > self.q_max.a[0]:
+                self.q_max.a[0] = q1.a[0]
                 
-            if q1.x < self.q_min.x:
-                self.q_min.x = q1.x
-            elif q1.x > self.q_max.x:
-                self.q_max.x = q1.x
+            if q1.a[1] < self.q_min.a[1]:
+                self.q_min.a[1] = q1.a[1]
+            elif q1.a[1] > self.q_max.a[1]:
+                self.q_max.a[1] = q1.a[1]
 
-            if q1.y < self.q_min.y:
-                self.q_min.y = q1.y
-            elif q1.y > self.q_max.y:
-                self.q_max.y = q1.y
+            if q1.a[2] < self.q_min.a[2]:
+                self.q_min.a[2] = q1.a[2]
+            elif q1.a[2] > self.q_max.a[2]:
+                self.q_max.a[2] = q1.a[2]
             
-            if q1.z < self.q_min.z:
-                self.q_min.z = q1.z
-            elif q1.z > self.q_max.z:
-                self.q_max.z = q1.z
+            if q1.a[3] < self.q_min.a[3]:
+                self.q_min.a[3] = q1.a[3]
+            elif q1.a[3] > self.q_max.a[3]:
+                self.q_max.a[3] = q1.a[3]
             
     def symbol_sub(self, TXYZ_expression, q1):
-        """Given a Symbol expression in terms of T X, Y, and Z, plugs in values for q1.t, q1.x, q1.y, and q1.z"""
+        """Given a Symbol expression in terms of T X, Y, and Z, plugs in values for q1.a[0], q1.a[1], q1.a[2], and q1.a[3]"""
         
-        new_t = TXYZ_expression.t.subs(T, q1.t).subs(X, q1.x).subs(Y, q1.y).subs(Z, q1.z)
-        new_x = TXYZ_expression.x.subs(T, q1.t).subs(X, q1.x).subs(Y, q1.y).subs(Z, q1.z)
-        new_y = TXYZ_expression.y.subs(T, q1.t).subs(X, q1.x).subs(Y, q1.y).subs(Z, q1.z)
-        new_z = TXYZ_expression.z.subs(T, q1.t).subs(X, q1.x).subs(Y, q1.y).subs(Z, q1.z)
+        new_t = TXYZ_expression.a[0].subs(T, q1.a[0]).subs(X, q1.a[1]).subs(Y, q1.a[2]).subs(Z, q1.a[3])
+        new_x = TXYZ_expression.a[1].subs(T, q1.a[0]).subs(X, q1.a[1]).subs(Y, q1.a[2]).subs(Z, q1.a[3])
+        new_y = TXYZ_expression.a[2].subs(T, q1.a[0]).subs(X, q1.a[1]).subs(Y, q1.a[2]).subs(Z, q1.a[3])
+        new_z = TXYZ_expression.a[3].subs(T, q1.a[0]).subs(X, q1.a[1]).subs(Y, q1.a[2]).subs(Z, q1.a[3])
         
         return QH([new_t, new_x, new_y, new_z])
 
 
-# In[ ]:
+# In[152]:
 
 
 class TestQHArray(unittest.TestCase):
     """Test array making software."""
     
-    t1=QH([1,2,3,4])
-    qd=QH([10, .2, .3, 1])
+    t1 = QH([1,2,3,4])
+    qd = QH([10, .2, .3, 1])
     qha = QHArray()
     
     def test_range(self):
         q_list = list(self.qha.range(self.t1, self.qd, 10))
         self.assertTrue(len(q_list) == 11)
         self.assertTrue(q_list[10].qtype == "Q+10dQ")
-        self.assertTrue(q_list[10].z == 14)
+        self.assertTrue(q_list[10].a[3] == 14)
     
     def test_min_max(self):
         q_list = list(self.qha.range(self.t1, self.qd, 10))
-        self.assertTrue(self.qha.q_min.t < 1.01)
-        self.assertTrue(self.qha.q_max.t > 100)
-        self.assertTrue(self.qha.q_min.x < 2.01)
-        self.assertTrue(self.qha.q_max.x > 2.9)
-        self.assertTrue(self.qha.q_min.y < 4.01)
-        self.assertTrue(self.qha.q_max.y > 5.8)
-        self.assertTrue(self.qha.q_min.z < 6.01)
-        self.assertTrue(self.qha.q_max.z > 13.9)
+        self.assertTrue(self.qha.q_min.a[0] < 1.01)
+        self.assertTrue(self.qha.q_max.a[0] > 100)
+        self.assertTrue(self.qha.q_min.a[1] < 2.01)
+        self.assertTrue(self.qha.q_max.a[1] > 3.9)
+        self.assertTrue(self.qha.q_min.a[2] < 3.01)
+        self.assertTrue(self.qha.q_max.a[2] > 4.8)
+        self.assertTrue(self.qha.q_min.a[3] < 4.01)
+        self.assertTrue(self.qha.q_max.a[3] > 13.9)
 
 
-# In[ ]:
+# In[153]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHArray())
 unittest.TextTestRunner().run(suite);
 
 
-# In[ ]:
+# An long list of quaternion numpy arrays can be created now with ease.
+
+# In[157]:
 
 
+t1 = QH([1,2,3,4])
+qd = QH([10, .2, .3, 1])
 qha = QHArray()
-t1=QH([1.0,2.0,3.0,4.0])
-qd=QH([10, .2, .3, 1])
-for q in qha.range(t1,qd,10):
-    print(q)
-ql=list(qha.range(t1,qd,10))
-print(ql[0])
 
-
-# In[ ]:
-
-
-T, X, Y, Z = sp.symbols('T X Y Z')
-qabstract=QH([T, sp.cos(T), Y + sp.sin(T), Z+T])
-print(qabstract)
-print(qabstract.t.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
-print(qabstract.x.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
-print(qabstract.y.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
-print(qabstract.z.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
-q2=qha.symbol_sub(qabstract, t1)
-print(q2)
-for q in qha.range(t1,qd,10):
-    print(qha.symbol_sub(qabstract, q))
-
-
-# In[ ]:
-
-
-T, X, Y, Z = sp.symbols('T X Y Z')
-qabstract=QH([T, X + sp.cos(T), Y + sp.sin(T), Z+T])
-print(qabstract)
-print(qabstract.t.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
-print(qabstract.x.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
-print(qabstract.y.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
-print(qabstract.z.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
-
-
-# So I can make a long list of quaternions. I can make an abstract function and fill that with this list of quaternions. Now I need to sort the quaternions by time
-
-# In[ ]:
-
-
-
-
-E1 = QH([0, 0, 0, 0])
-E2 = QH([1,1,0,0])
-E3 = QH([2,0, 0, 0])
-eq_E12 = EQ(E1, E2)
-eq_E13 = EQ(E1, E3)
-eq_E23 = EQ(E2, E3)
-print(eq_E12)
-eq_E12.visualize()
-
-
-# In[ ]:
-
-
-print(eq_E13)
-eq_E13.visualize()
-
-
-# In[ ]:
-
-
-print(eq_E23)
-eq_E23.visualize()
-
-
-# In[ ]:
-
-
-q12 = Q8([1,2,0,0,0,0,0,0])
-q12inv = q12.invert()
-q1221 = q12.product(q12inv)
-q1221n2 = q1221.norm_squared()
-print(q12)
-print(q12inv)
-print(q1221)
-print(q1221n2)
-print(q1221n2.reduce())
-
-
-# In[ ]:
-
-
-Q12 = QH([1, 2,0, 0, 0, 0, 0,0])
-Q12inv = Q12.invert()
-Q1221 = Q12.product(Q12inv)
-print(Q1221)
-
-
-# In[ ]:
-
-
-q12 = Q8([1,2,0,0,0,0,0,0])
-qcrazy = Q8([1,12,2,3,13,2,7,5])
-print(q12.product(q12.invert()).reduce())
-print(q12.invert())
-print(qcrazy.product(qcrazy.invert()).reduce())
-
-
-# In[ ]:
-
-
-print(q12)
-print(q12.invert())
-print(q12.product(q12.invert()))
-print(q12.product(q12.invert()).norm_squared())
-
-
-# In[ ]:
-
-
-print(qcrazy.product(qcrazy.invert()).reduce())
-
-
-# In[ ]:
-
-
-print(qcrazy.norm_squared())
-print(qcrazy.invert().norm_squared())
-print(q12.norm_squared().product(qcrazy.invert().norm_squared()))
-
-
-# In[ ]:
-
-
-d12 = Doublet([1,2])
-d12.Z2_product(d12)
-print("{} {}".format(d12.p, d12.n))
-
-
-# In[ ]:
-
-
-
-qa = Q8([1,2,3,4])
-qi = Q8([0,1,0,0])
-print(qi.product(qa).product(qi).conj())
-
-
-# In[ ]:
-
-
-q1n=Q8([-1,0,0,0])
-print(qa.conj().conj(1).conj(2).product(q1n))
-print(qa.conj().conj(2).conj(1).product(q1n))
-print(qa.conj(2).conj(1).conj().product(q1n))
-
-
-# In[ ]:
-
-
-qa = QH([1,2,3,4])
-print(qa.vahlen_conj())
-print(qa.vahlen_conj("'"))
-print(qa.vahlen_conj("*"))
-
-
-# In[ ]:
-
-
-print(qa)
-print(qa.product(QH([0, 0, 1, 0])))
-print(QH([0, 0, 1, 0]).product(qa.product(QH([0, 0, -1, 0]))))
-print(qa.square().norm_squared_of_vector())
-print(QH([0, 0, 1, 0]).product(qa.product(QH([0, 0, -1, 0]))).square().norm_squared_of_vector())
-print(qa.norm_squared())
-print(QH([0, 0, 1, 0]).product(qa.product(QH([0, 0, -1, 0]))).norm_squared())
+for q in list(qha.range(t1, qd, 10)):
+    print(q.a)
 
