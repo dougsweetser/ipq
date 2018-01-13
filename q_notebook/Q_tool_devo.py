@@ -678,6 +678,10 @@ suite = unittest.TestLoader().loadTestsFromModule(TestQH())
 unittest.TextTestRunner().run(suite);
 
 
+# ## A class for numpy array
+
+# A separate class is needed for numpy array because sy
+
 # My long term goal is to deal with quaternions on a quaternion manifold. This will have 4 pairs of doublets. Each doublet is paired with its additive inverse. Instead of using real numbers, one uses (3, 0) and (0, 2) to represent +3 and -2 respectively. Numbers such as (5, 6) are allowed. That can be "reduced" to (0, 1).  My sense is that somewhere deep in the depths of relativistic quantum field theory, this will be a "good thing". For now, it is a minor pain to program.
 
 # In[ ]:
