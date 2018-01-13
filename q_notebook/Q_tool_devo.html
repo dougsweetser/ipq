@@ -11793,7 +11793,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">IPython</span>
@@ -11858,7 +11858,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">QH</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -11914,60 +11914,74 @@ div#notebook {
         <span class="sd">&quot;&quot;&quot;Three types of conjugates.&quot;&quot;&quot;</span>
 
         <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
-        <span class="n">conjq</span> <span class="o">=</span> <span class="n">QH</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
+        <span class="n">conj_q</span> <span class="o">=</span> <span class="n">QH</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">conj_type</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">x</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">y</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">z</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">x</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">y</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">z</span>
 
         <span class="k">if</span> <span class="n">conj_type</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">t</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">y</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">z</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">t</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">y</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">z</span>
             <span class="n">qtype</span> <span class="o">+=</span> <span class="s2">&quot;1&quot;</span>
             
         <span class="k">if</span> <span class="n">conj_type</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">t</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">x</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">z</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">t</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">x</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">z</span>
             <span class="n">qtype</span> <span class="o">+=</span> <span class="s2">&quot;2&quot;</span>
             
-        <span class="n">conjq</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">conjq</span>
+        <span class="n">conj_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">conj_q</span>
+    
+    <span class="k">def</span> <span class="nf">flip_signs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;*-1&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Flip the signs of all terms.&quot;&quot;&quot;</span>
+        
+        <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
+        <span class="n">flip_q</span> <span class="o">=</span> <span class="n">QH</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
+
+        <span class="n">flip_q</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">t</span>
+        <span class="n">flip_q</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">x</span>
+        <span class="n">flip_q</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">y</span>
+        <span class="n">flip_q</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">z</span>
+        
+        <span class="n">flip_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">flip_q</span>
 
     <span class="k">def</span> <span class="nf">vahlen_conj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conj_type</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;vc&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Three types of conjugates -&#39;* done by Vahlen in 1901.&quot;&quot;&quot;</span>
 
         <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
-        <span class="n">conjq</span> <span class="o">=</span> <span class="n">QH</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
+        <span class="n">conj_q</span> <span class="o">=</span> <span class="n">QH</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">conj_type</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span><span class="p">:</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">x</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">y</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">z</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">x</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">y</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">z</span>
             <span class="n">qtype</span> <span class="o">+=</span> <span class="s2">&quot;*-&quot;</span>
 
         <span class="k">if</span> <span class="n">conj_type</span> <span class="o">==</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">:</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">x</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">y</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">x</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">y</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span>
             <span class="n">qtype</span> <span class="o">+=</span> <span class="s2">&quot;*&#39;&quot;</span>
             
         <span class="k">if</span> <span class="n">conj_type</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
-            <span class="n">conjq</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">z</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+            <span class="n">conj_q</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">z</span>
             <span class="n">qtype</span> <span class="o">+=</span> <span class="s2">&quot;*&quot;</span>
             
-        <span class="n">conjq</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">conjq</span>
+        <span class="n">conj_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">conj_q</span>
 
     <span class="k">def</span> <span class="nf">add_qtype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Adds a qtype to an exiting qtype.&quot;&quot;&quot;</span>
@@ -12262,7 +12276,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQH</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -12320,7 +12334,16 @@ div#notebook {
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="o">-</span><span class="mi">3</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
-
+        
+    <span class="k">def</span> <span class="nf">sign_flips</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">q1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="o">.</span><span class="n">dupe</span><span class="p">()</span>
+        <span class="n">q_z</span> <span class="o">=</span> <span class="n">q1</span><span class="o">.</span><span class="n">sign_flips</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sign_flips: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q_z</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">t</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
+    
     <span class="k">def</span> <span class="nf">test_vahlen_conj_minus</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">q1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="o">.</span><span class="n">dupe</span><span class="p">()</span>
         <span class="n">q_z</span> <span class="o">=</span> <span class="n">q1</span><span class="o">.</span><span class="n">vahlen_conj</span><span class="p">()</span>
@@ -12502,7 +12525,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQH</span><span class="p">())</span>
@@ -12510,6 +12533,75 @@ div#notebook {
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>........................</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>abs_of_q: (5.0, 0, 0, 0) P.abs
+abs_of_vector: (5.0, 0, 0, 0) P.absV
+add: (1, 2, -6, -4) Q+P
+q1_sq: (-28, -4, -6, -8) Q.sq
+boosted: (1.0120181081629736, -2.006036054324489, -3.0, -4.0) Q.boost
+boosted squared: (-28.0, -4.0602896252083704, -6.072108648977841, -8.096144865303788) Q.boost.sq
+{}
+q_conj 0: (1, 2, 3, 4) Q.*
+q_conj 1: (-1, -2, 3, 4) Q.*1
+q_conj 2: (-1, 2, -3, 4) Q.*2
+dif: (1, -6, 0, -4) Q-P
+divide_by: (1.0, 0.0, 0.0, 0.0) Q/Q
+q1_sq: (-28, -4, -6, -8) Q.sq
+g_shift: (0.997004495503373, -2.00600900900675, -3.00901351351013, -4.01201801801351) Q.g_shift
+g squared: (-28.1805050815139, -4.00000000000000, -6.00000000000000, -8.00000000000000) Q.g_shift.sq
+invert: (0.0, -0.16, 0.12, 0.0) P.^-1
+norm_squared: (30, 0, 0, 0) Q.norm_squared
+norm_squared_of_vector: (29, 0, 0, 0) Q.norm_squaredV
+product: (-1, -8, -19, 18) QxP
+q0: (0, 0, 0, 0) Zero
+q1: (1, 0, 0, 0) One
+rotate: (1.0, -2.0, 3.0, 4.0) Q.rot
+square: (-28, -4, -6, -8) Q.sq
+triple product: (-2, 124, -84, 8) QxPxQ
+q_vahlen_conj -: (1, 2, 3, 4) Q.vc*-
+q_vahlen_conj &#39;: (1, 2, 3, -4) Q.vc*&#39;
+q_vahlen_conj *: (1, -2, -3, 4) Q.vc*
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+----------------------------------------------------------------------
+Ran 24 tests in 0.041s
+
+OK
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12526,7 +12618,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A separate class is needed for numpy array because sy</p>
+<p>A separate class is needed for numpy array due to technical issues I have getting sympy and numpy to play nicely with each other...</p>
 
 </div>
 </div>

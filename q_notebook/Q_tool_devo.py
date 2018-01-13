@@ -11,7 +11,7 @@
 # 
 # Test driven development was used. The same tests for class QH were used for Q8.  Either class can be used to study quaternions in physics.
 
-# In[9]:
+# In[1]:
 
 
 import IPython
@@ -48,7 +48,7 @@ def sr_gamma_betas(beta_x=0, beta_y=0, beta_z=0):
 
 # Define a class QH to manipulate quaternions as Hamilton would have done it so many years ago. The "qtype" is a little bit of text to leave a trail of breadcrumbs about how a particular quaternion was generated.
 
-# In[10]:
+# In[3]:
 
 
 class QH(object):
@@ -104,60 +104,74 @@ class QH(object):
         """Three types of conjugates."""
 
         t, x, y, z = self.t, self.x, self.y, self.z
-        conjq = QH(qtype=self.qtype)
+        conj_q = QH(qtype=self.qtype)
 
         if conj_type == 0:
-            conjq.t = t
-            conjq.x = -1 * x
-            conjq.y = -1 * y
-            conjq.z = -1 * z
+            conj_q.t = t
+            conj_q.x = -1 * x
+            conj_q.y = -1 * y
+            conj_q.z = -1 * z
 
         if conj_type == 1:
-            conjq.t = -1 * t
-            conjq.x = x
-            conjq.y = -1 * y
-            conjq.z = -1 * z
+            conj_q.t = -1 * t
+            conj_q.x = x
+            conj_q.y = -1 * y
+            conj_q.z = -1 * z
             qtype += "1"
             
         if conj_type == 2:
-            conjq.t = -1 * t
-            conjq.x = -1 * x
-            conjq.y = y
-            conjq.z = -1 * z
+            conj_q.t = -1 * t
+            conj_q.x = -1 * x
+            conj_q.y = y
+            conj_q.z = -1 * z
             qtype += "2"
             
-        conjq.add_qtype(qtype)
-        return conjq
+        conj_q.add_qtype(qtype)
+        return conj_q
+    
+    def flip_signs(self, qtype="*-1"):
+        """Flip the signs of all terms."""
+        
+        t, x, y, z = self.t, self.x, self.y, self.z
+        flip_q = QH(qtype=self.qtype)
+
+        flip_q.t = -1 * t
+        flip_q.x = -1 * x
+        flip_q.y = -1 * y
+        flip_q.z = -1 * z
+        
+        flip_q.add_qtype(qtype)
+        return flip_q
 
     def vahlen_conj(self, conj_type="-", qtype="vc"):
         """Three types of conjugates -'* done by Vahlen in 1901."""
 
         t, x, y, z = self.t, self.x, self.y, self.z
-        conjq = QH(qtype=self.qtype)
+        conj_q = QH(qtype=self.qtype)
 
         if conj_type == '-':
-            conjq.t = t
-            conjq.x = -1 * x
-            conjq.y = -1 * y
-            conjq.z = -1 * z
+            conj_q.t = t
+            conj_q.x = -1 * x
+            conj_q.y = -1 * y
+            conj_q.z = -1 * z
             qtype += "*-"
 
         if conj_type == "'":
-            conjq.t = t
-            conjq.x = -1 * x
-            conjq.y = -1 * y
-            conjq.z = z
+            conj_q.t = t
+            conj_q.x = -1 * x
+            conj_q.y = -1 * y
+            conj_q.z = z
             qtype += "*'"
             
         if conj_type == '*':
-            conjq.t = t
-            conjq.x = x
-            conjq.y = y
-            conjq.z = -1 * z
+            conj_q.t = t
+            conj_q.x = x
+            conj_q.y = y
+            conj_q.z = -1 * z
             qtype += "*"
             
-        conjq.add_qtype(qtype)
-        return conjq
+        conj_q.add_qtype(qtype)
+        return conj_q
 
     def add_qtype(self, qtype):
         """Adds a qtype to an exiting qtype."""
@@ -438,7 +452,7 @@ class QH(object):
 
 # Write tests the QH class.
 
-# In[ ]:
+# In[4]:
 
 
 class TestQH(unittest.TestCase):
@@ -496,7 +510,16 @@ class TestQH(unittest.TestCase):
         self.assertTrue(q_z.x == 2)
         self.assertTrue(q_z.y == -3)
         self.assertTrue(q_z.z == 4)
-
+        
+    def sign_flips(self):
+        q1 = self.Q.dupe()
+        q_z = q1.sign_flips()
+        if self.verbose: print("sign_flips: {}".format(q_z))
+        self.assertTrue(q_z.t == -1)
+        self.assertTrue(q_z.x == 2)
+        self.assertTrue(q_z.y == 3)
+        self.assertTrue(q_z.z == 4)
+    
     def test_vahlen_conj_minus(self):
         q1 = self.Q.dupe()
         q_z = q1.vahlen_conj()
@@ -671,7 +694,7 @@ class TestQH(unittest.TestCase):
         QH([0, 0, 0, 0]).q_sin()
 
 
-# In[ ]:
+# In[5]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQH())
@@ -680,7 +703,7 @@ unittest.TextTestRunner().run(suite);
 
 # ## A class for numpy array
 
-# A separate class is needed for numpy array because sy
+# A separate class is needed for numpy array due to technical issues I have getting sympy and numpy to play nicely with each other...
 
 # My long term goal is to deal with quaternions on a quaternion manifold. This will have 4 pairs of doublets. Each doublet is paired with its additive inverse. Instead of using real numbers, one uses (3, 0) and (0, 2) to represent +3 and -2 respectively. Numbers such as (5, 6) are allowed. That can be "reduced" to (0, 1).  My sense is that somewhere deep in the depths of relativistic quantum field theory, this will be a "good thing". For now, it is a minor pain to program.
 
