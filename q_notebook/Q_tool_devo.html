@@ -11800,7 +11800,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">IPython</span>
@@ -11834,7 +11834,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">sr_gamma</span><span class="p">(</span><span class="n">beta_x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta_y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta_z</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -11874,7 +11874,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">QH</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -12136,15 +12136,14 @@ div#notebook {
         <span class="k">return</span> <span class="n">dif_q</span>
 
     <span class="k">def</span> <span class="nf">product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Form a product given 2 quaternions. Kind can be even, odd, or Euclidean.&quot;&quot;&quot;</span>
-
+        <span class="sd">&quot;&quot;&quot;Form a product given 2 quaternions. Kind can be &#39;&#39; aka standard, even, odd, or even_minus_odd.&quot;&quot;&quot;</span>
+        
         <span class="n">commuting</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commuting_products</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span>
         <span class="n">q_even</span> <span class="o">=</span> <span class="n">QH</span><span class="p">()</span>
         <span class="n">q_even</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">commuting</span><span class="p">[</span><span class="s1">&#39;tt&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">commuting</span><span class="p">[</span><span class="s1">&#39;xx+yy+zz&#39;</span><span class="p">]</span>
         <span class="n">q_even</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">commuting</span><span class="p">[</span><span class="s1">&#39;tx+xt&#39;</span><span class="p">]</span>
         <span class="n">q_even</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">commuting</span><span class="p">[</span><span class="s1">&#39;ty+yt&#39;</span><span class="p">]</span>
         <span class="n">q_even</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">commuting</span><span class="p">[</span><span class="s1">&#39;tz+zt&#39;</span><span class="p">]</span>
-        <span class="n">qxq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_products</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span>
         
         <span class="n">anti_commuting</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_anti_commuting_products</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span>
         <span class="n">q_odd</span> <span class="o">=</span> <span class="n">QH</span><span class="p">()</span>
@@ -12164,8 +12163,11 @@ div#notebook {
         <span class="k">elif</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;odd&quot;</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">q_odd</span>
             <span class="n">times_symbol</span> <span class="o">=</span> <span class="s2">&quot;xO&quot;</span>
+        <span class="k">elif</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;even_minus_odd&quot;</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">q_even</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">q_odd</span><span class="p">)</span>
+            <span class="n">times_symbol</span> <span class="o">=</span> <span class="s2">&quot;xE-O&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Three &#39;kind&#39; values are known: &#39;&#39;, &#39;even&#39;, and &#39;odd&#39;&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Four &#39;kind&#39; values are known: &#39;&#39;, &#39;even&#39;, &#39;odd&#39;, and &#39;even_minus_odd&#39;.&quot;</span><span class="p">)</span>
             
         <span class="k">if</span> <span class="n">qtype</span><span class="p">:</span>
             <span class="n">result</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">qtype</span>
@@ -12174,11 +12176,22 @@ div#notebook {
             
         <span class="k">return</span> <span class="n">result</span>
 
-    <span class="k">def</span> <span class="nf">Euclidean_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">Euclidean_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Form a product p* q given 2 quaternions, not associative.&quot;&quot;&quot;</span>
 
         <span class="n">pq</span> <span class="o">=</span> <span class="n">QH</span><span class="p">()</span>
         <span class="n">pq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">times_sign</span> <span class="o">=</span> <span class="s1">&#39;*x&#39;</span>
+        <span class="k">elif</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">=</span> <span class="s1">&#39;even&#39;</span><span class="p">:</span>
+            <span class="n">times_sign</span> <span class="o">=</span> <span class="s1">&#39;*xE&#39;</span>
+        <span class="k">elif</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">=</span> <span class="s1">&#39;odd&#39;</span><span class="p">:</span>
+            <span class="n">times_sign</span> <span class="o">=</span> <span class="s1">&#39;*xO&#39;</span>
+        <span class="k">elif</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">=</span> <span class="s1">&#39;even_minus_odd&#39;</span><span class="p">:</span>
+            <span class="n">times_sign</span> <span class="o">=</span> <span class="s1">&#39;*xE-O&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;4 known kind values: &#39;&#39;, &#39;even&#39;, &#39;odd&#39;, &#39;even_minus_odd&#39;.&quot;</span><span class="p">)</span>    
             
         <span class="k">if</span> <span class="n">qtype</span><span class="p">:</span>
             <span class="n">pq</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">qtype</span>
@@ -12315,6 +12328,28 @@ div#notebook {
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">&#34;&lt;ipython-input-24-c99d8ebbcc02&gt;&#34;</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">306</span>
+<span class="ansi-red-fg">    if kind = &#39;&#39;:</span>
+            ^
+<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
@@ -12327,7 +12362,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQH</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -12517,6 +12552,16 @@ div#notebook {
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="o">-</span><span class="mi">16</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="mi">18</span><span class="p">)</span>
         
+    <span class="k">def</span> <span class="nf">test_product_even_minus_odd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">q1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="o">.</span><span class="n">dupe</span><span class="p">()</span>
+        <span class="n">q2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">dupe</span><span class="p">()</span>
+        <span class="n">q_z</span> <span class="o">=</span> <span class="n">q1</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;even_minus_odd&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;product, kind even_minus_odd: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q_z</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">t</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="mi">13</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">z</span> <span class="o">==</span> <span class="o">-</span><span class="mi">18</span><span class="p">)</span>
+        
     <span class="k">def</span> <span class="nf">test_Euclidean_product</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">q1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="o">.</span><span class="n">dupe</span><span class="p">()</span>
         <span class="n">q2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">dupe</span><span class="p">()</span>
@@ -12606,7 +12651,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQH</span><span class="p">())</span>
@@ -12614,78 +12659,6 @@ div#notebook {
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>...........................</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Euclidean product: (1, 16, 13, -18) Q*xP
-abs_of_q: (5.0, 0, 0, 0) P.abs
-abs_of_vector: (5.0, 0, 0, 0) P.absV
-add: (1, 2, -6, -4) Q+P
-q1_sq: (-28, -4, -6, -8) Q.sq
-boosted: (1.0120181081629736, -2.006036054324489, -3.0, -4.0) Q.boost
-boosted squared: (-28.0, -4.0602896252083704, -6.072108648977841, -8.096144865303788) Q.boost.sq
-{}
-q_conj 0: (1, 2, 3, 4) Q.*
-q_conj 1: (-1, -2, 3, 4) Q.*1
-q_conj 2: (-1, 2, -3, 4) Q.*2
-dif: (1, -6, 0, -4) Q-P
-divide_by: (1.0, 0.0, 0.0, 0.0) Q/Q
-q1_sq: (-28, -4, -6, -8) Q.sq
-g_shift: (0.997004495503373, -2.00600900900675, -3.00901351351013, -4.01201801801351) Q.g_shift
-g squared: (-28.1805050815139, -4.00000000000000, -6.00000000000000, -8.00000000000000) Q.g_shift.sq
-invert: (0.0, -0.16, 0.12, 0.0) P.^-1
-norm_squared: (30, 0, 0, 0) Q.norm_squared
-norm_squared_of_vector: (29, 0, 0, 0) Q.norm_squaredV
-product: (-1, -8, -19, 18) QxP
-product, kind even: (-1, 4, -3, 0) QxEP
-product, kind odd: (0, -12, -16, 18) QxOP
-q0: (0, 0, 0, 0) Zero
-q1: (1, 0, 0, 0) One
-rotate: (1.0, -2.0, 3.0, 4.0) Q.rot
-square: (-28, -4, -6, -8) Q.sq
-triple product: (-2, 124, -84, 8) QxPxQ
-q_vahlen_conj -: (1, 2, 3, 4) Q.vc*-
-q_vahlen_conj &#39;: (1, 2, 3, -4) Q.vc*&#39;
-q_vahlen_conj *: (1, -2, -3, 4) Q.vc*
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>
-----------------------------------------------------------------------
-Ran 27 tests in 0.045s
-
-OK
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -12709,7 +12682,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">QHa</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -12736,7 +12709,6 @@ OK
         <span class="n">display</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">))</span>
         <span class="k">return</span>
 
-    
     <span class="k">def</span> <span class="nf">simple_q</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;display each terms in a pretty way.&quot;&quot;&quot;</span>
         
@@ -12971,7 +12943,7 @@ OK
         <span class="k">return</span> <span class="n">dif_q</span>
 
     <span class="k">def</span> <span class="nf">product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Form a product given 2 quaternions.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Form a product given 2 quaternions: standard, even, odd, and even_minus_odd.&quot;&quot;&quot;</span>
 
         <span class="n">commuting</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commuting_products</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span>
         <span class="n">q_even</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">()</span>
@@ -12999,8 +12971,11 @@ OK
         <span class="k">elif</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;odd&quot;</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">q_odd</span>
             <span class="n">times_symbol</span> <span class="o">=</span> <span class="s2">&quot;xO&quot;</span>
+        <span class="k">elif</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;even_minus_odd&quot;</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">q_even</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">q_odd</span><span class="p">)</span>
+            <span class="n">times_symbol</span> <span class="o">=</span> <span class="s2">&quot;xE-O&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Three &#39;kind&#39; values are known: &#39;&#39;, &#39;even&#39;, and &#39;odd&#39;&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Four &#39;kind&#39; values are known: &#39;&#39;, &#39;even&#39;, &#39;odd&#39;, and &#39;even_minus_odd&#39;.&quot;</span><span class="p">)</span>
             
         <span class="k">if</span> <span class="n">qtype</span><span class="p">:</span>
             <span class="n">result</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">qtype</span>
@@ -13009,16 +12984,27 @@ OK
             
         <span class="k">return</span> <span class="n">result</span>
     
-    <span class="k">def</span> <span class="nf">Euclidean_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">Euclidean_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Form a product p* q given 2 quaternions, not associative.&quot;&quot;&quot;</span>
 
         <span class="n">pq</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">()</span>
-        <span class="n">pq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span>
+        <span class="n">pq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">kind</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">times_sign</span> <span class="o">=</span> <span class="s1">&#39;*x&#39;</span>
+        <span class="k">elif</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">=</span> <span class="s1">&#39;even&#39;</span><span class="p">:</span>
+            <span class="n">times_sign</span> <span class="o">=</span> <span class="s1">&#39;*xE&#39;</span>
+        <span class="k">elif</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">=</span> <span class="s1">&#39;odd&#39;</span><span class="p">:</span>
+            <span class="n">times_sign</span> <span class="o">=</span> <span class="s1">&#39;*xO&#39;</span>
+        <span class="k">elif</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">=</span> <span class="s1">&#39;even_minus_odd&#39;</span><span class="p">:</span>
+            <span class="n">times_sign</span> <span class="o">=</span> <span class="s1">&#39;*xE-O&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;4 known kind values: &#39;&#39;, &#39;even&#39;, &#39;odd&#39;, &#39;even_minus_odd&#39;.&quot;</span><span class="p">)</span>    
             
         <span class="k">if</span> <span class="n">qtype</span><span class="p">:</span>
             <span class="n">pq</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">qtype</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">pq</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{f}</span><span class="s2">*x</span><span class="si">{s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">q1</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
+            <span class="n">pq</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{f}{ts}{s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">,</span> <span class="n">ts</span><span class="o">=</span><span class="n">times_sign</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">q1</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
             
         <span class="k">return</span> <span class="n">pq</span>
     
@@ -13149,10 +13135,32 @@ OK
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">&#34;&lt;ipython-input-25-914ccf5bdafe&gt;&#34;</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">306</span>
+<span class="ansi-red-fg">    if kind = &#39;&#39;:</span>
+            ^
+<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQHa</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -13332,6 +13340,16 @@ OK
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">12</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">16</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="mi">18</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_product_even_minus_odd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">q1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="o">.</span><span class="n">dupe</span><span class="p">()</span>
+        <span class="n">q2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">P</span><span class="o">.</span><span class="n">dupe</span><span class="p">()</span>
+        <span class="n">q_z</span> <span class="o">=</span> <span class="n">q1</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;even_minus_odd&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;product even_minus_odd: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q_z</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">13</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">18</span><span class="p">)</span>
         
     <span class="k">def</span> <span class="nf">test_Euclidean_product</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">q1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Q</span><span class="o">.</span><span class="n">dupe</span><span class="p">()</span>
@@ -13422,7 +13440,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQHa</span><span class="p">())</span>
@@ -13443,7 +13461,7 @@ OK
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>...........................</pre>
+<pre>............................</pre>
 </div>
 </div>
 
@@ -13474,6 +13492,7 @@ norm_squared: (30.0, 0.0, 0.0, 0.0) Q.norm_squared
 norm_squared_of_vector: (29.0, 0.0, 0.0, 0.0) Q.norm_squaredV
 product: (-1.0, -8.0, -19.0, 18.0) QxP
 product even: (-1.0, 4.0, -3.0, 0.0) QxEP
+product even_minus_odd: (-1.0, 16.0, 13.0, -18.0) QxE-OP
 product odd: (0.0, -12.0, -16.0, 18.0) QxOP
 q0: (0.0, 0.0, 0.0, 0.0) Zero
 q1: (1.0, 0.0, 0.0, 0.0) One
@@ -13495,7 +13514,7 @@ q_vahlen_conj *: (1.0, -2.0, -3.0, 4.0) Q.vc*
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 27 tests in 0.038s
+Ran 28 tests in 0.037s
 
 OK
 </pre>
@@ -13525,7 +13544,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Doublet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -13645,7 +13664,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestDoublet</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -13717,7 +13736,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestDoublet</span><span class="p">())</span>
@@ -13762,7 +13781,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Doubleta</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -13868,7 +13887,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestDoubleta</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -13940,7 +13959,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestDoubleta</span><span class="p">())</span>
@@ -13963,7 +13982,7 @@ OK
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>..........
 ----------------------------------------------------------------------
-Ran 10 tests in 0.010s
+Ran 10 tests in 0.012s
 
 OK
 </pre>
@@ -13993,7 +14012,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Q8</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -14233,7 +14252,7 @@ OK
         <span class="k">return</span> <span class="n">dif_q</span>
     
     <span class="k">def</span> <span class="nf">product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Form a product given 2 quaternions.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Form a product given 2 quaternions: standard, even, odd, and even_minus_odd.&quot;&quot;&quot;</span>
     
         <span class="n">commuting</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commuting_products</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span>
         <span class="n">q_even</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">()</span>
@@ -14260,8 +14279,11 @@ OK
         <span class="k">elif</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;odd&quot;</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">q_odd</span>
             <span class="n">times_symbol</span> <span class="o">=</span> <span class="s2">&quot;xO&quot;</span>
+        <span class="k">elif</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;even_minus_odd&quot;</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">q_even</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">q_odd</span><span class="p">)</span>
+            <span class="n">times_symbol</span> <span class="o">=</span> <span class="s2">&quot;xE-O&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Three &#39;kind&#39; values are known: &#39;&#39;, &#39;even&#39;, and &#39;odd&#39;&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Fouf &#39;kind&#39; values are known: &#39;&#39;, &#39;even&#39;, &#39;odd&#39;, and &#39;even_minus_odd&#39;&quot;</span><span class="p">)</span>
             
         <span class="k">if</span> <span class="n">qtype</span><span class="p">:</span>
             <span class="n">result</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">qtype</span>
@@ -14270,16 +14292,27 @@ OK
             
         <span class="k">return</span> <span class="n">result</span>
     
-    <span class="k">def</span> <span class="nf">Euclidean_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">Euclidean_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Form a product p* q given 2 quaternions, not associative.&quot;&quot;&quot;</span>
 
         <span class="n">pq</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">()</span>
         <span class="n">pq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span>
             
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">times_sign</span> <span class="o">=</span> <span class="s1">&#39;*x&#39;</span>
+        <span class="k">elif</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;even&#39;</span><span class="p">:</span>
+            <span class="n">times_sign</span> <span class="o">=</span> <span class="s1">&#39;*xE&#39;</span>
+        <span class="k">elif</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;odd&#39;</span><span class="p">:</span>
+            <span class="n">times_sign</span> <span class="o">=</span> <span class="s1">&#39;*xO&#39;</span>
+        <span class="k">elif</span> <span class="n">kind</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;even_minus_odd&#39;</span><span class="p">:</span>
+            <span class="n">times_sign</span> <span class="o">=</span> <span class="s1">&#39;*xE-O&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;4 known kind values: &#39;&#39;, &#39;even&#39;, &#39;odd&#39;, &#39;even_minus_odd&#39;.&quot;</span><span class="p">)</span>
+            
         <span class="k">if</span> <span class="n">qtype</span><span class="p">:</span>
             <span class="n">pq</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">qtype</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">pq</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{f}</span><span class="s2">*x</span><span class="si">{s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">q1</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
+            <span class="n">pq</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{f}{ts}{s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">,</span> <span class="n">ts</span><span class="o">=</span><span class="n">times_sign</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">q1</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
             
         <span class="k">return</span> <span class="n">pq</span>
     
@@ -14386,7 +14419,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQ8</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -14608,6 +14641,18 @@ OK
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="mi">16</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">18</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">test_product_even_minus_odd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">q_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q1</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q2</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;even_minus_odd&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;product, kind odd: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q_z</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">13</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="mi">18</span><span class="p">)</span>
         
     <span class="k">def</span> <span class="nf">test_Euclidean_product</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">q_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q1</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q2</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
@@ -14701,7 +14746,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQ8</span><span class="p">())</span>
@@ -14722,7 +14767,7 @@ OK
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>............................</pre>
+<pre>.............................</pre>
 </div>
 </div>
 
@@ -14753,6 +14798,7 @@ norm_squared: ((30, 0), (0, 0), (0, 0), (0, 0)) Q.norm_squared
 norm_squared_of_vector: ((29, 0), (0, 0), (0, 0), (0, 0)) Q.norm_squaredV
 product: ((0, 1), (0, 8), (0, 19), (18, 0)) QxQ.reduce
 product, kind even: ((0, 1), (4, 0), (0, 3), (0, 0)) QxEQ.reduce
+product, kind odd: ((0, 1), (16, 0), (13, 0), (0, 18)) QxE-OQ.reduce
 product, kind odd: ((0, 0), (0, 12), (0, 16), (18, 0)) QxOQ.reduce
 q1: ((1, 0), (0, 0), (0, 0), (0, 0)) Q
 q0: ((0, 0), (0, 0), (0, 0), (0, 0)) Q
@@ -14776,7 +14822,7 @@ vahlen conj *: ((1, 0), (0, 2), (0, 3), (4, 0)) Q.vc*
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 28 tests in 0.046s
+Ran 29 tests in 0.047s
 
 OK
 </pre>
@@ -14797,7 +14843,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[67]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Q8a</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -15159,7 +15205,18 @@ OK
             
         <span class="k">return</span> <span class="n">result</span>
 
+    <span class="k">def</span> <span class="nf">Euclidean_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Form a product p* q given 2 quaternions, not associative.&quot;&quot;&quot;</span>
 
+        <span class="n">pq</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">()</span>
+        <span class="n">pq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">qtype</span><span class="p">:</span>
+            <span class="n">pq</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">qtype</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pq</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{f}</span><span class="s2">*x</span><span class="si">{s}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">q1</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">pq</span>
 
     <span class="k">def</span> <span class="nf">invert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;^-1&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Invert a quaternion.&quot;&quot;&quot;</span>
@@ -15273,7 +15330,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[68]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQ8a</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -15499,14 +15556,14 @@ OK
     <span class="k">def</span> <span class="nf">test_Euclidean_product</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">q_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q1</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q2</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Euclidean product: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q_z</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">16</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">13</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">p</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">n</span> <span class="o">==</span> <span class="mi">18</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="mi">13</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_z</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">==</span> <span class="mi">18</span><span class="p">)</span>
     
         
     <span class="k">def</span> <span class="nf">test_invert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -15589,7 +15646,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[69]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQ8a</span><span class="p">())</span>
@@ -15610,7 +15667,7 @@ OK
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>E...........................</pre>
+<pre>............................</pre>
 </div>
 </div>
 
@@ -15620,7 +15677,8 @@ OK
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>abs_of_q: ((5.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q.Q.abs
+<pre>Euclidean product: ((1.0, 0.0), (16.0, 0.0), (13.0, 0.0), (0.0, 18.0)) Q*xQ.reduce
+abs_of_q: ((5.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q.Q.abs
 abs_of_vector: ((5.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q.absV
 add: ((1.0, 0.0), (4.0, 2.0), (0.0, 6.0), (0.0, 4.0)) Q+Q
 add reduce: ((1.0, 0.0), (2.0, 0.0), (0.0, 6.0), (0.0, 4.0)) Q+Q.reduce
@@ -15662,18 +15720,10 @@ vahlen conj *: ((1.0, 0.0), (0.0, 2.0), (0.0, 3.0), (4.0, 0.0)) Q.vc*
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
-======================================================================
-ERROR: test_Euclidean_product (__main__.TestQ8a)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File &#34;&lt;ipython-input-68-96362209da5e&gt;&#34;, line 222, in test_Euclidean_product
-    q_z = self.q1.Euclidean_product(self.q2).reduce()
-AttributeError: &#39;Q8a&#39; object has no attribute &#39;Euclidean_product&#39;
-
 ----------------------------------------------------------------------
 Ran 28 tests in 0.047s
 
-FAILED (errors=1)
+OK
 </pre>
 </div>
 </div>
@@ -16198,7 +16248,7 @@ Such an exact relation is not of much interest to physicists since Einstein show
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>.......
 ----------------------------------------------------------------------
-Ran 7 tests in 0.018s
+Ran 7 tests in 0.015s
 
 OK
 </pre>
@@ -16366,7 +16416,7 @@ OK
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>..
 ----------------------------------------------------------------------
-Ran 2 tests in 0.004s
+Ran 2 tests in 0.005s
 
 OK
 </pre>

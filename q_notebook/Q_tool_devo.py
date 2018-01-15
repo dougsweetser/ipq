@@ -17,7 +17,7 @@
 # 
 # Test driven development was used. The same tests were used for QH, QHa, Q8, and Q8a.  Either class can be used to study quaternions in physics.
 
-# In[3]:
+# In[4]:
 
 
 import IPython
@@ -37,7 +37,7 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 
 # Define the stretch factor $\gamma$ and the $\gamma \beta$ used in special relativity.
 
-# In[4]:
+# In[5]:
 
 
 def sr_gamma(beta_x=0, beta_y=0, beta_z=0):
@@ -57,7 +57,7 @@ def sr_gamma_betas(beta_x=0, beta_y=0, beta_z=0):
 
 # Define a class QH to manipulate quaternions as Hamilton would have done it so many years ago. The "qtype" is a little bit of text to leave a trail of breadcrumbs about how a particular quaternion was generated.
 
-# In[28]:
+# In[24]:
 
 
 class QH(object):
@@ -319,15 +319,14 @@ class QH(object):
         return dif_q
 
     def product(self, q1, kind="", qtype=""):
-        """Form a product given 2 quaternions. Kind can be even, odd, or Euclidean."""
-
+        """Form a product given 2 quaternions. Kind can be '' aka standard, even, odd, or even_minus_odd."""
+        
         commuting = self._commuting_products(q1)
         q_even = QH()
         q_even.t = commuting['tt'] - commuting['xx+yy+zz']
         q_even.x = commuting['tx+xt']
         q_even.y = commuting['ty+yt']
         q_even.z = commuting['tz+zt']
-        qxq = self._all_products(q1)
         
         anti_commuting = self._anti_commuting_products(q1)
         q_odd = QH()
@@ -347,8 +346,11 @@ class QH(object):
         elif kind.lower() == "odd":
             result = q_odd
             times_symbol = "xO"
+        elif kind.lower() == "even_minus_odd":
+            result = q_even.dif(q_odd)
+            times_symbol = "xE-O"
         else:
-            raise Exception("Three 'kind' values are known: '', 'even', and 'odd'")
+            raise Exception("Four 'kind' values are known: '', 'even', 'odd', and 'even_minus_odd'.")
             
         if qtype:
             result.qtype = qtype
@@ -357,11 +359,22 @@ class QH(object):
             
         return result
 
-    def Euclidean_product(self, q1, qtype=""):
+    def Euclidean_product(self, q1, kind='', qtype=""):
         """Form a product p* q given 2 quaternions, not associative."""
 
         pq = QH()
         pq = self.conj().product(q1)
+            
+        if kind = '':
+            times_sign = '*x'
+        elif kind.lower() = 'even':
+            times_sign = '*xE'
+        elif kind.lower() = 'odd':
+            times_sign = '*xO'
+        elif kind.lower() = 'even_minus_odd':
+            times_sign = '*xE-O'
+        else:
+            raise Exception("4 known kind values: '', 'even', 'odd', 'even_minus_odd'.")    
             
         if qtype:
             pq.qtype = qtype
@@ -496,7 +509,7 @@ class QH(object):
 
 # Write tests the QH class.
 
-# In[29]:
+# In[ ]:
 
 
 class TestQH(unittest.TestCase):
@@ -686,6 +699,16 @@ class TestQH(unittest.TestCase):
         self.assertTrue(q_z.y == -16)
         self.assertTrue(q_z.z == 18)
         
+    def test_product_even_minus_odd(self):
+        q1 = self.Q.dupe()
+        q2 = self.P.dupe()
+        q_z = q1.product(q2, kind="even_minus_odd")
+        if self.verbose: print("product, kind even_minus_odd: {}".format(q_z))
+        self.assertTrue(q_z.t == -1)
+        self.assertTrue(q_z.x == 16)
+        self.assertTrue(q_z.y == 13)
+        self.assertTrue(q_z.z == -18)
+        
     def test_Euclidean_product(self):
         q1 = self.Q.dupe()
         q2 = self.P.dupe()
@@ -768,7 +791,7 @@ class TestQH(unittest.TestCase):
         QH([0, 0, 0, 0]).q_sin()
 
 
-# In[30]:
+# In[ ]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQH())
@@ -779,7 +802,7 @@ unittest.TextTestRunner().run(suite);
 
 # A separate class is needed for numpy array due to technical issues I have getting sympy and numpy to play nicely with each other...
 
-# In[34]:
+# In[25]:
 
 
 class QHa(object):
@@ -806,7 +829,6 @@ class QHa(object):
         display((self.a[0], self.a[1], self.a[2], self.a[3], self.qtype))
         return
 
-    
     def simple_q(self):
         """display each terms in a pretty way."""
         
@@ -1041,7 +1063,7 @@ class QHa(object):
         return dif_q
 
     def product(self, q1, kind="", qtype=""):
-        """Form a product given 2 quaternions."""
+        """Form a product given 2 quaternions: standard, even, odd, and even_minus_odd."""
 
         commuting = self._commuting_products(q1)
         q_even = QHa()
@@ -1069,8 +1091,11 @@ class QHa(object):
         elif kind.lower() == "odd":
             result = q_odd
             times_symbol = "xO"
+        elif kind.lower() == "even_minus_odd":
+            result = q_even.dif(q_odd)
+            times_symbol = "xE-O"
         else:
-            raise Exception("Three 'kind' values are known: '', 'even', and 'odd'")
+            raise Exception("Four 'kind' values are known: '', 'even', 'odd', and 'even_minus_odd'.")
             
         if qtype:
             result.qtype = qtype
@@ -1079,16 +1104,27 @@ class QHa(object):
             
         return result
     
-    def Euclidean_product(self, q1, qtype=""):
+    def Euclidean_product(self, q1, kind='', qtype=""):
         """Form a product p* q given 2 quaternions, not associative."""
 
         pq = QHa()
-        pq = self.conj().product(q1)
+        pq = self.conj().product(q1, kind)
+            
+        if kind = '':
+            times_sign = '*x'
+        elif kind.lower() = 'even':
+            times_sign = '*xE'
+        elif kind.lower() = 'odd':
+            times_sign = '*xO'
+        elif kind.lower() = 'even_minus_odd':
+            times_sign = '*xE-O'
+        else:
+            raise Exception("4 known kind values: '', 'even', 'odd', 'even_minus_odd'.")    
             
         if qtype:
             pq.qtype = qtype
         else:
-            pq.qtype = "{f}*x{s}".format(f=self.qtype, s=q1.qtype)
+            pq.qtype = "{f}{ts}{s}".format(f=self.qtype, ts=times_sign, s=q1.qtype)
             
         return pq
     
@@ -1215,7 +1251,7 @@ class QHa(object):
         return q_out
 
 
-# In[35]:
+# In[26]:
 
 
 class TestQHa(unittest.TestCase):
@@ -1395,6 +1431,16 @@ class TestQHa(unittest.TestCase):
         self.assertTrue(q_z.a[1] == -12)
         self.assertTrue(q_z.a[2] == -16)
         self.assertTrue(q_z.a[3] == 18)
+
+    def test_product_even_minus_odd(self):
+        q1 = self.Q.dupe()
+        q2 = self.P.dupe()
+        q_z = q1.product(q2, kind="even_minus_odd")
+        if self.verbose: print("product even_minus_odd: {}".format(q_z))
+        self.assertTrue(q_z.a[0] == -1)
+        self.assertTrue(q_z.a[1] == 16)
+        self.assertTrue(q_z.a[2] == 13)
+        self.assertTrue(q_z.a[3] == -18)
         
     def test_Euclidean_product(self):
         q1 = self.Q.dupe()
@@ -1478,7 +1524,7 @@ class TestQHa(unittest.TestCase):
         QHa([0, 0, 0, 0]).q_sin()
 
 
-# In[36]:
+# In[27]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHa())
@@ -1489,7 +1535,7 @@ unittest.TextTestRunner().run(suite);
 
 # My long term goal is to deal with quaternions on a quaternion manifold. This will have 4 pairs of doublets. Each doublet is paired with its additive inverse. Instead of using real numbers, one uses (3, 0) and (0, 2) to represent +3 and -2 respectively. Numbers such as (5, 6) are allowed. That can be "reduced" to (0, 1).  My sense is that somewhere deep in the depths of relativistic quantum field theory, this will be a "good thing". For now, it is a minor pain to program.
 
-# In[39]:
+# In[28]:
 
 
 class Doublet(object):
@@ -1602,7 +1648,7 @@ class Doublet(object):
         return Doublet([p1, n1])
 
 
-# In[40]:
+# In[29]:
 
 
 class TestDoublet(unittest.TestCase):
@@ -1667,7 +1713,7 @@ class TestDoublet(unittest.TestCase):
         self.assertTrue(Z2p_red.n == Z2p_2.n)
 
 
-# In[41]:
+# In[30]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestDoublet())
@@ -1676,7 +1722,7 @@ unittest.TextTestRunner().run(suite);
 
 # Repeat the exercise for arrays.
 
-# In[42]:
+# In[31]:
 
 
 class Doubleta(object):
@@ -1775,7 +1821,7 @@ class Doubleta(object):
         return Doubleta([p1, n1])
 
 
-# In[43]:
+# In[32]:
 
 
 class TestDoubleta(unittest.TestCase):
@@ -1840,7 +1886,7 @@ class TestDoubleta(unittest.TestCase):
         self.assertTrue(Z2p_red.d[1] == Z2p_2.d[1])
 
 
-# In[44]:
+# In[33]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestDoubleta())
@@ -1851,7 +1897,7 @@ unittest.TextTestRunner().run(suite);
 
 # Write a class to handle quaternions given 8 numbers.
 
-# In[51]:
+# In[38]:
 
 
 class Q8(object):
@@ -2091,7 +2137,7 @@ class Q8(object):
         return dif_q
     
     def product(self, q1, kind="", qtype=""):
-        """Form a product given 2 quaternions."""
+        """Form a product given 2 quaternions: standard, even, odd, and even_minus_odd."""
     
         commuting = self._commuting_products(q1)
         q_even = Q8()
@@ -2118,8 +2164,11 @@ class Q8(object):
         elif kind.lower() == "odd":
             result = q_odd
             times_symbol = "xO"
+        elif kind.lower() == "even_minus_odd":
+            result = q_even.dif(q_odd)
+            times_symbol = "xE-O"
         else:
-            raise Exception("Three 'kind' values are known: '', 'even', and 'odd'")
+            raise Exception("Fouf 'kind' values are known: '', 'even', 'odd', and 'even_minus_odd'")
             
         if qtype:
             result.qtype = qtype
@@ -2128,16 +2177,27 @@ class Q8(object):
             
         return result
     
-    def Euclidean_product(self, q1, qtype=""):
+    def Euclidean_product(self, q1, kind="", qtype=""):
         """Form a product p* q given 2 quaternions, not associative."""
 
         pq = Q8()
         pq = self.conj().product(q1)
             
+        if kind == '':
+            times_sign = '*x'
+        elif kind.lower() == 'even':
+            times_sign = '*xE'
+        elif kind.lower() == 'odd':
+            times_sign = '*xO'
+        elif kind.lower() == 'even_minus_odd':
+            times_sign = '*xE-O'
+        else:
+            raise Exception("4 known kind values: '', 'even', 'odd', 'even_minus_odd'.")
+            
         if qtype:
             pq.qtype = qtype
         else:
-            pq.qtype = "{f}*x{s}".format(f=self.qtype, s=q1.qtype)
+            pq.qtype = "{f}{ts}{s}".format(f=self.qtype, ts=times_sign, s=q1.qtype)
             
         return pq
     
@@ -2237,7 +2297,7 @@ class Q8(object):
         return g_q
 
 
-# In[58]:
+# In[39]:
 
 
 class TestQ8(unittest.TestCase):
@@ -2459,6 +2519,18 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dy.n == 16)
         self.assertTrue(q_z.dz.p == 18)
         self.assertTrue(q_z.dz.n == 0)
+    
+    def test_product_even_minus_odd(self):
+        q_z = self.q1.product(self.q2, kind="even_minus_odd").reduce()
+        if self.verbose: print("product, kind odd: {}".format(q_z))
+        self.assertTrue(q_z.dt.p == 0)
+        self.assertTrue(q_z.dt.n == 1)
+        self.assertTrue(q_z.dx.p == 16)
+        self.assertTrue(q_z.dx.n == 0)
+        self.assertTrue(q_z.dy.p == 13)
+        self.assertTrue(q_z.dy.n == 0)
+        self.assertTrue(q_z.dz.p == 0)
+        self.assertTrue(q_z.dz.n == 18)
         
     def test_Euclidean_product(self):
         q_z = self.q1.Euclidean_product(self.q2).reduce()
@@ -2545,7 +2617,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z2.dz.n == q1_sq.dz.n)
 
 
-# In[59]:
+# In[40]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8())
@@ -2554,7 +2626,7 @@ unittest.TextTestRunner().run(suite);
 
 # ## Class Q8a as nparrays
 
-# In[67]:
+# In[18]:
 
 
 class Q8a(object):
@@ -2916,7 +2988,18 @@ class Q8a(object):
             
         return result
 
+    def Euclidean_product(self, q1, qtype=""):
+        """Form a product p* q given 2 quaternions, not associative."""
 
+        pq = Q8a()
+        pq = self.conj().product(q1)
+            
+        if qtype:
+            pq.qtype = qtype
+        else:
+            pq.qtype = "{f}*x{s}".format(f=self.qtype, s=q1.qtype)
+            
+        return pq
 
     def invert(self, qtype="^-1"):
         """Invert a quaternion."""
@@ -3023,7 +3106,7 @@ class Q8a(object):
         return g_q
 
 
-# In[68]:
+# In[19]:
 
 
 class TestQ8a(unittest.TestCase):
@@ -3249,14 +3332,14 @@ class TestQ8a(unittest.TestCase):
     def test_Euclidean_product(self):
         q_z = self.q1.Euclidean_product(self.q2).reduce()
         if self.verbose: print("Euclidean product: {}".format(q_z))
-        self.assertTrue(q_z.dt.p == 1)
-        self.assertTrue(q_z.dt.n == 0)
-        self.assertTrue(q_z.dx.p == 16)
-        self.assertTrue(q_z.dx.n == 0)
-        self.assertTrue(q_z.dy.p == 13)
-        self.assertTrue(q_z.dy.n == 0)
-        self.assertTrue(q_z.dz.p == 0)
-        self.assertTrue(q_z.dz.n == 18)
+        self.assertTrue(q_z.a[0] == 1)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[2] == 16)
+        self.assertTrue(q_z.a[3] == 0)
+        self.assertTrue(q_z.a[4] == 13)
+        self.assertTrue(q_z.a[5] == 0)
+        self.assertTrue(q_z.a[6] == 0)
+        self.assertTrue(q_z.a[7] == 18)
     
         
     def test_invert(self):
@@ -3332,7 +3415,7 @@ class TestQ8a(unittest.TestCase):
         self.assertTrue(q_z2.a[7] == q1_sq.a[7])
 
 
-# In[69]:
+# In[20]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8a())
