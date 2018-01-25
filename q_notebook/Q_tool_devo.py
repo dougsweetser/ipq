@@ -57,7 +57,7 @@ def sr_gamma_betas(beta_x=0, beta_y=0, beta_z=0):
 
 # Define a class QH to manipulate quaternions as Hamilton would have done it so many years ago. The "qtype" is a little bit of text to leave a trail of breadcrumbs about how a particular quaternion was generated.
 
-# In[7]:
+# In[3]:
 
 
 class QH(object):
@@ -508,7 +508,7 @@ class QH(object):
 
 # Write tests the QH class.
 
-# In[8]:
+# In[4]:
 
 
 class TestQH(unittest.TestCase):
@@ -817,7 +817,7 @@ class TestQH(unittest.TestCase):
         QH([0, 0, 0, 0]).q_sin()
 
 
-# In[9]:
+# In[5]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQH())
@@ -828,7 +828,7 @@ unittest.TextTestRunner().run(suite);
 
 # A separate class is needed for numpy array due to technical issues I have getting sympy and numpy to play nicely with each other...
 
-# In[10]:
+# In[6]:
 
 
 class QHa(object):
@@ -1276,7 +1276,7 @@ class QHa(object):
         return q_out
 
 
-# In[13]:
+# In[7]:
 
 
 class TestQHa(unittest.TestCase):
@@ -1576,7 +1576,7 @@ class TestQHa(unittest.TestCase):
         QHa([0, 0, 0, 0]).q_sin()
 
 
-# In[14]:
+# In[8]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHa())
@@ -1587,7 +1587,7 @@ unittest.TextTestRunner().run(suite);
 
 # My long term goal is to deal with quaternions on a quaternion manifold. This will have 4 pairs of doublets. Each doublet is paired with its additive inverse. Instead of using real numbers, one uses (3, 0) and (0, 2) to represent +3 and -2 respectively. Numbers such as (5, 6) are allowed. That can be "reduced" to (0, 1).  My sense is that somewhere deep in the depths of relativistic quantum field theory, this will be a "good thing". For now, it is a minor pain to program.
 
-# In[17]:
+# In[9]:
 
 
 class Doublet(object):
@@ -1700,7 +1700,7 @@ class Doublet(object):
         return Doublet([p1, n1])
 
 
-# In[18]:
+# In[10]:
 
 
 class TestDoublet(unittest.TestCase):
@@ -1765,7 +1765,7 @@ class TestDoublet(unittest.TestCase):
         self.assertTrue(Z2p_red.n == Z2p_2.n)
 
 
-# In[19]:
+# In[11]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestDoublet())
@@ -1774,7 +1774,7 @@ unittest.TextTestRunner().run(suite);
 
 # Repeat the exercise for arrays.
 
-# In[20]:
+# In[12]:
 
 
 class Doubleta(object):
@@ -1873,7 +1873,7 @@ class Doubleta(object):
         return Doubleta([p1, n1])
 
 
-# In[21]:
+# In[13]:
 
 
 class TestDoubleta(unittest.TestCase):
@@ -1938,7 +1938,7 @@ class TestDoubleta(unittest.TestCase):
         self.assertTrue(Z2p_red.d[1] == Z2p_2.d[1])
 
 
-# In[22]:
+# In[14]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestDoubleta())
@@ -1949,7 +1949,7 @@ unittest.TextTestRunner().run(suite);
 
 # Write a class to handle quaternions given 8 numbers.
 
-# In[23]:
+# In[15]:
 
 
 class Q8(object):
@@ -2348,7 +2348,7 @@ class Q8(object):
         return g_q
 
 
-# In[24]:
+# In[16]:
 
 
 class TestQ8(unittest.TestCase):
@@ -2692,7 +2692,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z2.dz.n == q1_sq.dz.n)
 
 
-# In[25]:
+# In[17]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8())
@@ -2701,7 +2701,7 @@ unittest.TextTestRunner().run(suite);
 
 # ## Class Q8a as nparrays
 
-# In[26]:
+# In[18]:
 
 
 class Q8a(object):
@@ -3192,7 +3192,7 @@ class Q8a(object):
         return g_q
 
 
-# In[29]:
+# In[19]:
 
 
 class TestQ8a(unittest.TestCase):
@@ -3525,7 +3525,7 @@ class TestQ8a(unittest.TestCase):
         self.assertTrue(q_z2.a[7] == q1_sq.a[7])
 
 
-# In[30]:
+# In[20]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8a())
@@ -3595,8 +3595,8 @@ class EQ(object):
         self.q1_square = self.q1.square().reduce()
         self.q2_square = self.q2.square().reduce()
         
-        self.q1_norm_squared_minus_1 = self.q1.norm_squared().dif(self.q1.q_one()).reduce()
-        self.q2_norm_squared_minus_1 = self.q2.norm_squared().dif(self.q1.q_one()).reduce()
+        self.q1_norm_squared_minus_1 = self.q1.norm_squared().dif(self.q1.q_1()).reduce()
+        self.q2_norm_squared_minus_1 = self.q2.norm_squared().dif(self.q1.q_1()).reduce()
 
         # Store results here
         self.classes = {}
@@ -3976,16 +3976,16 @@ class TestEQ(unittest.TestCase):
 
     def test_norm_squared_of_unity(self):
         self.assertTrue(self.eq_11.norm_squared_of_unity() == 'greater_than_unity_exact')
-        q_one = Q8([1, 0, 0, 0, 0, 0, 0, 0])
+        q_1 = Q8([1, 0, 0, 0, 0, 0, 0, 0])
         q_small = Q8([0.1, 0, 0, 0.2, 0, 0, 0, 0])
         q_tiny = Q8([0.001, 0, 0, 0.002, 0, 0, 0, 0])
 
-        eq_one = EQ(q_one, q_one)
-        eq_q1_small = EQ(q_one, q_small)
+        eq_1 = EQ(q_1, q_1)
+        eq_q1_small = EQ(q_1, q_small)
         eq_small_small = EQ(q_small, q_small)
         eq_small_tiny = EQ(q_small, q_tiny)
         
-        self.assertTrue(eq_one.norm_squared_of_unity() == 'unity_exact')
+        self.assertTrue(eq_1.norm_squared_of_unity() == 'unity_exact')
         self.assertTrue(eq_q1_small.norm_squared_of_unity() == 'disjoint')
         self.assertTrue(eq_small_small.norm_squared_of_unity() == 'less_than_unity_exact')
         self.assertTrue(eq_small_tiny.norm_squared_of_unity() == 'less_than_unity')
