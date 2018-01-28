@@ -177,9 +177,21 @@ print("u is: ", u[0], u[1])
 print("d is: ", d[0], d[1])
 
 
+# In[29]:
+
+
+q0 = qtd.QH().q_0()
+q1 = qtd.QH().q_1()
+qi = qtd.QH().q_1()
+sqrt_half = qtd.QH([sp.sqrt(1/2), 0, 0, 0])
+
+us = qtd.QHStates([q1, q0])
+ds = qtd.QHStates([q0, q1])
+
+
 # Calculate $<u|u>$, $<d|d>$ and $<u|d>$:
 
-# In[15]:
+# In[30]:
 
 
 q_sum = qtd.QH()
@@ -274,7 +286,7 @@ print("<r|L>: ", q_total)
 
 # Now make d imaginary like so:
 
-# In[23]:
+# In[22]:
 
 
 di = [qtd.QH().q_0(), qtd.QH().q_1().product(qtd.QH().q_i())]
@@ -283,7 +295,7 @@ print("di: ", di[0], di[1])
 
 # The final calculation for chapter 2 is like the one for $r$ and $L$ except one uses di:
 
-# In[24]:
+# In[23]:
 
 
 udi0_sum_normalized = u[0].product(sqrt_half).add(di[0].product(sqrt_half))
@@ -298,7 +310,7 @@ print("i is: ", i[0], i[1])
 print("o is: ", o[0], o[1])
 
 
-# In[25]:
+# In[24]:
 
 
 q_sum = qtd.QH()
@@ -310,7 +322,7 @@ q_total = q_sum.add(q_n1).add(q_n0)
 print("<i|i>: ", q_total)
 
 
-# In[26]:
+# In[25]:
 
 
 q_sum = qtd.QH()
@@ -322,7 +334,7 @@ q_total = q_sum.add(q_n1).add(q_n0)
 print("<o|o>: ", q_total)
 
 
-# In[27]:
+# In[26]:
 
 
 q_sum = qtd.QH()

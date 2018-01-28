@@ -4239,3 +4239,607 @@ print(q2)
 for q in qha.range(t1,qd,10):
     print(qha.symbol_sub(qabstract, q))
 
+
+# ## States - n quaternions that add up to one quaternion
+
+# Any quaternion can be viewed as the sum of n other quaternions. This is common to see in quantum mechanics, whose needs are driving the development of this class and its methods.
+
+# In[33]:
+
+
+class QHStates(QH):
+    """A class made up of many quaternions."""
+    
+    def __init__(self, qs):
+        
+        self.qs = qs
+        self.d, self.dim, self.dimensions = len(qs), len(qs), len(qs)
+        
+    def __str__(self):
+        """Print out all the states."""
+        
+        states = ''
+        
+        for n, q in enumerate(self.qs, start=1):
+            states = states + "n={}: {}\n".format(n, q)
+        
+        return states.rstrip()
+    
+    def summation(self):
+        """Add them all up, return one quaternion."""
+        
+        result = QH()
+    
+        for q in self.qs:
+            result = result.add(q)
+            
+        return result
+    
+    def add(self, ket):
+        """Add two states."""
+        
+        new_states = []
+        
+        for bra, ket in zip(self.qs, ket.qs):
+            new_states.append(bra.add(ket))
+            
+        return(QHStates(new_states))
+    
+    def dif(self, ket):
+        """Take the difference of two states."""
+        
+        new_states = []
+        
+        for bra, ket in zip(self.qs, ket.qs):
+            new_states.append(bra.dif(ket))
+            
+        return(QHStates(new_states))  
+    
+    def product(self, ket, kind=""):
+        """Forms the quaternion product for each state."""
+        
+        new_states = []
+        
+        for bra, ket in zip(self.qs, ket.qs):
+            new_states.append(bra.product(ket, kind))
+            
+        return(QHStates(new_states))
+    
+    def Euclidean_product(self, ket, kind=""):
+        """Forms the Euclidean product, what is used in QM all the time."""
+        
+        new_states = []
+        
+        for bra, ket in zip(self.qs, ket.qs):
+            new_states.append(bra.conj().product(ket, kind))
+            
+        return(QHStates(new_states))
+    
+    def norm_squared(self):
+        """Take the Euclidean product of each state and add it up, returning one quaternion."""
+        
+        norm = self.Euclidean_product(self).summation()
+        return norm
+
+
+# In[34]:
+
+
+class TestQHStates(unittest.TestCase):
+    """Test states."""
+    
+    q0 = QH().q_0()
+    q1 = QH().q_1()
+    qi = QH().q_i()
+    q0_q1 = QHStates([q0, q1])
+    q1_q0 = QHStates([q1, q0])
+    q1_qi = QHStates([q1, qi])
+    
+    def test_init(self):
+        self.assertTrue(self.q0_q1.dim == 2)
+        
+    def test_summation(self):
+        q_01_sum = self.q0_q1.summation()
+        print("sum: ", q_01_sum)
+        self.assertTrue(type(q_01_sum) is QH)
+        self.assertTrue(q_01_sum.t == 1)
+        
+    def test_add(self):
+        q_0110_add = self.q0_q1.add(self.q1_q0)
+        print("add 01 10: ", q_0110_add)
+        self.assertTrue(q_0110_add.qs[0].t == 1)
+        self.assertTrue(q_0110_add.qs[1].t == 1)
+        
+    def test_dif(self):
+        q_0110_dif = self.q0_q1.dif(self.q1_q0)
+        print("dif 01 10: ", q_0110_dif)
+        self.assertTrue(q_0110_dif.qs[0].t == -1)
+        self.assertTrue(q_0110_dif.qs[1].t == 1)
+        
+    def test_product(self):
+        q_0110_product = self.q0_q1.product(self.q0_q1)
+        print("product 01 10: ", q_0110_product)
+        self.assertTrue(q_0110_product.qs[0].t == 0)
+        self.assertTrue(q_0110_product.qs[1].t == 1)
+        
+        q_011i_product = self.q0_q1.product(self.q1_qi)
+        print("product 01 1i: ", q_011i_product)
+        self.assertTrue(q_011i_product.qs[0].t == 0)
+        self.assertTrue(q_011i_product.qs[1].x == 1)
+    
+    def test_Euclidean_product(self):
+        q_0110_product = self.q0_q1.Euclidean_product(self.q0_q1)
+        print("product 01 10: ", q_0110_product)
+        self.assertTrue(q_0110_product.qs[0].t == 0)
+        self.assertTrue(q_0110_product.qs[1].t == 1)
+        
+        q_011i_product = self.q0_q1.Euclidean_product(self.q1_qi)
+        print("product 01 1i: ", q_011i_product)
+        self.assertTrue(q_011i_product.qs[0].t == 0)
+        self.assertTrue(q_011i_product.qs[1].x == 1)
+        
+                
+        q_1i01_product = self.q1_qi.Euclidean_product(self.q0_q1)
+        print("Euclidean product 1i 01: ", q_1i01_product)
+        self.assertTrue(q_1i01_product.qs[0].t == 0)
+        self.assertTrue(q_1i01_product.qs[1].x == -1)
+
+
+# In[35]:
+
+
+suite = unittest.TestLoader().loadTestsFromModule(TestQHStates())
+unittest.TextTestRunner().run(suite);
+
+
+# Repeat this exercise for:
+# 
+# QHa
+# Q8
+# Q8a
+# 
+# by old fashioned cut and paste with minor tweaks (boring).
+
+# In[36]:
+
+
+class QHaStates(QHa):
+    """A class made up of many quaternions."""
+    
+    def __init__(self, qs):
+        
+        self.qs = qs
+        self.d, self.dim, self.dimensions = len(qs), len(qs), len(qs)
+        
+    def __str__(self):
+        """Print out all the states."""
+        
+        states = ''
+        
+        for n, q in enumerate(self.qs, start=1):
+            states = states + "n={}: {}\n".format(n, q)
+        
+        return states.rstrip()
+    
+    def summation(self):
+        """Add them all up, return one quaternion."""
+        
+        result = QHa()
+    
+        for q in self.qs:
+            result = result.add(q)
+            
+        return result
+    
+    def add(self, ket):
+        """Add two states."""
+        
+        new_states = []
+        
+        for bra, ket in zip(self.qs, ket.qs):
+            new_states.append(bra.add(ket))
+            
+        return(QHaStates(new_states))
+    
+    def dif(self, ket):
+        """Take the difference of two states."""
+        
+        new_states = []
+        
+        for bra, ket in zip(self.qs, ket.qs):
+            new_states.append(bra.dif(ket))
+            
+        return(QHaStates(new_states))  
+    
+    def product(self, ket, kind=""):
+        """Forms the quaternion product for each state."""
+        
+        new_states = []
+        
+        for bra, ket in zip(self.qs, ket.qs):
+            new_states.append(bra.product(ket, kind))
+            
+        return(QHaStates(new_states))
+    
+    def Euclidean_product(self, ket, kind=""):
+        """Forms the Euclidean product, what is used in QM all the time."""
+        
+        new_states = []
+        
+        for bra, ket in zip(self.qs, ket.qs):
+            new_states.append(bra.conj().product(ket, kind))
+            
+        return(QHaStates(new_states))
+    
+    def norm_squared(self):
+        """Take the Euclidean product of each state and add it up, returning one quaternion."""
+        
+        norm = self.Euclidean_product(self).summation()
+        return norm
+
+
+# In[37]:
+
+
+class TestQHaStates(unittest.TestCase):
+    """Test states."""
+    
+    q0 = QHa().q_0()
+    q1 = QHa().q_1()
+    qi = QHa().q_i()
+    q0_q1 = QHaStates([q0, q1])
+    q1_q0 = QHaStates([q1, q0])
+    q1_qi = QHaStates([q1, qi])
+    
+    def test_init(self):
+        self.assertTrue(self.q0_q1.dim == 2)
+        
+    def test_summation(self):
+        q_01_sum = self.q0_q1.summation()
+        print("sum: ", q_01_sum)
+        self.assertTrue(type(q_01_sum) is QHa)
+        self.assertTrue(q_01_sum.a[0] == 1)
+        
+    def test_add(self):
+        q_0110_add = self.q0_q1.add(self.q1_q0)
+        print("add 01 10: ", q_0110_add)
+        self.assertTrue(q_0110_add.qs[0].a[0] == 1)
+        self.assertTrue(q_0110_add.qs[1].a[0] == 1)
+        
+    def test_dif(self):
+        q_0110_dif = self.q0_q1.dif(self.q1_q0)
+        print("dif 01 10: ", q_0110_dif)
+        self.assertTrue(q_0110_dif.qs[0].a[0] == -1)
+        self.assertTrue(q_0110_dif.qs[1].a[0] == 1)
+        
+    def test_product(self):
+        q_0110_product = self.q0_q1.product(self.q0_q1)
+        print("product 01 10: ", q_0110_product)
+        self.assertTrue(q_0110_product.qs[0].a[0] == 0)
+        self.assertTrue(q_0110_product.qs[1].a[0] == 1)
+        
+        q_011i_product = self.q0_q1.product(self.q1_qi)
+        print("product 01 1i: ", q_011i_product)
+        self.assertTrue(q_011i_product.qs[0].a[0] == 0)
+        self.assertTrue(q_011i_product.qs[1].a[1] == 1)
+    
+    def test_Euclidean_product(self):
+        q_0110_product = self.q0_q1.Euclidean_product(self.q0_q1)
+        print("product 01 10: ", q_0110_product)
+        self.assertTrue(q_0110_product.qs[0].a[0] == 0)
+        self.assertTrue(q_0110_product.qs[1].a[0] == 1)
+        
+        q_011i_product = self.q0_q1.Euclidean_product(self.q1_qi)
+        print("product 01 1i: ", q_011i_product)
+        self.assertTrue(q_011i_product.qs[0].a[0] == 0)
+        self.assertTrue(q_011i_product.qs[1].a[1] == 1)
+        
+                
+        q_1i01_product = self.q1_qi.Euclidean_product(self.q0_q1)
+        print("Euclidean product 1i 01: ", q_1i01_product)
+        self.assertTrue(q_1i01_product.qs[0].a[0] == 0)
+        self.assertTrue(q_1i01_product.qs[1].a[1] == -1)
+
+
+# In[38]:
+
+
+suite = unittest.TestLoader().loadTestsFromModule(TestQHaStates())
+unittest.TextTestRunner().run(suite);
+
+
+# In[39]:
+
+
+class Q8States(Q8):
+    """A class made up of many quaternions."""
+    
+    def __init__(self, qs):
+        
+        self.qs = qs
+        self.d, self.dim, self.dimensions = len(qs), len(qs), len(qs)
+        
+    def __str__(self):
+        """Print out all the states."""
+        
+        states = ''
+        
+        for n, q in enumerate(self.qs, start=1):
+            states = states + "n={}: {}\n".format(n, q)
+        
+        return states.rstrip()
+    
+    def summation(self):
+        """Add them all up, return one quaternion."""
+        
+        result = Q8()
+    
+        for q in self.qs:
+            result = result.add(q)
+            
+        return result
+    
+    def add(self, ket):
+        """Add two states."""
+        
+        new_states = []
+        
+        for bra, ket in zip(self.qs, ket.qs):
+            new_states.append(bra.add(ket))
+            
+        return(Q8States(new_states))
+    
+    def dif(self, ket):
+        """Take the difference of two states."""
+        
+        new_states = []
+        
+        for bra, ket in zip(self.qs, ket.qs):
+            new_states.append(bra.dif(ket))
+            
+        return(Q8States(new_states))  
+    
+    def product(self, ket, kind=""):
+        """Forms the quaternion product for each state."""
+        
+        new_states = []
+        
+        for bra, ket in zip(self.qs, ket.qs):
+            new_states.append(bra.product(ket, kind))
+            
+        return(Q8States(new_states))
+    
+    def Euclidean_product(self, ket, kind=""):
+        """Forms the Euclidean product, what is used in QM all the time."""
+        
+        new_states = []
+        
+        for bra, ket in zip(self.qs, ket.qs):
+            new_states.append(bra.conj().product(ket, kind))
+            
+        return(Q8States(new_states))
+    
+    def norm_squared(self):
+        """Take the Euclidean product of each state and add it up, returning one quaternion."""
+        
+        norm = self.Euclidean_product(self).summation()
+        return norm
+
+
+# In[40]:
+
+
+class TestQ8States(unittest.TestCase):
+    """Test states."""
+    
+    q0 = Q8().q_0()
+    q1 = Q8().q_1()
+    qi = Q8().q_i()
+    q0_q1 = Q8States([q0, q1])
+    q1_q0 = Q8States([q1, q0])
+    q1_qi = Q8States([q1, qi])
+    
+    def test_init(self):
+        self.assertTrue(self.q0_q1.dim == 2)
+        
+    def test_summation(self):
+        q_01_sum = self.q0_q1.summation()
+        print("sum: ", q_01_sum)
+        self.assertTrue(type(q_01_sum) is Q8)
+        self.assertTrue(q_01_sum.dt.p== 1)
+        
+    def test_add(self):
+        q_0110_add = self.q0_q1.add(self.q1_q0)
+        print("add 01 10: ", q_0110_add)
+        self.assertTrue(q_0110_add.qs[0].dt.p== 1)
+        self.assertTrue(q_0110_add.qs[1].dt.p== 1)
+        
+    def test_dif(self):
+        q_0110_dif = self.q0_q1.dif(self.q1_q0)
+        print("dif 01 10: ", q_0110_dif)
+        self.assertTrue(q_0110_dif.qs[0].dt.n== 1)
+        self.assertTrue(q_0110_dif.qs[1].dt.p== 1)
+        
+    def test_product(self):
+        q_0110_product = self.q0_q1.product(self.q0_q1)
+        print("product 01 10: ", q_0110_product)
+        self.assertTrue(q_0110_product.qs[0].dt.p== 0)
+        self.assertTrue(q_0110_product.qs[1].dt.p== 1)
+        
+        q_011i_product = self.q0_q1.product(self.q1_qi)
+        print("product 01 1i: ", q_011i_product)
+        self.assertTrue(q_011i_product.qs[0].dt.p== 0)
+        self.assertTrue(q_011i_product.qs[1].dx.p == 1)
+    
+    def test_Euclidean_product(self):
+        q_0110_product = self.q0_q1.Euclidean_product(self.q0_q1)
+        print("product 01 10: ", q_0110_product)
+        self.assertTrue(q_0110_product.qs[0].dt.p== 0)
+        self.assertTrue(q_0110_product.qs[1].dt.p== 1)
+        
+        q_011i_product = self.q0_q1.Euclidean_product(self.q1_qi)
+        print("product 01 1i: ", q_011i_product)
+        self.assertTrue(q_011i_product.qs[0].dt.p== 0)
+        self.assertTrue(q_011i_product.qs[1].dx.p == 1)
+        
+                
+        q_1i01_product = self.q1_qi.Euclidean_product(self.q0_q1)
+        print("Euclidean product 1i 01: ", q_1i01_product)
+        self.assertTrue(q_1i01_product.qs[0].dt.p== 0)
+        self.assertTrue(q_1i01_product.qs[1].dx.n == 1)
+
+
+# In[41]:
+
+
+suite = unittest.TestLoader().loadTestsFromModule(TestQ8States())
+unittest.TextTestRunner().run(suite);
+
+
+# In[42]:
+
+
+class Q8aStates(Q8a):
+    """A class made up of many quaternions."""
+    
+    def __init__(self, qs):
+        
+        self.qs = qs
+        self.d, self.dim, self.dimensions = len(qs), len(qs), len(qs)
+        
+    def __str__(self):
+        """Print out all the states."""
+        
+        states = ''
+        
+        for n, q in enumerate(self.qs, start=1):
+            states = states + "n={}: {}\n".format(n, q)
+        
+        return states.rstrip()
+    
+    def summation(self):
+        """Add them all up, return one quaternion."""
+        
+        result = Q8a()
+    
+        for q in self.qs:
+            result = result.add(q)
+            
+        return result
+    
+    def add(self, ket):
+        """Add two states."""
+        
+        new_states = []
+        
+        for bra, ket in zip(self.qs, ket.qs):
+            new_states.append(bra.add(ket))
+            
+        return(Q8aStates(new_states))
+    
+    def dif(self, ket):
+        """Take the difference of two states."""
+        
+        new_states = []
+        
+        for bra, ket in zip(self.qs, ket.qs):
+            new_states.append(bra.dif(ket))
+            
+        return(Q8aStates(new_states))  
+    
+    def product(self, ket, kind=""):
+        """Forms the quaternion product for each state."""
+        
+        new_states = []
+        
+        for bra, ket in zip(self.qs, ket.qs):
+            new_states.append(bra.product(ket, kind))
+            
+        return(Q8aStates(new_states))
+    
+    def Euclidean_product(self, ket, kind=""):
+        """Forms the Euclidean product, what is used in QM all the time."""
+        
+        new_states = []
+        
+        for bra, ket in zip(self.qs, ket.qs):
+            new_states.append(bra.conj().product(ket, kind))
+            
+        return(Q8aStates(new_states))
+    
+    def norm_squared(self):
+        """Take the Euclidean product of each state and add it up, returning one quaternion."""
+        
+        norm = self.Euclidean_product(self).summation()
+        return norm
+
+
+# In[43]:
+
+
+class TestQ8aStates(unittest.TestCase):
+    """Test states."""
+    
+    q0 = Q8a().q_0()
+    q1 = Q8a().q_1()
+    qi = Q8a().q_i()
+    q0_q1 = Q8aStates([q0, q1])
+    q1_q0 = Q8aStates([q1, q0])
+    q1_qi = Q8aStates([q1, qi])
+    
+    def test_init(self):
+        self.assertTrue(self.q0_q1.dim == 2)
+        
+    def test_summation(self):
+        q_01_sum = self.q0_q1.summation()
+        print("sum: ", q_01_sum)
+        self.assertTrue(type(q_01_sum) is Q8a)
+        self.assertTrue(q_01_sum.a[0]== 1)
+        
+    def test_add(self):
+        q_0110_add = self.q0_q1.add(self.q1_q0)
+        print("add 01 10: ", q_0110_add)
+        self.assertTrue(q_0110_add.qs[0].a[0]== 1)
+        self.assertTrue(q_0110_add.qs[1].a[0]== 1)
+        
+    def test_dif(self):
+        q_0110_dif = self.q0_q1.dif(self.q1_q0)
+        print("dif 01 10: ", q_0110_dif)
+        self.assertTrue(q_0110_dif.qs[0].a[1]== 1)
+        self.assertTrue(q_0110_dif.qs[1].a[0]== 1)
+        
+    def test_product(self):
+        q_0110_product = self.q0_q1.product(self.q0_q1)
+        print("product 01 10: ", q_0110_product)
+        self.assertTrue(q_0110_product.qs[0].a[0]== 0)
+        self.assertTrue(q_0110_product.qs[1].a[0]== 1)
+        
+        q_011i_product = self.q0_q1.product(self.q1_qi)
+        print("product 01 1i: ", q_011i_product)
+        self.assertTrue(q_011i_product.qs[0].a[0]== 0)
+        self.assertTrue(q_011i_product.qs[1].a[2] == 1)
+    
+    def test_Euclidean_product(self):
+        q_0110_product = self.q0_q1.Euclidean_product(self.q0_q1)
+        print("product 01 10: ", q_0110_product)
+        self.assertTrue(q_0110_product.qs[0].a[0]== 0)
+        self.assertTrue(q_0110_product.qs[1].a[0]== 1)
+        
+        q_011i_product = self.q0_q1.Euclidean_product(self.q1_qi)
+        print("product 01 1i: ", q_011i_product)
+        self.assertTrue(q_011i_product.qs[0].a[0]== 0)
+        self.assertTrue(q_011i_product.qs[1].a[2] == 1)
+        
+                
+        q_1i01_product = self.q1_qi.Euclidean_product(self.q0_q1)
+        print("Euclidean product 1i 01: ", q_1i01_product)
+        self.assertTrue(q_1i01_product.qs[0].a[0]== 0)
+        self.assertTrue(q_1i01_product.qs[1].a[3] == 1)
+
+
+# In[44]:
+
+
+suite = unittest.TestLoader().loadTestsFromModule(TestQ8aStates())
+unittest.TextTestRunner().run(suite);
+
