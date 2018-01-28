@@ -10,7 +10,7 @@
 # In[1]:
 
 
-get_ipython().run_cell_magic('capture', '', '%matplotlib inline\nimport numpy as np\nimport sympy as sp\nimport matplotlib.pyplot as plt\n\n# To get equations the look like, well, equations, use the following.\nfrom sympy.interactive import printing\nprinting.init_printing(use_latex=True)\nfrom IPython.display import display\n\n# Tools for manipulating quaternions.\nimport Q_tool_devo as qtd;')
+get_ipython().run_cell_magic('capture', '', '%matplotlib inline\nimport numpy as np\nimport sympy as sp\nimport matplotlib.pyplot as plt\n\n# To get equations the look like, well, equations, use the following.\nfrom sympy.interactive import printing\nprinting.init_printing(use_latex=True)\nfrom IPython.display import display\n\n# Tools for manipulating quaternions.\nimport Q_tools as qt;')
 
 
 # Start with the conjugate operator all are familiar with, the one that flips all three imaginary numbers as the Gang of Three:
@@ -19,7 +19,7 @@ get_ipython().run_cell_magic('capture', '', '%matplotlib inline\nimport numpy as
 
 
 t, x, y, z = sp.symbols("t x y z")
-R = qtd.QH([t, x, y, z])
+R = qt.QH([t, x, y, z])
 print(R)
 print(R.conj())
 
@@ -29,7 +29,7 @@ print(R.conj())
 # In[3]:
 
 
-Qi, Qj, Qk = qtd.QH([0, 1, 0, 0]), qtd.QH([0, 0, 1, 0]), qtd.QH([0, 0, 0, 1])
+Qi, Qj, Qk = qt.QH([0, 1, 0, 0]), qt.QH([0, 0, 1, 0]), qt.QH([0, 0, 0, 1])
 first_conj = Qi.product(R.product(Qi)).conj()
 print(first_conj)
 
@@ -76,9 +76,9 @@ print(R.conj().conj(1).conj(2).flip_signs())
 a0, A1, A2, A3 = sp.symbols("a0 A1 A2 A3")
 b0, B1, B2, B3 = sp.symbols("b0 B1 B2 B3")
 c0, C1, C2, C3 = sp.symbols("c0 C1 C2 C3")
-A = qtd.QH([a0, A1, A2, A3])
-B = qtd.QH([b0, B1, B2, B3])
-C = qtd.QH([c0, C1, C2, C3])
+A = qt.QH([a0, A1, A2, A3])
+B = qt.QH([b0, B1, B2, B3])
+C = qt.QH([c0, C1, C2, C3])
 print(A.conj().product(A))
 
 
@@ -170,31 +170,31 @@ print(AC_plus_BC_conj2.dif(AC_plus_BC_conj2))
 # In[14]:
 
 
-u = [qtd.QH().q_1(), qtd.QH().q_0()]
-d = [qtd.QH().q_0(), qtd.QH().q_1()]
+u = [qt.QH().q_1(), qt.QH().q_0()]
+d = [qt.QH().q_0(), qt.QH().q_1()]
 
 print("u is: ", u[0], u[1])
 print("d is: ", d[0], d[1])
 
 
-# In[29]:
+# In[15]:
 
 
-q0 = qtd.QH().q_0()
-q1 = qtd.QH().q_1()
-qi = qtd.QH().q_1()
-sqrt_half = qtd.QH([sp.sqrt(1/2), 0, 0, 0])
+q0 = qt.QH().q_0()
+q1 = qt.QH().q_1()
+qi = qt.QH().q_1()
+sqrt_half = qt.QH([sp.sqrt(1/2), 0, 0, 0])
 
-us = qtd.QHStates([q1, q0])
-ds = qtd.QHStates([q0, q1])
+us = qt.QHStates([q1, q0])
+ds = qt.QHStates([q0, q1])
 
 
 # Calculate $<u|u>$, $<d|d>$ and $<u|d>$:
 
-# In[30]:
+# In[16]:
 
 
-q_sum = qtd.QH()
+q_sum = qt.QH()
 
 q_n0 = u[0].Euclidean_product(u[0])
 q_n1 = u[1].Euclidean_product(u[1])
@@ -203,10 +203,10 @@ q_total = q_sum.add(q_n1).add(q_n0)
 print("<u|u>: ", q_total)
 
 
-# In[16]:
+# In[17]:
 
 
-q_sum = qtd.QH()
+q_sum = qt.QH()
 
 q_n0 = d[0].Euclidean_product(d[0])
 q_n1 = d[1].Euclidean_product(d[1])
@@ -215,10 +215,10 @@ q_total = q_sum.add(q_n1).add(q_n0)
 print("<d|d>: ", q_total)
 
 
-# In[17]:
+# In[18]:
 
 
-q_sum = qtd.QH()
+q_sum = qt.QH()
 
 q_n0 = u[0].Euclidean_product(d[0])
 q_n1 = u[1].Euclidean_product(d[1])
@@ -229,10 +229,10 @@ print("<u|d>: ", q_total)
 
 # The next pair of states uses $u$ and $d$ like so (TTM, page 41):
 
-# In[18]:
+# In[19]:
 
 
-sqrt_half = qtd.QH([sp.sqrt(1/2), 0, 0, 0])
+sqrt_half = qt.QH([sp.sqrt(1/2), 0, 0, 0])
 
 ud0_sum_normalized = u[0].product(sqrt_half).add(d[0].product(sqrt_half))
 ud1_sum_normalized = u[1].product(sqrt_half).add(d[1].product(sqrt_half))
@@ -246,10 +246,10 @@ print("r is: ", r[0], r[1])
 print("L is: ", L[0], L[1])
 
 
-# In[19]:
+# In[20]:
 
 
-q_sum = qtd.QH()
+q_sum = qt.QH()
 
 q_n0 = r[0].Euclidean_product(r[0])
 q_n1 = r[1].Euclidean_product(r[1])
@@ -258,10 +258,10 @@ q_total = q_sum.add(q_n1).add(q_n0)
 print("<r|r>: ", q_total)
 
 
-# In[20]:
+# In[21]:
 
 
-q_sum = qtd.QH()
+q_sum = qt.QH()
 
 q_n0 = L[0].Euclidean_product(L[0])
 q_n1 = L[1].Euclidean_product(L[1])
@@ -270,10 +270,10 @@ q_total = q_sum.add(q_n1).add(q_n0)
 print("<L|L>: ", q_total)
 
 
-# In[21]:
+# In[22]:
 
 
-q_sum = qtd.QH()
+q_sum = qt.QH()
 
 q_n0 = r[0].Euclidean_product(L[0])
 q_n1 = r[1].Euclidean_product(L[1])
@@ -286,16 +286,16 @@ print("<r|L>: ", q_total)
 
 # Now make d imaginary like so:
 
-# In[22]:
+# In[23]:
 
 
-di = [qtd.QH().q_0(), qtd.QH().q_1().product(qtd.QH().q_i())]
+di = [qt.QH().q_0(), qt.QH().q_1().product(qt.QH().q_i())]
 print("di: ", di[0], di[1])
 
 
 # The final calculation for chapter 2 is like the one for $r$ and $L$ except one uses di:
 
-# In[23]:
+# In[24]:
 
 
 udi0_sum_normalized = u[0].product(sqrt_half).add(di[0].product(sqrt_half))
@@ -310,10 +310,10 @@ print("i is: ", i[0], i[1])
 print("o is: ", o[0], o[1])
 
 
-# In[24]:
+# In[25]:
 
 
-q_sum = qtd.QH()
+q_sum = qt.QH()
 
 q_n0 = i[0].Euclidean_product(i[0])
 q_n1 = i[1].Euclidean_product(i[1])
@@ -322,10 +322,10 @@ q_total = q_sum.add(q_n1).add(q_n0)
 print("<i|i>: ", q_total)
 
 
-# In[25]:
+# In[26]:
 
 
-q_sum = qtd.QH()
+q_sum = qt.QH()
 
 q_n0 = o[0].Euclidean_product(o[0])
 q_n1 = o[1].Euclidean_product(o[1])
@@ -334,10 +334,10 @@ q_total = q_sum.add(q_n1).add(q_n0)
 print("<o|o>: ", q_total)
 
 
-# In[26]:
+# In[27]:
 
 
-q_sum = qtd.QH()
+q_sum = qt.QH()
 
 q_n0 = i[0].Euclidean_product(o[0])
 q_n1 = i[1].Euclidean_product(o[1])

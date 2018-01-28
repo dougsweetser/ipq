@@ -10,7 +10,7 @@
 # In[1]:
 
 
-get_ipython().run_cell_magic('capture', '', '%matplotlib inline\nimport numpy as np\nimport sympy as sp\nimport matplotlib.pyplot as plt\n\n# To get equations the look like, well, equations, use the following.\nfrom sympy.interactive import printing\nprinting.init_printing(use_latex=True)\nfrom IPython.display import display\n\n# Tools for manipulating quaternions.\nimport Q_tool_devo as qtd;')
+get_ipython().run_cell_magic('capture', '', '%matplotlib inline\nimport numpy as np\nimport sympy as sp\nimport matplotlib.pyplot as plt\n\n# To get equations the look like, well, equations, use the following.\nfrom sympy.interactive import printing\nprinting.init_printing(use_latex=True)\nfrom IPython.display import display\n\n# Tools for manipulating quaternions.\nimport Q_tools as qt;')
 
 
 # ## Spatial Rotations
@@ -20,7 +20,7 @@ get_ipython().run_cell_magic('capture', '', '%matplotlib inline\nimport numpy as
 # In[2]:
 
 
-def triple_sandwich(r, p=qtd.QH([1, 0, 0, 0])):
+def triple_sandwich(r, p=qt.QH([1, 0, 0, 0])):
     """A function that takes 2 quaternions but does a triple product. The default value for P leaves R unchanged."""
 
     return p.product(r.product(p.conj()))
@@ -32,8 +32,8 @@ def triple_sandwich(r, p=qtd.QH([1, 0, 0, 0])):
 t, x, y, z = sp.symbols("t x y z")
 s, u, v, w = sp.symbols("s u v w")
 
-R = qtd.QH([t, x, y, z])
-P = qtd.QH([s, u, v, w])
+R = qt.QH([t, x, y, z])
+P = qt.QH([s, u, v, w])
 RP_sandwich = triple_sandwich(R, P)
 sp.simplify(RP_sandwich.t)
 
@@ -62,7 +62,7 @@ sp.simplify(sp.factor(RP_sandwich.square().t))
 def triple_trig_z(r, a):
     """A rotation around the z axis only by the double angle of a."""
     
-    return triple_sandwich(r, qtd.QH([sp.cos(a), 0, 0, sp.sin(a)]))
+    return triple_sandwich(r, qt.QH([sp.cos(a), 0, 0, sp.sin(a)]))
 
 def is_quadratic(r):
     """Tests if the the first term of the square of a quaternion is equal to t^2 - x^2 - y^2 - z^2."""
@@ -110,12 +110,12 @@ is_quadratic(triple_trig_z(R, 0.01))
 # In[9]:
 
 
-def next_rotation(r, p=qtd.QH([1, 0, 0, 0])):
+def next_rotation(r, p=qt.QH([1, 0, 0, 0])):
     """Generates another member of the rotation group given a quaternion parameter P."""
     
     return p.product(r.product(p.invert()))
 
-def composite_rotation(r, p1=qtd.QH([1, 0, 0, 0]), p2=qtd.QH([1, 0, 0, 0])):
+def composite_rotation(r, p1=qt.QH([1, 0, 0, 0]), p2=qt.QH([1, 0, 0, 0])):
     """A composite function of next_rotation."""
     
     return next_rotation(next_rotation(r, p1), p2)
@@ -124,9 +124,9 @@ def composite_rotation(r, p1=qtd.QH([1, 0, 0, 0]), p2=qtd.QH([1, 0, 0, 0])):
 # In[10]:
 
 
-display(sp.simplify(composite_rotation(R, qtd.QH([s, u, v, w])).t))
-display(sp.simplify(composite_rotation(R, qtd.QH([s, u, v, w])).x))
-is_quadratic(composite_rotation(R, qtd.QH([s, u, v, w])))
+display(sp.simplify(composite_rotation(R, qt.QH([s, u, v, w])).t))
+display(sp.simplify(composite_rotation(R, qt.QH([s, u, v, w])).x))
+is_quadratic(composite_rotation(R, qt.QH([s, u, v, w])))
 
 
 # The next_rotation function can use any quaternion parameter $P$ as input and create another member of the group. This does not mean that rotations have four degrees of freedom. There is an equivalence relation involved since the product of a quaternion with its inverse has a norm of one. This algebraic constraint means the composite_rotation function has $4-1=3$ degrees of freedom.
@@ -140,13 +140,13 @@ is_quadratic(composite_rotation(R, qtd.QH([s, u, v, w])))
 # In[11]:
 
 
-def triple_2_on_1(r, p=qtd.QH([1, 0, 0, 0])):
+def triple_2_on_1(r, p=qt.QH([1, 0, 0, 0])):
     """The two are on one side, minus a different two on one side."""
     
     ppr = p.product(p.product(r)).conj()
     pcpcr = p.conj().product(p.conj().product(r)).conj()
     pd = ppr.dif(pcpcr)
-    pd_ave = pd.product(qtd.QH([1/2, 0, 0, 0]))
+    pd_ave = pd.product(qt.QH([1/2, 0, 0, 0]))
     return pd_ave
 
 
@@ -167,7 +167,7 @@ display(sp.simplify(rq_321.z))
 # In[13]:
 
 
-phx = qtd.QH([sp.cosh(a), sp.sinh(a), 0, 0])
+phx = qt.QH([sp.cosh(a), sp.sinh(a), 0, 0])
 ppr = triple_2_on_1(R, phx)
 display(sp.simplify(ppr.t))
 
@@ -195,7 +195,7 @@ display(sp.simplify(ppr.t))
 # In[14]:
 
 
-def triple_triple(r, p=qtd.QH([1, 0, 0, 0])):
+def triple_triple(r, p=qt.QH([1, 0, 0, 0])):
     """Use three triple products for rotations and boosts."""
     
     # Note: 'qtype' provides a record of what algrabric operations were done to create a quaternion.
@@ -207,7 +207,7 @@ def triple_triple(r, p=qtd.QH([1, 0, 0, 0])):
 # In[15]:
 
 
-jk = qtd.QH([0, 0, 3/5, 4/5])
+jk = qt.QH([0, 0, 3/5, 4/5])
 display(sp.simplify(triple_triple(R, jk).t))
 display(sp.simplify(triple_triple(R, jk).x))
 display(sp.simplify(triple_triple(R, jk).y))
@@ -220,7 +220,7 @@ is_quadratic(triple_triple(R, jk))
 # In[16]:
 
 
-Qi, Qj, Qk = qtd.QH([0, 1, 0, 0]), qtd.QH([0, 0, 1, 0]), qtd.QH([0, 0, 0, 1])
+Qi, Qj, Qk = qt.QH([0, 1, 0, 0]), qt.QH([0, 0, 1, 0]), qt.QH([0, 0, 0, 1])
 print(triple_triple(triple_triple(R, Qi), Qj))
 print(triple_triple(R, Qi.product(Qj)))
 
@@ -232,7 +232,7 @@ print(triple_triple(R, Qi.product(Qj)))
 # In[17]:
 
 
-minus_1 = qtd.QH([2, 2, 1, 0])
+minus_1 = qt.QH([2, 2, 1, 0])
 print(minus_1.square().t)
 display((triple_triple(R, minus_1).t, triple_triple(R, minus_1).x, triple_triple(R, minus_1).y, triple_triple(R, minus_1).z))
 is_quadratic(triple_triple(R, minus_1))
@@ -245,7 +245,7 @@ is_quadratic(triple_triple(R, minus_1))
 # In[18]:
 
 
-bx = qtd.QH([sp.cosh(a), sp.sinh(a), 0, 0])
+bx = qt.QH([sp.cosh(a), sp.sinh(a), 0, 0])
 display(sp.simplify(bx.square().t))
 display(sp.simplify(triple_triple(R, bx).t))
 display(sp.simplify(triple_triple(R, bx).x))
@@ -277,7 +277,7 @@ is_quadratic(x_reflection)
 # In[20]:
 
 
-t_reversal = triple_triple(R).conj().product(qtd.QH([-1, 0, 0, 0], qtype="sign_flip"))
+t_reversal = triple_triple(R).conj().product(qt.QH([-1, 0, 0, 0], qtype="sign_flip"))
 print(t_reversal)
 is_quadratic(t_reversal)
 
@@ -293,7 +293,7 @@ is_quadratic(t_reversal)
 # In[21]:
 
 
-def next_quadratic(r, p=qtd.QH([1, 0, 0, 0]), conj=False, sign_flip=False):
+def next_quadratic(r, p=qt.QH([1, 0, 0, 0]), conj=False, sign_flip=False):
     """Generates another quadratic using a quaternion parameter p, 
     if given any quaternion and whether a conjugate or sign flip is needed."""
     
@@ -313,7 +313,7 @@ def next_quadratic(r, p=qtd.QH([1, 0, 0, 0]), conj=False, sign_flip=False):
     if sqrt_pt_squared == 0:
         rot_calc = next_rotation(r, p) 
     else:
-        p_normalized = p.product(qtd.QH([1/sqrt_pt_squared, 0, 0, 0]))
+        p_normalized = p.product(qt.QH([1/sqrt_pt_squared, 0, 0, 0]))
         rot_calc = triple_triple(r, p_normalized)
     
     if conj:
@@ -322,7 +322,7 @@ def next_quadratic(r, p=qtd.QH([1, 0, 0, 0]), conj=False, sign_flip=False):
         conj_calc = rot_calc
         
     if sign_flip:
-        sign_calc = conj_calc.product(qtd.QH([-1, 0, 0, 0]))
+        sign_calc = conj_calc.product(qt.QH([-1, 0, 0, 0]))
     else:
         sign_calc = conj_calc
             
@@ -331,7 +331,7 @@ def next_quadratic(r, p=qtd.QH([1, 0, 0, 0]), conj=False, sign_flip=False):
     calc_y = sp.simplify(sp.expand(sign_calc.y))
     calc_z = sp.simplify(sp.expand(sign_calc.z))
     
-    return qtd.QH([calc_t, calc_x, calc_y, calc_z], qtype="L")
+    return qt.QH([calc_t, calc_x, calc_y, calc_z], qtype="L")
 
 
 # In[22]:
@@ -347,8 +347,8 @@ is_quadratic(next_quadratic(R, P, True, True))
 # In[23]:
 
 
-print(next_quadratic(R, qtd.QH([s, s, 0, 0])))
-is_quadratic(next_quadratic(R, qtd.QH([s, s, 0, 0])))
+print(next_quadratic(R, qt.QH([s, s, 0, 0])))
+is_quadratic(next_quadratic(R, qt.QH([s, s, 0, 0])))
 
 
 # Notice how the $y$ and $z$ terms flip positions, but the squaring process will put both into their proper spots in the first term of the square.
@@ -370,7 +370,7 @@ is_quadratic(next_quadratic(R, qtd.QH([s, s, 0, 0])))
 # In[24]:
 
 
-def composite_quadratic(r, p1=qtd.QH([1, 0, 0, 0]), p2=qtd.QH([1, 0, 0, 0]), conj1=False, conj2=False, sign_flip1=False, sign_flip2=False):
+def composite_quadratic(r, p1=qt.QH([1, 0, 0, 0]), p2=qt.QH([1, 0, 0, 0]), conj1=False, conj2=False, sign_flip1=False, sign_flip2=False):
     """A composite function for the next_quadratic function."""
     
     return next_quadratic(next_quadratic(r, p1, conj1, sign_flip1), p2, conj2, sign_flip2)
@@ -429,8 +429,8 @@ print(composite_quadratic(composite_quadratic(R, Qi, Qj, True, True, True, False
 # In[28]:
 
 
-print(composite_quadratic(R, qtd.QH([0, 1,0,1]), qtd.QH([0, 1,1,0])))
-is_quadratic(composite_quadratic(R, qtd.QH([0, 1,0,1]), qtd.QH([0, 1,1,0])))
+print(composite_quadratic(R, qt.QH([0, 1,0,1]), qt.QH([0, 1,1,0])))
+is_quadratic(composite_quadratic(R, qt.QH([0, 1,0,1]), qt.QH([0, 1,1,0])))
 
 
 # Notice that the value of the first squared term is negative. That value gets normalized to negative one in the composite_quadratic function (via the next_quadratic function that gets called twice). What makes these rotations be only spacial is the zero in the first position of the parameter $P$. It is easy enough to look at situations where the first term of the square is negative, and the first term of the parameter is not equal to zero:
@@ -438,8 +438,8 @@ is_quadratic(composite_quadratic(R, qtd.QH([0, 1,0,1]), qtd.QH([0, 1,1,0])))
 # In[29]:
 
 
-print(composite_quadratic(R, qtd.QH([4, 5,0,0])))
-is_quadratic(composite_quadratic(R, qtd.QH([4, 5,0,0])))
+print(composite_quadratic(R, qt.QH([4, 5,0,0])))
+is_quadratic(composite_quadratic(R, qt.QH([4, 5,0,0])))
 
 
 # This is both a boost and a rotation. The boost effect can be seen in the first and second terms where there is a positve and negative term (the negative being the term that "doesn't belong", seeing the $x$ in the first term and $t$ in the second). The rotation appears in the sign flips for $y$ and $z$. If the 4 and 5 are switched, there is no rotation of these terms:
@@ -447,7 +447,7 @@ is_quadratic(composite_quadratic(R, qtd.QH([4, 5,0,0])))
 # In[30]:
 
 
-print(composite_quadratic(R, qtd.QH([5, 4,0,0])))
+print(composite_quadratic(R, qt.QH([5, 4,0,0])))
 
 
 # The first two terms are exactly the same. Now the last two terms don't flip signs because there is no rotation. Both the (4, 5) and (5, 4) parameter composites will have the same first term for the square. This real-valued quaternion representation makes it possible to see.
@@ -568,7 +568,7 @@ sp.simplify((FlatMetric.metric(-m, -n) * q(m) * q(n)).data)
 # In[41]:
 
 
-Aq = qtd.QH([5/4, -3/4, 0, 0])
+Aq = qt.QH([5/4, -3/4, 0, 0])
 print(composite_quadratic(R, Aq))
 is_quadratic(composite_quadratic(R, Aq))
 
@@ -578,7 +578,7 @@ is_quadratic(composite_quadratic(R, Aq))
 # In[42]:
 
 
-Aq = qtd.QH([12/8, -4/8, 0, 0])
+Aq = qt.QH([12/8, -4/8, 0, 0])
 print(composite_quadratic(R, Aq))
 is_quadratic(composite_quadratic(R, Aq))
 
@@ -602,7 +602,7 @@ sp.simplify((FlatMetric.metric(-m, -n) * q(m) * q(n)).data)
 # In[44]:
 
 
-Bq = qtd.QH([0, 1, -2, 0])
+Bq = qt.QH([0, 1, -2, 0])
 print(composite_quadratic(R, Bq))
 is_quadratic(composite_quadratic(R, Bq))
 
@@ -612,7 +612,7 @@ is_quadratic(composite_quadratic(R, Bq))
 # In[45]:
 
 
-Bq = qtd.QH([0, 1, -2, 0])
+Bq = qt.QH([0, 1, -2, 0])
 print(composite_quadratic(R, Bq, Qj))
 is_quadratic(composite_quadratic(R, Bq, Qj))
 

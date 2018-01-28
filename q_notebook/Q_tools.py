@@ -3565,7 +3565,7 @@ class EQ(object):
     
     # Read images in once for the class.
     eq_images = {}
-    qtd_dir =  os.path.dirname(IPython.utils.path.filefind('Q_tool_devo.ipynb'))
+    qtd_dir =  os.path.dirname(IPython.utils.path.filefind('Q_tools.ipynb'))
     im_dir = "{qd}/images/eq_classes".format(qd=qtd_dir)
     im_files = "{imd}/*png".format(imd=im_dir)
 
