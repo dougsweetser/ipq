@@ -12412,14 +12412,19 @@ import Q_tools as qt;
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">u</span> <span class="o">=</span> <span class="p">[</span><span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span><span class="o">.</span><span class="n">q_1</span><span class="p">(),</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span><span class="o">.</span><span class="n">q_0</span><span class="p">()]</span>
-<span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span><span class="o">.</span><span class="n">q_0</span><span class="p">(),</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span><span class="o">.</span><span class="n">q_1</span><span class="p">()]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">q0</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span><span class="o">.</span><span class="n">q_0</span><span class="p">()</span>
+<span class="n">q1</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span><span class="o">.</span><span class="n">q_1</span><span class="p">()</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;u is: &quot;</span><span class="p">,</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;d is: &quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QHStates</span><span class="p">([</span><span class="n">q1</span><span class="p">,</span> <span class="n">q0</span><span class="p">])</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QHStates</span><span class="p">([</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;u&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12436,31 +12441,16 @@ import Q_tools as qt;
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>u is:  (1, 0, 0, 0) 1 (0, 0, 0, 0) 0
-d is:  (0, 0, 0, 0) 0 (1, 0, 0, 0) 1
+<pre>u
+n=1: (1, 0, 0, 0) 1
+n=2: (0, 0, 0, 0) 0
+d
+n=1: (0, 0, 0, 0) 0
+n=2: (1, 0, 0, 0) 1
 </pre>
 </div>
 </div>
 
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">q0</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span><span class="o">.</span><span class="n">q_0</span><span class="p">()</span>
-<span class="n">q1</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span><span class="o">.</span><span class="n">q_1</span><span class="p">()</span>
-<span class="n">qi</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span><span class="o">.</span><span class="n">q_1</span><span class="p">()</span>
-<span class="n">sqrt_half</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="n">sp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-
-<span class="n">us</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QHStates</span><span class="p">([</span><span class="n">q1</span><span class="p">,</span> <span class="n">q0</span><span class="p">])</span>
-<span class="n">ds</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QHStates</span><span class="p">([</span><span class="n">q0</span><span class="p">,</span> <span class="n">q1</span><span class="p">])</span>
-</pre></div>
-
-</div>
 </div>
 </div>
 
@@ -12476,16 +12466,15 @@ d is:  (0, 0, 0, 0) 0 (1, 0, 0, 0) 1
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">q_sum</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span>
-
-<span class="n">q_n0</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">q_n1</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">q_total</span> <span class="o">=</span> <span class="n">q_sum</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n1</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n0</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;u|u&gt;: &quot;</span><span class="p">,</span> <span class="n">q_total</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">uu</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span class="n">uu_sum</span> <span class="o">=</span> <span class="n">uu</span><span class="o">.</span><span class="n">summation</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;u|u&gt;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">uu</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">uu_norm</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12502,7 +12491,10 @@ d is:  (0, 0, 0, 0) 0 (1, 0, 0, 0) 1
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;u|u&gt;:  (1, 0, 0, 0) Q+0.*x0+1.*x1
+<pre>&lt;u|u&gt;
+n=1: (1, 0, 0, 0) 1.*x1
+n=2: (0, 0, 0, 0) 0.*x0
+(1, 0, 0, 0) Q+1.*x1+0.*x0
 </pre>
 </div>
 </div>
@@ -12513,16 +12505,14 @@ d is:  (0, 0, 0, 0) 0 (1, 0, 0, 0) 1
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">q_sum</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span>
-
-<span class="n">q_n0</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">q_n1</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">q_total</span> <span class="o">=</span> <span class="n">q_sum</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n1</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n0</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;d|d&gt;: &quot;</span><span class="p">,</span> <span class="n">q_total</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dd</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="n">dd_sum</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">summation</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;d|d&gt;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dd</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum: &quot;</span><span class="p">,</span> <span class="n">dd_sum</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12539,7 +12529,10 @@ d is:  (0, 0, 0, 0) 0 (1, 0, 0, 0) 1
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;d|d&gt;:  (1, 0, 0, 0) Q+1.*x1+0.*x0
+<pre>&lt;d|d&gt;
+n=1: (0, 0, 0, 0) 0.*x0
+n=2: (1, 0, 0, 0) 1.*x1
+sum:  (1, 0, 0, 0) Q+0.*x0+1.*x1
 </pre>
 </div>
 </div>
@@ -12550,16 +12543,14 @@ d is:  (0, 0, 0, 0) 0 (1, 0, 0, 0) 1
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">q_sum</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span>
-
-<span class="n">q_n0</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">q_n1</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">q_total</span> <span class="o">=</span> <span class="n">q_sum</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n1</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n0</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;u|d&gt;: &quot;</span><span class="p">,</span> <span class="n">q_total</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ud</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="n">ud_sum</span> <span class="o">=</span> <span class="n">ud</span><span class="o">.</span><span class="n">summation</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;u|d&gt;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ud</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum: &quot;</span><span class="p">,</span> <span class="n">ud_sum</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12576,7 +12567,10 @@ d is:  (0, 0, 0, 0) 0 (1, 0, 0, 0) 1
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;u|d&gt;:  (0, 0, 0, 0) Q+0.*x1+1.*x0
+<pre>&lt;u|d&gt;
+n=1: (0, 0, 0, 0) 1.*x0
+n=2: (0, 0, 0, 0) 0.*x1
+sum:  (0, 0, 0, 0) Q+1.*x0+0.*x1
 </pre>
 </div>
 </div>
@@ -12596,21 +12590,18 @@ d is:  (0, 0, 0, 0) 0 (1, 0, 0, 0) 1
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sqrt_half</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="n">sp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sqrt_2</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="n">sp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
 
-<span class="n">ud0_sum_normalized</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sqrt_half</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sqrt_half</span><span class="p">))</span>
-<span class="n">ud1_sum_normalized</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sqrt_half</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sqrt_half</span><span class="p">))</span>
-<span class="n">ud0_dif_normalized</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sqrt_half</span><span class="p">)</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sqrt_half</span><span class="p">))</span>
-<span class="n">ud1_dif_normalized</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sqrt_half</span><span class="p">)</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sqrt_half</span><span class="p">))</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QHStates</span><span class="p">([</span><span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="n">sp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="n">sp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])])</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QHStates</span><span class="p">([</span><span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="n">sp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="o">-</span> <span class="n">sp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])])</span>
 
-<span class="n">r</span> <span class="o">=</span> <span class="p">[</span><span class="n">ud0_sum_normalized</span><span class="p">,</span> <span class="n">ud1_sum_normalized</span><span class="p">]</span>
-<span class="n">L</span> <span class="o">=</span> <span class="p">[</span><span class="n">ud0_dif_normalized</span><span class="p">,</span> <span class="n">ud1_dif_normalized</span><span class="p">]</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;r is: &quot;</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;L is: &quot;</span><span class="p">,</span> <span class="n">L</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">L</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12627,8 +12618,12 @@ d is:  (0, 0, 0, 0) 0 (1, 0, 0, 0) 1
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>r is:  (0.707106781186548, 0, 0, 0) 1xQ+0xQ (0.707106781186548, 0, 0, 0) 0xQ+1xQ
-L is:  (0.707106781186548, 0, 0, 0) 1xQ-0xQ (-0.707106781186548, 0, 0, 0) 0xQ-1xQ
+<pre>r
+n=1: (0.707106781186548, 0, 0, 0) Q
+n=2: (0.707106781186548, 0, 0, 0) Q
+L
+n=1: (0.707106781186548, 0, 0, 0) Q
+n=2: (-0.707106781186548, 0, 0, 0) Q
 </pre>
 </div>
 </div>
@@ -12639,16 +12634,29 @@ L is:  (0.707106781186548, 0, 0, 0) 1xQ-0xQ (-0.707106781186548, 0, 0, 0) 0xQ-1x
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">q_sum</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span>
-
-<span class="n">q_n0</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">q_n1</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">q_total</span> <span class="o">=</span> <span class="n">q_sum</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n1</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n0</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;r|r&gt;: &quot;</span><span class="p">,</span> <span class="n">q_total</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rr</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="n">rr_sum</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">summation</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;r|r&gt;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rr_sum</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="n">LL</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+<span class="n">LL_sum</span> <span class="o">=</span> <span class="n">LL</span><span class="o">.</span><span class="n">summation</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;L|L&gt;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">LL</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">LL_sum</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="n">rL</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+<span class="n">rL_sum</span> <span class="o">=</span> <span class="n">rL</span><span class="o">.</span><span class="n">summation</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;r|L&gt;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rL</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rL_sum</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12665,81 +12673,23 @@ L is:  (0.707106781186548, 0, 0, 0) 1xQ-0xQ (-0.707106781186548, 0, 0, 0) 0xQ-1x
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;r|r&gt;:  (1.00000000000000, 0, 0, 0) Q+0xQ+1xQ.*x0xQ+1xQ+1xQ+0xQ.*x1xQ+0xQ
-</pre>
-</div>
-</div>
+<pre>&lt;r|r&gt;
+n=1: (0.500000000000000, 0, 0, 0) Q.*xQ
+n=2: (0.500000000000000, 0, 0, 0) Q.*xQ
+sum
+(1.00000000000000, 0, 0, 0) Q+Q.*xQ+Q.*xQ
 
-</div>
-</div>
+&lt;L|L&gt;
+n=1: (0.500000000000000, 0, 0, 0) Q.*xQ
+n=2: (0.500000000000000, 0, 0, 0) Q.*xQ
+sum
+(1.00000000000000, 0, 0, 0) Q+Q.*xQ+Q.*xQ
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">q_sum</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span>
-
-<span class="n">q_n0</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">q_n1</span> <span class="o">=</span> <span class="n">L</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">q_total</span> <span class="o">=</span> <span class="n">q_sum</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n1</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n0</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;L|L&gt;: &quot;</span><span class="p">,</span> <span class="n">q_total</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;L|L&gt;:  (1.00000000000000, 0, 0, 0) Q+0xQ-1xQ.*x0xQ-1xQ+1xQ-0xQ.*x1xQ-0xQ
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">q_sum</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span>
-
-<span class="n">q_n0</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">q_n1</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">q_total</span> <span class="o">=</span> <span class="n">q_sum</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n1</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n0</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;r|L&gt;: &quot;</span><span class="p">,</span> <span class="n">q_total</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;r|L&gt;:  (0, 0, 0, 0) Q+0xQ+1xQ.*x0xQ-1xQ+1xQ+0xQ.*x1xQ-0xQ
+&lt;r|L&gt;
+n=1: (0.500000000000000, 0, 0, 0) Q.*xQ
+n=2: (-0.500000000000000, 0, 0, 0) Q.*xQ
+sum
+(0, 0, 0, 0) Q+Q.*xQ+Q.*xQ
 </pre>
 </div>
 </div>
@@ -12761,18 +12711,23 @@ L is:  (0.707106781186548, 0, 0, 0) 1xQ-0xQ (-0.707106781186548, 0, 0, 0) 0xQ-1x
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now make d imaginary like so:</p>
+<p>The final calculation for chapter 2 is like the one for $r$ and $L$ except one uses an arbitrarily chosen imaginary value - it could point any direction in 3D space - like so:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">di</span> <span class="o">=</span> <span class="p">[</span><span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span><span class="o">.</span><span class="n">q_0</span><span class="p">(),</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span><span class="o">.</span><span class="n">q_1</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span><span class="o">.</span><span class="n">q_i</span><span class="p">())]</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;di: &quot;</span><span class="p">,</span> <span class="n">di</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">di</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QHStates</span><span class="p">([</span><span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="n">sp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])])</span>
+<span class="n">o</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QHStates</span><span class="p">([</span><span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="n">sp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span> <span class="n">sp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12789,57 +12744,12 @@ L is:  (0.707106781186548, 0, 0, 0) 1xQ-0xQ (-0.707106781186548, 0, 0, 0) 0xQ-1x
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>di:  (0, 0, 0, 0) 0 (0, 1, 0, 0) 1xi
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The final calculation for chapter 2 is like the one for $r$ and $L$ except one uses di:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">udi0_sum_normalized</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sqrt_half</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">di</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sqrt_half</span><span class="p">))</span>
-<span class="n">udi1_sum_normalized</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sqrt_half</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">di</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sqrt_half</span><span class="p">))</span>
-<span class="n">udi0_dif_normalized</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sqrt_half</span><span class="p">)</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">di</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sqrt_half</span><span class="p">))</span>
-<span class="n">udi1_dif_normalized</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sqrt_half</span><span class="p">)</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">di</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sqrt_half</span><span class="p">))</span>
-
-<span class="n">i</span> <span class="o">=</span> <span class="p">[</span><span class="n">udi0_sum_normalized</span><span class="p">,</span> <span class="n">udi1_sum_normalized</span><span class="p">]</span>
-<span class="n">o</span> <span class="o">=</span> <span class="p">[</span><span class="n">udi0_dif_normalized</span><span class="p">,</span> <span class="n">udi1_dif_normalized</span><span class="p">]</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;i is: &quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;o is: &quot;</span><span class="p">,</span> <span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>i is:  (0.707106781186548, 0, 0, 0) 1xQ+0xQ (0, 0.707106781186548, 0, 0) 0xQ+1xixQ
-o is:  (0.707106781186548, 0, 0, 0) 1xQ-0xQ (0, -0.707106781186548, 0, 0) 0xQ-1xixQ
+<pre>i
+n=1: (0.707106781186548, 0, 0, 0) Q
+n=2: (0, 0.707106781186548, 0, 0) Q
+o
+n=1: (0.707106781186548, 0, 0, 0) Q
+n=2: (0, -0.707106781186548, 0, 0) Q
 </pre>
 </div>
 </div>
@@ -12850,16 +12760,29 @@ o is:  (0.707106781186548, 0, 0, 0) 1xQ-0xQ (0, -0.707106781186548, 0, 0) 0xQ-1x
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">q_sum</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span>
-
-<span class="n">q_n0</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">q_n1</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">q_total</span> <span class="o">=</span> <span class="n">q_sum</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n1</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n0</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;i|i&gt;: &quot;</span><span class="p">,</span> <span class="n">q_total</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ii</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="n">ii_sum</span> <span class="o">=</span> <span class="n">ii</span><span class="o">.</span><span class="n">summation</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;i|i&gt;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ii_sum</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="n">oo</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+<span class="n">oo_sum</span> <span class="o">=</span> <span class="n">oo</span><span class="o">.</span><span class="n">summation</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;o|o&gt;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">oo</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">oo_sum</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="n">io</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+<span class="n">io_sum</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">summation</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;i|o&gt;&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">io</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">io_sum</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12876,81 +12799,23 @@ o is:  (0.707106781186548, 0, 0, 0) 1xQ-0xQ (0, -0.707106781186548, 0, 0) 0xQ-1x
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;i|i&gt;:  (1.00000000000000, 0, 0, 0) Q+0xQ+1xixQ.*x0xQ+1xixQ+1xQ+0xQ.*x1xQ+0xQ
-</pre>
-</div>
-</div>
+<pre>&lt;i|i&gt;
+n=1: (0.500000000000000, 0, 0, 0) Q.*xQ
+n=2: (0.500000000000000, 0, 0, 0) Q.*xQ
+sum
+(1.00000000000000, 0, 0, 0) Q+Q.*xQ+Q.*xQ
 
-</div>
-</div>
+&lt;o|o&gt;
+n=1: (0.500000000000000, 0, 0, 0) Q.*xQ
+n=2: (0.500000000000000, 0, 0, 0) Q.*xQ
+sum
+(1.00000000000000, 0, 0, 0) Q+Q.*xQ+Q.*xQ
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">q_sum</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span>
-
-<span class="n">q_n0</span> <span class="o">=</span> <span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">q_n1</span> <span class="o">=</span> <span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">q_total</span> <span class="o">=</span> <span class="n">q_sum</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n1</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n0</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;o|o&gt;: &quot;</span><span class="p">,</span> <span class="n">q_total</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;o|o&gt;:  (1.00000000000000, 0, 0, 0) Q+0xQ-1xixQ.*x0xQ-1xixQ+1xQ-0xQ.*x1xQ-0xQ
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">q_sum</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">()</span>
-
-<span class="n">q_n0</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">q_n1</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">o</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">q_total</span> <span class="o">=</span> <span class="n">q_sum</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n1</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_n0</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;i|o&gt;: &quot;</span><span class="p">,</span> <span class="n">q_total</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;i|o&gt;:  (0, 0, 0, 0) Q+0xQ+1xixQ.*x0xQ-1xixQ+1xQ+0xQ.*x1xQ-0xQ
+&lt;i|o&gt;
+n=1: (0.500000000000000, 0, 0, 0) Q.*xQ
+n=2: (-0.500000000000000, 0, 0, 0) Q.*xQ
+sum
+(0, 0, 0, 0) Q+Q.*xQ+Q.*xQ
 </pre>
 </div>
 </div>

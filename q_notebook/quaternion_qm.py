@@ -167,181 +167,132 @@ print(AC_plus_BC_conj2.dif(AC_plus_BC_conj2))
 # 
 # A perspective I will explore here is that a (possibly infinite) series of quaternions has the same algebraic properties of Hilbert spaces when one uses the Euclidean product, $A^* B = \sum_{1}^{n} a_n^* b_n$.
 
-# In[14]:
-
-
-u = [qt.QH().q_1(), qt.QH().q_0()]
-d = [qt.QH().q_0(), qt.QH().q_1()]
-
-print("u is: ", u[0], u[1])
-print("d is: ", d[0], d[1])
-
-
-# In[15]:
+# In[37]:
 
 
 q0 = qt.QH().q_0()
 q1 = qt.QH().q_1()
-qi = qt.QH().q_1()
-sqrt_half = qt.QH([sp.sqrt(1/2), 0, 0, 0])
 
-us = qt.QHStates([q1, q0])
-ds = qt.QHStates([q0, q1])
+u = qt.QHStates([q1, q0])
+d = qt.QHStates([q0, q1])
+
+print("u")
+print(u)
+print("d")
+print(d)
 
 
 # Calculate $<u|u>$, $<d|d>$ and $<u|d>$:
 
-# In[16]:
+# In[38]:
 
 
-q_sum = qt.QH()
-
-q_n0 = u[0].Euclidean_product(u[0])
-q_n1 = u[1].Euclidean_product(u[1])
-q_total = q_sum.add(q_n1).add(q_n0)
-
-print("<u|u>: ", q_total)
-
-
-# In[17]:
+uu = u.Euclidean_product(u)
+uu_sum = uu.summation()
+print("<u|u>")
+print(uu)
+print("sum")
+print(uu_norm)
 
 
-q_sum = qt.QH()
-
-q_n0 = d[0].Euclidean_product(d[0])
-q_n1 = d[1].Euclidean_product(d[1])
-q_total = q_sum.add(q_n1).add(q_n0)
-
-print("<d|d>: ", q_total)
+# In[43]:
 
 
-# In[18]:
+dd = d.Euclidean_product(d)
+dd_sum = dd.summation()
+print("<d|d>")
+print(dd)
+print("sum: ", dd_sum)
 
 
-q_sum = qt.QH()
+# In[41]:
 
-q_n0 = u[0].Euclidean_product(d[0])
-q_n1 = u[1].Euclidean_product(d[1])
-q_total = q_sum.add(q_n1).add(q_n0)
 
-print("<u|d>: ", q_total)
+ud = u.Euclidean_product(d)
+ud_sum = ud.summation()
+print("<u|d>")
+print(ud)
+print("sum: ", ud_sum)
 
 
 # The next pair of states uses $u$ and $d$ like so (TTM, page 41):
 
-# In[19]:
+# In[48]:
 
 
-sqrt_half = qt.QH([sp.sqrt(1/2), 0, 0, 0])
+sqrt_2 = qt.QH([sp.sqrt(1/2), 0, 0, 0])
 
-ud0_sum_normalized = u[0].product(sqrt_half).add(d[0].product(sqrt_half))
-ud1_sum_normalized = u[1].product(sqrt_half).add(d[1].product(sqrt_half))
-ud0_dif_normalized = u[0].product(sqrt_half).dif(d[0].product(sqrt_half))
-ud1_dif_normalized = u[1].product(sqrt_half).dif(d[1].product(sqrt_half))
+r = qt.QHStates([qt.QH([sp.sqrt(1/2),0,0,0]), qt.QH([sp.sqrt(1/2),0,0,0])])
+L = qt.QHStates([qt.QH([sp.sqrt(1/2),0,0,0]), qt.QH([- sp.sqrt(1/2),0,0,0])])
 
-r = [ud0_sum_normalized, ud1_sum_normalized]
-L = [ud0_dif_normalized, ud1_dif_normalized]
-
-print("r is: ", r[0], r[1])
-print("L is: ", L[0], L[1])
+print("r")
+print(r)
+print("L")
+print(L)
 
 
-# In[20]:
+# In[54]:
 
 
-q_sum = qt.QH()
-
-q_n0 = r[0].Euclidean_product(r[0])
-q_n1 = r[1].Euclidean_product(r[1])
-q_total = q_sum.add(q_n1).add(q_n0)
-
-print("<r|r>: ", q_total)
-
-
-# In[21]:
-
-
-q_sum = qt.QH()
-
-q_n0 = L[0].Euclidean_product(L[0])
-q_n1 = L[1].Euclidean_product(L[1])
-q_total = q_sum.add(q_n1).add(q_n0)
-
-print("<L|L>: ", q_total)
-
-
-# In[22]:
-
-
-q_sum = qt.QH()
-
-q_n0 = r[0].Euclidean_product(L[0])
-q_n1 = r[1].Euclidean_product(L[1])
-q_total = q_sum.add(q_n1).add(q_n0)
-
-print("<r|L>: ", q_total)
+rr = r.Euclidean_product(r)
+rr_sum = rr.summation()
+print("<r|r>")
+print(rr)
+print("sum")
+print(rr_sum)
+print()
+LL = L.Euclidean_product(L)
+LL_sum = LL.summation()
+print("<L|L>")
+print(LL)
+print("sum")
+print(LL_sum)
+print()
+rL = r.Euclidean_product(L)
+rL_sum = rL.summation()
+print("<r|L>")
+print(rL)
+print("sum")
+print(rL_sum)
 
 
 # Orthonormal again, as hoped for.
 
-# Now make d imaginary like so:
+# The final calculation for chapter 2 is like the one for $r$ and $L$ except one uses an arbitrarily chosen imaginary value - it could point any direction in 3D space - like so:
 
-# In[23]:
-
-
-di = [qt.QH().q_0(), qt.QH().q_1().product(qt.QH().q_i())]
-print("di: ", di[0], di[1])
+# In[52]:
 
 
-# The final calculation for chapter 2 is like the one for $r$ and $L$ except one uses di:
+i = qt.QHStates([qt.QH([sp.sqrt(1/2),0,0,0]), qt.QH([0, sp.sqrt(1/2), 0, 0])])
+o = qt.QHStates([qt.QH([sp.sqrt(1/2),0,0,0]), qt.QH([0, - sp.sqrt(1/2), 0, 0])])
 
-# In[24]:
-
-
-udi0_sum_normalized = u[0].product(sqrt_half).add(di[0].product(sqrt_half))
-udi1_sum_normalized = u[1].product(sqrt_half).add(di[1].product(sqrt_half))
-udi0_dif_normalized = u[0].product(sqrt_half).dif(di[0].product(sqrt_half))
-udi1_dif_normalized = u[1].product(sqrt_half).dif(di[1].product(sqrt_half))
-
-i = [udi0_sum_normalized, udi1_sum_normalized]
-o = [udi0_dif_normalized, udi1_dif_normalized]
-
-print("i is: ", i[0], i[1])
-print("o is: ", o[0], o[1])
+print("i")
+print(i)
+print("o")
+print(o)
 
 
-# In[25]:
+# In[53]:
 
 
-q_sum = qt.QH()
-
-q_n0 = i[0].Euclidean_product(i[0])
-q_n1 = i[1].Euclidean_product(i[1])
-q_total = q_sum.add(q_n1).add(q_n0)
-
-print("<i|i>: ", q_total)
-
-
-# In[26]:
-
-
-q_sum = qt.QH()
-
-q_n0 = o[0].Euclidean_product(o[0])
-q_n1 = o[1].Euclidean_product(o[1])
-q_total = q_sum.add(q_n1).add(q_n0)
-
-print("<o|o>: ", q_total)
-
-
-# In[27]:
-
-
-q_sum = qt.QH()
-
-q_n0 = i[0].Euclidean_product(o[0])
-q_n1 = i[1].Euclidean_product(o[1])
-q_total = q_sum.add(q_n1).add(q_n0)
-
-print("<i|o>: ", q_total)
+ii = i.Euclidean_product(i)
+ii_sum = ii.summation()
+print("<i|i>")
+print(ii)
+print("sum")
+print(ii_sum)
+print()
+oo = o.Euclidean_product(o)
+oo_sum = oo.summation()
+print("<o|o>")
+print(oo)
+print("sum")
+print(oo_sum)
+print()
+io = i.Euclidean_product(o)
+io_sum = io.summation()
+print("<i|o>")
+print(io)
+print("sum")
+print(io_sum)
 
