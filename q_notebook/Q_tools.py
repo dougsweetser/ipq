@@ -4316,7 +4316,7 @@ for q in qha.range(t1,qd,10):
 
 # Any quaternion can be viewed as the sum of n other quaternions. This is common to see in quantum mechanics, whose needs are driving the development of this class and its methods.
 
-# In[33]:
+# In[61]:
 
 
 class QHStates(QH):
@@ -4326,7 +4326,9 @@ class QHStates(QH):
         
         self.qs = qs
         
-        if qs is not None:
+        if qs is None:
+            self.d, self.dim, self.dimensions = 0, 0, 0
+        else:
             self.d, self.dim, self.dimensions = len(qs), len(qs), len(qs)
         
     def __str__(self):
@@ -4526,7 +4528,7 @@ class QHStates(QH):
         return norm
 
 
-# In[34]:
+# In[64]:
 
 
 class TestQHStates(unittest.TestCase):
@@ -4597,6 +4599,18 @@ class TestQHStates(unittest.TestCase):
         self.assertTrue(AOp.qs[0].equals(QH([13, 0, 0, 0])))
         self.assertTrue(AOp.qs[1].equals(QH([0, 0, 11, 0])))
         self.assertTrue(AOp.qs[2].equals(QH([12, 0, 0, 0])))
+        
+    def test_product_AOp4i(self):
+        AOp4i = QHStates().product(bra=self.A, operator=self.Op4i)
+        print("A Op4i: ", AOp4i)
+        self.assertTrue(AOp4i.qs[0].equals(QH([0, 16, 0, 0])))
+        self.assertTrue(AOp4i.qs[1].equals(QH([-4, 0, 0, 0])))
+                        
+    def test_Euclidean_product_AOp4i(self):
+        AOp4i = QHStates().Euclidean_product(bra=self.A, operator=self.Op4i)
+        print("A* Op4i: ", AOp4i)
+        self.assertTrue(AOp4i.qs[0].equals(QH([0, 16, 0, 0])))
+        self.assertTrue(AOp4i.qs[1].equals(QH([4, 0, 0, 0])))
 
     def test_product_OpB(self):
         OpB = QHStates().product(ket=self.B, operator=self.Op)
@@ -4621,9 +4635,45 @@ class TestQHStates(unittest.TestCase):
         print("A* Op B: ", AOpB)
         self.assertTrue(AOpB.qs[0].equals(QH([0, 0, 4, -24])))
         self.assertTrue(AOpB.qs[1].equals(QH([-3, 12, 4, 0])))
+        
+    def test_product_AOp4i(self):
+        AOp4i = QHStates().product(bra=self.A, operator=self.Op4i)
+        print("A Op4i: ", AOp4i)
+        self.assertTrue(AOp4i.qs[0].equals(QH([0, 16, 0, 0])))
+        self.assertTrue(AOp4i.qs[1].equals(QH([-4, 0, 0, 0])))
+                        
+    def test_Euclidean_product_AOp4i(self):
+        AOp4i = QHStates().Euclidean_product(bra=self.A, operator=self.Op4i)
+        print("A* Op4i: ", AOp4i)
+        self.assertTrue(AOp4i.qs[0].equals(QH([0, 16, 0, 0])))
+        self.assertTrue(AOp4i.qs[1].equals(QH([4, 0, 0, 0])))
+
+    def test_product_Op4iB(self):
+        Op4iB = QHStates().product(ket=self.B, operator=self.Op4i)
+        print("Op4i B: ", Op4iB)
+        self.assertTrue(Op4iB.qs[0].equals(QH([0, 0, 0, 4])))
+        self.assertTrue(Op4iB.qs[1].equals(QH([0, 0, -8, 0])))
+        self.assertTrue(Op4iB.qs[2].equals(QH([-12, 0, 0, 0])))
+                        
+    def test_Euclidean_product_Op4iB(self):
+        Op4iB = QHStates().Euclidean_product(ket=self.B, operator=self.Op4i)
+        print("Op4i B: ", Op4iB)
+        self.assertTrue(Op4iB.qs[0].equals(QH([0, 0, 0, 4])))
+        self.assertTrue(Op4iB.qs[1].equals(QH([0, 0, -8, 0])))
+        self.assertTrue(Op4iB.qs[2].equals(QH([-12, 0, 0, 0])))
+
+    def test_product_AOp4iB(self):
+        AOp4iB = QHStates().product(bra=self.A, operator=self.Op4i, ket=self.B)
+        print("A* Op4i B: ", AOp4iB)
+        self.assertTrue(AOp4iB.dim == 0)
+                        
+    def test_Euclidean_product_AOp4iB(self):
+        AOp4iB = QHStates().Euclidean_product(bra=self.A, operator=self.Op4i, ket=self.B)
+        print("A* Op4i B: ", AOp4iB)
+        self.assertTrue(AOp4iB.dim == 0)
 
 
-# In[35]:
+# In[65]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHStates())
@@ -4638,7 +4688,7 @@ unittest.TextTestRunner().run(suite);
 # 
 # by old fashioned cut and paste with minor tweaks (boring).
 
-# In[36]:
+# In[66]:
 
 
 class QHaStates(QHa):
@@ -4648,7 +4698,9 @@ class QHaStates(QHa):
         
         self.qs = qs
         
-        if qs is not None:
+        if qs is None:
+            self.d, self.dim, self.dimensions = 0, 0, 0
+        else:
             self.d, self.dim, self.dimensions = len(qs), len(qs), len(qs)
         
     def __str__(self):
@@ -4915,6 +4967,42 @@ class TestQHaStates(unittest.TestCase):
         print("A* Op B: ", AOpB)
         self.assertTrue(AOpB.qs[0].equals(QHa([0, 0, 4, -24])))
         self.assertTrue(AOpB.qs[1].equals(QHa([-3, 12, 4, 0])))
+        
+    def test_product_AOp4i(self):
+        AOp4i = QHStates().product(bra=self.A, operator=self.Op4i)
+        print("A Op4i: ", AOp4i)
+        self.assertTrue(AOp4i.qs[0].equals(QH([0, 16, 0, 0])))
+        self.assertTrue(AOp4i.qs[1].equals(QH([-4, 0, 0, 0])))
+                        
+    def test_Euclidean_product_AOp4i(self):
+        AOp4i = QHStates().Euclidean_product(bra=self.A, operator=self.Op4i)
+        print("A* Op4i: ", AOp4i)
+        self.assertTrue(AOp4i.qs[0].equals(QH([0, 16, 0, 0])))
+        self.assertTrue(AOp4i.qs[1].equals(QH([4, 0, 0, 0])))
+
+    def test_product_Op4iB(self):
+        Op4iB = QHStates().product(ket=self.B, operator=self.Op4i)
+        print("Op4i B: ", Op4iB)
+        self.assertTrue(Op4iB.qs[0].equals(QH([0, 0, 0, 4])))
+        self.assertTrue(Op4iB.qs[1].equals(QH([0, 0, -8, 0])))
+        self.assertTrue(Op4iB.qs[2].equals(QH([-12, 0, 0, 0])))
+                        
+    def test_Euclidean_product_Op4iB(self):
+        Op4iB = QHStates().Euclidean_product(ket=self.B, operator=self.Op4i)
+        print("Op4i B: ", Op4iB)
+        self.assertTrue(Op4iB.qs[0].equals(QH([0, 0, 0, 4])))
+        self.assertTrue(Op4iB.qs[1].equals(QH([0, 0, -8, 0])))
+        self.assertTrue(Op4iB.qs[2].equals(QH([-12, 0, 0, 0])))
+
+    def test_product_AOp4iB(self):
+        AOp4iB = QHStates().product(bra=self.A, operator=self.Op4i, ket=self.B)
+        print("A* Op4i B: ", AOp4iB)
+        self.assertTrue(AOp4iB.dim == 0)
+                        
+    def test_Euclidean_product_AOp4iB(self):
+        AOp4iB = QHStates().Euclidean_product(bra=self.A, operator=self.Op4i, ket=self.B)
+        print("A* Op4i B: ", AOp4iB)
+        self.assertTrue(AOp4iB.dim == 0)
 
 
 # In[38]:
