@@ -4316,7 +4316,7 @@ for q in qha.range(t1,qd,10):
 
 # Any quaternion can be viewed as the sum of n other quaternions. This is common to see in quantum mechanics, whose needs are driving the development of this class and its methods.
 
-# In[61]:
+# In[33]:
 
 
 class QHStates(QH):
@@ -4528,7 +4528,7 @@ class QHStates(QH):
         return norm
 
 
-# In[64]:
+# In[34]:
 
 
 class TestQHStates(unittest.TestCase):
@@ -4673,7 +4673,7 @@ class TestQHStates(unittest.TestCase):
         self.assertTrue(AOp4iB.dim == 0)
 
 
-# In[65]:
+# In[35]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHStates())
@@ -4688,7 +4688,7 @@ unittest.TextTestRunner().run(suite);
 # 
 # by old fashioned cut and paste with minor tweaks (boring).
 
-# In[66]:
+# In[36]:
 
 
 class QHaStates(QHa):
@@ -4752,6 +4752,21 @@ class QHaStates(QHa):
             new_states.append(bra.dif(ket))
             
         return(QHaStates(new_states))  
+    
+    @staticmethod
+    def diagonal(q, dim):
+        """Make a state dim*dim with q along the 'diagonal'."""
+        
+        diagonal = []
+        
+        for i in range(dim):
+            for j in range(dim):
+                if i == j:
+                    diagonal.append(q)
+                else:
+                    diagonal.append(QHa().q_0())
+        
+        return QHaStates(diagonal)
     
     @staticmethod
     def product(bra=None, ket=None, operator=None, kind=""):
@@ -4969,38 +4984,38 @@ class TestQHaStates(unittest.TestCase):
         self.assertTrue(AOpB.qs[1].equals(QHa([-3, 12, 4, 0])))
         
     def test_product_AOp4i(self):
-        AOp4i = QHStates().product(bra=self.A, operator=self.Op4i)
+        AOp4i = QHaStates().product(bra=self.A, operator=self.Op4i)
         print("A Op4i: ", AOp4i)
-        self.assertTrue(AOp4i.qs[0].equals(QH([0, 16, 0, 0])))
-        self.assertTrue(AOp4i.qs[1].equals(QH([-4, 0, 0, 0])))
+        self.assertTrue(AOp4i.qs[0].equals(QHa([0, 16, 0, 0])))
+        self.assertTrue(AOp4i.qs[1].equals(QHa([-4, 0, 0, 0])))
                         
     def test_Euclidean_product_AOp4i(self):
-        AOp4i = QHStates().Euclidean_product(bra=self.A, operator=self.Op4i)
+        AOp4i = QHaStates().Euclidean_product(bra=self.A, operator=self.Op4i)
         print("A* Op4i: ", AOp4i)
-        self.assertTrue(AOp4i.qs[0].equals(QH([0, 16, 0, 0])))
-        self.assertTrue(AOp4i.qs[1].equals(QH([4, 0, 0, 0])))
+        self.assertTrue(AOp4i.qs[0].equals(QHa([0, 16, 0, 0])))
+        self.assertTrue(AOp4i.qs[1].equals(QHa([4, 0, 0, 0])))
 
     def test_product_Op4iB(self):
-        Op4iB = QHStates().product(ket=self.B, operator=self.Op4i)
+        Op4iB = QHaStates().product(ket=self.B, operator=self.Op4i)
         print("Op4i B: ", Op4iB)
-        self.assertTrue(Op4iB.qs[0].equals(QH([0, 0, 0, 4])))
-        self.assertTrue(Op4iB.qs[1].equals(QH([0, 0, -8, 0])))
-        self.assertTrue(Op4iB.qs[2].equals(QH([-12, 0, 0, 0])))
+        self.assertTrue(Op4iB.qs[0].equals(QHa([0, 0, 0, 4])))
+        self.assertTrue(Op4iB.qs[1].equals(QHa([0, 0, -8, 0])))
+        self.assertTrue(Op4iB.qs[2].equals(QHa([-12, 0, 0, 0])))
                         
     def test_Euclidean_product_Op4iB(self):
-        Op4iB = QHStates().Euclidean_product(ket=self.B, operator=self.Op4i)
+        Op4iB = QHaStates().Euclidean_product(ket=self.B, operator=self.Op4i)
         print("Op4i B: ", Op4iB)
-        self.assertTrue(Op4iB.qs[0].equals(QH([0, 0, 0, 4])))
-        self.assertTrue(Op4iB.qs[1].equals(QH([0, 0, -8, 0])))
-        self.assertTrue(Op4iB.qs[2].equals(QH([-12, 0, 0, 0])))
+        self.assertTrue(Op4iB.qs[0].equals(QHa([0, 0, 0, 4])))
+        self.assertTrue(Op4iB.qs[1].equals(QHa([0, 0, -8, 0])))
+        self.assertTrue(Op4iB.qs[2].equals(QHa([-12, 0, 0, 0])))
 
     def test_product_AOp4iB(self):
-        AOp4iB = QHStates().product(bra=self.A, operator=self.Op4i, ket=self.B)
+        AOp4iB = QHaStates().product(bra=self.A, operator=self.Op4i, ket=self.B)
         print("A* Op4i B: ", AOp4iB)
         self.assertTrue(AOp4iB.dim == 0)
                         
     def test_Euclidean_product_AOp4iB(self):
-        AOp4iB = QHStates().Euclidean_product(bra=self.A, operator=self.Op4i, ket=self.B)
+        AOp4iB = QHaStates().Euclidean_product(bra=self.A, operator=self.Op4i, ket=self.B)
         print("A* Op4i B: ", AOp4iB)
         self.assertTrue(AOp4iB.dim == 0)
 
@@ -5008,23 +5023,11 @@ class TestQHaStates(unittest.TestCase):
 # In[38]:
 
 
-A = QHaStates([QHa([4,0,0,0]),QHa([0,1,0,0])])
-B = QHaStates([QHa([0,0,1,0]),QHa([0,0,0,2]),QHa([0,3,0,0])])
-Op = QHaStates([QHa([3,0,0,0]),QHa([0,1,0,0]),QHa([0,0,2,0]),QHa([0,0,0,3]),QHa([2,0,0,0]),QHa([0,4,0,0])])
-Op4i = QHaStates([QHa([0,4,0,0])])
-print(QHaStates().product(bra=A, operator=Op)) 
-print(A.conj()) 
-print(QHaStates().Euclidean_product(bra=A, operator=Op)) 
-
-
-# In[39]:
-
-
 suite = unittest.TestLoader().loadTestsFromModule(TestQHaStates())
 unittest.TextTestRunner().run(suite);
 
 
-# In[40]:
+# In[39]:
 
 
 class Q8States(Q8):
@@ -5034,7 +5037,9 @@ class Q8States(Q8):
         
         self.qs = qs
         
-        if qs is not None:
+        if qs is None:
+            self.d, self.dim, self.dimensions = 0, 0, 0
+        else:
             self.d, self.dim, self.dimensions = len(qs), len(qs), len(qs)
         
     def __str__(self):
@@ -5086,6 +5091,21 @@ class Q8States(Q8):
             new_states.append(bra.dif(ket))
             
         return(Q8States(new_states))  
+    
+    @staticmethod
+    def diagonal(q, dim):
+        """Make a state dim*dim with q along the 'diagonal'."""
+        
+        diagonal = []
+        
+        for i in range(dim):
+            for j in range(dim):
+                if i == j:
+                    diagonal.append(q)
+                else:
+                    diagonal.append(Q8().q_0())
+        
+        return Q8States(diagonal)
     
     @staticmethod
     def product(bra=None, ket=None, operator=None, kind=""):
@@ -5214,7 +5234,7 @@ class Q8States(Q8):
         return norm
 
 
-# In[41]:
+# In[40]:
 
 
 class TestQ8States(unittest.TestCase):
@@ -5310,16 +5330,52 @@ class TestQ8States(unittest.TestCase):
         print("A* Op B: ", AOpB)
         self.assertTrue(AOpB.qs[0].equals(Q8([0, 0, 4, -24])))
         self.assertTrue(AOpB.qs[1].equals(Q8([-3, 12, 4, 0])))
+        
+    def test_product_AOp4i(self):
+        AOp4i = Q8States().product(bra=self.A, operator=self.Op4i)
+        print("A Op4i: ", AOp4i)
+        self.assertTrue(AOp4i.qs[0].equals(Q8([0, 16, 0, 0])))
+        self.assertTrue(AOp4i.qs[1].equals(Q8([-4, 0, 0, 0])))
+                        
+    def test_Euclidean_product_AOp4i(self):
+        AOp4i = Q8States().Euclidean_product(bra=self.A, operator=self.Op4i)
+        print("A* Op4i: ", AOp4i)
+        self.assertTrue(AOp4i.qs[0].equals(Q8([0, 16, 0, 0])))
+        self.assertTrue(AOp4i.qs[1].equals(Q8([4, 0, 0, 0])))
+
+    def test_product_Op4iB(self):
+        Op4iB = Q8States().product(ket=self.B, operator=self.Op4i)
+        print("Op4i B: ", Op4iB)
+        self.assertTrue(Op4iB.qs[0].equals(Q8([0, 0, 0, 4])))
+        self.assertTrue(Op4iB.qs[1].equals(Q8([0, 0, -8, 0])))
+        self.assertTrue(Op4iB.qs[2].equals(Q8([-12, 0, 0, 0])))
+                        
+    def test_Euclidean_product_Op4iB(self):
+        Op4iB = Q8States().Euclidean_product(ket=self.B, operator=self.Op4i)
+        print("Op4i B: ", Op4iB)
+        self.assertTrue(Op4iB.qs[0].equals(Q8([0, 0, 0, 4])))
+        self.assertTrue(Op4iB.qs[1].equals(Q8([0, 0, -8, 0])))
+        self.assertTrue(Op4iB.qs[2].equals(Q8([-12, 0, 0, 0])))
+
+    def test_product_AOp4iB(self):
+        AOp4iB = Q8States().product(bra=self.A, operator=self.Op4i, ket=self.B)
+        print("A* Op4i B: ", AOp4iB)
+        self.assertTrue(AOp4iB.dim == 0)
+                        
+    def test_Euclidean_product_AOp4iB(self):
+        AOp4iB = Q8States().Euclidean_product(bra=self.A, operator=self.Op4i, ket=self.B)
+        print("A* Op4i B: ", AOp4iB)
+        self.assertTrue(AOp4iB.dim == 0)
 
 
-# In[42]:
+# In[41]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8States())
 unittest.TextTestRunner().run(suite);
 
 
-# In[43]:
+# In[42]:
 
 
 class Q8aStates(Q8a):
@@ -5329,7 +5385,9 @@ class Q8aStates(Q8a):
         
         self.qs = qs
         
-        if qs is not None:
+        if qs is None:
+            self.d, self.dim, self.dimensions = 0, 0, 0
+        else:
             self.d, self.dim, self.dimensions = len(qs), len(qs), len(qs)
         
     def __str__(self):
@@ -5380,7 +5438,22 @@ class Q8aStates(Q8a):
         for bra, ket in zip(self.qs, ket.qs):
             new_states.append(bra.dif(ket))
             
-        return(Q8aStates(new_states))  
+        return(Q8aStates(new_states)) 
+    
+    @staticmethod
+    def diagonal(q, dim):
+        """Make a state dim*dim with q along the 'diagonal'."""
+        
+        diagonal = []
+        
+        for i in range(dim):
+            for j in range(dim):
+                if i == j:
+                    diagonal.append(q)
+                else:
+                    diagonal.append(Q8a().q_0())
+        
+        return QHStates(diagonal)
     
     @staticmethod
     def product(bra=None, ket=None, operator=None, kind=""):
@@ -5509,7 +5582,7 @@ class Q8aStates(Q8a):
         return norm
 
 
-# In[44]:
+# In[43]:
 
 
 class TestQ8aStates(unittest.TestCase):
@@ -5604,11 +5677,60 @@ class TestQ8aStates(unittest.TestCase):
         print("A* Op B: ", AOpB)
         self.assertTrue(AOpB.qs[0].equals(Q8a([0, 0, 4, -24])))
         self.assertTrue(AOpB.qs[1].equals(Q8a([-3, 12, 4, 0])))
+        
+    def test_product_AOp4i(self):
+        AOp4i = Q8aStates().product(bra=self.A, operator=self.Op4i)
+        print("A Op4i: ", AOp4i)
+        self.assertTrue(AOp4i.qs[0].equals(Q8a([0, 16, 0, 0])))
+        self.assertTrue(AOp4i.qs[1].equals(Q8a([-4, 0, 0, 0])))
+                        
+    def test_Euclidean_product_AOp4i(self):
+        AOp4i = Q8aStates().Euclidean_product(bra=self.A, operator=self.Op4i)
+        print("A* Op4i: ", AOp4i)
+        self.assertTrue(AOp4i.qs[0].equals(Q8a([0, 16, 0, 0])))
+        self.assertTrue(AOp4i.qs[1].equals(Q8a([4, 0, 0, 0])))
+
+    def test_product_Op4iB(self):
+        Op4iB = Q8aStates().product(ket=self.B, operator=self.Op4i)
+        print("Op4i B: ", Op4iB)
+        self.assertTrue(Op4iB.qs[0].equals(Q8a([0, 0, 0, 4])))
+        self.assertTrue(Op4iB.qs[1].equals(Q8a([0, 0, -8, 0])))
+        self.assertTrue(Op4iB.qs[2].equals(Q8a([-12, 0, 0, 0])))
+                        
+    def test_Euclidean_product_Op4iB(self):
+        Op4iB = Q8aStates().Euclidean_product(ket=self.B, operator=self.Op4i)
+        print("Op4i B: ", Op4iB)
+        self.assertTrue(Op4iB.qs[0].equals(Q8a([0, 0, 0, 4])))
+        self.assertTrue(Op4iB.qs[1].equals(Q8a([0, 0, -8, 0])))
+        self.assertTrue(Op4iB.qs[2].equals(Q8a([-12, 0, 0, 0])))
+
+    def test_product_AOp4iB(self):
+        AOp4iB = Q8aStates().product(bra=self.A, operator=self.Op4i, ket=self.B)
+        print("A* Op4i B: ", AOp4iB)
+        self.assertTrue(AOp4iB.dim == 0)
+                        
+    def test_Euclidean_product_AOp4iB(self):
+        AOp4iB = Q8aStates().Euclidean_product(bra=self.A, operator=self.Op4i, ket=self.B)
+        print("A* Op4i B: ", AOp4iB)
+        self.assertTrue(AOp4iB.dim == 0)
 
 
-# In[45]:
+# In[44]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8aStates())
 unittest.TextTestRunner().run(suite);
+
+
+# In[ ]:
+
+
+U = qt.QH([1, 2, 3, 4], qtype="U")
+V = qt.QH([4, -1, 0, 2], qtype="V")
+Vc = qt.QH([4, 1, 0, -2], qtype="Vc")
+W = qt.QH([2, -3 -5, 1], qtype="W")
+UVW = qt.QHStates([U, V, Vc, W])
+print
+print("<A|UVW|A>:\n", qt.QHStates().product(bra=A, ket=A, operator=UVW))
+print("Sum <A|UVW|A>:\n", qt.QHStates().product(bra=A, ket=A, operator=UVW).summation())
 

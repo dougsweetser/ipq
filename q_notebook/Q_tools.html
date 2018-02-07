@@ -12748,7 +12748,7 @@ q_vahlen_conj *: (1, -2, -3, 4) Q.vc*
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 32 tests in 0.059s
+Ran 32 tests in 0.069s
 
 OK
 </pre>
@@ -13633,7 +13633,7 @@ q_vahlen_conj *: (1.0, -2.0, -3.0, 4.0) Q.vc*
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 32 tests in 0.067s
+Ran 32 tests in 0.165s
 
 OK
 </pre>
@@ -13878,7 +13878,7 @@ OK
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>..........
 ----------------------------------------------------------------------
-Ran 10 tests in 0.012s
+Ran 10 tests in 0.021s
 
 OK
 </pre>
@@ -14101,7 +14101,7 @@ OK
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>..........
 ----------------------------------------------------------------------
-Ran 10 tests in 0.015s
+Ran 10 tests in 0.035s
 
 OK
 </pre>
@@ -14990,7 +14990,7 @@ vahlen conj *: ((1, 0), (0, 2), (0, 3), (4, 0)) Q.vc*
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 33 tests in 0.067s
+Ran 33 tests in 0.069s
 
 OK
 </pre>
@@ -15944,7 +15944,7 @@ vahlen conj *: ((1.0, 0.0), (0.0, 2.0), (0.0, 3.0), (4.0, 0.0)) Q.vc*
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 32 tests in 0.072s
+Ran 32 tests in 0.066s
 
 OK
 </pre>
@@ -16471,7 +16471,7 @@ Such an exact relation is not of much interest to physicists since Einstein show
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>.......
 ----------------------------------------------------------------------
-Ran 7 tests in 0.016s
+Ran 7 tests in 0.024s
 
 OK
 </pre>
@@ -16639,7 +16639,7 @@ OK
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>..
 ----------------------------------------------------------------------
-Ran 2 tests in 0.005s
+Ran 2 tests in 0.004s
 
 OK
 </pre>
@@ -16836,7 +16836,7 @@ OK
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>..
 ----------------------------------------------------------------------
-Ran 2 tests in 0.005s
+Ran 2 tests in 0.008s
 
 OK
 </pre>
@@ -16932,7 +16932,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">QHStates</span><span class="p">(</span><span class="n">QH</span><span class="p">):</span>
@@ -17151,7 +17151,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[64]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQHStates</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -17303,7 +17303,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[65]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQHStates</span><span class="p">())</span>
@@ -17387,7 +17387,7 @@ sum:  (1, 0, 0, 0) Q+0+1
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 19 tests in 0.033s
+Ran 19 tests in 0.047s
 
 OK
 </pre>
@@ -17413,7 +17413,7 @@ Q8a</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">QHaStates</span><span class="p">(</span><span class="n">QHa</span><span class="p">):</span>
@@ -17477,6 +17477,21 @@ Q8a</p>
             <span class="n">new_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bra</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">ket</span><span class="p">))</span>
             
         <span class="k">return</span><span class="p">(</span><span class="n">QHaStates</span><span class="p">(</span><span class="n">new_states</span><span class="p">))</span>  
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make a state dim*dim with q along the &#39;diagonal&#39;.&quot;&quot;&quot;</span>
+        
+        <span class="n">diagonal</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
+                    <span class="n">diagonal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">diagonal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">QHa</span><span class="p">()</span><span class="o">.</span><span class="n">q_0</span><span class="p">())</span>
+        
+        <span class="k">return</span> <span class="n">QHaStates</span><span class="p">(</span><span class="n">diagonal</span><span class="p">)</span>
     
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ket</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
@@ -17701,38 +17716,38 @@ Q8a</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOpB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QHa</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
         
     <span class="k">def</span> <span class="nf">test_product_AOp4i</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">AOp4i</span> <span class="o">=</span> <span class="n">QHStates</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">)</span>
+        <span class="n">AOp4i</span> <span class="o">=</span> <span class="n">QHaStates</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A Op4i: &quot;</span><span class="p">,</span> <span class="n">AOp4i</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4i</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4i</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4i</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QHa</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4i</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QHa</span><span class="p">([</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
                         
     <span class="k">def</span> <span class="nf">test_Euclidean_product_AOp4i</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">AOp4i</span> <span class="o">=</span> <span class="n">QHStates</span><span class="p">()</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">)</span>
+        <span class="n">AOp4i</span> <span class="o">=</span> <span class="n">QHaStates</span><span class="p">()</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A* Op4i: &quot;</span><span class="p">,</span> <span class="n">AOp4i</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4i</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4i</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4i</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QHa</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4i</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QHa</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
 
     <span class="k">def</span> <span class="nf">test_product_Op4iB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">Op4iB</span> <span class="o">=</span> <span class="n">QHStates</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">)</span>
+        <span class="n">Op4iB</span> <span class="o">=</span> <span class="n">QHaStates</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Op4i B: &quot;</span><span class="p">,</span> <span class="n">Op4iB</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QHa</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QHa</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QHa</span><span class="p">([</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
                         
     <span class="k">def</span> <span class="nf">test_Euclidean_product_Op4iB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">Op4iB</span> <span class="o">=</span> <span class="n">QHStates</span><span class="p">()</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">)</span>
+        <span class="n">Op4iB</span> <span class="o">=</span> <span class="n">QHaStates</span><span class="p">()</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Op4i B: &quot;</span><span class="p">,</span> <span class="n">Op4iB</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QHa</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QHa</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">QHa</span><span class="p">([</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
 
     <span class="k">def</span> <span class="nf">test_product_AOp4iB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">AOp4iB</span> <span class="o">=</span> <span class="n">QHStates</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">,</span> <span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
+        <span class="n">AOp4iB</span> <span class="o">=</span> <span class="n">QHaStates</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">,</span> <span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A* Op4i B: &quot;</span><span class="p">,</span> <span class="n">AOp4iB</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4iB</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
                         
     <span class="k">def</span> <span class="nf">test_Euclidean_product_AOp4iB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">AOp4iB</span> <span class="o">=</span> <span class="n">QHStates</span><span class="p">()</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">,</span> <span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
+        <span class="n">AOp4iB</span> <span class="o">=</span> <span class="n">QHaStates</span><span class="p">()</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">,</span> <span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A* Op4i B: &quot;</span><span class="p">,</span> <span class="n">AOp4iB</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4iB</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
@@ -17745,50 +17760,6 @@ Q8a</p>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[38]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">QHaStates</span><span class="p">([</span><span class="n">QHa</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span><span class="n">QHa</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])])</span>
-<span class="n">B</span> <span class="o">=</span> <span class="n">QHaStates</span><span class="p">([</span><span class="n">QHa</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span><span class="n">QHa</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]),</span><span class="n">QHa</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])])</span>
-<span class="n">Op</span> <span class="o">=</span> <span class="n">QHaStates</span><span class="p">([</span><span class="n">QHa</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span><span class="n">QHa</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span><span class="n">QHa</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span><span class="n">QHa</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">]),</span><span class="n">QHa</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span><span class="n">QHa</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])])</span>
-<span class="n">Op4i</span> <span class="o">=</span> <span class="n">QHaStates</span><span class="p">([</span><span class="n">QHa</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">QHaStates</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">Op</span><span class="p">))</span> 
-<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span> 
-<span class="nb">print</span><span class="p">(</span><span class="n">QHaStates</span><span class="p">()</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">Op</span><span class="p">))</span> 
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>n=1: (11.0, 0.0, 0.0, 0.0) 0+QxQ+QxQ
-n=2: (0.0, 0.0, 5.0, 0.0) 0+QxQ+QxQ
-n=3: (4.0, 0.0, 0.0, 0.0) 0+QxQ+QxQ
-n=1: (4.0, -0.0, -0.0, -0.0) Q.*
-n=2: (0.0, -1.0, -0.0, -0.0) Q.*
-n=1: (13.0, 0.0, 0.0, 0.0) 0+Q.*xQ+Q.*xQ
-n=2: (0.0, 0.0, 11.0, 0.0) 0+Q.*xQ+Q.*xQ
-n=3: (12.0, 0.0, 0.0, 0.0) 0+Q.*xQ+Q.*xQ
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQHaStates</span><span class="p">())</span>
@@ -17809,7 +17780,7 @@ n=3: (12.0, 0.0, 0.0, 0.0) 0+Q.*xQ+Q.*xQ
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>............</pre>
+<pre>..................</pre>
 </div>
 </div>
 
@@ -17824,8 +17795,15 @@ n=2: (1.0, 0.0, 0.0, 0.0) Q.*xQ
 A* Op:  n=1: (13.0, 0.0, 0.0, 0.0) 0+Q.*xQ+Q.*xQ
 n=2: (0.0, 0.0, 11.0, 0.0) 0+Q.*xQ+Q.*xQ
 n=3: (12.0, 0.0, 0.0, 0.0) 0+Q.*xQ+Q.*xQ
+A* Op4i:  n=1: (0.0, 16.0, 0.0, 0.0) 0+Q.*xQ+Q.*x0
+n=2: (4.0, 0.0, 0.0, 0.0) 0+Q.*x0+Q.*xQ
+Operator dimensions do not equal the product of the states: 1 != 2 * 3
+A* Op4i B:  
 A* Op B:  n=1: (0.0, 0.0, 4.0, -24.0) Q.*x0+QxQ+QxQ+QxQ
 n=2: (-3.0, 12.0, 4.0, 0.0) Q.*x0+QxQ+QxQ+QxQ
+Op4i B:  n=1: (0.0, 0.0, 0.0, 4.0) 0+QxQ+0xQ+0xQ
+n=2: (0.0, 0.0, -8.0, 0.0) 0+0xQ+QxQ+0xQ
+n=3: (-12.0, 0.0, 0.0, 0.0) 0+0xQ+0xQ+QxQ
 Op B:  n=1: (0.0, 0.0, 1.0, -6.0) 0+QxQ+QxQ+QxQ
 n=2: (-12.0, -3.0, 0.0, 4.0) 0+QxQ+QxQ+QxQ
 add 01 10:  n=1: (1.0, 0.0, 0.0, 0.0) 0+1
@@ -17837,8 +17815,15 @@ n=2: (-1.0, 0.0, 0.0, 0.0) QxQ
 A Op:  n=1: (11.0, 0.0, 0.0, 0.0) 0+QxQ+QxQ
 n=2: (0.0, 0.0, 5.0, 0.0) 0+QxQ+QxQ
 n=3: (4.0, 0.0, 0.0, 0.0) 0+QxQ+QxQ
+A Op4i:  n=1: (0.0, 16.0, 0.0, 0.0) 0+QxQ+Qx0
+n=2: (-4.0, 0.0, 0.0, 0.0) 0+Qx0+QxQ
+Operator dimensions do not equal the product of the states: 1 != 2 * 3
+A* Op4i B:  
 A Op B:  n=1: (0.0, 0.0, 4.0, -24.0) Qx0+QxQ+QxQ+QxQ
 n=2: (3.0, -12.0, -4.0, 0.0) Qx0+QxQ+QxQ+QxQ
+Op4i B:  n=1: (0.0, 0.0, 0.0, 4.0) 0+QxQ+0xQ+0xQ
+n=2: (0.0, 0.0, -8.0, 0.0) 0+0xQ+QxQ+0xQ
+n=3: (-12.0, 0.0, 0.0, 0.0) 0+0xQ+0xQ+QxQ
 Op B:  n=1: (0.0, 0.0, 1.0, -6.0) 0+QxQ+QxQ+QxQ
 n=2: (-12.0, -3.0, 0.0, 4.0) 0+QxQ+QxQ+QxQ
 sum:  (1.0, 0.0, 0.0, 0.0) Q+0+1
@@ -17854,7 +17839,7 @@ sum:  (1.0, 0.0, 0.0, 0.0) Q+0+1
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 12 tests in 0.040s
+Ran 18 tests in 0.061s
 
 OK
 </pre>
@@ -17867,7 +17852,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Q8States</span><span class="p">(</span><span class="n">Q8</span><span class="p">):</span>
@@ -17877,7 +17862,9 @@ OK
         
         <span class="bp">self</span><span class="o">.</span><span class="n">qs</span> <span class="o">=</span> <span class="n">qs</span>
         
-        <span class="k">if</span> <span class="n">qs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">qs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qs</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">qs</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">qs</span><span class="p">)</span>
         
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -17929,6 +17916,21 @@ OK
             <span class="n">new_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bra</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">ket</span><span class="p">))</span>
             
         <span class="k">return</span><span class="p">(</span><span class="n">Q8States</span><span class="p">(</span><span class="n">new_states</span><span class="p">))</span>  
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make a state dim*dim with q along the &#39;diagonal&#39;.&quot;&quot;&quot;</span>
+        
+        <span class="n">diagonal</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
+                    <span class="n">diagonal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">diagonal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Q8</span><span class="p">()</span><span class="o">.</span><span class="n">q_0</span><span class="p">())</span>
+        
+        <span class="k">return</span> <span class="n">Q8States</span><span class="p">(</span><span class="n">diagonal</span><span class="p">)</span>
     
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ket</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
@@ -18064,7 +18066,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQ8States</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -18160,6 +18162,42 @@ OK
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A* Op B: &quot;</span><span class="p">,</span> <span class="n">AOpB</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOpB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">24</span><span class="p">])))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOpB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        
+    <span class="k">def</span> <span class="nf">test_product_AOp4i</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">AOp4i</span> <span class="o">=</span> <span class="n">Q8States</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A Op4i: &quot;</span><span class="p">,</span> <span class="n">AOp4i</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4i</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4i</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+                        
+    <span class="k">def</span> <span class="nf">test_Euclidean_product_AOp4i</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">AOp4i</span> <span class="o">=</span> <span class="n">Q8States</span><span class="p">()</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A* Op4i: &quot;</span><span class="p">,</span> <span class="n">AOp4i</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4i</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4i</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+
+    <span class="k">def</span> <span class="nf">test_product_Op4iB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Op4iB</span> <span class="o">=</span> <span class="n">Q8States</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Op4i B: &quot;</span><span class="p">,</span> <span class="n">Op4iB</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+                        
+    <span class="k">def</span> <span class="nf">test_Euclidean_product_Op4iB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Op4iB</span> <span class="o">=</span> <span class="n">Q8States</span><span class="p">()</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Op4i B: &quot;</span><span class="p">,</span> <span class="n">Op4iB</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+
+    <span class="k">def</span> <span class="nf">test_product_AOp4iB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">AOp4iB</span> <span class="o">=</span> <span class="n">Q8States</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">,</span> <span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A* Op4i B: &quot;</span><span class="p">,</span> <span class="n">AOp4iB</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4iB</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+                        
+    <span class="k">def</span> <span class="nf">test_Euclidean_product_AOp4iB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">AOp4iB</span> <span class="o">=</span> <span class="n">Q8States</span><span class="p">()</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">,</span> <span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A* Op4i B: &quot;</span><span class="p">,</span> <span class="n">AOp4iB</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4iB</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -18169,7 +18207,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQ8States</span><span class="p">())</span>
@@ -18190,7 +18228,7 @@ OK
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>.............</pre>
+<pre>...................</pre>
 </div>
 </div>
 
@@ -18205,8 +18243,15 @@ n=2: ((1, 0), (0, 0), (0, 0), (0, 0)) Q.*xQ
 A* Op:  n=1: ((13, 0), (0, 0), (0, 0), (0, 0)) Q+Q.*xQ+Q.*xQ
 n=2: ((0, 0), (0, 0), (11, 0), (0, 0)) Q+Q.*xQ+Q.*xQ
 n=3: ((12, 0), (0, 0), (0, 0), (0, 0)) Q+Q.*xQ+Q.*xQ
+A* Op4i:  n=1: ((0, 0), (16, 0), (0, 0), (0, 0)) Q+Q.*xQ+Q.*xQ
+n=2: ((4, 0), (0, 0), (0, 0), (0, 0)) Q+Q.*xQ+Q.*xQ
+Operator dimensions do not equal the product of the states: 1 != 2 * 3
+A* Op4i B:  
 A* Op B:  n=1: ((0, 0), (0, 0), (12, 8), (0, 24)) Q.*xQ+QxQ+QxQ+QxQ
 n=2: ((0, 3), (12, 0), (4, 0), (0, 0)) Q.*xQ+QxQ+QxQ+QxQ
+Op4i B:  n=1: ((0, 0), (0, 0), (0, 0), (4, 0)) Q+QxQ+QxQ+QxQ
+n=2: ((0, 0), (0, 0), (0, 8), (0, 0)) Q+QxQ+QxQ+QxQ
+n=3: ((0, 12), (0, 0), (0, 0), (0, 0)) Q+QxQ+QxQ+QxQ
 Op B:  n=1: ((0, 0), (0, 0), (3, 2), (0, 6)) Q+QxQ+QxQ+QxQ
 n=2: ((0, 12), (0, 3), (0, 0), (4, 0)) Q+QxQ+QxQ+QxQ
 add 01 10:  n=1: ((1, 0), (0, 0), (0, 0), (0, 0)) Q+Q
@@ -18223,8 +18268,15 @@ n=2: ((0, 1), (0, 0), (0, 0), (0, 0)) QxQ
 A Op:  n=1: ((12, 1), (0, 0), (0, 0), (0, 0)) Q+QxQ+QxQ
 n=2: ((0, 0), (0, 0), (8, 3), (0, 0)) Q+QxQ+QxQ
 n=3: ((8, 4), (0, 0), (0, 0), (0, 0)) Q+QxQ+QxQ
+A Op4i:  n=1: ((0, 0), (16, 0), (0, 0), (0, 0)) Q+QxQ+QxQ
+n=2: ((0, 4), (0, 0), (0, 0), (0, 0)) Q+QxQ+QxQ
+Operator dimensions do not equal the product of the states: 1 != 2 * 3
+A* Op4i B:  
 A Op B:  n=1: ((0, 0), (0, 0), (12, 8), (0, 24)) QxQ+QxQ+QxQ+QxQ
 n=2: ((3, 0), (0, 12), (0, 4), (0, 0)) QxQ+QxQ+QxQ+QxQ
+Op4i B:  n=1: ((0, 0), (0, 0), (0, 0), (4, 0)) Q+QxQ+QxQ+QxQ
+n=2: ((0, 0), (0, 0), (0, 8), (0, 0)) Q+QxQ+QxQ+QxQ
+n=3: ((0, 12), (0, 0), (0, 0), (0, 0)) Q+QxQ+QxQ+QxQ
 Op B:  n=1: ((0, 0), (0, 0), (3, 2), (0, 6)) Q+QxQ+QxQ+QxQ
 n=2: ((0, 12), (0, 3), (0, 0), (4, 0)) Q+QxQ+QxQ+QxQ
 sum:  ((1, 0), (0, 0), (0, 0), (0, 0)) Q+Q+Q
@@ -18240,7 +18292,7 @@ sum:  ((1, 0), (0, 0), (0, 0), (0, 0)) Q+Q+Q
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 13 tests in 0.030s
+Ran 19 tests in 0.052s
 
 OK
 </pre>
@@ -18253,7 +18305,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Q8aStates</span><span class="p">(</span><span class="n">Q8a</span><span class="p">):</span>
@@ -18263,7 +18315,9 @@ OK
         
         <span class="bp">self</span><span class="o">.</span><span class="n">qs</span> <span class="o">=</span> <span class="n">qs</span>
         
-        <span class="k">if</span> <span class="n">qs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">qs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qs</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">qs</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">qs</span><span class="p">)</span>
         
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -18314,7 +18368,22 @@ OK
         <span class="k">for</span> <span class="n">bra</span><span class="p">,</span> <span class="n">ket</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="p">,</span> <span class="n">ket</span><span class="o">.</span><span class="n">qs</span><span class="p">):</span>
             <span class="n">new_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bra</span><span class="o">.</span><span class="n">dif</span><span class="p">(</span><span class="n">ket</span><span class="p">))</span>
             
-        <span class="k">return</span><span class="p">(</span><span class="n">Q8aStates</span><span class="p">(</span><span class="n">new_states</span><span class="p">))</span>  
+        <span class="k">return</span><span class="p">(</span><span class="n">Q8aStates</span><span class="p">(</span><span class="n">new_states</span><span class="p">))</span> 
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">diagonal</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make a state dim*dim with q along the &#39;diagonal&#39;.&quot;&quot;&quot;</span>
+        
+        <span class="n">diagonal</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
+                    <span class="n">diagonal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">diagonal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Q8a</span><span class="p">()</span><span class="o">.</span><span class="n">q_0</span><span class="p">())</span>
+        
+        <span class="k">return</span> <span class="n">QHStates</span><span class="p">(</span><span class="n">diagonal</span><span class="p">)</span>
     
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ket</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
@@ -18450,7 +18519,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQ8aStates</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -18545,6 +18614,42 @@ OK
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A* Op B: &quot;</span><span class="p">,</span> <span class="n">AOpB</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOpB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8a</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">24</span><span class="p">])))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOpB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8a</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        
+    <span class="k">def</span> <span class="nf">test_product_AOp4i</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">AOp4i</span> <span class="o">=</span> <span class="n">Q8aStates</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A Op4i: &quot;</span><span class="p">,</span> <span class="n">AOp4i</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4i</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8a</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4i</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8a</span><span class="p">([</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+                        
+    <span class="k">def</span> <span class="nf">test_Euclidean_product_AOp4i</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">AOp4i</span> <span class="o">=</span> <span class="n">Q8aStates</span><span class="p">()</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A* Op4i: &quot;</span><span class="p">,</span> <span class="n">AOp4i</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4i</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8a</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4i</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8a</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+
+    <span class="k">def</span> <span class="nf">test_product_Op4iB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Op4iB</span> <span class="o">=</span> <span class="n">Q8aStates</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Op4i B: &quot;</span><span class="p">,</span> <span class="n">Op4iB</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8a</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8a</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8a</span><span class="p">([</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+                        
+    <span class="k">def</span> <span class="nf">test_Euclidean_product_Op4iB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Op4iB</span> <span class="o">=</span> <span class="n">Q8aStates</span><span class="p">()</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Op4i B: &quot;</span><span class="p">,</span> <span class="n">Op4iB</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8a</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8a</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">Op4iB</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8a</span><span class="p">([</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
+
+    <span class="k">def</span> <span class="nf">test_product_AOp4iB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">AOp4iB</span> <span class="o">=</span> <span class="n">Q8aStates</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">,</span> <span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A* Op4i B: &quot;</span><span class="p">,</span> <span class="n">AOp4iB</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4iB</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+                        
+    <span class="k">def</span> <span class="nf">test_Euclidean_product_AOp4iB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">AOp4iB</span> <span class="o">=</span> <span class="n">Q8aStates</span><span class="p">()</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">,</span> <span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A* Op4i B: &quot;</span><span class="p">,</span> <span class="n">AOp4iB</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4iB</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -18554,7 +18659,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQ8aStates</span><span class="p">())</span>
@@ -18575,7 +18680,7 @@ OK
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>.............</pre>
+<pre>...................</pre>
 </div>
 </div>
 
@@ -18590,8 +18695,15 @@ n=2: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q.*xQ
 A* Op:  n=1: ((13.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ.*+QxQ.*
 n=2: ((0.0, 0.0), (0.0, 0.0), (8.0, 3.0), (0.0, 0.0)) Q+QxQ.*+QxQ.*
 n=3: ((12.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ.*+QxQ.*
+A* Op4i:  n=1: ((0.0, 0.0), (16.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ.*+QxQ.*
+n=2: ((4.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ.*+QxQ.*
+Operator dimensions do not equal the product of the states: 1 != 2 * 3
+A* Op4i B:  
 A* Op B:  n=1: ((0.0, 0.0), (0.0, 0.0), (12.0, 8.0), (0.0, 24.0)) Q.*xQ+QxQ+QxQ+QxQ
 n=2: ((0.0, 3.0), (12.0, 0.0), (4.0, 0.0), (0.0, 0.0)) Q.*xQ+QxQ+QxQ+QxQ
+Op4i B:  n=1: ((0.0, 0.0), (0.0, 0.0), (0.0, 0.0), (4.0, 0.0)) Q+QxQ+QxQ+QxQ
+n=2: ((0.0, 0.0), (0.0, 0.0), (0.0, 8.0), (0.0, 0.0)) Q+QxQ+QxQ+QxQ
+n=3: ((0.0, 12.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ+QxQ+QxQ
 Op B:  n=1: ((0.0, 0.0), (0.0, 0.0), (3.0, 2.0), (0.0, 6.0)) Q+QxQ+QxQ+QxQ
 n=2: ((0.0, 12.0), (0.0, 3.0), (0.0, 0.0), (4.0, 0.0)) Q+QxQ+QxQ+QxQ
 add 01 10:  n=1: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+Q
@@ -18607,8 +18719,15 @@ n=2: ((0.0, 1.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) QxQ
 A Op:  n=1: ((12.0, 1.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ+QxQ
 n=2: ((0.0, 0.0), (0.0, 0.0), (11.0, 0.0), (0.0, 0.0)) Q+QxQ+QxQ
 n=3: ((8.0, 4.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ+QxQ
+A Op4i:  n=1: ((0.0, 0.0), (16.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ+QxQ
+n=2: ((0.0, 4.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ+QxQ
+Operator dimensions do not equal the product of the states: 1 != 2 * 3
+A* Op4i B:  
 A Op B:  n=1: ((0.0, 0.0), (0.0, 0.0), (12.0, 8.0), (0.0, 24.0)) QxQ+QxQ+QxQ+QxQ
 n=2: ((3.0, 0.0), (0.0, 12.0), (0.0, 4.0), (0.0, 0.0)) QxQ+QxQ+QxQ+QxQ
+Op4i B:  n=1: ((0.0, 0.0), (0.0, 0.0), (0.0, 0.0), (4.0, 0.0)) Q+QxQ+QxQ+QxQ
+n=2: ((0.0, 0.0), (0.0, 0.0), (0.0, 8.0), (0.0, 0.0)) Q+QxQ+QxQ+QxQ
+n=3: ((0.0, 12.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ+QxQ+QxQ
 Op B:  n=1: ((0.0, 0.0), (0.0, 0.0), (3.0, 2.0), (0.0, 6.0)) Q+QxQ+QxQ+QxQ
 n=2: ((0.0, 12.0), (0.0, 3.0), (0.0, 0.0), (4.0, 0.0)) Q+QxQ+QxQ+QxQ
 sum:  ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+Q+Q
@@ -18624,13 +18743,33 @@ sum:  ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+Q+Q
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 13 tests in 0.037s
+Ran 19 tests in 0.052s
 
 OK
 </pre>
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">U</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;U&quot;</span><span class="p">)</span>
+<span class="n">V</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;V&quot;</span><span class="p">)</span>
+<span class="n">Vc</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;Vc&quot;</span><span class="p">)</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QH</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;W&quot;</span><span class="p">)</span>
+<span class="n">UVW</span> <span class="o">=</span> <span class="n">qt</span><span class="o">.</span><span class="n">QHStates</span><span class="p">([</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">Vc</span><span class="p">,</span> <span class="n">W</span><span class="p">])</span>
+<span class="nb">print</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&lt;A|UVW|A&gt;:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">qt</span><span class="o">.</span><span class="n">QHStates</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">ket</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">UVW</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sum &lt;A|UVW|A&gt;:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">qt</span><span class="o">.</span><span class="n">QHStates</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">ket</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">UVW</span><span class="p">)</span><span class="o">.</span><span class="n">summation</span><span class="p">())</span>
+</pre></div>
+
+</div>
 </div>
 </div>
 
