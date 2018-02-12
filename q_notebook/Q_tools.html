@@ -17012,7 +17012,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">QHStates</span><span class="p">(</span><span class="n">QH</span><span class="p">):</span>
@@ -17217,6 +17217,22 @@ OK
                     
         <span class="k">return</span> <span class="n">QHStates</span><span class="p">()</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">bra</span><span class="p">,</span> <span class="n">ket</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">kind</span><span class="p">)</span>
     
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">op_n</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">first</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Mulitply an operator times a number, in that order. Set first=false for n * Op&quot;&quot;&quot;</span>
+    
+        <span class="n">new_states</span> <span class="o">=</span> <span class="p">[]</span>
+    
+        <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">operator</span><span class="o">.</span><span class="n">qs</span><span class="p">:</span>
+        
+            <span class="k">if</span> <span class="n">first</span><span class="p">:</span>
+                <span class="n">new_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">reverse</span><span class="p">))</span>
+                              
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">reverse</span><span class="p">))</span>
+    
+        <span class="k">return</span> <span class="n">qt</span><span class="o">.</span><span class="n">QHStates</span><span class="p">(</span><span class="n">new_states</span><span class="p">)</span>
+    
     <span class="k">def</span> <span class="nf">norm_squared</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Take the Euclidean product of each state and add it up, returning one quaternion.&quot;&quot;&quot;</span>
         
@@ -17228,10 +17244,32 @@ OK
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-cyan-fg">  File </span><span class="ansi-green-fg">&#34;&lt;ipython-input-51-3b35f98c7eed&gt;&#34;</span><span class="ansi-cyan-fg">, line </span><span class="ansi-green-fg">205</span>
+<span class="ansi-red-fg">    &#34;&#34;&#34;Mulitply an operator times a number, in that order. Set first=false for n * Op&#34;&#34;&#34;</span>
+                                                                                       ^
+<span class="ansi-red-fg">IndentationError</span><span class="ansi-red-fg">:</span> expected an indented block
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQHStates</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -17374,6 +17412,11 @@ OK
         <span class="n">AOp4iB</span> <span class="o">=</span> <span class="n">QHStates</span><span class="p">()</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">bra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op4i</span><span class="p">,</span> <span class="n">ket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A* Op4i B: &quot;</span><span class="p">,</span> <span class="n">AOp4iB</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">AOp4iB</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_op_n</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">opn</span> <span class="o">=</span> <span class="n">QHStates</span><span class="p">()</span><span class="o">.</span><span class="n">op_n</span><span class="p">(</span><span class="n">operator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Op</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qi</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;op_n: &quot;</span><span class="p">,</span> <span class="n">opn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">opn</span><span class="o">.</span><span class="n">qs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -17383,7 +17426,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQHStates</span><span class="p">())</span>
@@ -17404,7 +17447,7 @@ OK
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>...................</pre>
+<pre>...........E........</pre>
 </div>
 </div>
 
@@ -17466,10 +17509,18 @@ sum:  (1, 0, 0, 0) Q+0+1
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
+======================================================================
+ERROR: test_op_n (__main__.TestQHStates)
 ----------------------------------------------------------------------
-Ran 19 tests in 0.039s
+Traceback (most recent call last):
+  File &#34;&lt;ipython-input-54-6cb74f794dfd&gt;&#34;, line 143, in test_op_n
+    opn = QHStates().op_n(operator=self.Op, n=self.qi)
+AttributeError: &#39;QHStates&#39; object has no attribute &#39;op_n&#39;
 
-OK
+----------------------------------------------------------------------
+Ran 20 tests in 0.044s
+
+FAILED (errors=1)
 </pre>
 </div>
 </div>

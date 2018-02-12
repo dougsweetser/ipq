@@ -4396,7 +4396,7 @@ for q in qha.range(t1,qd,10):
 
 # Any quaternion can be viewed as the sum of n other quaternions. This is common to see in quantum mechanics, whose needs are driving the development of this class and its methods.
 
-# In[33]:
+# In[51]:
 
 
 class QHStates(QH):
@@ -4601,6 +4601,22 @@ class QHStates(QH):
                     
         return QHStates().product(bra, ket, operator, kind)
     
+    @staticmethod
+    def op_n(operator, n, first=True, kind="", reverse=False):
+    """Mulitply an operator times a number, in that order. Set first=false for n * Op"""
+    
+        new_states = []
+    
+        for op in operator.qs:
+        
+            if first:
+                new_states.append(op.product(n, kind, reverse))
+                              
+            else:
+                new_states.append(n.product(op, kind, reverse))
+    
+        return qt.QHStates(new_states)
+    
     def norm_squared(self):
         """Take the Euclidean product of each state and add it up, returning one quaternion."""
         
@@ -4608,7 +4624,7 @@ class QHStates(QH):
         return norm
 
 
-# In[34]:
+# In[54]:
 
 
 class TestQHStates(unittest.TestCase):
@@ -4752,8 +4768,13 @@ class TestQHStates(unittest.TestCase):
         print("A* Op4i B: ", AOp4iB)
         self.assertTrue(AOp4iB.dim == 0)
 
+    def test_op_n(self):
+        opn = QHStates().op_n(operator=self.Op, n=self.qi)
+        print("op_n: ", opn)
+        self.assertTrue(opn.qs[0].x == 1)
 
-# In[35]:
+
+# In[55]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHStates())
