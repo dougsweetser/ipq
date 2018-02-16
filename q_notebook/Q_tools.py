@@ -25,6 +25,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import math
 import numpy as np
+import random
 import sympy as sp
 import os
 import unittest
@@ -127,6 +128,11 @@ class QH(object):
         """Return k."""
 
         return QH([0, 0, 0, 1], qtype=qtype)
+    
+    def q_random(self, qtype="?"):
+        """Return a random-valued quaternion."""
+
+        return QH([random.random(), random.random(), random.random(), random.random()], qtype=qtype)
 
     def dupe(self, qtype=""):
         """Return a duplicate copy, good for testing since qtypes persist"""
@@ -139,7 +145,7 @@ class QH(object):
         self_t, self_x, self_y, self_z = sp.expand(self.t), sp.expand(self.x), sp.expand(self.y), sp.expand(self.z)
         q2_t, q2_x, q2_y, q2_z = sp.expand(q2.t), sp.expand(q2.x), sp.expand(q2.y), sp.expand(q2.z)
         
-        if (self_t == q2_t) and (self_x == q2_x) and (self_y == q2_y) and (self_z == q2_z):
+        if math.isclose(self_t, q2_t) and math.isclose(self_x, q2_x) and math.isclose(self_y, q2_y) and math.isclose(self_z, q2_z):
             return True
         
         else:
@@ -308,6 +314,16 @@ class QH(object):
         a.add_qtype(qtype)
         return a
 
+    def normalize(self, qtype="U"):
+        """Normalize a quaternion"""
+        
+        abs_q_inv = self.abs_of_q().invert()
+        n_q = self.product(abs_q_inv)
+
+        n_q.q_type = self.qtype
+        n_q.add_qtype(qtype)
+        return n_q
+    
     def abs_of_vector(self, qtype="absV"):
         """The absolute value of the vector, the square root of the norm_squared of the vector."""
 
@@ -547,305 +563,277 @@ class TestQH(unittest.TestCase):
 
     Q = QH([1, -2, -3, -4], qtype="Q")
     P = QH([0, 4, -3, 0], qtype="P")
-    verbose = True
 
     def test_qt(self):
-        q1 = self.Q.dupe()
-        self.assertTrue(q1.t == 1)
+        self.assertTrue(self.Q.t == 1)
 
     def test_q_0(self):
-        q1 = self.Q.dupe()
-        q_z = q1.q_0()
-        if self.verbose: print("q_0: {}".format(q_z))
+        q_z = self.Q.q_0()
+        print("q_0: ", q_z)
         self.assertTrue(q_z.t == 0)
         self.assertTrue(q_z.x == 0)
         self.assertTrue(q_z.y == 0)
         self.assertTrue(q_z.z == 0)
 
     def test_q_1(self):
-        q1 = self.Q.dupe()
-        q_z = q1.q_1()
-        if self.verbose: print("q_1: {}".format(q_z))
+        q_z = self.Q.q_1()
+        print("q_1: ", q_z)
         self.assertTrue(q_z.t == 1)
         self.assertTrue(q_z.x == 0)
         self.assertTrue(q_z.y == 0)
         self.assertTrue(q_z.z == 0)
 
     def test_q_i(self):
-        q1 = self.Q.dupe()
-        q_z = q1.q_i()
-        if self.verbose: print("q_i: {}".format(q_z))
+        q_z = self.Q.q_i()
+        print("q_i: ", q_z)
         self.assertTrue(q_z.t == 0)
         self.assertTrue(q_z.x == 1)
         self.assertTrue(q_z.y == 0)
         self.assertTrue(q_z.z == 0)
 
     def test_q_j(self):
-        q1 = self.Q.dupe()
-        q_z = q1.q_j()
-        if self.verbose: print("q_j: {}".format(q_z))
+        q_z = self.Q.q_j()
+        print("q_j: ", q_z)
         self.assertTrue(q_z.t == 0)
         self.assertTrue(q_z.x == 0)
         self.assertTrue(q_z.y == 1)
         self.assertTrue(q_z.z == 0)
 
     def test_q_k(self):
-        q1 = self.Q.dupe()
-        q_z = q1.q_k()
-        if self.verbose: print("q_k: {}".format(q_z))
+        q_z = self.Q.q_k()
+        print("q_k: ", q_z)
         self.assertTrue(q_z.t == 0)
         self.assertTrue(q_z.x == 0)
         self.assertTrue(q_z.y == 0)
         self.assertTrue(q_z.z == 1)
+        
+    def test_q_random(self):
+        q_z = QH().q_random()
+        print("q_random():", q_z)
+        self.assertTrue(q_z.t >= 0 and q_z.t <= 1)
+        self.assertTrue(q_z.x >= 0 and q_z.x <= 1)
+        self.assertTrue(q_z.y >= 0 and q_z.y <= 1)
+        self.assertTrue(q_z.z >= 0 and q_z.z <= 1)
         
     def test_equals(self):
         self.assertTrue(self.Q.equals(self.Q))
         self.assertFalse(self.Q.equals(self.P))
 
     def test_conj_0(self):
-        q1 = self.Q.dupe()
-        q_z = q1.conj()
-        if self.verbose: print("q_conj 0: {}".format(q_z))
+        q_z = self.Q.conj()
+        print("q_conj 0: ", q_z)
         self.assertTrue(q_z.t == 1)
         self.assertTrue(q_z.x == 2)
         self.assertTrue(q_z.y == 3)
         self.assertTrue(q_z.z == 4)
 
     def test_conj_1(self):
-        q1 = self.Q.dupe()
-        q_z = q1.conj(1)
-        if self.verbose: print("q_conj 1: {}".format(q_z))
+        q_z = self.Q.conj(1)
+        print("q_conj 1: ", q_z)
         self.assertTrue(q_z.t == -1)
         self.assertTrue(q_z.x == -2)
         self.assertTrue(q_z.y == 3)
         self.assertTrue(q_z.z == 4)
 
     def test_conj_2(self):
-        q1 = self.Q.dupe()
-        q_z = q1.conj(2)
-        if self.verbose: print("q_conj 2: {}".format(q_z))
+        q_z = self.Q.conj(2)
+        print("q_conj 2: ", q_z)
         self.assertTrue(q_z.t == -1)
         self.assertTrue(q_z.x == 2)
         self.assertTrue(q_z.y == -3)
         self.assertTrue(q_z.z == 4)
         
     def sign_flips(self):
-        q1 = self.Q.dupe()
-        q_z = q1.sign_flips()
-        if self.verbose: print("sign_flips: {}".format(q_z))
+        q_z = self.Q.sign_flips()
+        print("sign_flips: ", q_z)
         self.assertTrue(q_z.t == -1)
         self.assertTrue(q_z.x == 2)
         self.assertTrue(q_z.y == 3)
         self.assertTrue(q_z.z == 4)
     
     def test_vahlen_conj_minus(self):
-        q1 = self.Q.dupe()
-        q_z = q1.vahlen_conj()
-        if self.verbose: print("q_vahlen_conj -: {}".format(q_z))
+        q_z = self.Q.vahlen_conj()
+        print("q_vahlen_conj -: ", q_z)
         self.assertTrue(q_z.t == 1)
         self.assertTrue(q_z.x == 2)
         self.assertTrue(q_z.y == 3)
         self.assertTrue(q_z.z == 4)
 
     def test_vahlen_conj_star(self):
-        q1 = self.Q.dupe()
-        q_z = q1.vahlen_conj('*')
-        if self.verbose: print("q_vahlen_conj *: {}".format(q_z))
+        q_z = self.Q.vahlen_conj('*')
+        print("q_vahlen_conj *: ", q_z)
         self.assertTrue(q_z.t == 1)
         self.assertTrue(q_z.x == -2)
         self.assertTrue(q_z.y == -3)
         self.assertTrue(q_z.z == 4)
 
     def test_vahlen_conj_prime(self):
-        q1 = self.Q.dupe()
-        q_z = q1.vahlen_conj("'")
-        if self.verbose: print("q_vahlen_conj ': {}".format(q_z))
+        q_z = self.Q.vahlen_conj("'")
+        print("q_vahlen_conj ': ", q_z)
         self.assertTrue(q_z.t == 1)
         self.assertTrue(q_z.x == 2)
         self.assertTrue(q_z.y == 3)
         self.assertTrue(q_z.z == -4)
 
     def test_square(self):
-        q1 = self.Q.dupe()
-        q_z = q1.square()
-        if self.verbose: print("square: {}".format(q_z))
+        q_z = self.Q.square()
+        print("square: ", q_z)
         self.assertTrue(q_z.t == -28)
         self.assertTrue(q_z.x == -4)
         self.assertTrue(q_z.y == -6)
         self.assertTrue(q_z.z == -8)
 
     def test_norm_squared(self):
-        q1 = self.Q.dupe()
-        q_z = q1.norm_squared()
-        if self.verbose: print("norm_squared: {}".format(q_z))
+        q_z = self.Q.norm_squared()
+        print("norm_squared: ", q_z)
         self.assertTrue(q_z.t == 30)
         self.assertTrue(q_z.x == 0)
         self.assertTrue(q_z.y == 0)
         self.assertTrue(q_z.z == 0)
 
     def test_norm_squared_of_vector(self):
-        q1 = self.Q.dupe()
-        q_z = q1.norm_squared_of_vector()
-        if self.verbose: print("norm_squared_of_vector: {}".format(q_z))
+        q_z = self.Q.norm_squared_of_vector()
+        print("norm_squared_of_vector: ", q_z)
         self.assertTrue(q_z.t == 29)
         self.assertTrue(q_z.x == 0)
         self.assertTrue(q_z.y == 0)
         self.assertTrue(q_z.z == 0)
         
     def test_abs_of_q(self):
-        q2 = self.P.dupe()
-        q_z = q2.abs_of_q()
-        if self.verbose: print("abs_of_q: {}".format(q_z))
+        q_z = self.P.abs_of_q()
+        print("abs_of_q: ", q_z)
         self.assertTrue(q_z.t == 5)
         self.assertTrue(q_z.x == 0)
         self.assertTrue(q_z.y == 0)
         self.assertTrue(q_z.z == 0)
         
+    def test_normalize(self):
+        q_z = self.P.normalize()
+        print("q_normalized: ", q_z)
+        self.assertTrue(q_z.t == 0)
+        self.assertTrue(q_z.x == 0.8)
+        self.assertAlmostEqual(q_z.y, -0.6)
+        self.assertTrue(q_z.z == 0)
+        
     def test_abs_of_vector(self):
-        q2 = self.P.dupe()
-        q_z = q2.abs_of_vector()
-        if self.verbose: print("abs_of_vector: {}".format(q_z))
+        q_z = self.P.abs_of_vector()
+        print("abs_of_vector: ", q_z)
         self.assertTrue(q_z.t == 5)
         self.assertTrue(q_z.x == 0)
         self.assertTrue(q_z.y == 0)
         self.assertTrue(q_z.z == 0)
         
     def test_add(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q1.add(q2)
-        if self.verbose: print("add: {}".format(q_z))
+        q_z = self.Q.add(self.P)
+        print("add: ", q_z)
         self.assertTrue(q_z.t == 1)
         self.assertTrue(q_z.x == 2)
         self.assertTrue(q_z.y == -6)
         self.assertTrue(q_z.z == -4)
         
     def test_dif(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q1.dif(q2)
-        if self.verbose: print("dif: {}".format(q_z))
+        q_z = self.Q.dif(self.P)
+        print("dif: ", q_z)
         self.assertTrue(q_z.t == 1)
         self.assertTrue(q_z.x == -6)
         self.assertTrue(q_z.y == 0)
         self.assertTrue(q_z.z == -4) 
 
     def test_product(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q1.product(q2)
-        if self.verbose: print("product: {}".format(q_z))
+        q_z = self.Q.product(self.P)
+        print("product: ", q_z)
         self.assertTrue(q_z.t == -1)
         self.assertTrue(q_z.x == -8)
         self.assertTrue(q_z.y == -19)
         self.assertTrue(q_z.z == 18)
         
     def test_product_even(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q1.product(q2, kind="even")
-        if self.verbose: print("product, kind even: {}".format(q_z))
+        q_z = self.Q.product(self.P, kind="even")
+        print("product, kind even: ", q_z)
         self.assertTrue(q_z.t == -1)
         self.assertTrue(q_z.x == 4)
         self.assertTrue(q_z.y == -3)
         self.assertTrue(q_z.z == 0)
         
     def test_product_odd(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q1.product(q2, kind="odd")
-        if self.verbose: print("product, kind odd: {}".format(q_z))
+        q_z = self.Q.product(self.P, kind="odd")
+        print("product, kind odd: ", q_z)
         self.assertTrue(q_z.t == 0)
         self.assertTrue(q_z.x == -12)
         self.assertTrue(q_z.y == -16)
         self.assertTrue(q_z.z == 18)
         
     def test_product_even_minus_odd(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q1.product(q2, kind="even_minus_odd")
-        if self.verbose: print("product, kind even_minus_odd: {}".format(q_z))
+        q_z = self.Q.product(self.P, kind="even_minus_odd")
+        print("product, kind even_minus_odd: ", q_z)
         self.assertTrue(q_z.t == -1)
         self.assertTrue(q_z.x == 16)
         self.assertTrue(q_z.y == 13)
         self.assertTrue(q_z.z == -18)
         
     def test_product_reverse(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q1q2_rev = q1.product(q2, reverse=True)
-        q2q1 = q2.product(q1)
+        q1q2_rev = self.Q.product(self.P, reverse=True)
+        q2q1 = self.P.product(self.Q)
         self.assertTrue(q1q2_rev.equals(q2q1))
         
     def test_Euclidean_product(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q1.Euclidean_product(q2)
-        if self.verbose: print("Euclidean product: {}".format(q_z))
+        q_z = self.Q.Euclidean_product(self.P)
+        print("Euclidean product: ", q_z)
         self.assertTrue(q_z.t == 1)
         self.assertTrue(q_z.x == 16)
         self.assertTrue(q_z.y == 13)
         self.assertTrue(q_z.z == -18)
         
     def test_invert(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q2.invert()
-        if self.verbose: print("invert: {}".format(q_z))
+        q_z = self.P.invert()
+        print("invert: ", q_z)
         self.assertTrue(q_z.t == 0)
         self.assertTrue(q_z.x == -0.16)
         self.assertTrue(q_z.y == 0.12)
         self.assertTrue(q_z.z == 0)
                 
     def test_divide_by(self):
-        q1 = self.Q.dupe()
-        q_z = q1.divide_by(q1)
-        if self.verbose: print("divide_by: {}".format(q_z))
+        q_z = self.Q.divide_by(self.Q)
+        print("divide_by: ", q_z)
         self.assertTrue(q_z.t == 1)
         self.assertTrue(q_z.x == 0)
         self.assertTrue(q_z.y == 0)
         self.assertTrue(q_z.z == 0) 
         
     def test_triple_product(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q1.triple_product(q2, q1)
-        if self.verbose: print("triple product: {}".format(q_z))
+        q_z = self.Q.triple_product(self.P, self.Q)
+        print("triple product: ", q_z)
         self.assertTrue(q_z.t == -2)
         self.assertTrue(q_z.x == 124)
         self.assertTrue(q_z.y == -84)
         self.assertTrue(q_z.z == 8)
         
     def test_rotate(self):
-        q1 = self.Q.dupe()
-        q_z = q1.rotate(1)
-        if self.verbose: print("rotate: {}".format(q_z))
+        q_z = self.Q.rotate(1)
+        print("rotate: ", q_z)
         self.assertTrue(q_z.t == 1)
         self.assertTrue(q_z.x == -2)
         self.assertTrue(q_z.y == 3)
         self.assertTrue(q_z.z == 4)
         
     def test_boost(self):
-        q1 = self.Q.dupe()
-        q1_sq = q1.square()
-        q_z = q1.boost(0.003)
+        q1_sq = self.Q.square()
+        q_z = self.Q.boost(0.003)
         q_z2 = q_z.square()
-        if self.verbose: print("q1_sq: {}".format(q1_sq))
-        if self.verbose: print("boosted: {}".format(q_z))
-        if self.verbose: print("boosted squared: {}".format(q_z2))
-        print("{}")
+        print("q1_sq: ", q1_sq)
+        print("boosted: ", q_z)
+        print("boosted squared: ", q_z2)
         self.assertTrue(round(q_z2.t, 5) == round(q1_sq.t, 5))
 
     def test_g_shift(self):
-        q1 = self.Q.dupe()
-        q1_sq = q1.square()
-        q_z = q1.g_shift(0.003)
+        q1_sq = self.Q.square()
+        q_z = self.Q.g_shift(0.003)
         q_z2 = q_z.square()
-        q_z_minimal = q1.g_shift(0.003, g_form="minimal")
+        q_z_minimal = self.Q.g_shift(0.003, g_form="minimal")
         q_z2_minimal = q_z_minimal.square()
-        if self.verbose: print("q1_sq: {}".format(q1_sq))
-        if self.verbose: print("g_shift: {}".format(q_z))
-        if self.verbose: print("g squared: {}".format(q_z2))
+        print("q1_sq: ", q1_sq)
+        print("g_shift: ", q_z)
+        print("g squared: ", q_z2)
         self.assertTrue(q_z2.t != q1_sq.t)
         self.assertTrue(q_z2.x == q1_sq.x)
         self.assertTrue(q_z2.y == q1_sq.y)
@@ -931,6 +919,11 @@ class QHa(object):
 
         return QHa([0.0, 0.0, 0.0, 1.0], qtype=qtype)
 
+    def q_random(self, qtype="?"):
+        """Return a random-valued quaternion."""
+
+        return QHa([random.random(), random.random(), random.random(), random.random()], qtype=qtype)
+    
     def dupe(self, qtype=""):
         """Return a duplicate copy, good for testing since qtypes persist"""
         
@@ -942,7 +935,7 @@ class QHa(object):
         self_t, self_x, self_y, self_z = sp.expand(self.a[0]), sp.expand(self.a[1]), sp.expand(self.a[2]), sp.expand(self.a[3])
         q2_t, q2_x, q2_y, q2_z = sp.expand(q2.a[0]), sp.expand(q2.a[1]), sp.expand(q2.a[2]), sp.expand(q2.a[3])
         
-        if (self_t == q2_t) and (self_x == q2_x) and (self_y == q2_y) and (self_z == q2_z):
+        if math.isclose(self_t, q2_t) and math.isclose(self_x, q2_x) and math.isclose(self_y, q2_y) and math.isclose(self_z, q2_z):
             return True
         
         else:
@@ -1122,6 +1115,16 @@ class QHa(object):
         av.add_qtype(qtype)
         return av
 
+    def normalize(self, qtype="U"):
+        """Normalize a quaternion"""
+        
+        abs_q_inv = self.abs_of_q().invert()
+        n_q = self.product(abs_q_inv)
+
+        n_q.q_type = self.qtype
+        n_q.add_qtype(qtype)
+        return n_q
+    
     def add(self, QHa_1, qtype=""):
         """Form a add given 2 quaternions."""
 
@@ -1347,296 +1350,270 @@ class TestQHa(unittest.TestCase):
 
     Q = QHa([1.0, -2.0, -3.0, -4.0], qtype="Q")
     P = QHa([0.0, 4.0, -3.0, 0.0], qtype="P")
-    verbose = True
 
     def test_qt(self):
-        q1 = self.Q.dupe()
-        self.assertTrue(q1.a[0] == 1)
+        self.assertTrue(self.Q.a[0] == 1)
 
     def test_q_0(self):
-        q1 = self.Q.dupe()
-        q_z = q1.q_0()
-        if self.verbose: print("q_0: {}".format(q_z))
+        q_z = self.Q.q_0()
+        print("q_0: ", q_z)
         self.assertTrue(q_z.a[0] == 0)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 0)
         self.assertTrue(q_z.a[3] == 0)
 
     def test_q_1(self):
-        q1 = self.Q.dupe()
-        q_z = q1.q_1()
-        if self.verbose: print("q_1: {}".format(q_z))
+        q_z = self.Q.q_1()
+        print("q_1: ", q_z)
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 0)
         self.assertTrue(q_z.a[3] == 0)
     
     def test_q_i(self):
-        q1 = self.Q.dupe()
-        q_z = q1.q_i()
-        if self.verbose: print("q_i: {}".format(q_z))
+        q_z = self.Q.q_i()
+        print("q_i: ", q_z)
         self.assertTrue(q_z.a[0] == 0)
         self.assertTrue(q_z.a[1] == 1)
         self.assertTrue(q_z.a[2] == 0)
         self.assertTrue(q_z.a[3] == 0)
 
     def test_q_j(self):
-        q1 = self.Q.dupe()
-        q_z = q1.q_j()
-        if self.verbose: print("q_1: {}".format(q_z))
+        q_z = self.Q.q_j()
+        print("q_1: ", q_z)
         self.assertTrue(q_z.a[0] == 0)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 1)
         self.assertTrue(q_z.a[3] == 0)
 
     def test_q_k(self):
-        q1 = self.Q.dupe()
-        q_z = q1.q_k()
-        if self.verbose: print("q_k: {}".format(q_z))
+        q_z = self.Q.q_k()
+        print("q_k: ", q_z)
         self.assertTrue(q_z.a[0] == 0)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 0)
         self.assertTrue(q_z.a[3] == 1)
-        
+    
+    def test_q_random(self):
+        q_z = self.Q.q_random()
+        print("q_random(): ", q_z)
+        self.assertTrue(q_z.a[0] >= 0 and q_z.a[0] <= 1)
+        self.assertTrue(q_z.a[1] >= 0 and q_z.a[1] <= 1)
+        self.assertTrue(q_z.a[2] >= 0 and q_z.a[2] <= 1)
+        self.assertTrue(q_z.a[3] >= 0 and q_z.a[3] <= 1)
+            
     def test_equals(self):
         self.assertTrue(self.Q.equals(self.Q))
         self.assertFalse(self.Q.equals(self.P))
 
     def test_conj_0(self):
-        q1 = self.Q.dupe()
-        q_z = q1.conj()
-        if self.verbose: print("q_conj 0: {}".format(q_z))
+        q_z = self.Q.conj()
+        print("q_conj 0: ", q_z)
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[1] == 2)
         self.assertTrue(q_z.a[2] == 3)
         self.assertTrue(q_z.a[3] == 4)
 
     def test_conj_1(self):
-        q1 = self.Q.dupe()
-        q_z = q1.conj(1)
-        if self.verbose: print("q_conj 1: {}".format(q_z))
+        q_z = self.Q.conj(1)
+        print("q_conj 1: ", q_z)
         self.assertTrue(q_z.a[0] == -1)
         self.assertTrue(q_z.a[1] == -2)
         self.assertTrue(q_z.a[2] == 3)
         self.assertTrue(q_z.a[3] == 4)
 
     def test_conj_2(self):
-        q1 = self.Q.dupe()
-        q_z = q1.conj(2)
-        if self.verbose: print("q_conj 2: {}".format(q_z))
+        q_z = self.Q.conj(2)
+        print("q_conj 2: ", q_z)
         self.assertTrue(q_z.a[0] == -1)
         self.assertTrue(q_z.a[1] == 2)
         self.assertTrue(q_z.a[2] == -3)
         self.assertTrue(q_z.a[3] == 4)
 
     def test_vahlen_conj_minus(self):
-        q1 = self.Q.dupe()
-        q_z = q1.vahlen_conj()
-        if self.verbose: print("q_vahlen_conj -: {}".format(q_z))
+        q_z = self.Q.vahlen_conj()
+        print("q_vahlen_conj -: ", q_z)
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[1] == 2)
         self.assertTrue(q_z.a[2] == 3)
         self.assertTrue(q_z.a[3] == 4)
 
     def test_vahlen_conj_star(self):
-        q1 = self.Q.dupe()
-        q_z = q1.vahlen_conj('*')
-        if self.verbose: print("q_vahlen_conj *: {}".format(q_z))
+        q_z = self.Q.vahlen_conj('*')
+        print("q_vahlen_conj *: ", q_z)
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[1] == -2)
         self.assertTrue(q_z.a[2] == -3)
         self.assertTrue(q_z.a[3] == 4)
 
     def test_vahlen_conj_prime(self):
-        q1 = self.Q.dupe()
-        q_z = q1.vahlen_conj("'")
-        if self.verbose: print("q_vahlen_conj ': {}".format(q_z))
+        q_z = self.Q.vahlen_conj("'")
+        print("q_vahlen_conj ': ", q_z)
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[1] == 2)
         self.assertTrue(q_z.a[2] == 3)
         self.assertTrue(q_z.a[3] == -4)
 
     def test_square(self):
-        q1 = self.Q.dupe()
-        q_z = q1.square()
-        if self.verbose: print("square: {}".format(q_z))
+        q_z = self.Q.square()
+        print("square: ", q_z)
         self.assertTrue(q_z.a[0] == -28)
         self.assertTrue(q_z.a[1] == -4)
         self.assertTrue(q_z.a[2] == -6)
         self.assertTrue(q_z.a[3] == -8)
 
     def test_norm_squared(self):
-        q1 = self.Q.dupe()
-        q_z = q1.norm_squared()
-        if self.verbose: print("norm_squared: {}".format(q_z))
+        q_z = self.Q.norm_squared()
+        print("norm_squared: ", q_z)
         self.assertTrue(q_z.a[0] == 30)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 0)
         self.assertTrue(q_z.a[3] == 0)
 
     def test_norm_squared_of_vector(self):
-        q1 = self.Q.dupe()
-        q_z = q1.norm_squared_of_vector()
-        if self.verbose: print("norm_squared_of_vector: {}".format(q_z))
+        q_z = self.Q.norm_squared_of_vector()
+        print("norm_squared_of_vector: ", q_z)
         self.assertTrue(q_z.a[0] == 29)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 0)
         self.assertTrue(q_z.a[3] == 0)
         
     def test_abs_of_q(self):
-        q2 = self.P.dupe()
-        q_z = q2.abs_of_q()
-        if self.verbose: print("abs_of_q: {}".format(q_z))
+        q_z = self.P.abs_of_q()
+        print("abs_of_q: ", q_z)
         self.assertTrue(q_z.a[0] == 5.0)
         self.assertTrue(q_z.a[1] == 0.0)
         self.assertTrue(q_z.a[2] == 0.0)
         self.assertTrue(q_z.a[3] == 0.0)
         
     def test_abs_of_vector(self):
-        q2 = self.P.dupe()
-        q_z = q2.abs_of_vector()
-        if self.verbose: print("abs_of_vector: {}".format(q_z))
+        q_z = self.P.abs_of_vector()
+        print("abs_of_vector: ", q_z)
         self.assertTrue(q_z.a[0] == 5)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 0)
         self.assertTrue(q_z.a[3] == 0)
-        
+    
+    def test_normalize(self):
+        q_z = self.P.normalize()
+        print("q_normalized: ", q_z)
+        self.assertTrue(q_z.a[0] == 0)
+        self.assertTrue(q_z.a[1] == 0.8)
+        self.assertAlmostEqual(q_z.a[2], -0.6)
+        self.assertTrue(q_z.a[3] == 0)
+    
     def test_add(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q1.add(q2)
-        if self.verbose: print("add: {}".format(q_z))
+        q_z = self.Q.add(self.P)
+        print("add: ", q_z)
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[1] == 2)
         self.assertTrue(q_z.a[2] == -6)
         self.assertTrue(q_z.a[3] == -4)
         
     def test_dif(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q1.dif(q2)
-        if self.verbose: print("dif: {}".format(q_z))
+        q_z = self.Q.dif(self.P)
+        print("dif: ", q_z)
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[1] == -6)
         self.assertTrue(q_z.a[2] == 0)
         self.assertTrue(q_z.a[3] == -4) 
 
     def test_product(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q1.product(q2)
-        if self.verbose: print("product: {}".format(q_z))
+        q_z = self.Q.product(self.P)
+        print("product: ", q_z)
         self.assertTrue(q_z.a[0] == -1)
         self.assertTrue(q_z.a[1] == -8)
         self.assertTrue(q_z.a[2] == -19)
         self.assertTrue(q_z.a[3] == 18)
         
     def test_product_even(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q1.product(q2, kind="even")
-        if self.verbose: print("product even: {}".format(q_z))
+        q_z = self.Q.product(self.P, kind="even")
+        print("product even: ", q_z)
         self.assertTrue(q_z.a[0] == -1)
         self.assertTrue(q_z.a[1] == 4)
         self.assertTrue(q_z.a[2] == -3)
         self.assertTrue(q_z.a[3] == 0)
         
     def test_product_odd(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q1.product(q2, kind="odd")
-        if self.verbose: print("product odd: {}".format(q_z))
+        q_z = self.Q.product(self.P, kind="odd")
+        print("product odd: ", q_z)
         self.assertTrue(q_z.a[0] == 0)
         self.assertTrue(q_z.a[1] == -12)
         self.assertTrue(q_z.a[2] == -16)
         self.assertTrue(q_z.a[3] == 18)
         
     def test_product_reverse(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q1q2_rev = q1.product(q2, reverse=True)
-        q2q1 = q2.product(q1)
+        q1q2_rev = self.Q.product(self.P, reverse=True)
+        q2q1 = self.P.product(self.Q)
         self.assertTrue(q1q2_rev.equals(q2q1))
 
     def test_product_even_minus_odd(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q1.product(q2, kind="even_minus_odd")
-        if self.verbose: print("product even_minus_odd: {}".format(q_z))
+        q_z = self.Q.product(self.P, kind="even_minus_odd")
+        print("product even_minus_odd: ", q_z)
         self.assertTrue(q_z.a[0] == -1)
         self.assertTrue(q_z.a[1] == 16)
         self.assertTrue(q_z.a[2] == 13)
         self.assertTrue(q_z.a[3] == -18)
         
     def test_Euclidean_product(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q1.Euclidean_product(q2)
-        if self.verbose: print("Euclidean product: {}".format(q_z))
+        q_z = self.Q.Euclidean_product(self.P)
+        print("Euclidean product: ", q_z)
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[1] == 16)
         self.assertTrue(q_z.a[2] == 13)
         self.assertTrue(q_z.a[3] == -18)
 
     def test_invert(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q2.invert()
-        if self.verbose: print("invert: {}".format(q_z))
+        q_z = self.P.invert()
+        print("invert: ", q_z)
         self.assertTrue(q_z.a[0] == 0)
         self.assertTrue(q_z.a[1] == -0.16)
         self.assertTrue(q_z.a[2] == 0.12)
         self.assertTrue(q_z.a[3] == 0)
                 
     def test_divide_by(self):
-        q1 = self.Q.dupe()
-        q_z = q1.divide_by(q1)
-        if self.verbose: print("divide_by: {}".format(q_z))
+        q_z = self.Q.divide_by(self.Q)
+        print("divide_by: ", q_z)
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 0)
         self.assertTrue(q_z.a[3] == 0) 
         
     def test_triple_product(self):
-        q1 = self.Q.dupe()
-        q2 = self.P.dupe()
-        q_z = q1.triple_product(q2, q1)
-        if self.verbose: print("triple product: {}".format(q_z))
+        q_z = self.Q.triple_product(self.P, self.Q)
+        print("triple product: ", q_z)
         self.assertTrue(q_z.a[0] == -2)
         self.assertTrue(q_z.a[1] == 124)
         self.assertTrue(q_z.a[2] == -84)
         self.assertTrue(q_z.a[3] == 8)
         
     def test_rotate(self):
-        q1 = self.Q.dupe()
-        q_z = q1.rotate(1)
-        if self.verbose: print("rotate: {}".format(q_z))
+        q_z = self.Q.rotate(1)
+        print("rotate: ", q_z)
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[1] == -2)
         self.assertTrue(q_z.a[2] == 3)
         self.assertTrue(q_z.a[3] == 4)
         
     def test_boost(self):
-        q1 = self.Q.dupe()
-        q1_sq = q1.square()
-        q_z = q1.boost(0.003)
+        q1_sq = self.Q.square()
+        q_z = self.Q.boost(0.003)
         q_z2 = q_z.square()
-        if self.verbose: print("q1_sq: {}".format(q1_sq))
-        if self.verbose: print("boosted: {}".format(q_z))
-        if self.verbose: print("boosted squared: {}".format(q_z2))
+        print("q1_sq: ".format(q1_sq))
+        print("boosted: ", q_z)
+        print("boosted squared: ".format(q_z2))
         print("{}")
         self.assertTrue(round(q_z2.a[0], 5) == round(q1_sq.a[0], 5))
 
     def test_g_shift(self):
-        q1 = self.Q.dupe()
-        q1_sq = q1.square()
-        q_z = q1.g_shift(0.003)
+        q1_sq = self.Q.square()
+        q_z = self.Q.g_shift(0.003)
         q_z2 = q_z.square()
-        q_z_minimal = q1.g_shift(0.003, g_form="minimal")
+        q_z_minimal = self.Q.g_shift(0.003, g_form="minimal")
         q_z2_minimal = q_z_minimal.square()
-        if self.verbose: print("q1_sq: {}".format(q1_sq))
-        if self.verbose: print("g_shift: {}".format(q_z))
-        if self.verbose: print("g squared: {}".format(q_z2))
+        print("q1_sq: ".format(q1_sq))
+        print("g_shift: ", q_z)
+        print("g squared: ".format(q_z2))
         self.assertTrue(q_z2.a[0] != q1_sq.a[0])
         self.assertTrue(q_z2.a[1] == q1_sq.a[1])
         self.assertTrue(q_z2.a[2] == q1_sq.a[2])
@@ -2088,6 +2065,11 @@ class Q8(object):
         
         return Q8([0, 0, 0, 1])
     
+    def q_random(self, qtype="?"):
+        """Return a random-valued quaternion."""
+
+        return Q8([random.random(), random.random(), random.random(), random.random()], qtype=qtype)
+    
     def equals(self, q2):
         """Tests if two quaternions are equal."""
         
@@ -2095,7 +2077,7 @@ class Q8(object):
             d1_red = d1.d_reduce()
             d2_red = d2.d_reduce()
             
-            if (d1_red.p == d2_red.p) and (d1_red.n == d2_red.n):
+            if math.isclose(d1_red.p, d2_red.p) and math.isclose(d1_red.n, d2_red.n):
                 return True
             
             else:
@@ -2267,6 +2249,16 @@ class Q8(object):
         av.qtype = self.qtype
         av.add_qtype(qtype)
         return av
+    
+    def normalize(self, qtype="U"):
+        """Normalize a quaternion"""
+        
+        abs_q_inv = self.abs_of_q().invert()
+        n_q = self.product(abs_q_inv)
+
+        n_q.q_type = self.qtype
+        n_q.add_qtype(qtype)
+        return n_q
     
     def add(self, q1, qtype=""):
         """Form a add given 2 quaternions."""
@@ -2460,14 +2452,13 @@ class TestQ8(unittest.TestCase):
     q1 = Q8([1, 0, 0, 2, 0, 3, 0, 4])
     q2 = Q8([0, 0, 4, 0, 0, 3, 0, 0])
     q_big = Q8([1, 2, 3, 4, 5, 6, 7, 8])
-    verbose = True
     
     def test_qt(self):
         self.assertTrue(self.q1.dt.p == 1)
     
     def test_q_0(self):
         q_z = self.q1.q_0()
-        if self.verbose: print("q_0: {}".format(q_z))
+        print("q_0: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dx.p == 0)
         self.assertTrue(q_z.dy.n == 0)
@@ -2475,7 +2466,7 @@ class TestQ8(unittest.TestCase):
         
     def test_q_1(self):
         q_z = self.q1.q_1()
-        if self.verbose: print("q_1: {}".format(q_z))
+        print("q_1: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dx.p == 0)
         self.assertTrue(q_z.dy.p == 0)
@@ -2483,7 +2474,7 @@ class TestQ8(unittest.TestCase):
         
     def test_q_i(self):
         q_z = self.q1.q_i()
-        if self.verbose: print("q_i: {}".format(q_z))
+        print("q_i: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dx.p == 1)
         self.assertTrue(q_z.dy.p == 0)
@@ -2491,7 +2482,7 @@ class TestQ8(unittest.TestCase):
         
     def test_q_j(self):
         q_z = self.q1.q_j()
-        if self.verbose: print("q_j: {}".format(q_z))
+        print("q_j: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dx.p == 0)
         self.assertTrue(q_z.dy.p == 1)
@@ -2499,19 +2490,27 @@ class TestQ8(unittest.TestCase):
                 
     def test_q_k(self):
         q_z = self.q1.q_k()
-        if self.verbose: print("q_k: {}".format(q_z))
+        print("q_k: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dx.p == 0)
         self.assertTrue(q_z.dy.p == 0)
         self.assertTrue(q_z.dz.p == 1)
-
+        
+    def test_q_random(self):
+        q_z = self.q1.q_random()
+        print("q_random():", q_z)
+        self.assertTrue(q_z.dt.p >= 0 and q_z.dt.p <= 1)
+        self.assertTrue(q_z.dx.p >= 0 and q_z.dx.p <= 1)
+        self.assertTrue(q_z.dy.p >= 0 and q_z.dy.p <= 1)
+        self.assertTrue(q_z.dz.p >= 0 and q_z.dz.p <= 1)
+        
     def test_equals(self):
         self.assertTrue(self.q1.equals(self.q1))
         self.assertFalse(self.q1.equals(self.q2))
         
     def test_conj_0(self):
         q_z = self.q1.conj()
-        if self.verbose: print("conj 0: {}".format(q_z))
+        print("conj 0: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dx.p == 2)
         self.assertTrue(q_z.dy.p == 3)
@@ -2519,7 +2518,7 @@ class TestQ8(unittest.TestCase):
                  
     def test_conj_1(self):
         q_z = self.q1.conj(1)
-        if self.verbose: print("conj 1: {}".format(q_z))
+        print("conj 1: {}", q_z)
         self.assertTrue(q_z.dt.n == 1)
         self.assertTrue(q_z.dx.n == 2)
         self.assertTrue(q_z.dy.p == 3)
@@ -2527,7 +2526,7 @@ class TestQ8(unittest.TestCase):
                  
     def test_conj_2(self):
         q_z = self.q1.conj(2)
-        if self.verbose: print("conj 2: {}".format(q_z))
+        print("conj 2: {}", q_z)
         self.assertTrue(q_z.dt.n == 1)
         self.assertTrue(q_z.dx.p == 2)
         self.assertTrue(q_z.dy.n == 3)
@@ -2535,7 +2534,7 @@ class TestQ8(unittest.TestCase):
         
     def test_vahlen_conj_0(self):
         q_z = self.q1.vahlen_conj()
-        if self.verbose: print("vahlen conj -: {}".format(q_z))
+        print("vahlen conj -: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dx.p == 2)
         self.assertTrue(q_z.dy.p == 3)
@@ -2543,7 +2542,7 @@ class TestQ8(unittest.TestCase):
                  
     def test_vahlen_conj_1(self):
         q_z = self.q1.vahlen_conj("'")
-        if self.verbose: print("vahlen conj ': {}".format(q_z))
+        print("vahlen conj ': {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dx.p == 2)
         self.assertTrue(q_z.dy.p == 3)
@@ -2551,7 +2550,7 @@ class TestQ8(unittest.TestCase):
                  
     def test_vahlen_conj_2(self):
         q_z = self.q1.vahlen_conj('*')
-        if self.verbose: print("vahlen conj *: {}".format(q_z))
+        print("vahlen conj *: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dx.n == 2)
         self.assertTrue(q_z.dy.n == 3)
@@ -2560,8 +2559,8 @@ class TestQ8(unittest.TestCase):
     def test_square(self):
         q_sq = self.q1.square()
         q_sq_red = q_sq.reduce()
-        if self.verbose: print("square: {}".format(q_sq))
-        if self.verbose: print("square reduced: {}".format(q_sq_red))
+        print("square: {}".format(q_sq))
+        print("square reduced: {}".format(q_sq_red))
         self.assertTrue(q_sq.dt.p == 1)
         self.assertTrue(q_sq.dt.n == 29)
         self.assertTrue(q_sq.dx.n == 4)
@@ -2572,7 +2571,7 @@ class TestQ8(unittest.TestCase):
                 
     def test_reduce(self):
         q_red = self.q_big.reduce()
-        if self.verbose: print("q_big reduced: {}".format(q_red))
+        print("q_big reduced: {}".format(q_red))
         self.assertTrue(q_red.dt.p == 0)
         self.assertTrue(q_red.dt.n == 1)
         self.assertTrue(q_red.dx.p == 0)
@@ -2584,7 +2583,7 @@ class TestQ8(unittest.TestCase):
         
     def test_norm_squared(self):
         q_z = self.q1.norm_squared()
-        if self.verbose: print("norm_squared: {}".format(q_z))
+        print("norm_squared: {}", q_z)
         self.assertTrue(q_z.dt.p == 30)
         self.assertTrue(q_z.dt.n == 0)
         self.assertTrue(q_z.dx.p == 0)
@@ -2596,7 +2595,7 @@ class TestQ8(unittest.TestCase):
         
     def test_norm_squared_of_vector(self):
         q_z = self.q1.norm_squared_of_vector()
-        if self.verbose: print("norm_squared_of_vector: {}".format(q_z))
+        print("norm_squared_of_vector: {}", q_z)
         self.assertTrue(q_z.dt.p == 29)
         self.assertTrue(q_z.dt.n == 0)
         self.assertTrue(q_z.dx.p == 0)
@@ -2608,7 +2607,7 @@ class TestQ8(unittest.TestCase):
         
     def test_abs_of_q(self):
         q_z = self.q2.abs_of_q()
-        if self.verbose: print("abs_of_q: {}".format(q_z))
+        print("abs_of_q: {}", q_z)
         self.assertTrue(q_z.dt.p == 5)
         self.assertTrue(q_z.dx.p == 0)
         self.assertTrue(q_z.dy.p == 0)
@@ -2620,7 +2619,7 @@ class TestQ8(unittest.TestCase):
         
     def test_abs_of_vector(self):
         q_z = self.q2.abs_of_vector()
-        if self.verbose: print("abs_of_vector: {}".format(q_z))
+        print("abs_of_vector: {}", q_z)
         self.assertTrue(q_z.dt.p == 5)
         self.assertTrue(q_z.dx.p == 0)
         self.assertTrue(q_z.dy.p == 0)
@@ -2630,9 +2629,21 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dy.n == 0)
         self.assertTrue(q_z.dz.n == 0)
         
+    def test_normalize(self):
+        q_z = self.q2.normalize()
+        print("q_normalized: {}", q_z)
+        self.assertTrue(q_z.dt.p == 0)
+        self.assertTrue(q_z.dt.n == 0)
+        self.assertTrue(q_z.dx.p == 0.8)
+        self.assertTrue(q_z.dx.n == 0)
+        self.assertTrue(q_z.dy.p == 0)
+        self.assertAlmostEqual(q_z.dy.n, 0.6)
+        self.assertTrue(q_z.dz.p == 0)    
+        self.assertTrue(q_z.dz.n == 0)    
+        
     def test_add(self):
         q_z = self.q1.add(self.q2)
-        if self.verbose: print("add: {}".format(q_z))
+        print("add: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dt.n == 0)
         self.assertTrue(q_z.dx.p == 4)
@@ -2644,7 +2655,7 @@ class TestQ8(unittest.TestCase):
         
     def test_add_reduce(self):
         q_z_red = self.q1.add(self.q2).reduce()
-        if self.verbose: print("add reduce: {}".format(q_z_red))
+        print("add reduce: {}".format(q_z_red))
         self.assertTrue(q_z_red.dt.p == 1)
         self.assertTrue(q_z_red.dt.n == 0)
         self.assertTrue(q_z_red.dx.p == 2)
@@ -2656,7 +2667,7 @@ class TestQ8(unittest.TestCase):
         
     def test_dif(self):
         q_z = self.q1.dif(self.q2)
-        if self.verbose: print("dif: {}".format(q_z))
+        print("dif: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dt.n == 0)
         self.assertTrue(q_z.dx.p == 0)
@@ -2668,7 +2679,7 @@ class TestQ8(unittest.TestCase):
 
     def test_product(self):
         q_z = self.q1.product(self.q2).reduce()
-        if self.verbose: print("product: {}".format(q_z))
+        print("product: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dt.n == 1)
         self.assertTrue(q_z.dx.p == 0)
@@ -2680,7 +2691,7 @@ class TestQ8(unittest.TestCase):
         
     def test_product_even(self):
         q_z = self.q1.product(self.q2, kind="even").reduce()
-        if self.verbose: print("product, kind even: {}".format(q_z))
+        print("product, kind even: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dt.n == 1)
         self.assertTrue(q_z.dx.p == 4)
@@ -2692,7 +2703,7 @@ class TestQ8(unittest.TestCase):
         
     def test_product_odd(self):
         q_z = self.q1.product(self.q2, kind="odd").reduce()
-        if self.verbose: print("product, kind odd: {}".format(q_z))
+        print("product, kind odd: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dt.n == 0)
         self.assertTrue(q_z.dx.p == 0)
@@ -2704,7 +2715,7 @@ class TestQ8(unittest.TestCase):
     
     def test_product_even_minus_odd(self):
         q_z = self.q1.product(self.q2, kind="even_minus_odd").reduce()
-        if self.verbose: print("product, kind odd: {}".format(q_z))
+        print("product, kind odd: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dt.n == 1)
         self.assertTrue(q_z.dx.p == 16)
@@ -2721,7 +2732,7 @@ class TestQ8(unittest.TestCase):
         
     def test_Euclidean_product(self):
         q_z = self.q1.Euclidean_product(self.q2).reduce()
-        if self.verbose: print("Euclidean product: {}".format(q_z))
+        print("Euclidean product: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dt.n == 0)
         self.assertTrue(q_z.dx.p == 16)
@@ -2733,7 +2744,7 @@ class TestQ8(unittest.TestCase):
         
     def test_invert(self):
         q_z = self.q2.invert().reduce()
-        if self.verbose: print("inverse: {}".format(q_z))
+        print("inverse: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dt.n == 0)
         self.assertTrue(q_z.dx.p == 0)
@@ -2745,7 +2756,7 @@ class TestQ8(unittest.TestCase):
 
     def test_divide_by(self):
         q_z = self.q1.divide_by(self.q1).reduce()
-        if self.verbose: print("inverse: {}".format(q_z))
+        print("inverse: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dt.n == 0)
         self.assertTrue(q_z.dx.p == 0)
@@ -2757,7 +2768,7 @@ class TestQ8(unittest.TestCase):
         
     def test_triple_product(self):
         q_z = self.q1.triple_product(self.q2, self.q1).reduce()
-        if self.verbose: print("triple: {}".format(q_z))
+        print("triple: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dt.n == 2)
         self.assertTrue(q_z.dx.p == 124)
@@ -2769,7 +2780,7 @@ class TestQ8(unittest.TestCase):
         
     def test_rotate(self):
         q_z = self.q1.rotate(1).reduce()
-        if self.verbose: print("rotate: {}".format(q_z))
+        print("rotate: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dt.n == 0)
         self.assertTrue(q_z.dx.p == 0)
@@ -2783,18 +2794,18 @@ class TestQ8(unittest.TestCase):
         q1_sq = self.q1.square().reduce()
         q_z = self.q1.boost(0.003)
         q_z2 = q_z.square().reduce()
-        if self.verbose: print("q1_sq: {}".format(q1_sq))
-        if self.verbose: print("boosted: {}".format(q_z))
-        if self.verbose: print("b squared: {}".format(q_z2))
+        print("q1_sq: {}".format(q1_sq))
+        print("boosted: {}", q_z)
+        print("b squared: {}".format(q_z2))
         self.assertTrue(round(q_z2.dt.n, 12) == round(q1_sq.dt.n, 12))
         
     def test_g_shift(self):
         q1_sq = self.q1.square().reduce()
         q_z = self.q1.g_shift(0.003)
         q_z2 = q_z.square().reduce()
-        if self.verbose: print("q1_sq: {}".format(q1_sq))
-        if self.verbose: print("g_shift: {}".format(q_z))
-        if self.verbose: print("g squared: {}".format(q_z2))
+        print("q1_sq: {}".format(q1_sq))
+        print("g_shift: {}", q_z)
+        print("g squared: {}".format(q_z2))
         self.assertTrue(q_z2.dt.n != q1_sq.dt.n)
         self.assertTrue(q_z2.dx.p == q1_sq.dx.p)
         self.assertTrue(q_z2.dx.n == q1_sq.dx.n)
@@ -2881,6 +2892,11 @@ class Q8a(object):
         
         return Q8a([0, 0, 0, 0, 0, 0, 1, 0])
 
+    def q_random(self, qtype="?"):
+        """Return a random-valued quaternion."""
+
+        return QH([random.random(), random.random(), random.random(), random.random(), random.random(), random.random(), random.random(), random.random()], qtype=qtype)
+    
     def equals(self, q2):
         """Tests if two quaternions are equal."""
         
@@ -3133,6 +3149,16 @@ class Q8a(object):
         av.add_qtype(qtype)
         return av
     
+    def normalize(self, qtype="U"):
+        """Normalize a quaternion"""
+        
+        abs_q_inv = self.abs_of_q().invert()
+        n_q = self.product(abs_q_inv)
+
+        n_q.q_type = self.qtype
+        n_q.add_qtype(qtype)
+        return n_q
+    
     def add(self, q1, qtype=""):
         """Form a add given 2 quaternions."""
 
@@ -3351,7 +3377,7 @@ class TestQ8a(unittest.TestCase):
     
     def test_q_zero(self):
         q_z = self.q1.q_0()
-        if self.verbose: print("q0: {}".format(q_z))
+        print("q0: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 0)
         self.assertTrue(q_z.a[2] == 0)
         self.assertTrue(q_z.a[5] == 0)
@@ -3359,7 +3385,7 @@ class TestQ8a(unittest.TestCase):
         
     def test_q_1(self):
         q_z = self.q1.q_1()
-        if self.verbose: print("q_1: {}".format(q_z))
+        print("q_1: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[2] == 0)
         self.assertTrue(q_z.a[4] == 0)
@@ -3367,7 +3393,7 @@ class TestQ8a(unittest.TestCase):
         
     def test_q_i(self):
         q_z = self.q1.q_i()
-        if self.verbose: print("q_i: {}".format(q_z))
+        print("q_i: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 0)
         self.assertTrue(q_z.a[2] == 1)
         self.assertTrue(q_z.a[4] == 0)
@@ -3375,7 +3401,7 @@ class TestQ8a(unittest.TestCase):
         
     def test_q_j(self):
         q_z = self.q1.q_j()
-        if self.verbose: print("q_j: {}".format(q_z))
+        print("q_j: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 0)
         self.assertTrue(q_z.a[2] == 0)
         self.assertTrue(q_z.a[4] == 1)
@@ -3383,15 +3409,23 @@ class TestQ8a(unittest.TestCase):
     
     def test_q_k(self):
         q_z = self.q1.q_k()
-        if self.verbose: print("q_k: {}".format(q_z))
+        print("q_k: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 0)
         self.assertTrue(q_z.a[2] == 0)
         self.assertTrue(q_z.a[4] == 0)
         self.assertTrue(q_z.a[6] == 1)
                 
+    def test_q_random(self):
+        q_z = self.q1.q_random()
+        print("q_random():", q_z)
+        self.assertTrue(q_z.a[0] >= 0 and q_z.a[0] <= 1)
+        self.assertTrue(q_z.a[2] >= 0 and q_z.a[2] <= 1)
+        self.assertTrue(q_z.a[4] >= 0 and q_z.a[4] <= 1)
+        self.assertTrue(q_z.a[6] >= 0 and q_z.a[6] <= 1)
+            
     def test_conj_0(self):
         q_z = self.q1.conj()
-        if self.verbose: print("conj 0: {}".format(q_z))
+        print("conj 0: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[2] == 2)
         self.assertTrue(q_z.a[4] == 3)
@@ -3403,7 +3437,7 @@ class TestQ8a(unittest.TestCase):
                  
     def test_conj_1(self):
         q_z = self.q1.conj(1)
-        if self.verbose: print("conj 1: {}".format(q_z))
+        print("conj 1: {}".format(q_z))
         self.assertTrue(q_z.a[1] == 1)
         self.assertTrue(q_z.a[3] == 2)
         self.assertTrue(q_z.a[4] == 3)
@@ -3411,7 +3445,7 @@ class TestQ8a(unittest.TestCase):
                  
     def test_conj_2(self):
         q_z = self.q1.conj(2)
-        if self.verbose: print("conj 2: {}".format(q_z))
+        print("conj 2: {}".format(q_z))
         self.assertTrue(q_z.a[1] == 1)
         self.assertTrue(q_z.a[2] == 2)
         self.assertTrue(q_z.a[5] == 3)
@@ -3419,7 +3453,7 @@ class TestQ8a(unittest.TestCase):
         
     def test_vahlen_conj_0(self):
         q_z = self.q1.vahlen_conj()
-        if self.verbose: print("vahlen conj -: {}".format(q_z))
+        print("vahlen conj -: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[2] == 2)
         self.assertTrue(q_z.a[4] == 3)
@@ -3427,7 +3461,7 @@ class TestQ8a(unittest.TestCase):
                  
     def test_vahlen_conj_1(self):
         q_z = self.q1.vahlen_conj("'")
-        if self.verbose: print("vahlen conj ': {}".format(q_z))
+        print("vahlen conj ': {}".format(q_z))
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[2] == 2)
         self.assertTrue(q_z.a[4] == 3)
@@ -3435,7 +3469,7 @@ class TestQ8a(unittest.TestCase):
                  
     def test_vahlen_conj_2(self):
         q_z = self.q1.vahlen_conj('*')
-        if self.verbose: print("vahlen conj *: {}".format(q_z))
+        print("vahlen conj *: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[3] == 2)
         self.assertTrue(q_z.a[5] == 3)
@@ -3444,8 +3478,8 @@ class TestQ8a(unittest.TestCase):
     def test_square(self):
         q_sq = self.q1.square()
         q_sq_red = q_sq.reduce()
-        if self.verbose: print("square: {}".format(q_sq))
-        if self.verbose: print("square reduced: {}".format(q_sq_red))
+        print("square: {}".format(q_sq))
+        print("square reduced: {}".format(q_sq_red))
         self.assertTrue(q_sq.a[0] == 1)
         self.assertTrue(q_sq.a[1] == 29)
         self.assertTrue(q_sq.a[3] == 4)
@@ -3456,7 +3490,7 @@ class TestQ8a(unittest.TestCase):
                 
     def test_reduce(self):
         q_red = self.q_big.reduce()
-        if self.verbose: print("q_big reduced: {}".format(q_red))
+        print("q_big reduced: {}".format(q_red))
         self.assertTrue(q_red.a[0] == 0)
         self.assertTrue(q_red.a[1] == 1)
         self.assertTrue(q_red.a[2] == 0)
@@ -3468,7 +3502,7 @@ class TestQ8a(unittest.TestCase):
         
     def test_norm_squared(self):
         q_z = self.q1.norm_squared()
-        if self.verbose: print("norm_squared: {}".format(q_z))
+        print("norm_squared: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 30)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 0)
@@ -3480,7 +3514,7 @@ class TestQ8a(unittest.TestCase):
         
     def test_norm_squared_of_vector(self):
         q_z = self.q1.norm_squared_of_vector()
-        if self.verbose: print("norm_squared_of_vector: {}".format(q_z))
+        print("norm_squared_of_vector: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 29)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 0)
@@ -3492,7 +3526,7 @@ class TestQ8a(unittest.TestCase):
         
     def test_abs_of_q(self):
         q_z = self.q2.abs_of_q()
-        if self.verbose: print("abs_of_q: {}".format(q_z))
+        print("abs_of_q: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 5)
         self.assertTrue(q_z.a[2] == 0)
         self.assertTrue(q_z.a[4] == 0)
@@ -3504,7 +3538,7 @@ class TestQ8a(unittest.TestCase):
         
     def test_abs_of_vector(self):
         q_z = self.q2.abs_of_vector()
-        if self.verbose: print("abs_of_vector: {}".format(q_z))
+        print("abs_of_vector: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 5)
         self.assertTrue(q_z.a[2] == 0)
         self.assertTrue(q_z.a[4] == 0)
@@ -3514,9 +3548,21 @@ class TestQ8a(unittest.TestCase):
         self.assertTrue(q_z.a[5] == 0)
         self.assertTrue(q_z.a[7] == 0)
         
+    def test_normalize(self):
+        q_z = self.q2.normalize()
+        print("q_normalized: {}".format(q_z))
+        self.assertTrue(q_z.a[0] == 0)
+        self.assertTrue(q_z.a[1] == 0)
+        self.assertTrue(q_z.a[2] == 0.8)
+        self.assertTrue(q_z.a[3] == 0)
+        self.assertTrue(q_z.a[4] == 0)
+        self.assertAlmostEqual(q_z.a[5], 0.6)
+        self.assertTrue(q_z.a[6] == 0)
+        self.assertTrue(q_z.a[7] == 0)
+        
     def test_add(self):
         q_z = self.q1.add(self.q2)
-        if self.verbose: print("add: {}".format(q_z))
+        print("add: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 4)
@@ -3528,7 +3574,7 @@ class TestQ8a(unittest.TestCase):
         
     def test_add_reduce(self):
         q_z_red = self.q1.add(self.q2).reduce()
-        if self.verbose: print("add reduce: {}".format(q_z_red))
+        print("add reduce: {}".format(q_z_red))
         self.assertTrue(q_z_red.a[0] == 1)
         self.assertTrue(q_z_red.a[1] == 0)
         self.assertTrue(q_z_red.a[2] == 2)
@@ -3540,7 +3586,7 @@ class TestQ8a(unittest.TestCase):
         
     def test_dif(self):
         q_z = self.q1.dif(self.q2)
-        if self.verbose: print("dif: {}".format(q_z))
+        print("dif: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 0)
@@ -3552,7 +3598,7 @@ class TestQ8a(unittest.TestCase):
 
     def test_product(self):
         q_z = self.q1.product(self.q2).reduce()
-        if self.verbose: print("product: {}".format(q_z))
+        print("product: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 0)
         self.assertTrue(q_z.a[1] == 1)
         self.assertTrue(q_z.a[2] == 0)
@@ -3564,7 +3610,7 @@ class TestQ8a(unittest.TestCase):
         
     def test_product_even(self):
         q_z = self.q1.product(self.q2, kind="even").reduce()
-        if self.verbose: print("product, kind even: {}".format(q_z))
+        print("product, kind even: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 0)
         self.assertTrue(q_z.a[1] == 1)
         self.assertTrue(q_z.a[2] == 4)
@@ -3576,7 +3622,7 @@ class TestQ8a(unittest.TestCase):
         
     def test_product_odd(self):
         q_z = self.q1.product(self.q2, kind="odd").reduce()
-        if self.verbose: print("product, kind odd: {}".format(q_z))
+        print("product, kind odd: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 0)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 0)
@@ -3593,7 +3639,7 @@ class TestQ8a(unittest.TestCase):
         
     def test_Euclidean_product(self):
         q_z = self.q1.Euclidean_product(self.q2).reduce()
-        if self.verbose: print("Euclidean product: {}".format(q_z))
+        print("Euclidean product: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 16)
@@ -3606,7 +3652,7 @@ class TestQ8a(unittest.TestCase):
         
     def test_invert(self):
         q_z = self.q2.invert().reduce()
-        if self.verbose: print("inverse: {}".format(q_z))
+        print("inverse: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 0)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 0)
@@ -3618,7 +3664,7 @@ class TestQ8a(unittest.TestCase):
 
     def test_divide_by(self):
         q_z = self.q1.divide_by(self.q1).reduce()
-        if self.verbose: print("inverse: {}".format(q_z))
+        print("inverse: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 0)
@@ -3630,7 +3676,7 @@ class TestQ8a(unittest.TestCase):
         
     def test_triple_product(self):
         q_z = self.q1.triple_product(self.q2, self.q1).reduce()
-        if self.verbose: print("triple: {}".format(q_z))
+        print("triple: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 0)
         self.assertTrue(q_z.a[1] == 2)
         self.assertTrue(q_z.a[2] == 124)
@@ -3642,7 +3688,7 @@ class TestQ8a(unittest.TestCase):
         
     def test_rotate(self):
         q_z = self.q1.rotate(1).reduce()
-        if self.verbose: print("rotate: {}".format(q_z))
+        print("rotate: {}".format(q_z))
         self.assertTrue(q_z.a[0] == 1)
         self.assertTrue(q_z.a[1] == 0)
         self.assertTrue(q_z.a[2] == 0)
@@ -3656,18 +3702,18 @@ class TestQ8a(unittest.TestCase):
         q1_sq = self.q1.square().reduce()
         q_z = self.q1.boost(0.003)
         q_z2 = q_z.square().reduce()
-        if self.verbose: print("q1_sq: {}".format(q1_sq))
-        if self.verbose: print("boosted: {}".format(q_z))
-        if self.verbose: print("b squared: {}".format(q_z2))
+        print("q1_sq: {}".format(q1_sq))
+        print("boosted: {}".format(q_z))
+        print("b squared: {}".format(q_z2))
         self.assertTrue(round(q_z2.a[1], 12) == round(q1_sq.a[1], 12))
         
     def test_g_shift(self):
         q1_sq = self.q1.square().reduce()
         q_z = self.q1.g_shift(0.003)
         q_z2 = q_z.square().reduce()
-        if self.verbose: print("q1_sq: {}".format(q1_sq))
-        if self.verbose: print("g_shift: {}".format(q_z))
-        if self.verbose: print("g squared: {}".format(q_z2))
+        print("q1_sq: {}".format(q1_sq))
+        print("g_shift: {}".format(q_z))
+        print("g squared: {}".format(q_z2))
         self.assertTrue(q_z2.a[1] != q1_sq.a[1])
         self.assertTrue(q_z2.a[2] == q1_sq.a[2])
         self.assertTrue(q_z2.a[3] == q1_sq.a[3])
@@ -4396,7 +4442,7 @@ for q in qha.range(t1,qd,10):
 
 # Any quaternion can be viewed as the sum of n other quaternions. This is common to see in quantum mechanics, whose needs are driving the development of this class and its methods.
 
-# In[51]:
+# In[50]:
 
 
 class QHStates(QH):
@@ -4421,6 +4467,20 @@ class QHStates(QH):
         
         return states.rstrip()
     
+    def equals(self, q2):
+        """Test if two states are equal."""
+   
+        if self.dim != q2.dim:
+            return False
+        
+        result = True
+    
+        for selfq, q2q in zip(self.qs, q2.qs):
+            if not selfq.equals(q2q):
+                result = False
+                
+        return result
+
     def conj(self, conj_type=0):
         """Take the conjgates of states, default is zero, but also can do 1 or 2."""
         
@@ -4429,7 +4489,27 @@ class QHStates(QH):
         for bra in self.qs:
             new_states.append(bra.conj(conj_type))
             
-        return(QHStates(new_states))
+        return QHStates(new_states)
+    
+    def invert(self):
+        """Invert states."""
+        
+        new_states = []
+        
+        for bra in self.qs:
+            new_states.append(bra.invert())
+            
+        return QHStates(new_states)
+    
+    def normalize(self):
+        """Normalize all states."""
+        
+        new_states = []
+        
+        for bra in self.qs:
+            new_states.append(bra.normalize())
+            
+        return QHStates(new_states)
 
     def add(self, ket):
         """Add two states."""
@@ -4444,7 +4524,7 @@ class QHStates(QH):
         for bra, ket in zip(self.qs, ket.qs):
             new_states.append(bra.add(ket))
             
-        return(QHStates(new_states))
+        return QHStates(new_states)
 
     def summation(self):
         """Add them all up, return one quaternion."""
@@ -4540,10 +4620,13 @@ class QHStates(QH):
                     opb = operator.qs
                         
                 for ops in zip(*[iter(opb)] * ket.dim):
-                    ok = QH().q_0()
+                    ok = None
                     
                     for op, k in zip(ops, ket.qs): 
-                        ok = ok.add(op.product(k, kind))
+                        if ok is None:
+                            ok = op.product(k, kind)
+                        else:
+                            ok = ok.add(op.product(k, kind))
                             
                     new_states.append(ok)
 
@@ -4558,10 +4641,13 @@ class QHStates(QH):
                     aop = operator.qs
                                                              
                 for ops in zip(*[iter(aop)]*bra.dim):
-                    bop = QH().q_0()
+                    bop = None
                     
-                    for b, op in zip(bra.qs, ops): 
-                        bop = bop.add(b.product(op, kind))
+                    for b, op in zip(bra.qs, ops):
+                        if bop is None:
+                            bop = b.product(op, kind)
+                        else:
+                            bop = bop.add(b.product(op, kind))
                             
                     new_states.append(bop)
 
@@ -4578,10 +4664,13 @@ class QHStates(QH):
                     opb = operator.qs                                             
                                                              
                 for ops in zip(*[iter(opb)]*ket.dim):
-                    ok = QH().q_0()
+                    ok = None
                     
                     for op, k in zip(ops, ket.qs): 
-                        ok = ok.add(op.product(k, kind))
+                        if ok is None:
+                            ok = op.product(k, kind)
+                        else:
+                            ok = ok.add(op.product(k, kind))
                     
                     new_ket.append(ok)
                 
@@ -4603,7 +4692,7 @@ class QHStates(QH):
     
     @staticmethod
     def op_n(operator, n, first=True, kind="", reverse=False):
-    """Mulitply an operator times a number, in that order. Set first=false for n * Op"""
+        """Mulitply an operator times a number, in that order. Set first=false for n * Op"""
     
         new_states = []
     
@@ -4615,16 +4704,114 @@ class QHStates(QH):
             else:
                 new_states.append(n.product(op, kind, reverse))
     
-        return qt.QHStates(new_states)
+        return QHStates(new_states)
     
     def norm_squared(self):
         """Take the Euclidean product of each state and add it up, returning one quaternion."""
         
         norm = self.Euclidean_product(self).summation()
         return norm
+    
+    def transpose(self, m=0, n=0):
+        """Transposes a series."""
+        
+        if m==0:
+            # test if it is square.
+            if math.sqrt(self.dim).is_integer():
+                n = sp.sqrt(self.dim)
+                m = sp.sqrt(self.dim)
+                
+        if m * n != self.dim:
+            print("Oops, m * n != state dim: {} {] != {}}".format(m, n, self.dim))
+            return None
+        
+        new_states = [0] * self.dim
+        
+        for mi in range(m):
+            for ni in range(n):
+                current = mi * n + ni
+                transpose = mi + ni * n
+                new_states[transpose] = self.qs[current]
+                
+        return QHStates(new_states)
+        
+    def Hermitian_conj(self, m=0, n=0, conj_type=0):
+        """Returns the Hermitian conjugate."""
+        
+        return self.transpose(m, n).conj(conj_type)
+    
+    def dagger(self, m=0, n=0, conj_type=0):
+        """Just calls Hermitian_conj()"""
+        
+        return self.Hermitian_conj(m, n, conj_type)
+        
+    def is_square(self):
+        """Tests if a quaternion series is square, meaning the dimenion is n^2."""
+                
+        return math.sqrt(self.dim).is_integer()
+
+    def is_Hermitian(self):
+        """Tests if a series is Hermitian."""
+        
+        hc = self.Hermitian_conj()
+        
+        return self.equals(hc)
+    
+    @staticmethod
+    def sigma(kind, theta=None, phi=None):
+        """Returns a sigma when given a type like, x, y, z, xy, xz, yz, xyz, with optional angles theta and phi."""
+        
+        q0, q1, qi = QH().q_0(), QH().q_1(), QH().q_i()
+        
+        # Should work if given angles or not.
+        if theta is None:
+            sin_theta = 1
+            cos_theta = 1
+        else:
+            sin_theta = sp.sin(theta)
+            cos_theta = sp.cos(theta)
+            
+        if phi is None:
+            sin_phi = 1
+            cos_phi = 1
+        else:
+            sin_phi = sp.sin(phi)
+            cos_phi = sp.cos(phi)
+            
+        x_factor = q1.product(QH([sin_theta * cos_phi, 0, 0, 0]))
+        y_factor = qi.product(QH([sin_theta * sin_phi, 0, 0, 0]))
+        z_factor = q1.product(QH([cos_theta, 0, 0, 0]))
+
+        sigmas = {}
+        sigma['x'] = QHStates([q0, x_factor, x_factor, q0])
+        sigma['y'] = QHStates([q0, y_factor, y_factor.flip_signs(), q0])
+        sigma['z'] = QHStates([z_factor, q0, q0, z_factor.flip_signs()])
+
+        sigmas['xy'] = sigma['x'].add(sigma['y'])
+        sigmas['xz'] = sigma['x'].add(sigma['z'])
+        sigmas['yz'] = sigma['y'].add(sigma['z'])
+        sigmas['xyz'] = sigma['xy'].add(sigma['z'])
+
+        if kind not in sigma:
+            print("Oops, I only know about x, y, z, and their combinations.")
+            return None
+        
+        return signma[kind].normalize()
 
 
-# In[54]:
+# In[51]:
+
+
+q1234 = QHStates([QH([0, 8, -6, 0]), QH([1, 0, 0, 0]), QH([3, 1, 0, 0]), QH([4, 1, 0, 0])])
+print(q1234.transpose())
+print(q1234.dagger())
+print(q1234.dagger().normalize())
+qn = QHStates([QH([3,0,0,4])])
+print(qn.normalize())
+print(qn.invert())
+
+
+# In[52]:
 
 
 class TestQHStates(unittest.TestCase):
@@ -4640,9 +4827,16 @@ class TestQHStates(unittest.TestCase):
     B = QHStates([QH([0,0,1,0]),QH([0,0,0,2]),QH([0,3,0,0])])
     Op = QHStates([QH([3,0,0,0]),QH([0,1,0,0]),QH([0,0,2,0]),QH([0,0,0,3]),QH([2,0,0,0]),QH([0,4,0,0])])
     Op4i = QHStates([QH([0,4,0,0])])
+    q1234 = QHStates([QH([1, 1, 0, 0]), QH([2, 1, 0, 0]), QH([3, 1, 0, 0]), QH([4, 1, 0, 0])])
+    sigma_y = QHStates([QH([1, 0, 0, 0]), QH([0, -1, 0, 0]), QH([0, 1, 0, 0]), QH([-1, 0, 0, 0])])
+    qn = QHStates([QH([3,0,0,4])])
     
     def test_init(self):
         self.assertTrue(self.q0_q1.dim == 2)
+        
+    def test_equals(self):
+        self.assertTrue(self.A.equals(self.A))
+        self.assertFalse(self.A.equals(self.B))
         
     def test_conj(self):
         qc = self.q1_qi.conj()
@@ -4651,6 +4845,12 @@ class TestQHStates(unittest.TestCase):
         print("q1_qc*1: ", qc1)
         self.assertTrue(qc.qs[1].x == -1)
         self.assertTrue(qc1.qs[1].x == 1)
+        
+    def test_normalize(self):
+        qn = self.qn.normalize()
+        print("Op normalized: ", qn)
+        self.assertAlmostEqual(qn.qs[0].t, 0.6)
+        self.assertTrue(qn.qs[0].z == 0.8)
         
     def test_summation(self):
         q_01_sum = self.q0_q1.summation()
@@ -4771,10 +4971,38 @@ class TestQHStates(unittest.TestCase):
     def test_op_n(self):
         opn = QHStates().op_n(operator=self.Op, n=self.qi)
         print("op_n: ", opn)
-        self.assertTrue(opn.qs[0].x == 1)
+        self.assertTrue(opn.qs[0].x == 3)
+        
+    def test_transpose(self):
+        opt = self.q1234.transpose()
+        print("op1234 transposed: ", opt)
+        self.assertTrue(opt.qs[0].t == 1)
+        self.assertTrue(opt.qs[1].t == 3)
+        self.assertTrue(opt.qs[2].t == 2)
+        self.assertTrue(opt.qs[3].t == 4)
+        
+    def test_Hermitian_conj(self):
+        q_hc = self.q1234.Hermitian_conj()
+        print("op1234 Hermitian_conj: ", q_hc)
+        self.assertTrue(q_hc.qs[0].t == 1)
+        self.assertTrue(q_hc.qs[1].t == 3)
+        self.assertTrue(q_hc.qs[2].t == 2)
+        self.assertTrue(q_hc.qs[3].t == 4)
+        self.assertTrue(q_hc.qs[0].x == -1)
+        self.assertTrue(q_hc.qs[1].x == -1)
+        self.assertTrue(q_hc.qs[2].x == -1)
+        self.assertTrue(q_hc.qs[3].x == -1)
+        
+    def test_is_Hermitian(self):
+        self.assertTrue(self.sigma_y.is_Hermitian())
+        self.assertFalse(self.q1234.is_Hermitian())
+        
+    def test_is_square(self):
+        self.assertFalse(self.Op.is_square())
+        self.assertTrue(self.Op4i.is_square())
 
 
-# In[55]:
+# In[53]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHStates())
@@ -4789,7 +5017,7 @@ unittest.TextTestRunner().run(suite);
 # 
 # by old fashioned cut and paste with minor tweaks (boring).
 
-# In[36]:
+# In[54]:
 
 
 class QHaStates(QHa):
@@ -4833,6 +5061,16 @@ class QHaStates(QHa):
             new_states.append(bra.conj(conj_type))
             
         return(QHaStates(new_states))
+    
+    def normalize(self):
+        """Normalize all states."""
+        
+        new_states = []
+        
+        for bra in self.qs:
+            new_states.append(bra.normalize())
+            
+        return QHaStates(new_states)
     
     def add(self, ket):
         """Add two states."""
@@ -4928,10 +5166,13 @@ class QHaStates(QHa):
                     opb = operator.qs
                         
                 for ops in zip(*[iter(opb)] * ket.dim):
-                    ok = QHa().q_0()
+                    ok = None
                     
-                    for op, k in zip(ops, ket.qs): 
-                        ok = ok.add(op.product(k, kind))
+                    for op, k in zip(ops, ket.qs):
+                        if ok is None:
+                            ok = op.product(k, kind)
+                        else:
+                            ok = ok.add(op.product(k, kind))
                             
                     new_states.append(ok)
 
@@ -4946,10 +5187,13 @@ class QHaStates(QHa):
                     aop = operator.qs
                                                              
                 for ops in zip(*[iter(aop)]*bra.dim):
-                    bop = QHa().q_0()
+                    bop = None
                     
-                    for b, op in zip(bra.qs, ops): 
-                        bop = bop.add(b.product(op, kind))
+                    for b, op in zip(bra.qs, ops):
+                        if bop is None:
+                            bop = b.product(op, kind)
+                        else:
+                            bop = bop.add(b.product(op, kind))
                             
                     new_states.append(bop)
 
@@ -4966,10 +5210,13 @@ class QHaStates(QHa):
                     opb = operator.qs                                             
                                                              
                 for ops in zip(*[iter(opb)]*ket.dim):
-                    ok = QHa().q_0()
+                    ok = None
                     
-                    for op, k in zip(ops, ket.qs): 
-                        ok = ok.add(op.product(k, kind))
+                    for op, k in zip(ops, ket.qs):
+                        if ok is None:
+                            ok = op.product(k, kind)
+                        else:
+                            ok = ok.add(op.product(k, kind))
                     
                     new_ket.append(ok)
                 
@@ -4989,6 +5236,22 @@ class QHaStates(QHa):
                     
         return QHaStates().product(bra, ket, operator, kind)
     
+    @staticmethod
+    def op_n(operator, n, first=True, kind="", reverse=False):
+        """Mulitply an operator times a number, in that order. Set first=false for n * Op"""
+    
+        new_states = []
+    
+        for op in operator.qs:
+        
+            if first:
+                new_states.append(op.product(n, kind, reverse))
+                              
+            else:
+                new_states.append(n.product(op, kind, reverse))
+    
+        return QHaStates(new_states)
+    
     def norm_squared(self):
         """Take the Euclidean product of each state and add it up, returning one quaternion."""
         
@@ -4996,7 +5259,7 @@ class QHaStates(QHa):
         return norm
 
 
-# In[37]:
+# In[55]:
 
 
 class TestQHaStates(unittest.TestCase):
@@ -5012,6 +5275,7 @@ class TestQHaStates(unittest.TestCase):
     B = QHaStates([QHa([0,0,1,0]),QHa([0,0,0,2]),QHa([0,3,0,0])])
     Op = QHaStates([QHa([3,0,0,0]),QHa([0,1,0,0]),QHa([0,0,2,0]),QHa([0,0,0,3]),QHa([2,0,0,0]),QHa([0,4,0,0])])
     Op4i = QHaStates([QHa([0,4,0,0])])
+    qn = QHaStates([QHa([3,0,0,4])])
     
     def test_init(self):
         self.assertTrue(self.q0_q1.dim == 2)
@@ -5021,6 +5285,12 @@ class TestQHaStates(unittest.TestCase):
         print("sum: ", q_01_sum)
         self.assertTrue(type(q_01_sum) is QHa)
         self.assertTrue(q_01_sum.a[0] == 1)
+        
+    def test_normalize(self):
+        qn = self.qn.normalize()
+        print("Op normalized: ", qn)
+        self.assertAlmostEqual(qn.qs[0].a[0], 0.6)
+        self.assertTrue(qn.qs[0].a[3] == 0.8)    
         
     def test_add(self):
         q_0110_add = self.q0_q1.add(self.q1_q0)
@@ -5119,16 +5389,21 @@ class TestQHaStates(unittest.TestCase):
         AOp4iB = QHaStates().Euclidean_product(bra=self.A, operator=self.Op4i, ket=self.B)
         print("A* Op4i B: ", AOp4iB)
         self.assertTrue(AOp4iB.dim == 0)
+        
+    def test_op_n(self):
+        opn = QHStates().op_n(operator=self.Op, n=self.qi)
+        print("op_n: ", opn)
+        self.assertTrue(opn.qs[0].a[1] == 3)
 
 
-# In[38]:
+# In[56]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHaStates())
 unittest.TextTestRunner().run(suite);
 
 
-# In[39]:
+# In[57]:
 
 
 class Q8States(Q8):
@@ -5162,6 +5437,16 @@ class Q8States(Q8):
             new_states.append(bra.conj(conj_type))
             
         return(Q8States(new_states))
+    
+    def normalize(self):
+        """Normalize all states."""
+        
+        new_states = []
+        
+        for bra in self.qs:
+            new_states.append(bra.normalize())
+            
+        return Q8States(new_states)
     
     def summation(self):
         """Add them all up, return one quaternion."""
@@ -5267,10 +5552,13 @@ class Q8States(Q8):
                     opb = operator.qs
                         
                 for ops in zip(*[iter(opb)] * ket.dim):
-                    ok = Q8().q_0()
+                    ok = None
                     
                     for op, k in zip(ops, ket.qs): 
-                        ok = ok.add(op.product(k, kind))
+                        if ok is None:
+                            op.product(k, kind)
+                        else:
+                            ok = ok.add(op.product(k, kind))
                             
                     new_states.append(ok)
 
@@ -5285,10 +5573,13 @@ class Q8States(Q8):
                     aop = operator.qs
                                                              
                 for ops in zip(*[iter(aop)]*bra.dim):
-                    bop = Q8().q_0()
+                    bop = None
                     
-                    for b, op in zip(bra.qs, ops): 
-                        bop = bop.add(b.product(op, kind))
+                    for b, op in zip(bra.qs, ops):
+                        if bop is None:
+                            bop = b.product(op, kind)
+                        else:
+                            bop = bop.add(b.product(op, kind))
                             
                     new_states.append(bop)
 
@@ -5305,10 +5596,13 @@ class Q8States(Q8):
                     opb = operator.qs                                             
                                                              
                 for ops in zip(*[iter(opb)]*ket.dim):
-                    ok = Q8().q_0()
+                    ok = None
                     
-                    for op, k in zip(ops, ket.qs): 
-                        ok = ok.add(op.product(k, kind))
+                    for op, k in zip(ops, ket.qs):
+                        if ok is None:
+                            ok = op.product(k, kind)
+                        else:
+                            ok = ok.add(op.product(k, kind))
                     
                     new_ket.append(ok)
                 
@@ -5328,6 +5622,22 @@ class Q8States(Q8):
                     
         return Q8States().product(bra, ket, operator, kind)
     
+    @staticmethod
+    def op_n(operator, n, first=True, kind="", reverse=False):
+        """Mulitply an operator times a number, in that order. Set first=false for n * Op"""
+    
+        new_states = []
+    
+        for op in operator.qs:
+        
+            if first:
+                new_states.append(op.product(n, kind, reverse))
+                              
+            else:
+                new_states.append(n.product(op, kind, reverse))
+    
+        return Q8States(new_states)
+    
     def norm_squared(self):
         """Take the Euclidean product of each state and add it up, returning one quaternion."""
         
@@ -5335,7 +5645,7 @@ class Q8States(Q8):
         return norm
 
 
-# In[40]:
+# In[58]:
 
 
 class TestQ8States(unittest.TestCase):
@@ -5351,7 +5661,8 @@ class TestQ8States(unittest.TestCase):
     B = Q8States([Q8([0,0,1,0]),Q8([0,0,0,2]),Q8([0,3,0,0])])
     Op = Q8States([Q8([3,0,0,0]),Q8([0,1,0,0]),Q8([0,0,2,0]),Q8([0,0,0,3]),Q8([2,0,0,0]),Q8([0,4,0,0])])
     Op4i = Q8States([Q8([0,4,0,0])])
-    
+    qn = Q8States([Q8([3,0,0,4])])
+        
     def test_init(self):
         self.assertTrue(self.q0_q1.dim == 2)
         
@@ -5363,6 +5674,12 @@ class TestQ8States(unittest.TestCase):
         print("qc.qs[1]: ", qc.qs[1])
         self.assertTrue(qc.qs[1].dx.n == 1)
         self.assertTrue(qc1.qs[1].dx.p == 1)   
+        
+    def test_normalize(self):
+        qn = self.qn.normalize()
+        print("Op normalized: ", qn)
+        self.assertAlmostEqual(qn.qs[0].dt.p, 0.6)
+        self.assertTrue(qn.qs[0].dz.p == 0.8)
         
     def test_summation(self):
         q_01_sum = self.q0_q1.summation()
@@ -5467,16 +5784,21 @@ class TestQ8States(unittest.TestCase):
         AOp4iB = Q8States().Euclidean_product(bra=self.A, operator=self.Op4i, ket=self.B)
         print("A* Op4i B: ", AOp4iB)
         self.assertTrue(AOp4iB.dim == 0)
+        
+    def test_op_n(self):
+        opn = QHStates().op_n(operator=self.Op, n=self.qi)
+        print("op_n: ", opn)
+        self.assertTrue(opn.qs[0].dx.p == 3)
 
 
-# In[41]:
+# In[59]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8States())
 unittest.TextTestRunner().run(suite);
 
 
-# In[42]:
+# In[43]:
 
 
 class Q8aStates(Q8a):
@@ -5510,6 +5832,16 @@ class Q8aStates(Q8a):
             new_states.append(bra.conj(conj_type))
             
         return(Q8aStates(new_states))
+    
+    def normalize(self):
+        """Normalize all states."""
+        
+        new_states = []
+        
+        for bra in self.qs:
+            new_states.append(bra.normalize())
+            
+        return Q8aStates(new_states)
     
     def summation(self):
         """Add them all up, return one quaternion."""
@@ -5675,6 +6007,22 @@ class Q8aStates(Q8a):
             bra = bra.conj()
                     
         return Q8aStates().product(bra, ket, operator, kind)
+    
+    @staticmethod
+    def op_n(operator, n, first=True, kind="", reverse=False):
+        """Mulitply an operator times a number, in that order. Set first=false for n * Op"""
+    
+        new_states = []
+    
+        for op in operator.qs:
+        
+            if first:
+                new_states.append(op.product(n, kind, reverse))
+                              
+            else:
+                new_states.append(n.product(op, kind, reverse))
+    
+        return Q8aStates(new_states)
 
     def norm_squared(self):
         """Take the Euclidean product of each state and add it up, returning one quaternion."""
@@ -5683,7 +6031,7 @@ class Q8aStates(Q8a):
         return norm
 
 
-# In[43]:
+# In[44]:
 
 
 class TestQ8aStates(unittest.TestCase):
@@ -5699,6 +6047,7 @@ class TestQ8aStates(unittest.TestCase):
     B = Q8aStates([Q8a([0,0,1,0]),Q8a([0,0,0,2]),Q8a([0,3,0,0])])
     Op = Q8aStates([Q8a([3,0,0,0]),Q8a([0,1,0,0]),Q8a([0,0,2,0]),Q8a([0,0,0,3]),Q8a([2,0,0,0]),Q8a([0,4,0,0])])
     Op4i = Q8aStates([Q8a([0,4,0,0])])
+    qn = Q8aStates([Q8a([3,0,0,4])])
     
     def test_init(self):
         self.assertTrue(self.q0_q1.dim == 2)
@@ -5710,6 +6059,12 @@ class TestQ8aStates(unittest.TestCase):
         print("q1_qc*1: ", qc1)
         self.assertTrue(qc.qs[1].a[3] == 1)
         self.assertTrue(qc1.qs[1].a[2] == 1)
+    
+    def test_normalize(self):
+        qn = self.qn.normalize()
+        print("Op normalized: ", qn)
+        self.assertAlmostEqual(qn.qs[0].a[0], 0.6)
+        self.assertTrue(qn.qs[0].a[6] == 0.8)
     
     def test_summation(self):
         q_01_sum = self.q0_q1.summation()
@@ -5814,9 +6169,14 @@ class TestQ8aStates(unittest.TestCase):
         AOp4iB = Q8aStates().Euclidean_product(bra=self.A, operator=self.Op4i, ket=self.B)
         print("A* Op4i B: ", AOp4iB)
         self.assertTrue(AOp4iB.dim == 0)
+        
+    def test_op_n(self):
+        opn = QHStates().op_n(operator=self.Op, n=self.qi)
+        print("op_n: ", opn)
+        self.assertTrue(opn.qs[0].a[2] == 3)
 
 
-# In[44]:
+# In[45]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8aStates())
