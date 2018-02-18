@@ -7,7 +7,7 @@
 
 # This notebook is being created as a companion to the book "Quantum Mechanics: the Theoretical Minimum" by Susskind and Friedman (QM:TTM for short). Those authors of course never use quaternions as they are a bit player in the crowded field of mathematical tools. Nature has used one accounting system since the beginning of space-time, so I will be a jerk in the name of consistency. This leads to a different perspective on what makes an equation quantum mechanical. If a conjugate operator is used, then the expression is about quantum mechanics. It is odd to have such a brief assertion given the complexity of the subject, but that make the hypothesis fun - and testable by seeing if anything in the book cannot be done with quaternions and their conjugates. Import the tools to work with quaternions in this notebook.
 
-# In[1]:
+# In[2]:
 
 
 get_ipython().run_cell_magic('capture', '', '%matplotlib inline\nimport numpy as np\nimport sympy as sp\nimport matplotlib.pyplot as plt\n\n# To get equations the look like, well, equations, use the following.\nfrom sympy.interactive import printing\nprinting.init_printing(use_latex=True)\nfrom IPython.display import display\n\n# Tools for manipulating quaternions.\nimport Q_tools as qt;')
@@ -26,7 +26,7 @@ get_ipython().run_cell_magic('capture', '', '%matplotlib inline\nimport numpy as
 # 
 # So, is $A^* A$ real? Yes and no.
 
-# In[2]:
+# In[3]:
 
 
 a0, A1, A2, A3 = sp.symbols("a0 A1 A2 A3")
@@ -51,7 +51,7 @@ display(A.conj().product(A).z)
 # 
 # $$(A^* B)^* = (B^*, A)$$
 
-# In[3]:
+# In[4]:
 
 
 AB_conj = A.Euclidean_product(B)
@@ -67,7 +67,7 @@ print("(A* B)* - B* A = {}".format(AB_conj.dif(BA)))
 
 # Now for the third identity about sums.
 
-# In[4]:
+# In[5]:
 
 
 A_plus_B_then_C = A.conj().add(B.conj()).product(C).expand_q()
@@ -93,13 +93,11 @@ print("(A+B)* C - (A*C + B*C): {}".format(A_plus_B_then_C.dif(AC_plus_BC)))
 
 # This only works if the length of the series for **A** is exactly equal to that of **B**. Whatever can be done with a quaternion can be done with its series representation. Unlike vectors that can either be be a row or a column, quaternion series only have a length. Let's just do one calculation, < A | A >:
 
-# In[5]:
+# In[6]:
 
 
 A = qt.QHStates([qt.QH([0,1,2,3]), qt.QH([1,2,1,2])])
-Euclidean_product = qt.QHStates().Euclidean_product
-print_states = qt.QHStates().print_states
-AA = Euclidean_product(bra=A, ket=A)
+AA = A.Euclidean_product('bra', ket=A)
 AA.print_states("<A|A>")
 
 
@@ -107,7 +105,7 @@ AA.print_states("<A|A>")
 
 # The first system analyzed has but 2 states, keeping things simple. The first pair of states are likewise so simple they are orthonormal to a casual observer.
 
-# In[6]:
+# In[7]:
 
 
 q0, q1, qi, qj, qk = qt.QH().q_0(), qt.QH().q_1(), qt.QH().q_i(), qt.QH().q_j(), qt.QH().q_k()
@@ -121,36 +119,33 @@ d.print_states("d")
 
 # Calculate $<u|u>$, $<d|d>$ and $<u|d>$:
 
-# In[7]:
+# In[10]:
 
 
-uu = Euclidean_product(bra=u, ket=u)
-uu.print_states("<u|u>")
-
-
-# In[8]:
-
-
-dd = Euclidean_product(bra=d, ket=d)
-dd.print_states("<d|d>")
+u.Euclidean_product('bra', ket=u).print_states("<u|u>")
 
 
 # In[9]:
 
 
-ud = Euclidean_product(bra=u, ket=d)
-ud.print_states("<u|d>")
+d.Euclidean_product('bra', ket=d).print_states("<d|d>")
+
+
+# In[12]:
+
+
+u.Euclidean_product('bra', ket=d).print_states("<u|d>")
 
 
 # The next pair of states is constructed from the first pair, $u$ and $d$ like so (QM:TTM, page 41):
 
-# In[10]:
+# In[15]:
 
 
 sqrt_2op = qt.QHStates([qt.QH([sp.sqrt(1/2), 0, 0, 0])])
 
-u2 = Euclidean_product(ket=u, operator=sqrt_2op)
-d2 = Euclidean_product(ket=d, operator=sqrt_2op)
+u2 = u.Euclidean_product('ket', operator=sqrt_2op)
+d2 = d.Euclidean_product('ket', operator=sqrt_2op)
 
 r = u2.add(d2)
 L = u2.dif(d2)
@@ -159,88 +154,82 @@ r.print_states("r", True)
 L.print_states("L")
 
 
-# In[11]:
+# In[16]:
 
 
-rr = Euclidean_product(bra=r, ket=r)
-LL = Euclidean_product(bra=L, ket=L)
-rL = Euclidean_product(bra=r, ket=L)
-
-rr.print_states("<r|r>", True)
-LL.print_states("<L|L>", True)
-rL.print_states("<r|L>")
+r.Euclidean_product('bra', ket=r).print_states("<r|r>", True)
+L.Euclidean_product('bra', ket=L).print_states("<L|L>", True)
+r.Euclidean_product('bra', ket=L).print_states("<r|L>", True)
 
 
 # The final calculation for chapter 2 is like the one for $r$ and $L$ except one uses an arbitrarily chosen imaginary value - it could point any direction in 3D space - like so:
 
-# In[12]:
+# In[20]:
 
 
 i_op = qt.QHStates([q1, q0, q0, qi])
 
-i = Euclidean_product(ket=r, operator=i_op)
-o = Euclidean_product(ket=L, operator=i_op)
+i = r.Euclidean_product('ket', operator=i_op)
+o = L.Euclidean_product('ket', operator=i_op)
 
 i.print_states("i", True)
 o.print_states("o")
 
 
-# In[13]:
+# In[22]:
 
 
-ii = Euclidean_product(bra=i, ket=i)
-oo = Euclidean_product(bra=o, ket=o)
-io = Euclidean_product(bra=i, ket=o)
+i.Euclidean_product('bra', ket=i).print_states("<i|i>", True)
+o.Euclidean_product('bra', ket=o).print_states("<o|o>", True)
+i.Euclidean_product('bra', ket=o).print_states("<i|o>")
 
-ii.print_states("<i|i>", True)
-oo.print_states("<o|o>", True)
-io.print_states("<i|o>")
 
+# Notice how long the qtypes have gotten (the strings that keep a record of all the manipulations done to a quaternion). The initial state was just a zero and a one, but that had to get added to another and normalized, then multiplied by a factor of $i$ and combined again.
 
 # Orthonormal again, as hoped for.
 
 # Is the quaternion series approach a faithful representation of these 6 states? On page 43-44, there are 8 products that all add up to one half. See if this works out...
 
-# In[14]:
+# In[26]:
 
 
-ou = qt.QHStates().Euclidean_product(bra=o, ket=u)
-uo = qt.QHStates().Euclidean_product(bra=u, ket=o)
-print("ouuo:\n", qt.QHStates().product(bra=ou, ket=uo).summation())
-od = qt.QHStates().Euclidean_product(bra=o, ket=d)
-do = qt.QHStates().Euclidean_product(bra=d, ket=o)
-print("oddo:\n", qt.QHStates().product(bra=od, ket=do).summation())
-iu = qt.QHStates().Euclidean_product(bra=i, ket=u)
-ui = qt.QHStates().Euclidean_product(bra=u, ket=i)
-print("iuui:\n", qt.QHStates().product(bra=iu, ket=ui).summation())
-id = qt.QHStates().Euclidean_product(bra=i, ket=d)
-di = qt.QHStates().Euclidean_product(bra=d, ket=i)
-print("iddi:\n", qt.QHStates().product(bra=id, ket=di).summation())
+ou = o.Euclidean_product('bra', ket=u)
+uo = i.Euclidean_product('bra', ket=o)
+print("ouuo sum:\n", ou.product('bra', ket=uo).summation(), "\n")
+od = o.Euclidean_product('bra', ket=d)
+do = d.Euclidean_product('bra', ket=o)
+print("oddo sum:\n", od.product('bra', ket=do).summation(), "\n")
+iu = i.Euclidean_product('bra', ket=u)
+ui = u.Euclidean_product('bra', ket=i)
+print("iuui sum:\n", iu.product('bra', ket=ui).summation(), "\n")
+id = i.Euclidean_product('bra', ket=d)
+di = d.Euclidean_product('bra', ket=i)
+print("iddi sum:\n", id.product('bra', ket=di).summation())
 
 
-# In[15]:
+# In[28]:
 
 
-Or = qt.QHStates().Euclidean_product(bra=o, ket=r)
-ro = qt.QHStates().Euclidean_product(bra=r, ket=o)
-print("orro:\n", qt.QHStates().product(bra=Or, ket=ro).summation())
-oL = qt.QHStates().Euclidean_product(bra=o, ket=L)
-Lo = qt.QHStates().Euclidean_product(bra=L, ket=o)
-print("oLLo:\n", qt.QHStates().product(bra=oL, ket=Lo).summation())
-ir = qt.QHStates().Euclidean_product(bra=i, ket=r)
-ri = qt.QHStates().Euclidean_product(bra=r, ket=i)
-print("irri:\n", qt.QHStates().product(bra=ir, ket=ri).summation())
-iL = qt.QHStates().Euclidean_product(bra=i, ket=L)
-Li = qt.QHStates().Euclidean_product(bra=L, ket=i)
-print("iLLi:\n", qt.QHStates().product(bra=iL, ket=Li).summation())
+Or = o.Euclidean_product('bra', ket=r)
+ro = r.Euclidean_product('bra', ket=o)
+print("orro:\n", Or.product('bra', ket=ro).summation(), "\n")
+oL = o.Euclidean_product('bra', ket=L)
+Lo = L.Euclidean_product('bra', ket=o)
+print("oLLo:\n", oL.product('bra', ket=Lo).summation(), "\n")
+ir = i.Euclidean_product('bra', ket=r)
+ri = r.Euclidean_product('bra', ket=i)
+print("irri:\n", ir.product('bra', ket=ri).summation(), "\n")
+iL = i.Euclidean_product('bra', ket=L)
+Li = L.Euclidean_product('bra', ket=i)
+print("iLLi:\n", iL.product('bra', ket=Li).summation())
 
 
 # There is an important technical detail in this calculation I should point out. In the <bra|ket> form, the bra gets conjugated. Notice though that if one does two of these, < i | L >< L | i >, then there has to be a product formed between the two brackets. In practice, < i | L >* < L | i > gives the wrong result:
 
-# In[16]:
+# In[29]:
 
 
-print("iL*Li:\n", qt.QHStates().Euclidean_product(bra=iL, ket=Li).summation())
+print("iL*Li:\n", iL.Euclidean_product('bra', ket=Li).summation())
 
 
 # ## Lecture 3: Principles of Quantum Mechanics
@@ -251,13 +240,12 @@ print("iL*Li:\n", qt.QHStates().Euclidean_product(bra=iL, ket=Li).summation())
 
 # In the case shown, $A$ had 2 states, $B$ has three, so to form the inner product takes 6 an operator with 6 states. If the operator first acts on $A$, it needs to be viewed as three pairs. The resulting three can then form an inner product with $B$. If instead the operator acts on $B$ first, then the operator is two triplets. The result of forming the inner product can be either a state with length two or three. 
 
-# In[17]:
+# In[30]:
 
 
 B = qt.QHStates([q1.add(qj), qi.add(qk), qk])
 Op = qt.QHStates([q1, qi, qj, qk, q0, qi])
-AOpB = Euclidean_product(bra=A, ket=B, operator=Op)
-AOpB.print_states("<A|Op|B>")
+A.Euclidean_product('bra', ket=B, operator=Op).print_states("<A|Op|B>")
 
 
 # It would require some work to confirm this answer was correct, but it does at least show the software was written to multiply the operator time the ket first, leading to the state with a length of 2.
@@ -266,12 +254,11 @@ AOpB.print_states("<A|Op|B>")
 
 # One of the first operations is to multiply a ket vector by a number which can be real, complex, or a full quaternion. What one needs is a "diagonal" series, thing of a matrix with the same values down the diagonal and zeroes everywhere else. If the function Euclidean_product() is given an operator that only has one value, it constructs a series of size nxn, the first and last values being the number, along with the number appearing at the right place.
 
-# In[18]:
+# In[31]:
 
 
 Op3 = qt.QHStates([qt.QH([3,0,0,0])])
-Op3B = Euclidean_product(ket=B, operator=Op3)
-Op3B.print_states("3|B>")
+Op3B = B.Euclidean_product('ket', operator=Op3).print_states("3|B>")
 
 
 # A real valued quaternion commutes with all. That makes things simple. It is odd, but when one uses quaternions that admittedly do not commute, people often think this breaks everything. The way quaternions behave is quite precise and so is easy to manage. The commuting part of a product (I call it {even}), does not change when the order is switched. Tha anti-commuting part (called \[odd\]) will flip signs.
@@ -282,13 +269,14 @@ Op3B.print_states("3|B>")
 # For quaternions, there is no difference between:
 # $$ Op * q = \rm{even} \{q, Op\} - \rm{odd}[q, Op] $$ 
 
-# In[19]:
+# In[33]:
 
 
-op_q1234 = qt.QHStates().op_n(operator=Op, n=qt.QH([1,2,3,4]))
-q1234_op = qt.QHStates().op_n(operator=Op, n=qt.QH([1,2,3,4]), first=False, reverse=True)
+op_q1234 = Op.op_n(n=qt.QH([1,2,3,4]))
+q1234_op = Op.op_n(n=qt.QH([1,2,3,4]), first=False, reverse=True)
 op_q1234.print_states("op q", True)
-q1234_op.print_states("q op")
+q1234_op.print_states("q op", True)
+op_q1234.equals(q1234_op)
 
 
 # In math, two reversals can leave things unchanged. In this case, one can change the order of any two quaternions so long as the odd part is subtracted instead of added to the even part.
@@ -297,21 +285,21 @@ q1234_op.print_states("q op")
 
 # Operators and kets are both being represented as quaternion series, albeit of different lengths. From pages 54-56 in QM:TTM, they give a simple example of a 3x3 operator action on a 3-ket. That can be replicated using an operator that has 9 elements in its states acting on a ket with three quaternions. Here is a simple symbolic calculation:
 
-# In[20]:
+# In[34]:
 
 
 k1, k2, k3 = sp.symbols("k1 k2 k3")
 op11, op12, op13, op21, op22, op23, op31, op32, op33 = sp.symbols("op11 op12 op13 op21 op22 op23 op31 op32 op33")
 k12 = qt.QHStates([qt.QH([k1, 0, 0, 0]), qt.QH([k2, 0, 0, 0]), qt.QH([k3, 0, 0, 0])])
 Op2x2 = qt.QHStates([qt.QH([op11, 0, 0, 0]), qt.QH([op12, 0, 0, 0]), qt.QH([op13, 0, 0, 0]), qt.QH([op21, 0, 0, 0]), qt.QH([op22, 0, 0, 0]), qt.QH([op23, 0, 0, 0]), qt.QH([op31, 0, 0, 0]), qt.QH([op32, 0, 0, 0]), qt.QH([op33, 0, 0, 0])])
-Euclidean_product(ket=k12, operator=Op2x2).print_states("Op2x2|k1>")
+k12.Euclidean_product('ket', operator=Op2x2).print_states("Op2x2|k1>")
 
 
 # To make things simpler to track, all values were real. The expected partners got together. Each state is the sum of three products. It should be easy to get scared of the complexity were all the values to be filled in.
 
 # Is a quaternions series operator a have a particular Eigen series (p57)?  Just multiply them out and compare.
 
-# In[21]:
+# In[35]:
 
 
 q2 = qt.QH([2, 0, 0, 0])
@@ -320,21 +308,21 @@ k11 = qt.QHStates([q1, q1])
 M = qt.QHStates([q1, q2, q2, q1])
 M3 = qt.QHStates([q3])
 
-Mk11 = Euclidean_product(ket=k11, operator=M)
-M3k11 = Euclidean_product(ket=k11, operator=M3)
+Mk11 =  k11.Euclidean_product('ket', operator=M)
+M3k11 = k11.Euclidean_product('ket', operator=M3)
 
 print("Is Mk11 == M3k11? ", Mk11.equals(M3k11))
 Mk11.print_states("Mk11")
 
 
-# In[22]:
+# In[36]:
 
 
 k1j = qt.QHStates([q1, qj])
 M11 = qt.QHStates([q0, q1.flip_signs(), q1, q0])
 Mi = qt.QHStates([qj.flip_signs()])
-M11k1j = Euclidean_product(ket=k1j, operator=M11)
-Mik1j = Euclidean_product(ket=k1j, operator=Mi)
+M11k1j = k1j.Euclidean_product('ket', operator=M11)
+Mik1j =  k1j.Euclidean_product('ket', operator=Mi)
 
 print("Is M11k1j == Mik1j? ", M11k1j.equals(Mik1j))
 M11k1j.print_states("M11k1j")
@@ -344,7 +332,7 @@ M11k1j.print_states("M11k1j")
 
 # Let's construct a Hermitian quaternion series. Taking the conjugate of each term of a quaternion series is simple enough. To do a transpose requires that the product of two numbers equals the full length. Then one changes the order of these two numbers. See a simple example:
 
-# In[23]:
+# In[37]:
 
 
 q1234 = qt.QHStates([qt.QH([1, 0, 0, 0]), qt.QH([2, 2, 0, 0]), qt.QH([3, -3, 0, 0]), qt.QH([4, 0, 0, 0])])
@@ -357,15 +345,15 @@ print("q1234, normalized, is it Hermitian?", q1234.normalize().is_Hermitian())
 
 # So what do we think a Hermitian operator will do that is different from a non-Hermitian one to quaternion states? The inner product of a ket with itself create states that are all real numbers and all zero imaginary numbers:
 
-# In[24]:
+# In[38]:
 
 
-qt.QHStates().Euclidean_product(bra=B, ket=B).print_states("<B|B>")
+B.Euclidean_product('bra', ket=B).print_states("<B|B>")
 
 
 # Different normalized Hermitian operators should shift the real number values around, but remain real values. A non-Hermitian matrix should make the imaginary values be non-zero.
 
-# In[25]:
+# In[39]:
 
 
 q2 = qt.QH([2, 0, 0, 0])
@@ -386,12 +374,12 @@ print("is not_h Hermitian? ", not_h.is_Hermitian())
 
 # Form the inner product with $B$ using these three operators.
 
-# In[26]:
+# In[40]:
 
 
-Euclidean_product(bra=B, ket=B, operator=h_1).print_states("<B|h_1 B>", True)
-Euclidean_product(bra=B, ket=B, operator=h_2).print_states("<B|h_2 B>", True)
-Euclidean_product(bra=B, ket=B, operator=not_h).print_states("<B|not_h B>")
+B.Euclidean_product('bra', ket=B, operator=h_1).print_states("<B|h_1 B>", True)
+B.Euclidean_product('bra', ket=B, operator=h_2).print_states("<B|h_2 B>", True)
+B.Euclidean_product('bra', ket=B, operator=not_h).print_states("<B|not_h B>")
 
 
 # So it is only the sum that nets out to have zero imaginaries. Different normalized Hermitian operators have different sums, something I did not anticipate. Notice for these two examples, the value was less. Is that a real limit or not?
