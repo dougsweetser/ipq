@@ -11875,7 +11875,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[72]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">QH</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -12000,14 +12000,17 @@ div#notebook {
     <span class="k">def</span> <span class="nf">flip_signs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;*-1&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Flip the signs of all terms.&quot;&quot;&quot;</span>
         
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
-        <span class="n">flip_q</span> <span class="o">=</span> <span class="n">QH</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
+        <span class="n">flip_q</span> <span class="o">=</span> <span class="n">QH</span><span class="p">()</span>
 
         <span class="n">flip_q</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">t</span>
         <span class="n">flip_q</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">x</span>
         <span class="n">flip_q</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">y</span>
         <span class="n">flip_q</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">z</span>
         
+        <span class="n">flip_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">flip_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">flip_q</span>
 
@@ -12044,7 +12047,7 @@ div#notebook {
     <span class="k">def</span> <span class="nf">add_qtype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Adds a qtype to an exiting qtype.&quot;&quot;&quot;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span> <span class="o">+=</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">qtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span> <span class="o">+=</span> <span class="n">qtype</span>
     
     <span class="k">def</span> <span class="nf">_commuting_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns a dictionary with the commuting products.&quot;&quot;&quot;</span>
@@ -12087,68 +12090,83 @@ div#notebook {
     <span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;sq&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Square a quaternion.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">qxq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commuting_products</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-        <span class="n">sq_q</span> <span class="o">=</span> <span class="n">QH</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
+        <span class="n">sq_q</span> <span class="o">=</span> <span class="n">QH</span><span class="p">()</span>
         <span class="n">sq_q</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;tt&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;xx+yy+zz&#39;</span><span class="p">]</span>
         <span class="n">sq_q</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;tx+xt&#39;</span><span class="p">]</span>
         <span class="n">sq_q</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;ty+yt&#39;</span><span class="p">]</span>
         <span class="n">sq_q</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;tz+zt&#39;</span><span class="p">]</span>
 
+        <span class="n">sq_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">sq_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">sq_q</span>
 
     <span class="k">def</span> <span class="nf">norm_squared</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;norm_squared&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The norm_squared of a quaternion.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">qxq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commuting_products</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="n">n_q</span> <span class="o">=</span> <span class="n">QH</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
         <span class="n">n_q</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;tt&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;xx+yy+zz&#39;</span><span class="p">]</span>
 
+        <span class="n">n_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">n_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">n_q</span>
 
     <span class="k">def</span> <span class="nf">norm_squared_of_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;norm_squaredV&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The norm_squared of the vector of a quaternion.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">qxq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commuting_products</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="n">nv_q</span> <span class="o">=</span> <span class="n">QH</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
         <span class="n">nv_q</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;xx+yy+zz&#39;</span><span class="p">]</span>
 
+        <span class="n">nv_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">nv_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">nv_q</span>
 
     <span class="k">def</span> <span class="nf">abs_of_q</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;abs&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The absolute value, the square root of the norm_squared.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">()</span>
         <span class="n">sqrt_t</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">t</span> <span class="o">**</span> <span class="mf">0.5</span>
         <span class="n">a</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">sqrt_t</span>
 
-        <span class="n">a</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">a</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">a</span>
 
     <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;U&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Normalize a quaternion&quot;&quot;&quot;</span>
         
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">abs_q_inv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">abs_of_q</span><span class="p">()</span><span class="o">.</span><span class="n">invert</span><span class="p">()</span>
         <span class="n">n_q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">abs_q_inv</span><span class="p">)</span>
 
-        <span class="n">n_q</span><span class="o">.</span><span class="n">q_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        <span class="n">n_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">n_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">n_q</span>
     
     <span class="k">def</span> <span class="nf">abs_of_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;absV&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The absolute value of the vector, the square root of the norm_squared of the vector.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">av</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_squared_of_vector</span><span class="p">()</span>
         <span class="n">sqrt_t</span> <span class="o">=</span> <span class="n">av</span><span class="o">.</span><span class="n">t</span> <span class="o">**</span> <span class="mf">0.5</span>
         <span class="n">av</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">sqrt_t</span>
 
-        <span class="n">av</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        <span class="n">av</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">av</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">av</span>
 
@@ -12214,8 +12232,6 @@ div#notebook {
             <span class="n">q_odd</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">anti_commuting</span><span class="p">[</span><span class="s1">&#39;zx-xz&#39;</span><span class="p">]</span>
             <span class="n">q_odd</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">anti_commuting</span><span class="p">[</span><span class="s1">&#39;xy-yx&#39;</span><span class="p">]</span>
         
-        <span class="n">result</span> <span class="o">=</span> <span class="n">QH</span><span class="p">()</span>
-        
         <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">q_even</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_odd</span><span class="p">)</span>
             <span class="n">times_symbol</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
@@ -12230,7 +12246,10 @@ div#notebook {
             <span class="n">times_symbol</span> <span class="o">=</span> <span class="s2">&quot;xE-O&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Four &#39;kind&#39; values are known: &#39;&#39;, &#39;even&#39;, &#39;odd&#39;, and &#39;even_minus_odd&#39;.&quot;</span><span class="p">)</span>
-            
+        
+        <span class="k">if</span> <span class="n">reverse</span><span class="p">:</span>
+            <span class="n">times_symbol</span> <span class="o">=</span> <span class="n">times_symbol</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;xR&#39;</span><span class="p">)</span>
+        
         <span class="k">if</span> <span class="n">qtype</span><span class="p">:</span>
             <span class="n">result</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">qtype</span>
         <span class="k">else</span><span class="p">:</span>
@@ -12249,6 +12268,8 @@ div#notebook {
     <span class="k">def</span> <span class="nf">invert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;^-1&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The inverse of a quaternion.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">q_conj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
         <span class="n">q_norm_squared</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">()</span>
 
@@ -12259,6 +12280,7 @@ div#notebook {
         <span class="n">q_norm_squared_inv</span> <span class="o">=</span> <span class="n">QH</span><span class="p">([</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">q_norm_squared</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
         <span class="n">q_inv</span> <span class="o">=</span> <span class="n">q_conj</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q_norm_squared_inv</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
         
+        <span class="n">q_inv</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">q_inv</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">q_inv</span>
 
@@ -12286,13 +12308,15 @@ div#notebook {
     <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a_1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_3</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;rot&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Do a rotation given up to three angles.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">u</span> <span class="o">=</span> <span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_1</span><span class="p">,</span> <span class="n">a_2</span><span class="p">,</span> <span class="n">a_3</span><span class="p">])</span>
         <span class="n">u_abs</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">abs_of_q</span><span class="p">()</span>
         <span class="n">u_norm_squaredalized</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">divide_by</span><span class="p">(</span><span class="n">u_abs</span><span class="p">)</span>
 
         <span class="n">q_rot</span> <span class="o">=</span> <span class="n">u_norm_squaredalized</span><span class="o">.</span><span class="n">triple_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u_norm_squaredalized</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span>
   
-        <span class="n">q_rot</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        <span class="n">q_rot</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">q_rot</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">q_rot</span>
 
@@ -12303,6 +12327,8 @@ div#notebook {
     <span class="k">def</span> <span class="nf">boost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beta_x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta_y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta_z</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;boost&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;A boost along the x, y, and/or z axis.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">boost</span> <span class="o">=</span> <span class="n">QH</span><span class="p">(</span><span class="n">sr_gamma_betas</span><span class="p">(</span><span class="n">beta_x</span><span class="p">,</span> <span class="n">beta_y</span><span class="p">,</span> <span class="n">beta_z</span><span class="p">))</span>      
         <span class="n">b_conj</span> <span class="o">=</span> <span class="n">boost</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
 
@@ -12314,6 +12340,7 @@ div#notebook {
         <span class="n">half_23</span> <span class="o">=</span> <span class="n">triple_23</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
         <span class="n">triple_123</span> <span class="o">=</span> <span class="n">triple_1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">half_23</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
         
+        <span class="n">triple_123</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">triple_123</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">triple_123</span>
 
@@ -12326,6 +12353,8 @@ div#notebook {
     <span class="k">def</span> <span class="nf">g_shift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dimensionless_g</span><span class="p">,</span> <span class="n">g_form</span><span class="o">=</span><span class="s2">&quot;exp&quot;</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;g_shift&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Shift an observation based on a dimensionless GM/c^2 dR.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="k">if</span> <span class="n">g_form</span> <span class="o">==</span> <span class="s2">&quot;exp&quot;</span><span class="p">:</span>
             <span class="n">g_factor</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dimensionless_g</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">g_form</span> <span class="o">==</span> <span class="s2">&quot;minimal&quot;</span><span class="p">:</span>
@@ -12340,12 +12369,15 @@ div#notebook {
         <span class="n">g_q</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">g_factor</span>
         <span class="n">g_q</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">g_factor</span>
 
+        <span class="n">g_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">g_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">g_q</span>
     
     <span class="k">def</span> <span class="nf">q_sin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;sin&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Take the sine of a quaternion, (sin(t) cosh(|R|), cos(t) sinh(|R|) R/|R|)&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">q_out</span> <span class="o">=</span> <span class="n">QH</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
         <span class="n">v_norm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_squared_of_vector</span><span class="p">()</span>
         
@@ -12365,6 +12397,7 @@ div#notebook {
             <span class="n">q_out</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">trunc</span><span class="p">(</span><span class="n">v_factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
             <span class="n">q_out</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">trunc</span><span class="p">(</span><span class="n">v_factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
 
+        <span class="n">q_out</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">q_out</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">q_out</span>
         
@@ -12386,7 +12419,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[73]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQH</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -12685,7 +12718,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[74]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQH</span><span class="p">())</span>
@@ -12716,25 +12749,25 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Euclidean product:  (1, 16, 13, -18) Q.*xP
-abs_of_q:  (5.0, 0, 0, 0) P.abs
-abs_of_vector:  (5.0, 0, 0, 0) P.absV
+<pre>Euclidean product:  (1, 16, 13, -18) Q*xP
+abs_of_q:  (5.0, 0, 0, 0) Pabs
+abs_of_vector:  (5.0, 0, 0, 0) PabsV
 add:  (1, 2, -6, -4) Q+P
-q1_sq:  (-28, -4, -6, -8) Q.sq
-boosted:  (1.0120181081629736, -2.006036054324489, -3.0, -4.0) Q.boost
-boosted squared:  (-28.0, -4.0602896252083704, -6.072108648977841, -8.096144865303788) Q.boost.sq
-q_conj 0:  (1, 2, 3, 4) Q.*
-q_conj 1:  (-1, -2, 3, 4) Q.*1
-q_conj 2:  (-1, 2, -3, 4) Q.*2
+q1_sq:  (-28, -4, -6, -8) Qsq
+boosted:  (1.0120181081629736, -2.006036054324489, -3.0, -4.0) Qboost
+boosted squared:  (-28.0, -4.0602896252083704, -6.072108648977841, -8.096144865303788) Qboostsq
+q_conj 0:  (1, 2, 3, 4) Q*
+q_conj 1:  (-1, -2, 3, 4) Q*1
+q_conj 2:  (-1, 2, -3, 4) Q*2
 dif:  (1, -6, 0, -4) Q-P
 divide_by:  (1.0, 0.0, 0.0, 0.0) Q/Q
-q1_sq:  (-28, -4, -6, -8) Q.sq
-g_shift:  (0.997004495503373, -2.00600900900675, -3.00901351351013, -4.01201801801351) Q.g_shift
-g squared:  (-28.1805050815139, -4.00000000000000, -6.00000000000000, -8.00000000000000) Q.g_shift.sq
-invert:  (0.0, -0.16, 0.12, 0.0) P.^-1
-norm_squared:  (30, 0, 0, 0) Q.norm_squared
-norm_squared_of_vector:  (29, 0, 0, 0) Q.norm_squaredV
-q_normalized:  (0.0, 0.8, -0.6000000000000001, 0.0) PxP.abs.^-1.U
+q1_sq:  (-28, -4, -6, -8) Qsq
+g_shift:  (0.997004495503373, -2.00600900900675, -3.00901351351013, -4.01201801801351) Qg_shift
+g squared:  (-28.1805050815139, -4.00000000000000, -6.00000000000000, -8.00000000000000) Qg_shiftsq
+invert:  (0.0, -0.16, 0.12, 0.0) P^-1
+norm_squared:  (30, 0, 0, 0) Qnorm_squared
+norm_squared_of_vector:  (29, 0, 0, 0) Qnorm_squaredV
+q_normalized:  (0.0, 0.8, -0.6000000000000001, 0.0) PU(1)
 product:  (-1, -8, -19, 18) QxP
 product, kind even:  (-1, 4, -3, 0) QxEP
 product, kind even_minus_odd:  (-1, 16, 13, -18) QxE-OP
@@ -12744,13 +12777,13 @@ q_1:  (1, 0, 0, 0) 1
 q_i:  (0, 1, 0, 0) i
 q_j:  (0, 0, 1, 0) j
 q_k:  (0, 0, 0, 1) k
-q_random(): (0.8182164316781201, 0.25850157663179796, 0.2266540788602187, 0.30303255830332343) ?
-rotate:  (1.0, -2.0, 3.0, 4.0) Q.rot
-square:  (-28, -4, -6, -8) Q.sq
+q_random(): (0.25575021634321293, 0.9760922040802505, 0.5573023587996015, 0.4521150226310706) ?
+rotate:  (1.0, -2.0, 3.0, 4.0) Qrot
+square:  (-28, -4, -6, -8) Qsq
 triple product:  (-2, 124, -84, 8) QxPxQ
-q_vahlen_conj -:  (1, 2, 3, 4) Q.vc*-
-q_vahlen_conj &#39;:  (1, 2, 3, -4) Q.vc*&#39;
-q_vahlen_conj *:  (1, -2, -3, 4) Q.vc*
+q_vahlen_conj -:  (1, 2, 3, 4) Qvc*-
+q_vahlen_conj &#39;:  (1, 2, 3, -4) Qvc*&#39;
+q_vahlen_conj *:  (1, -2, -3, 4) Qvc*
 </pre>
 </div>
 </div>
@@ -12763,7 +12796,7 @@ q_vahlen_conj *:  (1, -2, -3, 4) Q.vc*
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 35 tests in 0.061s
+Ran 35 tests in 0.055s
 
 OK
 </pre>
@@ -12793,7 +12826,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[75]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">QHa</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -12908,6 +12941,8 @@ OK
     <span class="k">def</span> <span class="nf">flip_signs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conj_type</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Flip all the signs, just like multipying by -1.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
         <span class="n">flip_q</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
 
@@ -12915,15 +12950,18 @@ OK
         <span class="n">flip_q</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">x</span>
         <span class="n">flip_q</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">y</span>
         <span class="n">flip_q</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">z</span>
-            
+        
+        <span class="n">flip_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">flip_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">flip_q</span>
     
     <span class="k">def</span> <span class="nf">vahlen_conj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conj_type</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;vc&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Three types of conjugates -&#39;* done by Vahlen in 1901.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-        <span class="n">conj_q</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
+        <span class="n">conj_q</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">conj_type</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span><span class="p">:</span>
             <span class="n">conj_q</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">t</span>
@@ -12946,13 +12984,14 @@ OK
             <span class="n">conj_q</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">z</span>
             <span class="n">qtype</span> <span class="o">+=</span> <span class="s2">&quot;*&quot;</span>
             
+        <span class="n">conj_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">conj_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">conj_q</span>
 
     <span class="k">def</span> <span class="nf">add_qtype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Adds a qtype to an exiting qtype.&quot;&quot;&quot;</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span> <span class="o">+=</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">qtype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span> <span class="o">+=</span> <span class="n">qtype</span>
     
     <span class="k">def</span> <span class="nf">_commuting_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns a dictionary with the commuting products.&quot;&quot;&quot;</span>
@@ -12995,6 +13034,8 @@ OK
     <span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;sq&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Square a quaternion.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">qxq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commuting_products</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="n">sq_q</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
@@ -13003,60 +13044,73 @@ OK
         <span class="n">sq_q</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;ty+yt&#39;</span><span class="p">]</span>
         <span class="n">sq_q</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;tz+zt&#39;</span><span class="p">]</span>
 
+        <span class="n">sq_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">sq_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">sq_q</span>
 
     <span class="k">def</span> <span class="nf">norm_squared</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;norm_squared&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The norm_squared of a quaternion.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">qxq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commuting_products</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="n">n_q</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
         <span class="n">n_q</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;tt&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;xx+yy+zz&#39;</span><span class="p">]</span>
 
+        <span class="n">n_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">n_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">n_q</span>
 
     <span class="k">def</span> <span class="nf">norm_squared_of_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;norm_squaredV&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The norm_squared of the vector of a quaternion.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">qxq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commuting_products</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="n">nv_q</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
         <span class="n">nv_q</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;xx+yy+zz&#39;</span><span class="p">]</span>
 
+        <span class="n">nv_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">nv_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">nv_q</span>
 
     <span class="k">def</span> <span class="nf">abs_of_q</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;abs&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The absolute value, the square root of the norm_squared.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">ns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">()</span>
         <span class="n">sqrt_t</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mf">0.5</span>
         <span class="n">ns</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">sqrt_t</span>
 
-        <span class="n">ns</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        <span class="n">ns</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">ns</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ns</span>
 
     <span class="k">def</span> <span class="nf">abs_of_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;absV&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The absolute value of the vector, the square root of the norm_squared of the vector.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">av</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_squared_of_vector</span><span class="p">()</span>
         <span class="n">sqrt_t</span> <span class="o">=</span> <span class="n">av</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mf">0.5</span>
         <span class="n">av</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">sqrt_t</span>
 
-        <span class="n">av</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        <span class="n">av</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">av</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">av</span>
 
     <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;U&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Normalize a quaternion&quot;&quot;&quot;</span>
         
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">abs_q_inv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">abs_of_q</span><span class="p">()</span><span class="o">.</span><span class="n">invert</span><span class="p">()</span>
         <span class="n">n_q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">abs_q_inv</span><span class="p">)</span>
 
-        <span class="n">n_q</span><span class="o">.</span><span class="n">q_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        <span class="n">n_q</span><span class="o">.</span><span class="n">q_type</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">n_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">n_q</span>
     
@@ -13139,6 +13193,9 @@ OK
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Four &#39;kind&#39; values are known: &#39;&#39;, &#39;even&#39;, &#39;odd&#39;, and &#39;even_minus_odd&#39;.&quot;</span><span class="p">)</span>
             
+        <span class="k">if</span> <span class="n">reverse</span><span class="p">:</span>
+            <span class="n">times_symbol</span> <span class="o">=</span> <span class="n">times_symbol</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;xR&#39;</span><span class="p">)</span>
+            
         <span class="k">if</span> <span class="n">qtype</span><span class="p">:</span>
             <span class="n">result</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">qtype</span>
         <span class="k">else</span><span class="p">:</span>
@@ -13157,6 +13214,8 @@ OK
     <span class="k">def</span> <span class="nf">invert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;^-1&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The inverse of a quaternion.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">q_conj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
         <span class="n">q_norm_squared</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">()</span>
 
@@ -13167,6 +13226,7 @@ OK
         <span class="n">q_norm_squared_inv</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">([</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">q_norm_squared</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
         <span class="n">q_inv</span> <span class="o">=</span> <span class="n">q_conj</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q_norm_squared_inv</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
         
+        <span class="n">q_inv</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">q_inv</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">q_inv</span>
 
@@ -13194,13 +13254,15 @@ OK
     <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a_1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_3</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;rot&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Do a rotation given up to three angles.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">u</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">a_1</span><span class="p">,</span> <span class="n">a_2</span><span class="p">,</span> <span class="n">a_3</span><span class="p">])</span>
         <span class="n">u_abs</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">abs_of_q</span><span class="p">()</span>
         <span class="n">u_norm_squaredalized</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">divide_by</span><span class="p">(</span><span class="n">u_abs</span><span class="p">)</span>
 
         <span class="n">q_rot</span> <span class="o">=</span> <span class="n">u_norm_squaredalized</span><span class="o">.</span><span class="n">triple_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u_norm_squaredalized</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span>
   
-        <span class="n">q_rot</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        <span class="n">q_rot</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">q_rot</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">q_rot</span>
 
@@ -13211,6 +13273,8 @@ OK
     <span class="k">def</span> <span class="nf">boost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beta_x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">beta_y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">beta_z</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;boost&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;A boost along the x, y, and/or z axis.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">boost</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">(</span><span class="n">sr_gamma_betas</span><span class="p">(</span><span class="n">beta_x</span><span class="p">,</span> <span class="n">beta_y</span><span class="p">,</span> <span class="n">beta_z</span><span class="p">))</span>      
         <span class="n">b_conj</span> <span class="o">=</span> <span class="n">boost</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
 
@@ -13222,6 +13286,7 @@ OK
         <span class="n">half_23</span> <span class="o">=</span> <span class="n">triple_23</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">QHa</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]))</span>
         <span class="n">triple_123</span> <span class="o">=</span> <span class="n">triple_1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">half_23</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
         
+        <span class="n">triple_123</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">triple_123</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">triple_123</span>
 
@@ -13234,6 +13299,8 @@ OK
     <span class="k">def</span> <span class="nf">g_shift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dimensionless_g</span><span class="p">,</span> <span class="n">g_form</span><span class="o">=</span><span class="s2">&quot;exp&quot;</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;g_shift&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Shift an observation based on a dimensionless GM/c^2 dR.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="k">if</span> <span class="n">g_form</span> <span class="o">==</span> <span class="s2">&quot;exp&quot;</span><span class="p">:</span>
             <span class="n">g_factor</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dimensionless_g</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">g_form</span> <span class="o">==</span> <span class="s2">&quot;minimal&quot;</span><span class="p">:</span>
@@ -13248,6 +13315,7 @@ OK
         <span class="n">g_q</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">g_factor</span>
         <span class="n">g_q</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">g_factor</span>
 
+        <span class="n">g_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">g_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">g_q</span>
     
@@ -13284,7 +13352,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[76]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQHa</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -13576,7 +13644,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQHa</span><span class="p">())</span>
@@ -13607,26 +13675,26 @@ OK
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Euclidean product:  (1.0, 16.0, 13.0, -18.0) Q.*xP
-abs_of_q:  (5.0, 0.0, 0.0, 0.0) P.abs
-abs_of_vector:  (5.0, 0.0, 0.0, 0.0) P.absV
+<pre>Euclidean product:  (1.0, 16.0, 13.0, -18.0) Q*xP
+abs_of_q:  (5.0, 0.0, 0.0, 0.0) Pabs
+abs_of_vector:  (5.0, 0.0, 0.0, 0.0) PabsV
 add:  (1.0, 2.0, -6.0, -4.0) Q+P
 q1_sq: 
-boosted:  (1.0120181081629736, -2.006036054324489, -3.0, -4.0) Q.boost
+boosted:  (1.0120181081629736, -2.006036054324489, -3.0, -4.0) Qboost
 boosted squared: 
 {}
-q_conj 0:  (1.0, 2.0, 3.0, 4.0) Q.*
-q_conj 1:  (-1.0, -2.0, 3.0, 4.0) Q.*1
-q_conj 2:  (-1.0, 2.0, -3.0, 4.0) Q.*2
+q_conj 0:  (1.0, 2.0, 3.0, 4.0) Q*
+q_conj 1:  (-1.0, -2.0, 3.0, 4.0) Q*1
+q_conj 2:  (-1.0, 2.0, -3.0, 4.0) Q*2
 dif:  (1.0, -6.0, 0.0, -4.0) Q-P
 divide_by:  (1.0, 0.0, 0.0, 0.0) Q/Q
 q1_sq: 
-g_shift:  (0.9970044955033729, -2.006009009006754, -3.0090135135101312, -4.012018018013508) Q.g_shift
+g_shift:  (0.9970044955033729, -2.006009009006754, -3.0090135135101312, -4.012018018013508) Qg_shift
 g squared: 
-invert:  (0.0, -0.16, 0.12, 0.0) P.^-1
-norm_squared:  (30.0, 0.0, 0.0, 0.0) Q.norm_squared
-norm_squared_of_vector:  (29.0, 0.0, 0.0, 0.0) Q.norm_squaredV
-q_normalized:  (0.0, 0.8, -0.6000000000000001, 0.0) PxP.abs.^-1.U
+invert:  (0.0, -0.16, 0.12, 0.0) P^-1
+norm_squared:  (30.0, 0.0, 0.0, 0.0) Qnorm_squared
+norm_squared_of_vector:  (29.0, 0.0, 0.0, 0.0) Qnorm_squaredV
+q_normalized:  (0.0, 0.8, -0.6000000000000001, 0.0) PxPabs^-1U
 product:  (-1.0, -8.0, -19.0, 18.0) QxP
 product even:  (-1.0, 4.0, -3.0, 0.0) QxEP
 product even_minus_odd:  (-1.0, 16.0, 13.0, -18.0) QxE-OP
@@ -13636,13 +13704,13 @@ q_1:  (1.0, 0.0, 0.0, 0.0) 1
 q_i:  (0.0, 1.0, 0.0, 0.0) i
 q_1:  (0.0, 0.0, 1.0, 0.0) j
 q_k:  (0.0, 0.0, 0.0, 1.0) k
-q_random():  (0.1131188048902162, 0.9739115787194702, 0.7008080539801391, 0.4507260412548325) ?
-rotate:  (1.0, -2.0, 3.0, 4.0) Q.rot
-square:  (-28.0, -4.0, -6.0, -8.0) Q.sq
+q_random():  (0.90312036436927, 0.8859444942243518, 0.629080344222438, 0.6424205469162073) ?
+rotate:  (1.0, -2.0, 3.0, 4.0) Qrot
+square:  (-28.0, -4.0, -6.0, -8.0) Qsq
 triple product:  (-2.0, 124.0, -84.0, 8.0) QxPxQ
-q_vahlen_conj -:  (1.0, 2.0, 3.0, 4.0) Q.vc*-
-q_vahlen_conj &#39;:  (1.0, 2.0, 3.0, -4.0) Q.vc*&#39;
-q_vahlen_conj *:  (1.0, -2.0, -3.0, 4.0) Q.vc*
+q_vahlen_conj -:  (1.0, 2.0, 3.0, 4.0) Qvc*-
+q_vahlen_conj &#39;:  (1.0, 2.0, 3.0, -4.0) Qvc*&#39;
+q_vahlen_conj *:  (1.0, -2.0, -3.0, 4.0) Qvc*
 </pre>
 </div>
 </div>
@@ -13655,7 +13723,7 @@ q_vahlen_conj *:  (1.0, -2.0, -3.0, 4.0) Q.vc*
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 35 tests in 0.068s
+Ran 35 tests in 0.054s
 
 OK
 </pre>
@@ -13900,7 +13968,7 @@ OK
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>..........
 ----------------------------------------------------------------------
-Ran 10 tests in 0.010s
+Ran 10 tests in 0.011s
 
 OK
 </pre>
@@ -14153,7 +14221,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Q8</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -14191,7 +14259,7 @@ OK
     <span class="k">def</span> <span class="nf">add_qtype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Adds a qtype to an existing one.&quot;&quot;&quot;</span>
             
-            <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span> <span class="o">+=</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">qtype</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span> <span class="o">+=</span> <span class="n">qtype</span>
             
     <span class="k">def</span> <span class="nf">q_0</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a zero quaternion.&quot;&quot;&quot;</span>
@@ -14363,53 +14431,65 @@ OK
     <span class="k">def</span> <span class="nf">norm_squared</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;norm_squared&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The norm_squared of a quaternion.&quot;&quot;&quot;</span>
         
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">qxq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commuting_products</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         
         <span class="n">n_q</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>        
         <span class="n">n_q</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;tt&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">d_add</span><span class="p">(</span><span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;xx+yy+zz&#39;</span><span class="p">])</span>
 
+        <span class="n">n_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">n_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">n_q</span>
     
     <span class="k">def</span> <span class="nf">norm_squared_of_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;norm_squaredV&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The norm_squared of the vector of a quaternion.&quot;&quot;&quot;</span>
         
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
         <span class="n">qxq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commuting_products</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         
         <span class="n">nv_q</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
         <span class="n">nv_q</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;xx+yy+zz&#39;</span><span class="p">]</span>
 
+        <span class="n">nv_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">nv_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">nv_q</span>
     
     <span class="k">def</span> <span class="nf">abs_of_q</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;abs&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The absolute value, the square root of the norm_squared.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
         <span class="n">sqrt_t</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">p</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">a</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">Doublet</span><span class="p">(</span><span class="n">sqrt_t</span><span class="p">)</span>
         
+        <span class="n">a</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">a</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">a</span>
 
     <span class="k">def</span> <span class="nf">abs_of_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;absV&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The absolute value of the vector, the square root of the norm_squared of the vector.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">av</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_squared_of_vector</span><span class="p">()</span>
         <span class="n">sqrt_t</span> <span class="o">=</span> <span class="n">av</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">p</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">av</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">Doublet</span><span class="p">(</span><span class="n">sqrt_t</span><span class="p">)</span>
         
-        <span class="n">av</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        <span class="n">av</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">av</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">av</span>
     
     <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;U&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Normalize a quaternion&quot;&quot;&quot;</span>
         
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">abs_q_inv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">abs_of_q</span><span class="p">()</span><span class="o">.</span><span class="n">invert</span><span class="p">()</span>
         <span class="n">n_q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">abs_q_inv</span><span class="p">)</span>
 
-        <span class="n">n_q</span><span class="o">.</span><span class="n">q_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        <span class="n">n_q</span><span class="o">.</span><span class="n">q_type</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">n_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">n_q</span>
     
@@ -14485,6 +14565,9 @@ OK
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Fouf &#39;kind&#39; values are known: &#39;&#39;, &#39;even&#39;, &#39;odd&#39;, and &#39;even_minus_odd&#39;&quot;</span><span class="p">)</span>
             
+        <span class="k">if</span> <span class="n">reverse</span><span class="p">:</span>
+            <span class="n">times_symbol</span> <span class="o">=</span> <span class="n">times_symbol</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;xR&#39;</span><span class="p">)</span>
+            
         <span class="k">if</span> <span class="n">qtype</span><span class="p">:</span>
             <span class="n">result</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">qtype</span>
         <span class="k">else</span><span class="p">:</span>
@@ -14551,6 +14634,8 @@ OK
     <span class="c1"># This is not a well-known result, but does work.</span>
     <span class="k">def</span> <span class="nf">boost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beta_x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta_y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta_z</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;boost&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;A boost along the x, y, and/or z axis.&quot;&quot;&quot;</span>
+    
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
         
         <span class="n">boost</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">(</span><span class="n">sr_gamma_betas</span><span class="p">(</span><span class="n">beta_x</span><span class="p">,</span> <span class="n">beta_y</span><span class="p">,</span> <span class="n">beta_z</span><span class="p">))</span>
         <span class="n">b_conj</span> <span class="o">=</span> <span class="n">boost</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
@@ -14563,6 +14648,7 @@ OK
         <span class="n">half_23</span> <span class="o">=</span> <span class="n">triple_23</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
         <span class="n">triple_123</span> <span class="o">=</span> <span class="n">triple_1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">half_23</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
         
+        <span class="n">triple_123</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">triple_123</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">triple_123</span>
     
@@ -14572,6 +14658,8 @@ OK
     <span class="c1"># space-times-time values, but not the intervals.</span>
     <span class="k">def</span> <span class="nf">g_shift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dimensionless_g</span><span class="p">,</span> <span class="n">g_form</span><span class="o">=</span><span class="s2">&quot;exp&quot;</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;g_shift&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Shift an observation based on a dimensionless GM/c^2 dR.&quot;&quot;&quot;</span>
+        
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
         
         <span class="k">if</span> <span class="n">g_form</span> <span class="o">==</span> <span class="s2">&quot;exp&quot;</span><span class="p">:</span>
             <span class="n">g_factor</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dimensionless_g</span><span class="p">)</span>
@@ -14592,6 +14680,7 @@ OK
         <span class="n">g_q</span><span class="o">.</span><span class="n">dy</span> <span class="o">=</span> <span class="n">Doublet</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">p</span> <span class="o">*</span> <span class="n">exp_g</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">n</span> <span class="o">*</span> <span class="n">exp_g</span><span class="p">])</span>
         <span class="n">g_q</span><span class="o">.</span><span class="n">dz</span> <span class="o">=</span> <span class="n">Doublet</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">p</span> <span class="o">*</span> <span class="n">exp_g</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">n</span> <span class="o">*</span> <span class="n">exp_g</span><span class="p">])</span>
         
+        <span class="n">g_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">g_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">g_q</span>
 </pre></div>
@@ -14603,7 +14692,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQ8</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -14982,7 +15071,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[65]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQ8</span><span class="p">())</span>
@@ -15013,44 +15102,44 @@ OK
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Euclidean product: {} ((1, 0), (16, 0), (13, 0), (0, 18)) Q.*xQ.reduce
-abs_of_q: {} ((5.0, 0), (0, 0), (0, 0), (0, 0)) Q.Q.abs
-abs_of_vector: {} ((5.0, 0), (0, 0), (0, 0), (0, 0)) Q.absV
+<pre>Euclidean product: {} ((1, 0), (16, 0), (13, 0), (0, 18)) Q*xQreduce
+abs_of_q: {} ((5.0, 0), (0, 0), (0, 0), (0, 0)) Qabs
+abs_of_vector: {} ((5.0, 0), (0, 0), (0, 0), (0, 0)) QabsV
 add: {} ((1, 0), (4, 2), (0, 6), (0, 4)) Q+Q
-add reduce: ((1, 0), (2, 0), (0, 6), (0, 4)) Q+Q.reduce
-q1_sq: ((0, 28), (0, 4), (0, 6), (0, 8)) Q.Q_sq.reduce
-boosted: {} ((1.51802716224446, 0.5060090540814867), (1.0030180271622444, 3.0090540814867333), (1.5240542164879485, 4.524054216487949), (2.0180721626494638, 6.018072162649464)) Q.boost
-b squared: ((0, 28.000000000000007), (0, 4.06028962520837), (0, 6.072108648977842), (0, 8.096144865303788)) Q.boost.Q.boost_sq.reduce
-conj 0: {} ((1, 0), (2, 0), (3, 0), (4, 0)) Q.*
-conj 1: {} ((0, 1), (0, 2), (3, 0), (4, 0)) Q.*1
-conj 2: {} ((0, 1), (2, 0), (0, 3), (4, 0)) Q.*2
+add reduce: ((1, 0), (2, 0), (0, 6), (0, 4)) Q+Qreduce
+q1_sq: ((0, 28), (0, 4), (0, 6), (0, 8)) QQ_sqreduce
+boosted: {} ((1.51802716224446, 0.5060090540814867), (1.0030180271622444, 3.0090540814867333), (1.5240542164879485, 4.524054216487949), (2.0180721626494638, 6.018072162649464)) Qboost
+b squared: ((0, 28.000000000000007), (0, 4.06028962520837), (0, 6.072108648977842), (0, 8.096144865303788)) QboostQboost_sqreduce
+conj 0: {} ((1, 0), (2, 0), (3, 0), (4, 0)) Q*
+conj 1: {} ((0, 1), (0, 2), (3, 0), (4, 0)) Q*1
+conj 2: {} ((0, 1), (2, 0), (0, 3), (4, 0)) Q*2
 dif: {} ((1, 0), (0, 6), (3, 3), (0, 4)) Q-Q
-inverse: {} ((1.0, 0.0), (0, 0), (0, 0), (0, 0)) Q/Q.reduce
-q1_sq: ((0, 28), (0, 4), (0, 6), (0, 8)) Q.Q_sq.reduce
-g_shift: {} ((0.997004495503373, 0), (0, 2.00600900900675), (0, 3.00901351351013), (0, 4.01201801801351)) Q.g_exp
-g squared: ((0, 28.1805050815139), (0, 4.00000000000000), (0, 6.00000000000000), (0, 8.00000000000000)) Q.g_exp.Q.g_exp_sq.reduce
-inverse: {} ((0.0, 0.0), (0.0, 0.16), (0.12, 0.0), (0.0, 0.0)) Q.^-1.reduce
-norm_squared: {} ((30, 0), (0, 0), (0, 0), (0, 0)) Q.norm_squared
-norm_squared_of_vector: {} ((29, 0), (0, 0), (0, 0), (0, 0)) Q.norm_squaredV
-q_normalized: {} ((0.0, 0.0), (0.8, 0.0), (0.0, 0.6000000000000001), (0.0, 0.0)) QxQ.Q.abs.^-1.U
-product: {} ((0, 1), (0, 8), (0, 19), (18, 0)) QxQ.reduce
-product, kind even: {} ((0, 1), (4, 0), (0, 3), (0, 0)) QxEQ.reduce
-product, kind odd: {} ((0, 1), (16, 0), (13, 0), (0, 18)) QxE-OQ.reduce
-product, kind odd: {} ((0, 0), (0, 12), (0, 16), (18, 0)) QxOQ.reduce
+inverse: {} ((1.0, 0.0), (0, 0), (0, 0), (0, 0)) Q/Qreduce
+q1_sq: ((0, 28), (0, 4), (0, 6), (0, 8)) QQ_sqreduce
+g_shift: {} ((0.997004495503373, 0), (0, 2.00600900900675), (0, 3.00901351351013), (0, 4.01201801801351)) Qg_exp
+g squared: ((0, 28.1805050815139), (0, 4.00000000000000), (0, 6.00000000000000), (0, 8.00000000000000)) Qg_expQg_exp_sqreduce
+inverse: {} ((0.0, 0.0), (0.0, 0.16), (0.12, 0.0), (0.0, 0.0)) Q^-1reduce
+norm_squared: {} ((30, 0), (0, 0), (0, 0), (0, 0)) Qnorm_squared
+norm_squared_of_vector: {} ((29, 0), (0, 0), (0, 0), (0, 0)) Qnorm_squaredV
+q_normalized: {} ((0.0, 0.0), (0.8, 0.0), (0.0, 0.6000000000000001), (0.0, 0.0)) QxQabs^-1U
+product: {} ((0, 1), (0, 8), (0, 19), (18, 0)) QxQreduce
+product, kind even: {} ((0, 1), (4, 0), (0, 3), (0, 0)) QxEQreduce
+product, kind odd: {} ((0, 1), (16, 0), (13, 0), (0, 18)) QxE-OQreduce
+product, kind odd: {} ((0, 0), (0, 12), (0, 16), (18, 0)) QxOQreduce
 q_0: {} ((0, 0), (0, 0), (0, 0), (0, 0)) Q
 q_1: {} ((1, 0), (0, 0), (0, 0), (0, 0)) Q
 q_i: {} ((0, 0), (1, 0), (0, 0), (0, 0)) Q
 q_j: {} ((0, 0), (0, 0), (1, 0), (0, 0)) Q
 q_k: {} ((0, 0), (0, 0), (0, 0), (1, 0)) Q
-q_random(): ((0.8647200942264147, 0), (0.20353182157242178, 0), (0.2463356504544919, 0), (0.35482475534918223, 0)) ?
-q_big reduced: ((0, 1), (0, 1), (0, 1), (0, 1)) Q.reduce
-rotate: {} ((1.0, 0.0), (0.0, 2.0), (3.0, 0.0), (4.0, 0.0)) Q/Q.Q.absxQxQ/Q.Q.abs.*.reduce
-square: ((1, 29), (0, 4), (0, 6), (0, 8)) Q.Q_sq
-square reduced: ((0, 28), (0, 4), (0, 6), (0, 8)) Q.Q_sq.reduce
-triple: {} ((0, 2), (124, 0), (0, 84), (8, 0)) QxQxQ.reduce
-vahlen conj -: {} ((1, 0), (2, 0), (3, 0), (4, 0)) Q.vc-
-vahlen conj &#39;: {} ((1, 0), (2, 0), (3, 0), (0, 4)) Q.vc&#39;
-vahlen conj *: {} ((1, 0), (0, 2), (0, 3), (4, 0)) Q.vc*
+q_random(): ((0.19230788217450323, 0), (0.44322767879428127, 0), (0.5554899814341301, 0), (0.486749177605746, 0)) ?
+q_big reduced: ((0, 1), (0, 1), (0, 1), (0, 1)) Qreduce
+rotate: {} ((1.0, 0.0), (0.0, 2.0), (3.0, 0.0), (4.0, 0.0)) Q/QabsxQxQ/Qabs*reduce
+square: ((1, 29), (0, 4), (0, 6), (0, 8)) QQ_sq
+square reduced: ((0, 28), (0, 4), (0, 6), (0, 8)) QQ_sqreduce
+triple: {} ((0, 2), (124, 0), (0, 84), (8, 0)) QxQxQreduce
+vahlen conj -: {} ((1, 0), (2, 0), (3, 0), (4, 0)) Qvc-
+vahlen conj &#39;: {} ((1, 0), (2, 0), (3, 0), (0, 4)) Qvc&#39;
+vahlen conj *: {} ((1, 0), (0, 2), (0, 3), (4, 0)) Qvc*
 </pre>
 </div>
 </div>
@@ -15063,7 +15152,7 @@ vahlen conj *: {} ((1, 0), (0, 2), (0, 3), (4, 0)) Q.vc*
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 36 tests in 0.069s
+Ran 36 tests in 0.066s
 
 OK
 </pre>
@@ -15084,7 +15173,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[69]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Q8a</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -15124,7 +15213,7 @@ OK
     <span class="k">def</span> <span class="nf">add_qtype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Adds a qtype to an existing one.&quot;&quot;&quot;</span>
             
-            <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span> <span class="o">+=</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">qtype</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span> <span class="o">+=</span> <span class="n">qtype</span>
             
     <span class="k">def</span> <span class="nf">q_0</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;0&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a zero quaternion.&quot;&quot;&quot;</span>
@@ -15155,7 +15244,7 @@ OK
     <span class="k">def</span> <span class="nf">q_random</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a random-valued quaternion.&quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="n">QH</span><span class="p">([</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()],</span> <span class="n">qtype</span><span class="o">=</span><span class="n">qtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Q8a</span><span class="p">([</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()],</span> <span class="n">qtype</span><span class="o">=</span><span class="n">qtype</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="nf">equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q2</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Tests if two quaternions are equal.&quot;&quot;&quot;</span>
@@ -15368,22 +15457,28 @@ OK
     <span class="k">def</span> <span class="nf">norm_squared</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;norm_squared&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The norm_squared of a quaternion.&quot;&quot;&quot;</span>
         
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">qxq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commuting_products</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         
         <span class="n">n_q</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>        
         <span class="n">n_q</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;tt0&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;xx+yy+zz0&#39;</span><span class="p">]</span>
 
+        <span class="n">n_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">n_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">n_q</span>
     
     <span class="k">def</span> <span class="nf">norm_squared_of_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;norm_squaredV&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The norm_squared of the vector of a quaternion.&quot;&quot;&quot;</span>
         
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">qxq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_commuting_products</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         
         <span class="n">nv_q</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
         <span class="n">nv_q</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">qxq</span><span class="p">[</span><span class="s1">&#39;xx+yy+zz0&#39;</span><span class="p">]</span>
 
+        <span class="n">nv_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">nv_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">nv_q</span>
     
@@ -15391,31 +15486,38 @@ OK
     <span class="k">def</span> <span class="nf">abs_of_q</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;abs&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The absolute value, the square root of the norm_squared.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">abq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">(</span><span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
         <span class="n">sqrt_t</span> <span class="o">=</span> <span class="n">abq</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">abq</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">sqrt_t</span>
         
+        <span class="n">abq</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">abq</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">abq</span>
 
     <span class="k">def</span> <span class="nf">abs_of_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;absV&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The absolute value of the vector, the square root of the norm_squared of the vector.&quot;&quot;&quot;</span>
 
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">av</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_squared_of_vector</span><span class="p">()</span>
         <span class="n">sqrt_t</span> <span class="o">=</span> <span class="n">av</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">av</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">sqrt_t</span>
         
-        <span class="n">av</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        <span class="n">av</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">av</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">av</span>
     
     <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;U&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Normalize a quaternion&quot;&quot;&quot;</span>
         
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">abs_q_inv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">abs_of_q</span><span class="p">()</span><span class="o">.</span><span class="n">invert</span><span class="p">()</span>
         <span class="n">n_q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">abs_q_inv</span><span class="p">)</span>
 
-        <span class="n">n_q</span><span class="o">.</span><span class="n">q_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        <span class="n">n_q</span><span class="o">.</span><span class="n">q_type</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">n_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">n_q</span>
     
@@ -15486,8 +15588,6 @@ OK
             <span class="n">q_odd</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">anti_commuting</span><span class="p">[</span><span class="s1">&#39;zx-xz1&#39;</span><span class="p">]</span>
             <span class="n">q_odd</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="n">anti_commuting</span><span class="p">[</span><span class="s1">&#39;xy-yx0&#39;</span><span class="p">]</span>
             <span class="n">q_odd</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="n">anti_commuting</span><span class="p">[</span><span class="s1">&#39;xy-yx1&#39;</span><span class="p">]</span>
-
-        <span class="n">result</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">()</span>
         
         <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">q_even</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q_odd</span><span class="p">)</span>
@@ -15500,6 +15600,9 @@ OK
             <span class="n">times_symbol</span> <span class="o">=</span> <span class="s2">&quot;xO&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Three &#39;kind&#39; values are known: &#39;&#39;, &#39;even&#39;, and &#39;odd&#39;&quot;</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">reverse</span><span class="p">:</span>
+            <span class="n">times_symbol</span> <span class="o">=</span> <span class="n">times_symbol</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;xR&#39;</span><span class="p">)</span>    
             
         <span class="k">if</span> <span class="n">qtype</span><span class="p">:</span>
             <span class="n">result</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">qtype</span>
@@ -15519,6 +15622,8 @@ OK
     <span class="k">def</span> <span class="nf">invert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;^-1&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Invert a quaternion.&quot;&quot;&quot;</span>
         
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">q_conj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
         <span class="n">q_norm_squared</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
         
@@ -15529,6 +15634,7 @@ OK
 
         <span class="n">q_inv</span> <span class="o">=</span> <span class="n">q_conj</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q_norm_squared_inv</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
         
+        <span class="n">q_inv</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">q_inv</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">q_inv</span>
 
@@ -15568,6 +15674,8 @@ OK
     <span class="k">def</span> <span class="nf">boost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beta_x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta_y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta_z</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;boost&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;A boost along the x, y, and/or z axis.&quot;&quot;&quot;</span>
         
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
+        
         <span class="n">boost</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">(</span><span class="n">sr_gamma_betas</span><span class="p">(</span><span class="n">beta_x</span><span class="p">,</span> <span class="n">beta_y</span><span class="p">,</span> <span class="n">beta_z</span><span class="p">))</span>
         <span class="n">b_conj</span> <span class="o">=</span> <span class="n">boost</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
         
@@ -15579,6 +15687,7 @@ OK
         <span class="n">half_23</span> <span class="o">=</span> <span class="n">triple_23</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">Q8a</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
         <span class="n">triple_123</span> <span class="o">=</span> <span class="n">triple_1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">half_23</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
         
+        <span class="n">triple_123</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">triple_123</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">triple_123</span>
     
@@ -15588,6 +15697,8 @@ OK
     <span class="c1"># space-times-time values, but not the intervals.</span>
     <span class="k">def</span> <span class="nf">g_shift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dimensionless_g</span><span class="p">,</span> <span class="n">g_form</span><span class="o">=</span><span class="s2">&quot;exp&quot;</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;g_shift&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Shift an observation based on a dimensionless GM/c^2 dR.&quot;&quot;&quot;</span>
+        
+        <span class="n">start_qtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span>
         
         <span class="k">if</span> <span class="n">g_form</span> <span class="o">==</span> <span class="s2">&quot;exp&quot;</span><span class="p">:</span>
             <span class="n">g_factor</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">dimensionless_g</span><span class="p">)</span>
@@ -15617,6 +15728,7 @@ OK
         <span class="n">g_q</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="n">dz</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">g_q</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="n">dz</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         
+        <span class="n">g_q</span><span class="o">.</span><span class="n">qtype</span> <span class="o">=</span> <span class="n">start_qtype</span>
         <span class="n">g_q</span><span class="o">.</span><span class="n">add_qtype</span><span class="p">(</span><span class="n">qtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">g_q</span>
 </pre></div>
@@ -15628,7 +15740,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[70]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQ8a</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -15997,7 +16109,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[71]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQ8a</span><span class="p">())</span>
@@ -16018,7 +16130,7 @@ OK
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>.........................E.........</pre>
+<pre>...................................</pre>
 </div>
 </div>
 
@@ -16028,43 +16140,43 @@ OK
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Euclidean product: ((1.0, 0.0), (16.0, 0.0), (13.0, 0.0), (0.0, 18.0)) Q.*xQ.reduce
-abs_of_q: ((5.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q.Q.abs
-abs_of_vector: ((5.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q.absV
+<pre>Euclidean product: ((1.0, 0.0), (16.0, 0.0), (13.0, 0.0), (0.0, 18.0)) Q*xQreduce
+abs_of_q: ((5.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Qabs
+abs_of_vector: ((5.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) QabsV
 add: ((1.0, 0.0), (4.0, 2.0), (0.0, 6.0), (0.0, 4.0)) Q+Q
-add reduce: ((1.0, 0.0), (2.0, 0.0), (0.0, 6.0), (0.0, 4.0)) Q+Q.reduce
-q1_sq: ((0.0, 28.0), (0.0, 4.0), (0.0, 6.0), (0.0, 8.0)) Q.Q_sq.reduce
-boosted: ((1.51802716224446, 0.5060090540814867), (1.0030180271622444, 3.0090540814867333), (1.5240542164879485, 4.524054216487949), (2.0180721626494638, 6.018072162649464)) Q.boost
-b squared: ((0.0, 28.000000000000007), (0.0, 4.06028962520837), (0.0, 6.072108648977842), (0.0, 8.096144865303788)) Q.boost.Q.boost_sq.reduce
-conj 0: ((1.0, 0.0), (2.0, 0.0), (3.0, 0.0), (4.0, 0.0)) Q.*
-conj 1: ((0.0, 1.0), (0.0, 2.0), (3.0, 0.0), (4.0, 0.0)) Q.**1
-conj 2: ((0.0, 1.0), (2.0, 0.0), (0.0, 3.0), (4.0, 0.0)) Q.**2
+add reduce: ((1.0, 0.0), (2.0, 0.0), (0.0, 6.0), (0.0, 4.0)) Q+Qreduce
+q1_sq: ((0.0, 28.0), (0.0, 4.0), (0.0, 6.0), (0.0, 8.0)) QQ_sqreduce
+boosted: ((1.51802716224446, 0.5060090540814867), (1.0030180271622444, 3.0090540814867333), (1.5240542164879485, 4.524054216487949), (2.0180721626494638, 6.018072162649464)) Qboost
+b squared: ((0.0, 28.000000000000007), (0.0, 4.06028962520837), (0.0, 6.072108648977842), (0.0, 8.096144865303788)) QboostQboost_sqreduce
+conj 0: ((1.0, 0.0), (2.0, 0.0), (3.0, 0.0), (4.0, 0.0)) Q*
+conj 1: ((0.0, 1.0), (0.0, 2.0), (3.0, 0.0), (4.0, 0.0)) Q**1
+conj 2: ((0.0, 1.0), (2.0, 0.0), (0.0, 3.0), (4.0, 0.0)) Q**2
 dif: ((1.0, 0.0), (0.0, 6.0), (3.0, 3.0), (0.0, 4.0)) Q-Q
-inverse: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q/Q.reduce
-q1_sq: ((0.0, 28.0), (0.0, 4.0), (0.0, 6.0), (0.0, 8.0)) Q.Q_sq.reduce
-g_shift: ((0.9970044955033729, 0.0), (0.0, 2.006009009006754), (0.0, 3.0090135135101312), (0.0, 4.012018018013508)) Q.g_exp
-g squared: ((0.0, 28.18050508151395), (0.0, 4.0), (0.0, 6.0), (0.0, 8.0)) Q.g_exp.Q.g_exp_sq.reduce
-inverse: ((0.0, 0.0), (0.0, 0.16), (0.12, 0.0), (0.0, 0.0)) Q.^-1.reduce
-norm_squared: ((30.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q.norm_squared
-norm_squared_of_vector: ((29.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q.norm_squaredV
-q_normalized: ((0.0, 0.0), (0.8, 0.0), (0.0, 0.6000000000000001), (0.0, 0.0)) QxQ.Q.abs.^-1.U
-product: ((0.0, 1.0), (0.0, 8.0), (0.0, 19.0), (18.0, 0.0)) QxQ.reduce
-product, kind even: ((0.0, 1.0), (4.0, 0.0), (0.0, 3.0), (0.0, 0.0)) QxEQ.reduce
-product, kind odd: ((0.0, 0.0), (0.0, 12.0), (0.0, 16.0), (18.0, 0.0)) QxOQ.reduce
+inverse: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q/Qreduce
+q1_sq: ((0.0, 28.0), (0.0, 4.0), (0.0, 6.0), (0.0, 8.0)) QQ_sqreduce
+g_shift: ((0.9970044955033729, 0.0), (0.0, 2.006009009006754), (0.0, 3.0090135135101312), (0.0, 4.012018018013508)) Qg_exp
+g squared: ((0.0, 28.18050508151395), (0.0, 4.0), (0.0, 6.0), (0.0, 8.0)) Qg_expQg_exp_sqreduce
+inverse: ((0.0, 0.0), (0.0, 0.16), (0.12, 0.0), (0.0, 0.0)) Q^-1reduce
+norm_squared: ((30.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Qnorm_squared
+norm_squared_of_vector: ((29.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Qnorm_squaredV
+q_normalized: ((0.0, 0.0), (0.8, 0.0), (0.0, 0.6000000000000001), (0.0, 0.0)) QxQabs^-1U
+product: ((0.0, 1.0), (0.0, 8.0), (0.0, 19.0), (18.0, 0.0)) QxQreduce
+product, kind even: ((0.0, 1.0), (4.0, 0.0), (0.0, 3.0), (0.0, 0.0)) QxEQreduce
+product, kind odd: ((0.0, 0.0), (0.0, 12.0), (0.0, 16.0), (18.0, 0.0)) QxOQreduce
 q_1: ((1, 0), (0, 0), (0, 0), (0, 0)) Q
 q_i: ((0, 0), (1, 0), (0, 0), (0, 0)) Q
 q_j: ((0, 0), (0, 0), (1, 0), (0, 0)) Q
 q_k: ((0, 0), (0, 0), (0, 0), (1, 0)) Q
-q_random(): (-0.0894786963939096, -0.08298356404807239, -0.526112434216686, 0.30403500903820024) ?
+q_random(): ((0.8358275131745523, 0.1532366542545074), (0.867114212947547, 0.6113890696227188), (0.25702726175048307, 0.7635696205301279), (0.7097526682464438, 0.34754156186193363)) ?
 q0: ((0.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q
-q_big reduced: ((0.0, 1.0), (0.0, 1.0), (0.0, 1.0), (0.0, 1.0)) Q.reduce
-rotate: ((1.0, 0.0), (0.0, 2.0), (3.0, 0.0), (4.0, 0.0)) Q/Q.Q.absxQxQ/Q.Q.abs.*.reduce
-square: ((1.0, 29.0), (0.0, 4.0), (0.0, 6.0), (0.0, 8.0)) Q.Q_sq
-square reduced: ((0.0, 28.0), (0.0, 4.0), (0.0, 6.0), (0.0, 8.0)) Q.Q_sq.reduce
-triple: ((0.0, 2.0), (124.0, 0.0), (0.0, 84.0), (8.0, 0.0)) QxQxQ.reduce
-vahlen conj -: ((1.0, 0.0), (2.0, 0.0), (3.0, 0.0), (4.0, 0.0)) Q.vc-
-vahlen conj &#39;: ((1.0, 0.0), (2.0, 0.0), (3.0, 0.0), (0.0, 4.0)) Q.vc&#39;
-vahlen conj *: ((1.0, 0.0), (0.0, 2.0), (0.0, 3.0), (4.0, 0.0)) Q.vc*
+q_big reduced: ((0.0, 1.0), (0.0, 1.0), (0.0, 1.0), (0.0, 1.0)) Qreduce
+rotate: ((1.0, 0.0), (0.0, 2.0), (3.0, 0.0), (4.0, 0.0)) Q/QabsxQxQ/Qabs*reduce
+square: ((1.0, 29.0), (0.0, 4.0), (0.0, 6.0), (0.0, 8.0)) QQ_sq
+square reduced: ((0.0, 28.0), (0.0, 4.0), (0.0, 6.0), (0.0, 8.0)) QQ_sqreduce
+triple: ((0.0, 2.0), (124.0, 0.0), (0.0, 84.0), (8.0, 0.0)) QxQxQreduce
+vahlen conj -: ((1.0, 0.0), (2.0, 0.0), (3.0, 0.0), (4.0, 0.0)) Qvc-
+vahlen conj &#39;: ((1.0, 0.0), (2.0, 0.0), (3.0, 0.0), (0.0, 4.0)) Qvc&#39;
+vahlen conj *: ((1.0, 0.0), (0.0, 2.0), (0.0, 3.0), (4.0, 0.0)) Qvc*
 </pre>
 </div>
 </div>
@@ -16076,18 +16188,10 @@ vahlen conj *: ((1.0, 0.0), (0.0, 2.0), (0.0, 3.0), (4.0, 0.0)) Q.vc*
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
-======================================================================
-ERROR: test_q_random (__main__.TestQ8a)
 ----------------------------------------------------------------------
-Traceback (most recent call last):
-  File &#34;&lt;ipython-input-19-66735b59bd61&gt;&#34;, line 55, in test_q_random
-    self.assertTrue(q_z.a[0] &gt;= 0 and q_z.a[0] &lt;= 1)
-AttributeError: &#39;QH&#39; object has no attribute &#39;a&#39;
+Ran 35 tests in 0.063s
 
-----------------------------------------------------------------------
-Ran 35 tests in 0.070s
-
-FAILED (errors=1)
+OK
 </pre>
 </div>
 </div>
@@ -16612,7 +16716,7 @@ Such an exact relation is not of much interest to physicists since Einstein show
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>.......
 ----------------------------------------------------------------------
-Ran 7 tests in 0.015s
+Ran 7 tests in 0.016s
 
 OK
 </pre>
@@ -17073,7 +17177,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">QHStates</span><span class="p">(</span><span class="n">QH</span><span class="p">):</span>
@@ -17098,6 +17202,19 @@ OK
         
         <span class="k">return</span> <span class="n">states</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
     
+    <span class="k">def</span> <span class="nf">print_states</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">spacer</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Utility for printing states as a quaternion series.&quot;&quot;&quot;</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;n=</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">q</span><span class="p">))</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum= </span><span class="si">{ss}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ss</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">summation</span><span class="p">()))</span>
+        
+        <span class="k">if</span> <span class="n">spacer</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q2</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Test if two states are equal.&quot;&quot;&quot;</span>
    
@@ -17160,10 +17277,13 @@ OK
     <span class="k">def</span> <span class="nf">summation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add them all up, return one quaternion.&quot;&quot;&quot;</span>
         
-        <span class="n">result</span> <span class="o">=</span> <span class="n">QH</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
     
         <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">q</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
             
         <span class="k">return</span> <span class="n">result</span>    
     
@@ -17437,7 +17557,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">q1234</span> <span class="o">=</span> <span class="n">QHStates</span><span class="p">([</span><span class="n">QH</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">QH</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">QH</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">QH</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])])</span>
@@ -17467,16 +17587,16 @@ OK
 n=2: (3, 1, 0, 0) Q
 n=3: (1, 0, 0, 0) Q
 n=4: (4, 1, 0, 0) Q
-n=1: (0, -8, 6, 0) Q.*
-n=2: (3, -1, 0, 0) Q.*
-n=3: (1, 0, 0, 0) Q.*
-n=4: (4, -1, 0, 0) Q.*
-n=1: (0.0, -0.8, 0.6000000000000001, 0.0) Q.*xQ.*.abs.^-1.U
-n=2: (0.9486832980505137, -0.3162277660168379, 0.0, 0.0) Q.*xQ.*.abs.^-1.U
-n=3: (1.0, 0.0, 0.0, 0.0) Q.*xQ.*.abs.^-1.U
-n=4: (0.9701425001453319, -0.24253562503633297, 0.0, 0.0) Q.*xQ.*.abs.^-1.U
-n=1: (0.6000000000000001, 0.0, 0.0, 0.8) QxQ.abs.^-1.U
-n=1: (0.12, 0.0, 0.0, -0.16) Q.^-1
+n=1: (0, -8, 6, 0) Q*
+n=2: (3, -1, 0, 0) Q*
+n=3: (1, 0, 0, 0) Q*
+n=4: (4, -1, 0, 0) Q*
+n=1: (0.0, -0.8, 0.6000000000000001, 0.0) Q*xQ*abs^-1U
+n=2: (0.9486832980505137, -0.3162277660168379, 0.0, 0.0) Q*xQ*abs^-1U
+n=3: (1.0, 0.0, 0.0, 0.0) Q*xQ*abs^-1U
+n=4: (0.9701425001453319, -0.24253562503633297, 0.0, 0.0) Q*xQ*abs^-1U
+n=1: (0.6000000000000001, 0.0, 0.0, 0.8) QxQabs^-1U
+n=1: (0.12, 0.0, 0.0, -0.16) Q^-1
 </pre>
 </div>
 </div>
@@ -17487,7 +17607,7 @@ n=1: (0.12, 0.0, 0.0, -0.16) Q.^-1
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQHStates</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -17685,7 +17805,7 @@ n=1: (0.12, 0.0, 0.0, -0.16) Q.^-1
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQHStates</span><span class="p">())</span>
@@ -17716,35 +17836,35 @@ n=1: (0.12, 0.0, 0.0, -0.16) Q.^-1
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>A* A n=1: (16, 0, 0, 0) Q.*xQ
-n=2: (1, 0, 0, 0) Q.*xQ
-A* Op:  n=1: (13, 0, 0, 0) Q.*xQ+Q.*xQ
-n=2: (0, 0, 11, 0) Q.*xQ+Q.*xQ
-n=3: (12, 0, 0, 0) Q.*xQ+Q.*xQ
-A* Op4i:  n=1: (0, 16, 0, 0) Q.*xQ+Q.*x0
-n=2: (4, 0, 0, 0) Q.*x0+Q.*xQ
+<pre>A* A n=1: (16, 0, 0, 0) Q*xQ
+n=2: (1, 0, 0, 0) Q*xQ
+A* Op:  n=1: (13, 0, 0, 0) Q*xQ+Q*xQ
+n=2: (0, 0, 11, 0) Q*xQ+Q*xQ
+n=3: (12, 0, 0, 0) Q*xQ+Q*xQ
+A* Op4i:  n=1: (0, 16, 0, 0) Q*xQ+Q*x0
+n=2: (4, 0, 0, 0) Q*x0+Q*xQ
 Operator dimensions do not equal the product of the states: 1 != 2 * 3
 A* Op4i B:  
-A* Op B:  n=1: (0, 0, 4, -24) Q.*xQxQ+QxQ+QxQ
-n=2: (-3, 12, 4, 0) Q.*xQxQ+QxQ+QxQ
+A* Op B:  n=1: (0, 0, 4, -24) Q*xQxQ+QxQ+QxQ
+n=2: (-3, 12, 4, 0) Q*xQxQ+QxQ+QxQ
 Op4i B:  n=1: (0, 0, 0, 4) QxQ+0xQ+0xQ
 n=2: (0, 0, -8, 0) 0xQ+QxQ+0xQ
 n=3: (-12, 0, 0, 0) 0xQ+0xQ+QxQ
 Op B:  n=1: (0, 0, 1, -6) QxQ+QxQ+QxQ
 n=2: (-12, -3, 0, 4) QxQ+QxQ+QxQ
-op1234 Hermitian_conj:  n=1: (1, -1, 0, 0) Q.*
-n=2: (3, -1, 0, 0) Q.*
-n=3: (2, -1, 0, 0) Q.*
-n=4: (4, -1, 0, 0) Q.*
+op1234 Hermitian_conj:  n=1: (1, -1, 0, 0) Q*
+n=2: (3, -1, 0, 0) Q*
+n=3: (2, -1, 0, 0) Q*
+n=4: (4, -1, 0, 0) Q*
 add 01 10:  n=1: (1, 0, 0, 0) 0+1
 n=2: (1, 0, 0, 0) 1+0
-q1_qi*:  n=1: (1, 0, 0, 0) 1.*
-n=2: (0, -1, 0, 0) i.*
-q1_qc*1:  n=1: (-1, 0, 0, 0) 1.*1
-n=2: (0, 1, 0, 0) i.*1
+q1_qi*:  n=1: (1, 0, 0, 0) 1*
+n=2: (0, -1, 0, 0) i*
+q1_qc*1:  n=1: (-1, 0, 0, 0) 1*1
+n=2: (0, 1, 0, 0) i*1
 dif 01 10:  n=1: (-1, 0, 0, 0) 0-1
 n=2: (1, 0, 0, 0) 1-0
-Op normalized:  n=1: (0.6000000000000001, 0.0, 0.0, 0.8) QxQ.abs.^-1.U
+Op normalized:  n=1: (0.6000000000000001, 0.0, 0.0, 0.8) QxQabs^-1U
 op_n:  n=1: (0, 3, 0, 0) Qxi
 n=2: (-1, 0, 0, 0) Qxi
 n=3: (0, 0, 0, -2) Qxi
@@ -17767,7 +17887,7 @@ n=2: (0, 0, -8, 0) 0xQ+QxQ+0xQ
 n=3: (-12, 0, 0, 0) 0xQ+0xQ+QxQ
 Op B:  n=1: (0, 0, 1, -6) QxQ+QxQ+QxQ
 n=2: (-12, -3, 0, 4) QxQ+QxQ+QxQ
-sum:  (1, 0, 0, 0) Q+0+1
+sum:  (1, 0, 0, 0) 0+1
 op1234 transposed:  n=1: (1, 1, 0, 0) Q
 n=2: (3, 1, 0, 0) Q
 n=3: (2, 1, 0, 0) Q
@@ -17784,7 +17904,7 @@ n=4: (4, 1, 0, 0) Q
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 26 tests in 0.041s
+Ran 26 tests in 0.049s
 
 OK
 </pre>
@@ -17810,7 +17930,7 @@ Q8a</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">QHaStates</span><span class="p">(</span><span class="n">QHa</span><span class="p">):</span>
@@ -17835,14 +17955,30 @@ Q8a</p>
         
         <span class="k">return</span> <span class="n">states</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
     
+    <span class="k">def</span> <span class="nf">print_states</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">spacer</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Utility for printing states as a quaternion series.&quot;&quot;&quot;</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;n=</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">q</span><span class="p">))</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum= </span><span class="si">{ss}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ss</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">summation</span><span class="p">()))</span>
+        
+        <span class="k">if</span> <span class="n">spacer</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">summation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add them all up, return one quaternion.&quot;&quot;&quot;</span>
         
-        <span class="n">result</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
     
         <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
-            
+            <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">q</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+        
         <span class="k">return</span> <span class="n">result</span>
     
     <span class="k">def</span> <span class="nf">conj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conj_type</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -18059,7 +18195,7 @@ Q8a</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQHaStates</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -18203,7 +18339,7 @@ Q8a</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQHaStates</span><span class="p">())</span>
@@ -18234,17 +18370,17 @@ Q8a</p>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>A* A n=1: (16.0, 0.0, 0.0, 0.0) Q.*xQ
-n=2: (1.0, 0.0, 0.0, 0.0) Q.*xQ
-A* Op:  n=1: (13.0, 0.0, 0.0, 0.0) Q.*xQ+Q.*xQ
-n=2: (0.0, 0.0, 11.0, 0.0) Q.*xQ+Q.*xQ
-n=3: (12.0, 0.0, 0.0, 0.0) Q.*xQ+Q.*xQ
-A* Op4i:  n=1: (0.0, 16.0, 0.0, 0.0) Q.*xQ+Q.*x0
-n=2: (4.0, 0.0, 0.0, 0.0) Q.*x0+Q.*xQ
+<pre>A* A n=1: (16.0, 0.0, 0.0, 0.0) Q*xQ
+n=2: (1.0, 0.0, 0.0, 0.0) Q*xQ
+A* Op:  n=1: (13.0, 0.0, 0.0, 0.0) Q*xQ+Q*xQ
+n=2: (0.0, 0.0, 11.0, 0.0) Q*xQ+Q*xQ
+n=3: (12.0, 0.0, 0.0, 0.0) Q*xQ+Q*xQ
+A* Op4i:  n=1: (0.0, 16.0, 0.0, 0.0) Q*xQ+Q*x0
+n=2: (4.0, 0.0, 0.0, 0.0) Q*x0+Q*xQ
 Operator dimensions do not equal the product of the states: 1 != 2 * 3
 A* Op4i B:  
-A* Op B:  n=1: (0.0, 0.0, 4.0, -24.0) Q.*xQxQ+QxQ+QxQ
-n=2: (-3.0, 12.0, 4.0, 0.0) Q.*xQxQ+QxQ+QxQ
+A* Op B:  n=1: (0.0, 0.0, 4.0, -24.0) Q*xQxQ+QxQ+QxQ
+n=2: (-3.0, 12.0, 4.0, 0.0) Q*xQxQ+QxQ+QxQ
 Op4i B:  n=1: (0.0, 0.0, 0.0, 4.0) QxQ+0xQ+0xQ
 n=2: (0.0, 0.0, -8.0, 0.0) 0xQ+QxQ+0xQ
 n=3: (-12.0, 0.0, 0.0, 0.0) 0xQ+0xQ+QxQ
@@ -18254,7 +18390,7 @@ add 01 10:  n=1: (1.0, 0.0, 0.0, 0.0) 0+1
 n=2: (1.0, 0.0, 0.0, 0.0) 1+0
 dif 01 10:  n=1: (-1.0, 0.0, 0.0, 0.0) 0-1
 n=2: (1.0, 0.0, 0.0, 0.0) 1-0
-Op normalized:  n=1: (0.6000000000000001, 0.0, 0.0, 0.8) QxQ.abs.^-1.U
+Op normalized:  n=1: (0.6000000000000001, 0.0, 0.0, 0.8) QxQabs^-1U
 op_n:  n=1: (0.0, 3.0, 0.0, 0.0) Qxi
 n=2: (-1.0, 0.0, 0.0, 0.0) Qxi
 n=3: (0.0, 0.0, 0.0, -2.0) Qxi
@@ -18277,7 +18413,7 @@ n=2: (0.0, 0.0, -8.0, 0.0) 0xQ+QxQ+0xQ
 n=3: (-12.0, 0.0, 0.0, 0.0) 0xQ+0xQ+QxQ
 Op B:  n=1: (0.0, 0.0, 1.0, -6.0) QxQ+QxQ+QxQ
 n=2: (-12.0, -3.0, 0.0, 4.0) QxQ+QxQ+QxQ
-sum:  (1.0, 0.0, 0.0, 0.0) Q+0+1
+sum:  (1.0, 0.0, 0.0, 0.0) 0+1
 </pre>
 </div>
 </div>
@@ -18290,7 +18426,7 @@ sum:  (1.0, 0.0, 0.0, 0.0) Q+0+1
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 20 tests in 0.053s
+Ran 20 tests in 0.060s
 
 OK
 </pre>
@@ -18303,7 +18439,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Q8States</span><span class="p">(</span><span class="n">Q8</span><span class="p">):</span>
@@ -18328,6 +18464,19 @@ OK
         
         <span class="k">return</span> <span class="n">states</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
     
+    <span class="k">def</span> <span class="nf">print_states</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">spacer</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Utility for printing states as a quaternion series.&quot;&quot;&quot;</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;n=</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">q</span><span class="p">))</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum= </span><span class="si">{ss}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ss</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">summation</span><span class="p">()))</span>
+        
+        <span class="k">if</span> <span class="n">spacer</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">conj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conj_type</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Take the conjgates of states, default is zero, but also can do 1 or 2.&quot;&quot;&quot;</span>
         
@@ -18351,7 +18500,13 @@ OK
     <span class="k">def</span> <span class="nf">summation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add them all up, return one quaternion.&quot;&quot;&quot;</span>
         
-        <span class="n">result</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+    
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">q</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
     
         <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
@@ -18456,12 +18611,12 @@ OK
                     
                     <span class="k">for</span> <span class="n">op</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ops</span><span class="p">,</span> <span class="n">ket</span><span class="o">.</span><span class="n">qs</span><span class="p">):</span> 
                         <span class="k">if</span> <span class="n">ok</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                            <span class="n">op</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">kind</span><span class="p">)</span>
+                            <span class="n">ok</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">kind</span><span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">ok</span> <span class="o">=</span> <span class="n">ok</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">kind</span><span class="p">))</span>
                             
                     <span class="n">new_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ok</span><span class="p">)</span>
-
+                    
         <span class="c1"># &lt;A|Op</span>
         <span class="k">elif</span> <span class="n">ket</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">_check_dimensions</span><span class="p">(</span><span class="n">op_dim</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">state_1_dim</span><span class="o">=</span><span class="n">bra</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
@@ -18552,7 +18707,50 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Q8States</span><span class="p">([</span><span class="n">Q8</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span><span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])])</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">Q8States</span><span class="p">([</span><span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span><span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]),</span><span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])])</span>
+<span class="n">Op</span> <span class="o">=</span> <span class="n">Q8States</span><span class="p">([</span><span class="n">Q8</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span><span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span><span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span><span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">]),</span><span class="n">Q8</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span><span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])])</span>
+
+<span class="n">Q8States</span><span class="p">()</span><span class="o">.</span><span class="n">Euclidean_product</span><span class="p">(</span><span class="n">ket</span><span class="o">=</span><span class="n">B</span><span class="p">,</span> <span class="n">operator</span><span class="o">=</span><span class="n">Op</span><span class="p">)</span>
+<span class="n">Op</span><span class="o">.</span><span class="n">print_states</span><span class="p">(</span><span class="s2">&quot;Op&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Op
+n=1: ((3, 0), (0, 0), (0, 0), (0, 0)) Q
+n=2: ((0, 0), (1, 0), (0, 0), (0, 0)) Q
+n=3: ((0, 0), (0, 0), (2, 0), (0, 0)) Q
+n=4: ((0, 0), (0, 0), (0, 0), (3, 0)) Q
+n=5: ((2, 0), (0, 0), (0, 0), (0, 0)) Q
+n=6: ((0, 0), (4, 0), (0, 0), (0, 0)) Q
+sum= ((10, 0), (10, 0), (4, 0), (6, 0)) Q+Q+Q+Q+Q+Q+Q+Q+Q+Q+Q+Q
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQ8States</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -18705,7 +18903,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQ8States</span><span class="p">())</span>
@@ -18726,7 +18924,7 @@ OK
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>.....EE...........EE.</pre>
+<pre>....................F</pre>
 </div>
 </div>
 
@@ -18736,32 +18934,32 @@ OK
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>A* A n=1: ((16, 0), (0, 0), (0, 0), (0, 0)) Q.*xQ
-n=2: ((1, 0), (0, 0), (0, 0), (0, 0)) Q.*xQ
-A* Op:  n=1: ((13, 0), (0, 0), (0, 0), (0, 0)) Q.*xQ+Q.*xQ
-n=2: ((0, 0), (0, 0), (11, 0), (0, 0)) Q.*xQ+Q.*xQ
-n=3: ((12, 0), (0, 0), (0, 0), (0, 0)) Q.*xQ+Q.*xQ
-A* Op4i:  n=1: ((0, 0), (16, 0), (0, 0), (0, 0)) Q.*xQ+Q.*xQ
-n=2: ((4, 0), (0, 0), (0, 0), (0, 0)) Q.*xQ+Q.*xQ
+<pre>A* A n=1: ((16, 0), (0, 0), (0, 0), (0, 0)) Q*xQ
+n=2: ((1, 0), (0, 0), (0, 0), (0, 0)) Q*xQ
+A* Op:  n=1: ((13, 0), (0, 0), (0, 0), (0, 0)) Q*xQ+Q*xQ
+n=2: ((0, 0), (0, 0), (11, 0), (0, 0)) Q*xQ+Q*xQ
+n=3: ((12, 0), (0, 0), (0, 0), (0, 0)) Q*xQ+Q*xQ
+A* Op4i:  n=1: ((0, 0), (16, 0), (0, 0), (0, 0)) Q*xQ+Q*xQ
+n=2: ((4, 0), (0, 0), (0, 0), (0, 0)) Q*xQ+Q*xQ
 Operator dimensions do not equal the product of the states: 1 != 2 * 3
 A* Op4i B:  
-A* Op B:  n=1: ((0, 0), (0, 0), (12, 8), (0, 24)) Q.*xQxQ+QxQ+QxQ
-n=2: ((0, 3), (12, 0), (4, 0), (0, 0)) Q.*xQxQ+QxQ+QxQ
-Op4i B:  n=1: None
-n=2: None
-n=3: None
-Op B:  n=1: None
-n=2: None
+A* Op B:  n=1: ((0, 0), (0, 0), (12, 8), (0, 24)) Q*xQxQ+QxQ+QxQ
+n=2: ((0, 3), (12, 0), (4, 0), (0, 0)) Q*xQxQ+QxQ+QxQ
+Op4i B:  n=1: ((0, 0), (0, 0), (0, 0), (4, 0)) QxQ+QxQ+QxQ
+n=2: ((0, 0), (0, 0), (0, 8), (0, 0)) QxQ+QxQ+QxQ
+n=3: ((0, 12), (0, 0), (0, 0), (0, 0)) QxQ+QxQ+QxQ
+Op B:  n=1: ((0, 0), (0, 0), (3, 2), (0, 6)) QxQ+QxQ+QxQ
+n=2: ((0, 12), (0, 3), (0, 0), (4, 0)) QxQ+QxQ+QxQ
 add 01 10:  n=1: ((1, 0), (0, 0), (0, 0), (0, 0)) Q+Q
 n=2: ((1, 0), (0, 0), (0, 0), (0, 0)) Q+Q
-q1_qi*:  n=1: ((1, 0), (0, 0), (0, 0), (0, 0)) Q.*
-n=2: ((0, 0), (0, 1), (0, 0), (0, 0)) Q.*
-q1_qc*1:  n=1: ((0, 1), (0, 0), (0, 0), (0, 0)) Q.*1
-n=2: ((0, 0), (1, 0), (0, 0), (0, 0)) Q.*1
-qc.qs[1]:  ((0, 0), (0, 1), (0, 0), (0, 0)) Q.*
+q1_qi*:  n=1: ((1, 0), (0, 0), (0, 0), (0, 0)) Q*
+n=2: ((0, 0), (0, 1), (0, 0), (0, 0)) Q*
+q1_qc*1:  n=1: ((0, 1), (0, 0), (0, 0), (0, 0)) Q*1
+n=2: ((0, 0), (1, 0), (0, 0), (0, 0)) Q*1
+qc.qs[1]:  ((0, 0), (0, 1), (0, 0), (0, 0)) Q*
 dif 01 10:  n=1: ((0, 1), (0, 0), (0, 0), (0, 0)) Q-Q
 n=2: ((1, 0), (0, 0), (0, 0), (0, 0)) Q-Q
-Op normalized:  n=1: ((0.6000000000000001, 0.0), (0.0, 0.0), (0.0, 0.0), (0.8, 0.0)) QxQ.Q.abs.^-1.U
+Op normalized:  n=1: ((0.6000000000000001, 0.0), (0.0, 0.0), (0.0, 0.0), (0.8, 0.0)) QxQQabs^-1U
 op_n:  n=1: ((0, 0), (3, 0), (0, 0), (0, 0)) QxQ
 n=2: ((0, 1), (0, 0), (0, 0), (0, 0)) QxQ
 n=3: ((0, 0), (0, 0), (0, 0), (0, 2)) QxQ
@@ -18779,12 +18977,12 @@ Operator dimensions do not equal the product of the states: 1 != 2 * 3
 A* Op4i B:  
 A Op B:  n=1: ((0, 0), (0, 0), (12, 8), (0, 24)) QxQxQ+QxQ+QxQ
 n=2: ((3, 0), (0, 12), (0, 4), (0, 0)) QxQxQ+QxQ+QxQ
-Op4i B:  n=1: None
-n=2: None
-n=3: None
-Op B:  n=1: None
-n=2: None
-sum:  ((1, 0), (0, 0), (0, 0), (0, 0)) Q+Q+Q
+Op4i B:  n=1: ((0, 0), (0, 0), (0, 0), (4, 0)) QxQ+QxQ+QxQ
+n=2: ((0, 0), (0, 0), (0, 8), (0, 0)) QxQ+QxQ+QxQ
+n=3: ((0, 12), (0, 0), (0, 0), (0, 0)) QxQ+QxQ+QxQ
+Op B:  n=1: ((0, 0), (0, 0), (3, 2), (0, 6)) QxQ+QxQ+QxQ
+n=2: ((0, 12), (0, 3), (0, 0), (4, 0)) QxQ+QxQ+QxQ
+sum:  ((2, 0), (0, 0), (0, 0), (0, 0)) Q+Q+Q+Q
 </pre>
 </div>
 </div>
@@ -18797,41 +18995,17 @@ sum:  ((1, 0), (0, 0), (0, 0), (0, 0)) Q+Q+Q
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ======================================================================
-ERROR: test_Euclidean_product_Op4iB (__main__.TestQ8States)
+FAIL: test_summation (__main__.TestQ8States)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File &#34;&lt;ipython-input-58-b35ee01f3828&gt;&#34;, line 124, in test_Euclidean_product_Op4iB
-    self.assertTrue(Op4iB.qs[0].equals(Q8([0, 0, 0, 4])))
-AttributeError: &#39;NoneType&#39; object has no attribute &#39;equals&#39;
-
-======================================================================
-ERROR: test_Euclidean_product_OpB (__main__.TestQ8States)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File &#34;&lt;ipython-input-58-b35ee01f3828&gt;&#34;, line 87, in test_Euclidean_product_OpB
-    self.assertTrue(OpB.qs[0].equals(Q8([0, 0, 1, -6])))
-AttributeError: &#39;NoneType&#39; object has no attribute &#39;equals&#39;
-
-======================================================================
-ERROR: test_product_Op4iB (__main__.TestQ8States)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File &#34;&lt;ipython-input-58-b35ee01f3828&gt;&#34;, line 117, in test_product_Op4iB
-    self.assertTrue(Op4iB.qs[0].equals(Q8([0, 0, 0, 4])))
-AttributeError: &#39;NoneType&#39; object has no attribute &#39;equals&#39;
-
-======================================================================
-ERROR: test_product_OpB (__main__.TestQ8States)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File &#34;&lt;ipython-input-58-b35ee01f3828&gt;&#34;, line 81, in test_product_OpB
-    self.assertTrue(OpB.qs[0].equals(Q8([0, 0, 1, -6])))
-AttributeError: &#39;NoneType&#39; object has no attribute &#39;equals&#39;
+  File &#34;&lt;ipython-input-42-b35ee01f3828&gt;&#34;, line 38, in test_summation
+    self.assertTrue(q_01_sum.dt.p== 1)
+AssertionError: False is not true
 
 ----------------------------------------------------------------------
-Ran 21 tests in 0.050s
+Ran 21 tests in 0.055s
 
-FAILED (errors=4)
+FAILED (failures=1)
 </pre>
 </div>
 </div>
@@ -18842,7 +19016,7 @@ FAILED (errors=4)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Q8aStates</span><span class="p">(</span><span class="n">Q8a</span><span class="p">):</span>
@@ -18867,6 +19041,19 @@ FAILED (errors=4)
         
         <span class="k">return</span> <span class="n">states</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
     
+    <span class="k">def</span> <span class="nf">print_states</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">spacer</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Utility for printing states as a quaternion series.&quot;&quot;&quot;</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;n=</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">q</span><span class="p">))</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum= </span><span class="si">{ss}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ss</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">summation</span><span class="p">()))</span>
+        
+        <span class="k">if</span> <span class="n">spacer</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">conj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conj_type</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Take the conjgates of states, default is zero, but also can do 1 or 2.&quot;&quot;&quot;</span>
         
@@ -18890,7 +19077,13 @@ FAILED (errors=4)
     <span class="k">def</span> <span class="nf">summation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add them all up, return one quaternion.&quot;&quot;&quot;</span>
         
-        <span class="n">result</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+    
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">q</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
     
         <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">qs</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
@@ -19082,7 +19275,7 @@ FAILED (errors=4)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQ8aStates</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -19121,7 +19314,7 @@ FAILED (errors=4)
         <span class="n">q_01_sum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q0_q1</span><span class="o">.</span><span class="n">summation</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sum: &quot;</span><span class="p">,</span> <span class="n">q_01_sum</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">q_01_sum</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Q8a</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_01_sum</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">q_01_sum</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
         
     <span class="k">def</span> <span class="nf">test_add</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">q_0110_add</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q0_q1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q1_q0</span><span class="p">)</span>
@@ -19234,7 +19427,7 @@ FAILED (errors=4)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQ8aStates</span><span class="p">())</span>
@@ -19265,17 +19458,17 @@ FAILED (errors=4)
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>A* A n=1: ((16.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q.*xQ
-n=2: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q.*xQ
-A* Op:  n=1: ((13.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ.*+QxQ.*
-n=2: ((0.0, 0.0), (0.0, 0.0), (8.0, 3.0), (0.0, 0.0)) Q+QxQ.*+QxQ.*
-n=3: ((12.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ.*+QxQ.*
-A* Op4i:  n=1: ((0.0, 0.0), (16.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ.*+QxQ.*
-n=2: ((4.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ.*+QxQ.*
+<pre>A* A n=1: ((16.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q*xQ
+n=2: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q*xQ
+A* Op:  n=1: ((13.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ*+QxQ*
+n=2: ((0.0, 0.0), (0.0, 0.0), (8.0, 3.0), (0.0, 0.0)) Q+QxQ*+QxQ*
+n=3: ((12.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ*+QxQ*
+A* Op4i:  n=1: ((0.0, 0.0), (16.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ*+QxQ*
+n=2: ((4.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ*+QxQ*
 Operator dimensions do not equal the product of the states: 1 != 2 * 3
 A* Op4i B:  
-A* Op B:  n=1: ((0.0, 0.0), (0.0, 0.0), (12.0, 8.0), (0.0, 24.0)) Q.*xQ+QxQ+QxQ+QxQ
-n=2: ((0.0, 3.0), (12.0, 0.0), (4.0, 0.0), (0.0, 0.0)) Q.*xQ+QxQ+QxQ+QxQ
+A* Op B:  n=1: ((0.0, 0.0), (0.0, 0.0), (12.0, 8.0), (0.0, 24.0)) Q*xQ+QxQ+QxQ+QxQ
+n=2: ((0.0, 3.0), (12.0, 0.0), (4.0, 0.0), (0.0, 0.0)) Q*xQ+QxQ+QxQ+QxQ
 Op4i B:  n=1: ((0.0, 0.0), (0.0, 0.0), (0.0, 0.0), (4.0, 0.0)) Q+QxQ+QxQ+QxQ
 n=2: ((0.0, 0.0), (0.0, 0.0), (0.0, 8.0), (0.0, 0.0)) Q+QxQ+QxQ+QxQ
 n=3: ((0.0, 12.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ+QxQ+QxQ
@@ -19283,13 +19476,13 @@ Op B:  n=1: ((0.0, 0.0), (0.0, 0.0), (3.0, 2.0), (0.0, 6.0)) Q+QxQ+QxQ+QxQ
 n=2: ((0.0, 12.0), (0.0, 3.0), (0.0, 0.0), (4.0, 0.0)) Q+QxQ+QxQ+QxQ
 add 01 10:  n=1: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+Q
 n=2: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+Q
-q1_qi*:  n=1: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q.*
-n=2: ((0.0, 0.0), (0.0, 1.0), (0.0, 0.0), (0.0, 0.0)) Q.*
-q1_qc*1:  n=1: ((0.0, 1.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q.**1
-n=2: ((0.0, 0.0), (1.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q.**1
+q1_qi*:  n=1: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q*
+n=2: ((0.0, 0.0), (0.0, 1.0), (0.0, 0.0), (0.0, 0.0)) Q*
+q1_qc*1:  n=1: ((0.0, 1.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q**1
+n=2: ((0.0, 0.0), (1.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q**1
 dif 01 10:  n=1: ((0.0, 1.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q-Q
 n=2: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q-Q
-Op normalized:  n=1: ((0.6000000000000001, 0.0), (0.0, 0.0), (0.0, 0.0), (0.8, 0.0)) QxQ.Q.abs.^-1.U
+Op normalized:  n=1: ((0.6000000000000001, 0.0), (0.0, 0.0), (0.0, 0.0), (0.8, 0.0)) QxQQabs^-1U
 op_n:  n=1: ((0.0, 0.0), (3.0, 0.0), (0.0, 0.0), (0.0, 0.0)) QxQ
 n=2: ((0.0, 1.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) QxQ
 n=3: ((0.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 2.0)) QxQ
@@ -19312,7 +19505,7 @@ n=2: ((0.0, 0.0), (0.0, 0.0), (0.0, 8.0), (0.0, 0.0)) Q+QxQ+QxQ+QxQ
 n=3: ((0.0, 12.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+QxQ+QxQ+QxQ
 Op B:  n=1: ((0.0, 0.0), (0.0, 0.0), (3.0, 2.0), (0.0, 6.0)) Q+QxQ+QxQ+QxQ
 n=2: ((0.0, 12.0), (0.0, 3.0), (0.0, 0.0), (4.0, 0.0)) Q+QxQ+QxQ+QxQ
-sum:  ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+Q+Q
+sum:  ((2.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+Q+Q+Q
 </pre>
 </div>
 </div>
@@ -19325,7 +19518,7 @@ sum:  ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q+Q+Q
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 21 tests in 0.055s
+Ran 21 tests in 0.051s
 
 OK
 </pre>

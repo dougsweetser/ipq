@@ -58,7 +58,7 @@ def sr_gamma_betas(beta_x=0, beta_y=0, beta_z=0):
 
 # Define a class QH to manipulate quaternions as Hamilton would have done it so many years ago. The "qtype" is a little bit of text to leave a trail of breadcrumbs about how a particular quaternion was generated.
 
-# In[3]:
+# In[72]:
 
 
 class QH(object):
@@ -183,14 +183,17 @@ class QH(object):
     def flip_signs(self, qtype="*-1"):
         """Flip the signs of all terms."""
         
+        start_qtype = self.qtype
+        
         t, x, y, z = self.t, self.x, self.y, self.z
-        flip_q = QH(qtype=self.qtype)
+        flip_q = QH()
 
         flip_q.t = -1 * t
         flip_q.x = -1 * x
         flip_q.y = -1 * y
         flip_q.z = -1 * z
         
+        flip_q.qtype = start_qtype
         flip_q.add_qtype(qtype)
         return flip_q
 
@@ -227,7 +230,7 @@ class QH(object):
     def add_qtype(self, qtype):
         """Adds a qtype to an exiting qtype."""
         
-        self.qtype += "." + qtype
+        self.qtype += qtype
     
     def _commuting_products(self, q1):
         """Returns a dictionary with the commuting products."""
@@ -270,68 +273,83 @@ class QH(object):
     def square(self, qtype="sq"):
         """Square a quaternion."""
 
+        start_qtype = self.qtype
+        
         qxq = self._commuting_products(self)
 
-        sq_q = QH(qtype=self.qtype)
+        sq_q = QH()
         sq_q.t = qxq['tt'] - qxq['xx+yy+zz']
         sq_q.x = qxq['tx+xt']
         sq_q.y = qxq['ty+yt']
         sq_q.z = qxq['tz+zt']
 
+        sq_q.qtype = start_qtype
         sq_q.add_qtype(qtype)
         return sq_q
 
     def norm_squared(self, qtype="norm_squared"):
         """The norm_squared of a quaternion."""
 
+        start_qtype = self.qtype
+        
         qxq = self._commuting_products(self)
 
         n_q = QH(qtype=self.qtype)
         n_q.t = qxq['tt'] + qxq['xx+yy+zz']
 
+        n_q.qtype = start_qtype
         n_q.add_qtype(qtype)
         return n_q
 
     def norm_squared_of_vector(self, qtype="norm_squaredV"):
         """The norm_squared of the vector of a quaternion."""
 
+        start_qtype = self.qtype
+        
         qxq = self._commuting_products(self)
 
         nv_q = QH(qtype=self.qtype)
         nv_q.t = qxq['xx+yy+zz']
 
+        nv_q.qtype = start_qtype
         nv_q.add_qtype(qtype)
         return nv_q
 
     def abs_of_q(self, qtype="abs"):
         """The absolute value, the square root of the norm_squared."""
 
+        start_qtype = self.qtype
+        
         a = self.norm_squared()
         sqrt_t = a.t ** 0.5
         a.t = sqrt_t
 
-        a.qtype = self.qtype
+        a.qtype = start_qtype
         a.add_qtype(qtype)
         return a
 
     def normalize(self, qtype="U"):
         """Normalize a quaternion"""
         
+        start_qtype = self.qtype
+        
         abs_q_inv = self.abs_of_q().invert()
         n_q = self.product(abs_q_inv)
 
-        n_q.q_type = self.qtype
+        n_q.qtype = start_qtype
         n_q.add_qtype(qtype)
         return n_q
     
     def abs_of_vector(self, qtype="absV"):
         """The absolute value of the vector, the square root of the norm_squared of the vector."""
 
+        start_qtype = self.qtype
+        
         av = self.norm_squared_of_vector()
         sqrt_t = av.t ** 0.5
         av.t = sqrt_t
 
-        av.qtype = self.qtype
+        av.qtype = start_qtype
         av.add_qtype(qtype)
         return av
 
@@ -397,8 +415,6 @@ class QH(object):
             q_odd.y = anti_commuting['zx-xz']
             q_odd.z = anti_commuting['xy-yx']
         
-        result = QH()
-        
         if kind == "":
             result = q_even.add(q_odd)
             times_symbol = "x"
@@ -413,7 +429,10 @@ class QH(object):
             times_symbol = "xE-O"
         else:
             raise Exception("Four 'kind' values are known: '', 'even', 'odd', and 'even_minus_odd'.")
-            
+        
+        if reverse:
+            times_symbol = times_symbol.replace('x', 'xR')
+        
         if qtype:
             result.qtype = qtype
         else:
@@ -432,6 +451,8 @@ class QH(object):
     def invert(self, qtype="^-1"):
         """The inverse of a quaternion."""
 
+        start_qtype = self.qtype
+        
         q_conj = self.conj()
         q_norm_squared = self.norm_squared()
 
@@ -442,6 +463,7 @@ class QH(object):
         q_norm_squared_inv = QH([1.0 / q_norm_squared.t, 0, 0, 0])
         q_inv = q_conj.product(q_norm_squared_inv, qtype=self.qtype)
         
+        q_inv.qtype = start_qtype
         q_inv.add_qtype(qtype)
         return q_inv
 
@@ -469,13 +491,15 @@ class QH(object):
     def rotate(self, a_1=0, a_2=0, a_3=0, qtype="rot"):
         """Do a rotation given up to three angles."""
 
+        start_qtype = self.qtype
+        
         u = QH([0, a_1, a_2, a_3])
         u_abs = u.abs_of_q()
         u_norm_squaredalized = u.divide_by(u_abs)
 
         q_rot = u_norm_squaredalized.triple_product(self, u_norm_squaredalized.conj())
   
-        q_rot.qtype = self.qtype
+        q_rot.qtype = start_qtype
         q_rot.add_qtype(qtype)
         return q_rot
 
@@ -486,6 +510,8 @@ class QH(object):
     def boost(self, beta_x=0, beta_y=0, beta_z=0, qtype="boost"):
         """A boost along the x, y, and/or z axis."""
 
+        start_qtype = self.qtype
+        
         boost = QH(sr_gamma_betas(beta_x, beta_y, beta_z))      
         b_conj = boost.conj()
 
@@ -497,6 +523,7 @@ class QH(object):
         half_23 = triple_23.product(QH([0.5, 0, 0, 0]))
         triple_123 = triple_1.add(half_23, qtype=self.qtype)
         
+        triple_123.qtype = start_qtype
         triple_123.add_qtype(qtype)
         return triple_123
 
@@ -509,6 +536,8 @@ class QH(object):
     def g_shift(self, dimensionless_g, g_form="exp", qtype="g_shift"):
         """Shift an observation based on a dimensionless GM/c^2 dR."""
 
+        start_qtype = self.qtype
+        
         if g_form == "exp":
             g_factor = sp.exp(dimensionless_g)
         elif g_form == "minimal":
@@ -523,12 +552,15 @@ class QH(object):
         g_q.y = self.y * g_factor
         g_q.z = self.z * g_factor
 
+        g_q.qtype = start_qtype
         g_q.add_qtype(qtype)
         return g_q
     
     def q_sin(self, qtype="sin"):
         """Take the sine of a quaternion, (sin(t) cosh(|R|), cos(t) sinh(|R|) R/|R|)"""
 
+        start_qtype = self.qtype
+        
         q_out = QH(qtype=self.qtype)
         v_norm = self.norm_squared_of_vector()
         
@@ -548,6 +580,7 @@ class QH(object):
             q_out.y = math.trunc(v_factor * self.y)
             q_out.z = math.trunc(v_factor * self.z)
 
+        q_out.qtype = start_qtype
         q_out.add_qtype(qtype)
         return q_out
         
@@ -555,7 +588,7 @@ class QH(object):
 
 # Write tests the QH class.
 
-# In[4]:
+# In[73]:
 
 
 class TestQH(unittest.TestCase):
@@ -847,7 +880,7 @@ class TestQH(unittest.TestCase):
         QH([0, 0, 0, 0]).q_sin()
 
 
-# In[5]:
+# In[74]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQH())
@@ -858,7 +891,7 @@ unittest.TextTestRunner().run(suite);
 
 # A separate class is needed for numpy array due to technical issues I have getting sympy and numpy to play nicely with each other...
 
-# In[6]:
+# In[75]:
 
 
 class QHa(object):
@@ -973,6 +1006,8 @@ class QHa(object):
     def flip_signs(self, conj_type=0, qtype="*"):
         """Flip all the signs, just like multipying by -1."""
 
+        start_qtype = self.qtype
+        
         t, x, y, z = self.a[0], self.a[1], self.a[2], self.a[3]
         flip_q = QHa(qtype=self.qtype)
 
@@ -980,15 +1015,18 @@ class QHa(object):
         flip_q.a[1] = -1.0 * x
         flip_q.a[2] = -1.0 * y
         flip_q.a[3] = -1.0 * z
-            
+        
+        flip_q.qtype = start_qtype
         flip_q.add_qtype(qtype)
         return flip_q
     
     def vahlen_conj(self, conj_type="-", qtype="vc"):
         """Three types of conjugates -'* done by Vahlen in 1901."""
 
+        start_qtype = self.qtype
+        
         t, x, y, z = self.a[0], self.a[1], self.a[2], self.a[3]
-        conj_q = QHa(qtype=self.qtype)
+        conj_q = QHa()
 
         if conj_type == '-':
             conj_q.a[0] = 1.0 * t
@@ -1011,13 +1049,14 @@ class QHa(object):
             conj_q.a[3] = -1.0 * z
             qtype += "*"
             
+        conj_q.qtype = start_qtype
         conj_q.add_qtype(qtype)
         return conj_q
 
     def add_qtype(self, qtype):
         """Adds a qtype to an exiting qtype."""
         
-        self.qtype += "." + qtype
+        self.qtype += qtype
     
     def _commuting_products(self, q1):
         """Returns a dictionary with the commuting products."""
@@ -1060,6 +1099,8 @@ class QHa(object):
     def square(self, qtype="sq"):
         """Square a quaternion."""
 
+        start_qtype = self.qtype
+        
         qxq = self._commuting_products(self)
 
         sq_q = QHa(qtype=self.qtype)
@@ -1068,60 +1109,73 @@ class QHa(object):
         sq_q.a[2] = qxq['ty+yt']
         sq_q.a[3] = qxq['tz+zt']
 
+        sq_q.qtype = start_qtype
         sq_q.add_qtype(qtype)
         return sq_q
 
     def norm_squared(self, qtype="norm_squared"):
         """The norm_squared of a quaternion."""
 
+        start_qtype = self.qtype
+        
         qxq = self._commuting_products(self)
 
         n_q = QHa(qtype=self.qtype)
         n_q.a[0] = qxq['tt'] + qxq['xx+yy+zz']
 
+        n_q.qtype = start_qtype
         n_q.add_qtype(qtype)
         return n_q
 
     def norm_squared_of_vector(self, qtype="norm_squaredV"):
         """The norm_squared of the vector of a quaternion."""
 
+        start_qtype = self.qtype
+        
         qxq = self._commuting_products(self)
 
         nv_q = QHa(qtype=self.qtype)
         nv_q.a[0] = qxq['xx+yy+zz']
 
+        nv_q.qtype = start_qtype
         nv_q.add_qtype(qtype)
         return nv_q
 
     def abs_of_q(self, qtype="abs"):
         """The absolute value, the square root of the norm_squared."""
 
+        start_qtype = self.qtype
+        
         ns = self.norm_squared()
         sqrt_t = ns.a[0] ** 0.5
         ns.a[0] = sqrt_t
 
-        ns.qtype = self.qtype
+        ns.qtype = start_qtype
         ns.add_qtype(qtype)
         return ns
 
     def abs_of_vector(self, qtype="absV"):
         """The absolute value of the vector, the square root of the norm_squared of the vector."""
 
+        start_qtype = self.qtype
+        
         av = self.norm_squared_of_vector()
         sqrt_t = av.a[0] ** 0.5
         av.a[0] = sqrt_t
 
-        av.qtype = self.qtype
+        av.qtype = start_qtype
         av.add_qtype(qtype)
         return av
 
     def normalize(self, qtype="U"):
         """Normalize a quaternion"""
         
+        start_qtype = self.qtype
+        
         abs_q_inv = self.abs_of_q().invert()
         n_q = self.product(abs_q_inv)
 
-        n_q.q_type = self.qtype
+        n_q.q_type = start_qtype
         n_q.add_qtype(qtype)
         return n_q
     
@@ -1204,6 +1258,9 @@ class QHa(object):
         else:
             raise Exception("Four 'kind' values are known: '', 'even', 'odd', and 'even_minus_odd'.")
             
+        if reverse:
+            times_symbol = times_symbol.replace('x', 'xR')
+            
         if qtype:
             result.qtype = qtype
         else:
@@ -1222,6 +1279,8 @@ class QHa(object):
     def invert(self, qtype="^-1"):
         """The inverse of a quaternion."""
 
+        start_qtype = self.qtype
+        
         q_conj = self.conj()
         q_norm_squared = self.norm_squared()
 
@@ -1232,6 +1291,7 @@ class QHa(object):
         q_norm_squared_inv = QHa([1.0 / q_norm_squared.a[0], 0, 0, 0])
         q_inv = q_conj.product(q_norm_squared_inv, qtype=self.qtype)
         
+        q_inv.qtype = start_qtype
         q_inv.add_qtype(qtype)
         return q_inv
 
@@ -1259,13 +1319,15 @@ class QHa(object):
     def rotate(self, a_1=0, a_2=0, a_3=0, qtype="rot"):
         """Do a rotation given up to three angles."""
 
+        start_qtype = self.qtype
+        
         u = QHa([0, a_1, a_2, a_3])
         u_abs = u.abs_of_q()
         u_norm_squaredalized = u.divide_by(u_abs)
 
         q_rot = u_norm_squaredalized.triple_product(self, u_norm_squaredalized.conj())
   
-        q_rot.qtype = self.qtype
+        q_rot.qtype = start_qtype
         q_rot.add_qtype(qtype)
         return q_rot
 
@@ -1276,6 +1338,8 @@ class QHa(object):
     def boost(self, beta_x=0.0, beta_y=0.0, beta_z=0.0, qtype="boost"):
         """A boost along the x, y, and/or z axis."""
 
+        start_qtype = self.qtype
+        
         boost = QHa(sr_gamma_betas(beta_x, beta_y, beta_z))      
         b_conj = boost.conj()
 
@@ -1287,6 +1351,7 @@ class QHa(object):
         half_23 = triple_23.product(QHa([0.5, 0.0, 0.0, 0.0]))
         triple_123 = triple_1.add(half_23, qtype=self.qtype)
         
+        triple_123.qtype = start_qtype
         triple_123.add_qtype(qtype)
         return triple_123
 
@@ -1299,6 +1364,8 @@ class QHa(object):
     def g_shift(self, dimensionless_g, g_form="exp", qtype="g_shift"):
         """Shift an observation based on a dimensionless GM/c^2 dR."""
 
+        start_qtype = self.qtype
+        
         if g_form == "exp":
             g_factor = sp.exp(dimensionless_g)
         elif g_form == "minimal":
@@ -1313,6 +1380,7 @@ class QHa(object):
         g_q.a[2] = self.a[2] * g_factor
         g_q.a[3] = self.a[3] * g_factor
 
+        g_q.qtype = start_qtype
         g_q.add_qtype(qtype)
         return g_q
     
@@ -1342,7 +1410,7 @@ class QHa(object):
         return q_out
 
 
-# In[7]:
+# In[76]:
 
 
 class TestQHa(unittest.TestCase):
@@ -1627,7 +1695,7 @@ class TestQHa(unittest.TestCase):
         QHa([0, 0, 0, 0]).q_sin()
 
 
-# In[8]:
+# In[77]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHa())
@@ -2000,7 +2068,7 @@ unittest.TextTestRunner().run(suite);
 
 # Write a class to handle quaternions given 8 numbers.
 
-# In[15]:
+# In[63]:
 
 
 class Q8(object):
@@ -2038,7 +2106,7 @@ class Q8(object):
     def add_qtype(self, qtype):
             """Adds a qtype to an existing one."""
             
-            self.qtype += "." + qtype
+            self.qtype += qtype
             
     def q_0(self, qtype="0"):
         """Return a zero quaternion."""
@@ -2210,53 +2278,65 @@ class Q8(object):
     def norm_squared(self, qtype="norm_squared"):
         """The norm_squared of a quaternion."""
         
+        start_qtype = self.qtype
+        
         qxq = self._commuting_products(self)
         
         n_q = Q8(qtype=self.qtype)        
         n_q.dt = qxq['tt'].d_add(qxq['xx+yy+zz'])
 
+        n_q.qtype = start_qtype
         n_q.add_qtype(qtype)
         return n_q
     
     def norm_squared_of_vector(self, qtype="norm_squaredV"):
         """The norm_squared of the vector of a quaternion."""
         
+        start_qtype = self.qtype
         qxq = self._commuting_products(self)
         
         nv_q = Q8(qtype=self.qtype)
         nv_q.dt = qxq['xx+yy+zz']
 
+        nv_q.qtype = start_qtype
         nv_q.add_qtype(qtype)
         return nv_q
     
     def abs_of_q(self, qtype="abs"):
         """The absolute value, the square root of the norm_squared."""
 
+        start_qtype = self.qtype
+        
         a = self.norm_squared(qtype=self.qtype)
         sqrt_t = a.dt.p ** (1/2)
         a.dt = Doublet(sqrt_t)
         
+        a.qtype = start_qtype
         a.add_qtype(qtype)
         return a
 
     def abs_of_vector(self, qtype="absV"):
         """The absolute value of the vector, the square root of the norm_squared of the vector."""
 
+        start_qtype = self.qtype
+        
         av = self.norm_squared_of_vector()
         sqrt_t = av.dt.p ** (1/2)
         av.dt = Doublet(sqrt_t)
         
-        av.qtype = self.qtype
+        av.qtype = start_qtype
         av.add_qtype(qtype)
         return av
     
     def normalize(self, qtype="U"):
         """Normalize a quaternion"""
         
+        start_qtype = self.qtype
+        
         abs_q_inv = self.abs_of_q().invert()
         n_q = self.product(abs_q_inv)
 
-        n_q.q_type = self.qtype
+        n_q.q_type = start_qtype
         n_q.add_qtype(qtype)
         return n_q
     
@@ -2332,6 +2412,9 @@ class Q8(object):
         else:
             raise Exception("Fouf 'kind' values are known: '', 'even', 'odd', and 'even_minus_odd'")
             
+        if reverse:
+            times_symbol = times_symbol.replace('x', 'xR')
+            
         if qtype:
             result.qtype = qtype
         else:
@@ -2398,6 +2481,8 @@ class Q8(object):
     # This is not a well-known result, but does work.
     def boost(self, beta_x=0, beta_y=0, beta_z=0, qtype="boost"):
         """A boost along the x, y, and/or z axis."""
+    
+        start_qtype = self.qtype
         
         boost = Q8(sr_gamma_betas(beta_x, beta_y, beta_z))
         b_conj = boost.conj()
@@ -2410,6 +2495,7 @@ class Q8(object):
         half_23 = triple_23.product(Q8([0.5, 0, 0, 0, 0, 0, 0, 0]))
         triple_123 = triple_1.add(half_23, qtype=self.qtype)
         
+        triple_123.qtype = start_qtype
         triple_123.add_qtype(qtype)
         return triple_123
     
@@ -2419,6 +2505,8 @@ class Q8(object):
     # space-times-time values, but not the intervals.
     def g_shift(self, dimensionless_g, g_form="exp", qtype="g_shift"):
         """Shift an observation based on a dimensionless GM/c^2 dR."""
+        
+        start_qtype = self.qtype
         
         if g_form == "exp":
             g_factor = sp.exp(dimensionless_g)
@@ -2439,11 +2527,12 @@ class Q8(object):
         g_q.dy = Doublet([self.dy.p * exp_g, self.dy.n * exp_g])
         g_q.dz = Doublet([self.dz.p * exp_g, self.dz.n * exp_g])
         
+        g_q.qtype = start_qtype
         g_q.add_qtype(qtype)
         return g_q
 
 
-# In[16]:
+# In[64]:
 
 
 class TestQ8(unittest.TestCase):
@@ -2815,7 +2904,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z2.dz.n == q1_sq.dz.n)
 
 
-# In[17]:
+# In[65]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8())
@@ -2824,7 +2913,7 @@ unittest.TextTestRunner().run(suite);
 
 # ## Class Q8a as nparrays
 
-# In[18]:
+# In[69]:
 
 
 class Q8a(object):
@@ -2864,7 +2953,7 @@ class Q8a(object):
     def add_qtype(self, qtype):
             """Adds a qtype to an existing one."""
             
-            self.qtype += "." + qtype
+            self.qtype += qtype
             
     def q_0(self, qtype="0"):
         """Return a zero quaternion."""
@@ -2895,7 +2984,7 @@ class Q8a(object):
     def q_random(self, qtype="?"):
         """Return a random-valued quaternion."""
 
-        return QH([random.random(), random.random(), random.random(), random.random(), random.random(), random.random(), random.random(), random.random()], qtype=qtype)
+        return Q8a([random.random(), random.random(), random.random(), random.random(), random.random(), random.random(), random.random(), random.random()], qtype=qtype)
     
     def equals(self, q2):
         """Tests if two quaternions are equal."""
@@ -3108,22 +3197,28 @@ class Q8a(object):
     def norm_squared(self, qtype="norm_squared"):
         """The norm_squared of a quaternion."""
         
+        start_qtype = self.qtype
+        
         qxq = self._commuting_products(self)
         
         n_q = Q8a(qtype=self.qtype)        
         n_q.a[0] = qxq['tt0'] + qxq['xx+yy+zz0']
 
+        n_q.qtype = start_qtype
         n_q.add_qtype(qtype)
         return n_q
     
     def norm_squared_of_vector(self, qtype="norm_squaredV"):
         """The norm_squared of the vector of a quaternion."""
         
+        start_qtype = self.qtype
+        
         qxq = self._commuting_products(self)
         
         nv_q = Q8a(qtype=self.qtype)
         nv_q.a[0] = qxq['xx+yy+zz0']
 
+        nv_q.qtype = start_qtype
         nv_q.add_qtype(qtype)
         return nv_q
     
@@ -3131,31 +3226,38 @@ class Q8a(object):
     def abs_of_q(self, qtype="abs"):
         """The absolute value, the square root of the norm_squared."""
 
+        start_qtype = self.qtype
+        
         abq = self.norm_squared(qtype=self.qtype)
         sqrt_t = abq.a[0] ** (1/2)
         abq.a[0] = sqrt_t
         
+        abq.qtype = start_qtype
         abq.add_qtype(qtype)
         return abq
 
     def abs_of_vector(self, qtype="absV"):
         """The absolute value of the vector, the square root of the norm_squared of the vector."""
 
+        start_qtype = self.qtype
+        
         av = self.norm_squared_of_vector()
         sqrt_t = av.a[0] ** (1/2)
         av.a[0] = sqrt_t
         
-        av.qtype = self.qtype
+        av.qtype = start_qtype
         av.add_qtype(qtype)
         return av
     
     def normalize(self, qtype="U"):
         """Normalize a quaternion"""
         
+        start_qtype = self.qtype
+        
         abs_q_inv = self.abs_of_q().invert()
         n_q = self.product(abs_q_inv)
 
-        n_q.q_type = self.qtype
+        n_q.q_type = start_qtype
         n_q.add_qtype(qtype)
         return n_q
     
@@ -3226,8 +3328,6 @@ class Q8a(object):
             q_odd.a[5] = anti_commuting['zx-xz1']
             q_odd.a[6] = anti_commuting['xy-yx0']
             q_odd.a[7] = anti_commuting['xy-yx1']
-
-        result = Q8a()
         
         if kind == "":
             result = q_even.add(q_odd)
@@ -3240,6 +3340,9 @@ class Q8a(object):
             times_symbol = "xO"
         else:
             raise Exception("Three 'kind' values are known: '', 'even', and 'odd'")
+            
+        if reverse:
+            times_symbol = times_symbol.replace('x', 'xR')    
             
         if qtype:
             result.qtype = qtype
@@ -3259,6 +3362,8 @@ class Q8a(object):
     def invert(self, qtype="^-1"):
         """Invert a quaternion."""
         
+        start_qtype = self.qtype
+        
         q_conj = self.conj()
         q_norm_squared = self.norm_squared().reduce()
         
@@ -3269,6 +3374,7 @@ class Q8a(object):
 
         q_inv = q_conj.product(q_norm_squared_inv, qtype=self.qtype)
         
+        q_inv.qtype = start_qtype
         q_inv.add_qtype(qtype)
         return q_inv
 
@@ -3308,6 +3414,8 @@ class Q8a(object):
     def boost(self, beta_x=0, beta_y=0, beta_z=0, qtype="boost"):
         """A boost along the x, y, and/or z axis."""
         
+        start_qtype = self.qtype
+        
         boost = Q8a(sr_gamma_betas(beta_x, beta_y, beta_z))
         b_conj = boost.conj()
         
@@ -3319,6 +3427,7 @@ class Q8a(object):
         half_23 = triple_23.product(Q8a([0.5, 0, 0, 0, 0, 0, 0, 0]))
         triple_123 = triple_1.add(half_23, qtype=self.qtype)
         
+        triple_123.qtype = start_qtype
         triple_123.add_qtype(qtype)
         return triple_123
     
@@ -3328,6 +3437,8 @@ class Q8a(object):
     # space-times-time values, but not the intervals.
     def g_shift(self, dimensionless_g, g_form="exp", qtype="g_shift"):
         """Shift an observation based on a dimensionless GM/c^2 dR."""
+        
+        start_qtype = self.qtype
         
         if g_form == "exp":
             g_factor = sp.exp(dimensionless_g)
@@ -3357,11 +3468,12 @@ class Q8a(object):
         g_q.a[6] = dz.d[0]
         g_q.a[7] = dz.d[1]
         
+        g_q.qtype = start_qtype
         g_q.add_qtype(qtype)
         return g_q
 
 
-# In[19]:
+# In[70]:
 
 
 class TestQ8a(unittest.TestCase):
@@ -3723,7 +3835,7 @@ class TestQ8a(unittest.TestCase):
         self.assertTrue(q_z2.a[7] == q1_sq.a[7])
 
 
-# In[20]:
+# In[71]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8a())
@@ -4442,7 +4554,7 @@ for q in qha.range(t1,qd,10):
 
 # Any quaternion can be viewed as the sum of n other quaternions. This is common to see in quantum mechanics, whose needs are driving the development of this class and its methods.
 
-# In[50]:
+# In[33]:
 
 
 class QHStates(QH):
@@ -4467,6 +4579,19 @@ class QHStates(QH):
         
         return states.rstrip()
     
+    def print_states(self, label, spacer=False):
+        """Utility for printing states as a quaternion series."""
+
+        print(label)
+        
+        for n, q in enumerate(self.qs, start=1):
+            print("n={}: {}".format(n, q))
+        
+        print("sum= {ss}".format(ss=self.summation()))
+        
+        if spacer:
+            print("")
+
     def equals(self, q2):
         """Test if two states are equal."""
    
@@ -4529,10 +4654,13 @@ class QHStates(QH):
     def summation(self):
         """Add them all up, return one quaternion."""
         
-        result = QH()
+        result = None
     
         for q in self.qs:
-            result = result.add(q)
+            if result == None:
+                result = q
+            else:
+                result = result.add(q)
             
         return result    
     
@@ -4799,7 +4927,7 @@ class QHStates(QH):
         return signma[kind].normalize()
 
 
-# In[51]:
+# In[34]:
 
 
 q1234 = QHStates([QH([0, 8, -6, 0]), QH([1, 0, 0, 0]), QH([3, 1, 0, 0]), QH([4, 1, 0, 0])])
@@ -4811,7 +4939,7 @@ print(qn.normalize())
 print(qn.invert())
 
 
-# In[52]:
+# In[35]:
 
 
 class TestQHStates(unittest.TestCase):
@@ -5002,7 +5130,7 @@ class TestQHStates(unittest.TestCase):
         self.assertTrue(self.Op4i.is_square())
 
 
-# In[53]:
+# In[36]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHStates())
@@ -5017,7 +5145,7 @@ unittest.TextTestRunner().run(suite);
 # 
 # by old fashioned cut and paste with minor tweaks (boring).
 
-# In[54]:
+# In[37]:
 
 
 class QHaStates(QHa):
@@ -5042,14 +5170,30 @@ class QHaStates(QHa):
         
         return states.rstrip()
     
+    def print_states(self, label, spacer=False):
+        """Utility for printing states as a quaternion series."""
+
+        print(label)
+        
+        for n, q in enumerate(self.qs, start=1):
+            print("n={}: {}".format(n, q))
+        
+        print("sum= {ss}".format(ss=self.summation()))
+        
+        if spacer:
+            print("")
+
     def summation(self):
         """Add them all up, return one quaternion."""
         
-        result = QHa()
+        result = None
     
         for q in self.qs:
-            result = result.add(q)
-            
+            if result == None:
+                result = q
+            else:
+                result = result.add(q)
+        
         return result
     
     def conj(self, conj_type=0):
@@ -5259,7 +5403,7 @@ class QHaStates(QHa):
         return norm
 
 
-# In[55]:
+# In[38]:
 
 
 class TestQHaStates(unittest.TestCase):
@@ -5396,14 +5540,14 @@ class TestQHaStates(unittest.TestCase):
         self.assertTrue(opn.qs[0].a[1] == 3)
 
 
-# In[56]:
+# In[39]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHaStates())
 unittest.TextTestRunner().run(suite);
 
 
-# In[57]:
+# In[40]:
 
 
 class Q8States(Q8):
@@ -5428,6 +5572,19 @@ class Q8States(Q8):
         
         return states.rstrip()
     
+    def print_states(self, label, spacer=False):
+        """Utility for printing states as a quaternion series."""
+
+        print(label)
+        
+        for n, q in enumerate(self.qs, start=1):
+            print("n={}: {}".format(n, q))
+        
+        print("sum= {ss}".format(ss=self.summation()))
+        
+        if spacer:
+            print("")
+
     def conj(self, conj_type=0):
         """Take the conjgates of states, default is zero, but also can do 1 or 2."""
         
@@ -5451,7 +5608,13 @@ class Q8States(Q8):
     def summation(self):
         """Add them all up, return one quaternion."""
         
-        result = Q8()
+        result = None
+    
+        for q in self.qs:
+            if result == None:
+                result = q
+            else:
+                result = result.add(q)
     
         for q in self.qs:
             result = result.add(q)
@@ -5556,12 +5719,12 @@ class Q8States(Q8):
                     
                     for op, k in zip(ops, ket.qs): 
                         if ok is None:
-                            op.product(k, kind)
+                            ok = op.product(k, kind)
                         else:
                             ok = ok.add(op.product(k, kind))
                             
                     new_states.append(ok)
-
+                    
         # <A|Op
         elif ket is None:
             if _check_dimensions(op_dim=operator.dim, state_1_dim=bra.dim):
@@ -5645,7 +5808,18 @@ class Q8States(Q8):
         return norm
 
 
-# In[58]:
+# In[41]:
+
+
+A = Q8States([Q8([4,0,0,0]),Q8([0,1,0,0])])
+B = Q8States([Q8([0,0,1,0]),Q8([0,0,0,2]),Q8([0,3,0,0])])
+Op = Q8States([Q8([3,0,0,0]),Q8([0,1,0,0]),Q8([0,0,2,0]),Q8([0,0,0,3]),Q8([2,0,0,0]),Q8([0,4,0,0])])
+
+Q8States().Euclidean_product(ket=B, operator=Op)
+Op.print_states("Op")
+
+
+# In[42]:
 
 
 class TestQ8States(unittest.TestCase):
@@ -5791,14 +5965,14 @@ class TestQ8States(unittest.TestCase):
         self.assertTrue(opn.qs[0].dx.p == 3)
 
 
-# In[59]:
+# In[43]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8States())
 unittest.TextTestRunner().run(suite);
 
 
-# In[43]:
+# In[44]:
 
 
 class Q8aStates(Q8a):
@@ -5823,6 +5997,19 @@ class Q8aStates(Q8a):
         
         return states.rstrip()
     
+    def print_states(self, label, spacer=False):
+        """Utility for printing states as a quaternion series."""
+
+        print(label)
+        
+        for n, q in enumerate(self.qs, start=1):
+            print("n={}: {}".format(n, q))
+        
+        print("sum= {ss}".format(ss=self.summation()))
+        
+        if spacer:
+            print("")
+
     def conj(self, conj_type=0):
         """Take the conjgates of states, default is zero, but also can do 1 or 2."""
         
@@ -5846,7 +6033,13 @@ class Q8aStates(Q8a):
     def summation(self):
         """Add them all up, return one quaternion."""
         
-        result = Q8a()
+        result = None
+    
+        for q in self.qs:
+            if result == None:
+                result = q
+            else:
+                result = result.add(q)
     
         for q in self.qs:
             result = result.add(q)
@@ -6031,7 +6224,7 @@ class Q8aStates(Q8a):
         return norm
 
 
-# In[44]:
+# In[49]:
 
 
 class TestQ8aStates(unittest.TestCase):
@@ -6070,7 +6263,7 @@ class TestQ8aStates(unittest.TestCase):
         q_01_sum = self.q0_q1.summation()
         print("sum: ", q_01_sum)
         self.assertTrue(type(q_01_sum) is Q8a)
-        self.assertTrue(q_01_sum.a[0]== 1)
+        self.assertTrue(q_01_sum.a[0]== 2)
         
     def test_add(self):
         q_0110_add = self.q0_q1.add(self.q1_q0)
@@ -6176,7 +6369,7 @@ class TestQ8aStates(unittest.TestCase):
         self.assertTrue(opn.qs[0].a[2] == 3)
 
 
-# In[45]:
+# In[50]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8aStates())
