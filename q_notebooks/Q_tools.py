@@ -107,37 +107,44 @@ class QH(object):
     def q_0(self, qtype="0"):
         """Return a zero quaternion."""
 
-        return QH([0, 0, 0, 0], qtype=qtype)
+        q0 = QH([0, 0, 0, 0], qtype=qtype)
+        return q0
 
     def q_1(self, qtype="1"):
         """Return a multiplicative identity quaternion."""
 
-        return QH([1, 0, 0, 0], qtype=qtype)
+        q1 = QH([1, 0, 0, 0], qtype=qtype)
+        return q1
     
     def q_i(self, qtype="i"):
         """Return i."""
 
-        return QH([0, 1, 0, 0], qtype=qtype)
+        qi = QH([0, 1, 0, 0], qtype=qtype)
+        return qi
     
     def q_j(self, qtype="j"):
         """Return j."""
 
-        return QH([0, 0, 1, 0], qtype=qtype)
+        qj = QH([0, 0, 1, 0], qtype=qtype)
+        return qj
     
     def q_k(self, qtype="k"):
         """Return k."""
 
-        return QH([0, 0, 0, 1], qtype=qtype)
+        qk = QH([0, 0, 0, 1], qtype=qtype)
+        return qk
     
     def q_random(self, qtype="?"):
         """Return a random-valued quaternion."""
-
-        return QH([random.random(), random.random(), random.random(), random.random()], qtype=qtype)
-
+        
+        qr = QH([random.random(), random.random(), random.random(), random.random()], qtype=qtype)
+        return qr
+    
     def dupe(self, qtype=""):
         """Return a duplicate copy, good for testing since qtypes persist"""
         
-        return QH([self.t, self.x, self.y, self.z], qtype=self.qtype)
+        du = QH([self.t, self.x, self.y, self.z], qtype=self.qtype)
+        return du
     
     def equals(self, q2):
         """Tests if two quaternions are equal."""
@@ -155,65 +162,82 @@ class QH(object):
         """Three types of conjugates."""
 
         t, x, y, z = self.t, self.x, self.y, self.z
-        conj_q = QH(qtype=self.qtype)
+        conj_q = QH()
 
         if conj_type == 0:
             conj_q.t = t
-            conj_q.x = -1 * x
-            conj_q.y = -1 * y
-            conj_q.z = -1 * z
+            if x != 0:
+                conj_q.x = -1 * x
+            if y != 0:
+                conj_q.y = -1 * y
+            if z != 0:
+                conj_q.z = -1 * z
 
-        if conj_type == 1:
-            conj_q.t = -1 * t
+        elif conj_type == 1:
+            if t != 0:
+                conj_q.t = -1 * t
             conj_q.x = x
-            conj_q.y = -1 * y
-            conj_q.z = -1 * z
+            if y != 0:
+                conj_q.y = -1 * y
+            if z != 0:
+                conj_q.z = -1 * z
             qtype += "1"
             
-        if conj_type == 2:
-            conj_q.t = -1 * t
-            conj_q.x = -1 * x
+        elif conj_type == 2:
+            if t != 0:
+                conj_q.t = -1 * t
+            if x != 0:
+                conj_q.x = -1 * x
             conj_q.y = y
-            conj_q.z = -1 * z
+            if z != 0:
+                conj_q.z = -1 * z
             qtype += "2"
             
-        conj_q.add_qtype(qtype)
+        conj_q.qtype = self.qtype + qtype
+        
         return conj_q
     
-    def flip_signs(self, qtype="*-1"):
+    def flip_signs(self, qtype="-"):
         """Flip the signs of all terms."""
         
-        start_qtype = self.qtype
+        end_type = "-{}".format(self.qtype)
         
         t, x, y, z = self.t, self.x, self.y, self.z
-        flip_q = QH()
-
-        flip_q.t = -1 * t
-        flip_q.x = -1 * x
-        flip_q.y = -1 * y
-        flip_q.z = -1 * z
         
-        flip_q.qtype = start_qtype
-        flip_q.add_qtype(qtype)
+        flip_q = QH(qtype=end_qtype)
+        if t != 0:
+            flip_q.t = -1 * t
+        if x != 0:
+            flip_q.x = -1 * x
+        if y != 0:
+            flip_q.y = -1 * y
+        if z != 0:
+            flip_q.z = -1 * z
+        
         return flip_q
 
     def vahlen_conj(self, conj_type="-", qtype="vc"):
         """Three types of conjugates -'* done by Vahlen in 1901."""
-
+        
         t, x, y, z = self.t, self.x, self.y, self.z
-        conj_q = QH(qtype=self.qtype)
+        conj_q = QH()
 
         if conj_type == '-':
             conj_q.t = t
-            conj_q.x = -1 * x
-            conj_q.y = -1 * y
-            conj_q.z = -1 * z
+            if x != 0:
+                conj_q.x = -1 * x
+            if y != 0:
+                conj_q.y = -1 * y
+            if z != 0:
+                conj_q.z = -1 * z
             qtype += "*-"
 
         if conj_type == "'":
             conj_q.t = t
-            conj_q.x = -1 * x
-            conj_q.y = -1 * y
+            if x != 0:
+                conj_q.x = -1 * x
+            if y != 0:
+                conj_q.y = -1 * y
             conj_q.z = z
             qtype += "*'"
             
@@ -221,16 +245,13 @@ class QH(object):
             conj_q.t = t
             conj_q.x = x
             conj_q.y = y
-            conj_q.z = -1 * z
+            if z != 0:
+                conj_q.z = -1 * z
             qtype += "*"
             
-        conj_q.add_qtype(qtype)
-        return conj_q
-
-    def add_qtype(self, qtype):
-        """Adds a qtype to an exiting qtype."""
+        conj_q.qtype = self.qtype + qtype
         
-        self.qtype += qtype
+        return conj_q
     
     def _commuting_products(self, q1):
         """Returns a dictionary with the commuting products."""
@@ -270,124 +291,108 @@ class QH(object):
 
         return products
 
-    def square(self, qtype="sq"):
+    def square(self, qtype="^2"):
         """Square a quaternion."""
 
-        start_qtype = self.qtype
+        end_qtype = "{}{}".format(self.qtype, qtype)
         
         qxq = self._commuting_products(self)
 
-        sq_q = QH()
+        sq_q = QH(qtype=end_qtype)
         sq_q.t = qxq['tt'] - qxq['xx+yy+zz']
         sq_q.x = qxq['tx+xt']
         sq_q.y = qxq['ty+yt']
         sq_q.z = qxq['tz+zt']
 
-        sq_q.qtype = start_qtype
-        sq_q.add_qtype(qtype)
         return sq_q
 
-    def norm_squared(self, qtype="norm_squared"):
+    def norm_squared(self, qtype="|| ||^2"):
         """The norm_squared of a quaternion."""
 
-        start_qtype = self.qtype
-        
+        end_qtype = "||{}||^2".format(self.qtype, qtype)
+
         qxq = self._commuting_products(self)
 
-        n_q = QH(qtype=self.qtype)
+        n_q = QH(qtype=end_qtype)
         n_q.t = qxq['tt'] + qxq['xx+yy+zz']
 
-        n_q.qtype = start_qtype
-        n_q.add_qtype(qtype)
         return n_q
 
-    def norm_squared_of_vector(self, qtype="norm_squaredV"):
+    def norm_squared_of_vector(self, qtype="|V( )|^2"):
         """The norm_squared of the vector of a quaternion."""
 
-        start_qtype = self.qtype
+        end_qtype = "|V({})|^2".format(self.qtype)
         
         qxq = self._commuting_products(self)
 
-        nv_q = QH(qtype=self.qtype)
+        nv_q = QH(qtype=end_qtype)
         nv_q.t = qxq['xx+yy+zz']
 
-        nv_q.qtype = start_qtype
-        nv_q.add_qtype(qtype)
         return nv_q
 
-    def abs_of_q(self, qtype="abs"):
+    def abs_of_q(self, qtype="||"):
         """The absolute value, the square root of the norm_squared."""
 
-        start_qtype = self.qtype
+        end_qtype = "|{}|".format(self.qtype)
         
         a = self.norm_squared()
         sqrt_t = a.t ** 0.5
         a.t = sqrt_t
-
-        a.qtype = start_qtype
-        a.add_qtype(qtype)
+        a.qtype = end_qtype
+        
         return a
 
     def normalize(self, qtype="U"):
         """Normalize a quaternion"""
         
-        start_qtype = self.qtype
+        end_qtype = "{}{}".format(self.qtype, qtype)
         
         abs_q_inv = self.abs_of_q().invert()
         n_q = self.product(abs_q_inv)
-
-        n_q.qtype = start_qtype
-        n_q.add_qtype(qtype)
+        n_q.qtype = end_qtype
+        
         return n_q
     
-    def abs_of_vector(self, qtype="absV"):
+    def abs_of_vector(self, qtype="|V( )|"):
         """The absolute value of the vector, the square root of the norm_squared of the vector."""
 
-        start_qtype = self.qtype
+        end_qtype = "|V({})|".format(self.qtype)
         
-        av = self.norm_squared_of_vector()
+        av = self.norm_squared_of_vector(qtype=end_qtype)
         sqrt_t = av.t ** 0.5
         av.t = sqrt_t
-
-        av.qtype = start_qtype
-        av.add_qtype(qtype)
+        
         return av
 
     def add(self, qh_1, qtype=""):
         """Form a add given 2 quaternions."""
 
+        end_qtype = "{f}+{s}".format(f=self.qtype, s=qh_1.qtype)
+        
         t_1, x_1, y_1, z_1 = self.t, self.x, self.y, self.z
         t_2, x_2, y_2, z_2 = qh_1.t, qh_1.x, qh_1.y, qh_1.z
 
-        add_q = QH()
+        add_q = QH(qtype=end_qtype)
         add_q.t = t_1 + t_2
         add_q.x = x_1 + x_2
         add_q.y = y_1 + y_2
         add_q.z = z_1 + z_2
-        
-        if qtype:
-            add_q.qtype = qtype
-        else:
-            add_q.qtype = "{f}+{s}".format(f=self.qtype, s=qh_1.qtype)
         
         return add_q    
 
     def dif(self, qh_1, qtype=""):
         """Form a add given 2 quaternions."""
 
+        end_qtype = "{f}-{s}".format(f=self.qtype, s=qh_1.qtype)
+        
         t_1, x_1, y_1, z_1 = self.t, self.x, self.y, self.z
         t_2, x_2, y_2, z_2 = qh_1.t, qh_1.x, qh_1.y, qh_1.z
 
-        dif_q = QH()
+        dif_q = QH(qtype=end_qtype)
         dif_q.t = t_1 - t_2
         dif_q.x = x_1 - x_2
         dif_q.y = y_1 - y_2
         dif_q.z = z_1 - z_2
-
-        if qtype:
-            dif_q.qtype = qtype
-        else:
-            dif_q.qtype = "{f}-{s}".format(f=self.qtype, s=qh_1.qtype)
             
         return dif_q
 
@@ -451,7 +456,7 @@ class QH(object):
     def invert(self, qtype="^-1"):
         """The inverse of a quaternion."""
 
-        start_qtype = self.qtype
+        end_qtype = "{}{}".format(self.qtype, qtype)
         
         q_conj = self.conj()
         q_norm_squared = self.norm_squared()
@@ -461,10 +466,9 @@ class QH(object):
             return self.q0()
 
         q_norm_squared_inv = QH([1.0 / q_norm_squared.t, 0, 0, 0])
-        q_inv = q_conj.product(q_norm_squared_inv, qtype=self.qtype)
-        
-        q_inv.qtype = start_qtype
-        q_inv.add_qtype(qtype)
+        q_inv = q_conj.product(q_norm_squared_inv)
+        q_inv.qtype = end_qtype
+
         return q_inv
 
     def divide_by(self, q1, qtype=""):
@@ -472,11 +476,7 @@ class QH(object):
         
         q1_inv = q1.invert()
         q_div = self.product(q1.invert())
-        
-        if qtype:
-            q_div.qtype = qtype
-        else:
-            q_div.qtype = "{f}/{s}".format(f=self.qtype, s=q1.qtype)
+        q_div.qtype = "{f}/{s}".format(f=self.qtype, s=q1.qtype)
             
         return q_div
 
@@ -491,16 +491,15 @@ class QH(object):
     def rotate(self, a_1=0, a_2=0, a_3=0, qtype="rot"):
         """Do a rotation given up to three angles."""
 
-        start_qtype = self.qtype
+        end_qtype = "{}{}".format(self.qtype, qtype)
         
         u = QH([0, a_1, a_2, a_3])
         u_abs = u.abs_of_q()
         u_norm_squaredalized = u.divide_by(u_abs)
 
         q_rot = u_norm_squaredalized.triple_product(self, u_norm_squaredalized.conj())
-  
-        q_rot.qtype = start_qtype
-        q_rot.add_qtype(qtype)
+        q_rot.qtype = end_qtype
+        
         return q_rot
 
     # A boost also uses triple products like a rotation, but more of them.
@@ -510,7 +509,7 @@ class QH(object):
     def boost(self, beta_x=0, beta_y=0, beta_z=0, qtype="boost"):
         """A boost along the x, y, and/or z axis."""
 
-        start_qtype = self.qtype
+        end_qtype = "{}{}".format(self.qtype, qtype)
         
         boost = QH(sr_gamma_betas(beta_x, beta_y, beta_z))      
         b_conj = boost.conj()
@@ -521,10 +520,9 @@ class QH(object):
       
         triple_23 = triple_2.dif(triple_3)
         half_23 = triple_23.product(QH([0.5, 0, 0, 0]))
-        triple_123 = triple_1.add(half_23, qtype=self.qtype)
+        triple_123 = triple_1.add(half_23, qtype=end_qtype)
+        triple_123.qtype = end_qtype
         
-        triple_123.qtype = start_qtype
-        triple_123.add_qtype(qtype)
         return triple_123
 
     # g_shift is a function based on the space-times-time invariance proposal for gravity,
@@ -536,7 +534,7 @@ class QH(object):
     def g_shift(self, dimensionless_g, g_form="exp", qtype="g_shift"):
         """Shift an observation based on a dimensionless GM/c^2 dR."""
 
-        start_qtype = self.qtype
+        end_qtype = "{}{}".format(self.qtype, qtype)
         
         if g_form == "exp":
             g_factor = sp.exp(dimensionless_g)
@@ -546,49 +544,230 @@ class QH(object):
             print("g_form not defined, should be 'exp' or 'minimal': {}".format(g_form))
             return self
 
-        g_q = QH(qtype=self.qtype)
+        g_q = QH(qtype=end_qtype)
         g_q.t = self.t / g_factor
         g_q.x = self.x * g_factor
         g_q.y = self.y * g_factor
         g_q.z = self.z * g_factor
-
-        g_q.qtype = start_qtype
-        g_q.add_qtype(qtype)
+        g_q.qtype = end_qtype
+        
         return g_q
     
-    def q_sin(self, qtype="sin"):
+    def sin(self, qtype="sin"):
         """Take the sine of a quaternion, (sin(t) cosh(|R|), cos(t) sinh(|R|) R/|R|)"""
 
-        start_qtype = self.qtype
+        end_qtype = "sin({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
         
-        q_out = QH(qtype=self.qtype)
-        v_norm = self.norm_squared_of_vector()
+        if abs_v.t == 0:    
+            return QH([math.sin(self.t), 0, 0, 0], qtype=end_qtype)
+            
+        sint = math.sin(self.t)
+        cost = math.cos(self.t)
+        sinhR = math.sinh(abs_v.t)
+        coshR = math.cosh(abs_v.t)
         
-        if v_norm.t == 0:
+        k = cost * sinhR / abs_v.t
             
-            q_out.t = sp.sin(self.t)
-            q_out.x = 0
-            q_out.y = 0
-            q_out.z = 0
-            
-        else:
-            
-            v_factor = sp.cos(self.t) * sp.sinh(v_norm.t) / v_norm.t
-            
-            q_out.t = math.trunc(sp.sin(self.t) * sp.cosh(v_norm.t))
-            q_out.x = math.trunc(v_factor * self.x)
-            q_out.y = math.trunc(v_factor * self.y)
-            q_out.z = math.trunc(v_factor * self.z)
-
-        q_out.qtype = start_qtype
-        q_out.add_qtype(qtype)
+        q_out = QH()
+        q_out.t = sint * coshR
+        q_out.x = k * self.x
+        q_out.y = k * self.y
+        q_out.z = k * self.z
+        q_out.qtype = end_qtype
+        
         return q_out
+     
+    def cos(self, qtype="sin"):
+        """Take the cosine of a quaternion, (cos(t) cosh(|R|), sin(t) sinh(|R|) R/|R|)"""
+
+        end_qtype = "cos({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
         
+        if abs_v.t == 0:    
+            return QH([math.cos(self.t), 0, 0, 0], qtype=end_qtype)
+            
+        sint = math.sin(self.t)
+        cost = math.cos(self.t)
+        sinhR = math.sinh(abs_v.t)
+        coshR = math.cosh(abs_v.t)
+        
+        k = -1 * sint * sinhR / abs_v.t
+            
+        q_out = QH()
+        q_out.t = cost * coshR
+        q_out.x = k * self.x
+        q_out.y = k * self.y
+        q_out.z = k * self.z
+
+        q_out.qtype = end_qtype
+        return q_out
+    
+    def tan(self, qtype="sin"):
+        """Take the tan of a quaternion, sin/cos"""
+
+        end_qtype = "tan({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        
+        if abs_v.t == 0:    
+            return QH([math.tan(self.t), 0, 0, 0], qtype=end_qtype)
+            
+        sinq = self.sin()
+        cosq = self.cos()
+            
+        q_out = sinq.divide_by(cosq) 
+        q_out.qtype = end_qtype
+        
+        return q_out
+    
+    def sinh(self, qtype="sinh"):
+        """Take the sinh of a quaternion, (sinh(t) cos(|R|), cosh(t) sin(|R|) R/|R|)"""
+
+        end_qtype = "sinh({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        
+        if abs_v.t == 0:    
+            return QH([math.sinh(self.t), 0, 0, 0], qtype=end_qtype)
+            
+        sinht = math.sinh(self.t)
+        cosht = math.cosh(self.t)
+        sinR = math.sin(abs_v.t)
+        cosR = math.cos(abs_v.t)
+        
+        k = cosht * sinR / abs_v.t
+            
+        q_out = QH(qtype=end_qtype)
+        q_out.t = sinht * cosR
+        q_out.x = k * self.x
+        q_out.y = k * self.y
+        q_out.z = k * self.z
+
+        return q_out
+     
+    def cosh(self, qtype="sin"):
+        """Take the cosh of a quaternion, (cosh(t) cos(|R|), sinh(t) sin(|R|) R/|R|)"""
+
+        end_qtype = "cosh({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        
+        if abs_v.t == 0:    
+            return QH([math.cosh(self.t), 0, 0, 0], qtype=end_qtype)
+            
+        sinht = math.sinh(self.t)
+        cosht = math.cosh(self.t)
+        sinR = math.sin(abs_v.t)
+        cosR = math.cos(abs_v.t)
+        
+        k = sinht * sinR / abs_v.t
+            
+        q_out = QH(qtype=end_qtype)
+        q_out.t = cosht * cosR
+        q_out.x = k * self.x
+        q_out.y = k * self.y
+        q_out.z = k * self.z
+
+        return q_out
+    
+    def tanh(self, qtype="tanh"):
+        """Take the tanh of a quaternion, sin/cos"""
+
+        end_qtype = "tanh({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        
+        if abs_v.t == 0:    
+            return QH([math.tanh(self.t), 0, 0, 0], qtype=end_qtype)
+            
+        sinhq = self.sinh()
+        coshq = self.cosh()
+            
+        q_out = sinhq.divide_by(coshq) 
+        q_out.qtype = end_qtype
+        
+        return q_out
+    
+    def exp(self, qtype="exp"):
+        """Take the exponential of a quaternion."""
+        # exp(q) = (exp(t) cos(|R|, exp(t) sin(|R|) R/|R|)
+        
+        end_qtype = "exp({st})".format(st=self.qtype)
+        
+        abs_v = self.abs_of_vector()
+        et = math.exp(self.t)
+        
+        if (abs_v.t == 0):
+            return QH([et, 0, 0, 0], qtype=end_qtype)
+        
+        cosR = math.cos(abs_v.t)
+        sinR = math.sin(abs_v.t)
+        k = et * sinR / abs_v.t
+                       
+        expq = QH([et * cosR, k * self.x, k * self.y, k * self.z], qtype=end_qtype)
+                       
+        return expq
+    
+    def ln(self, qtype="ln"):
+        """Take the natural log of a quaternion."""
+        # ln(q) = (0.5 ln t^2 + R.R, atan2(|R|, t) R/|R|)
+        
+        end_qtype = "ln({st})".format(st=self.qtype)
+        
+        abs_v = self.abs_of_vector()
+        
+        if (abs_v.t == 0):
+            if self.t > 0:
+                return(QH([math.log(self.t), 0, 0, 0], qtype=end_qtype))
+            else:
+                # I don't understant this, but mathematica does the same thing.
+                return(QH([math.log(-self.t), math.pi, 0, 0], qtype=end_type))   
+            
+            return QH([lt, 0, 0, 0])
+        
+        t_value = 0.5 * math.log(self.t * self.t + abs_v.t * abs_v.t)
+        k = math.atan2(abs_v.t, self.t) / abs_v.t
+                       
+        expq = QH([t_value, k * self.x, k * self.y, k * self.z], qtype=end_qtype)
+                       
+        return expq
+    
+    def q_2_q(self, q1, qtype="P"):
+        """Take the natural log of a quaternion."""
+        # q^p = exp(ln(q) * p)
+        
+        end_qtype = "{st}^P".format(st=self.qtype)
+        
+        q2q = self.ln().product(q1).exp()           
+        q2q.qtype = end_qtype
+        
+        return q2q
+    
+    def trunc(self):
+        """Truncates values."""
+        
+        self.t = math.trunc(self.t)
+        self.x = math.trunc(self.x)
+        self.y = math.trunc(self.y)
+        self.z = math.trunc(self.z)
+        
+        return self
+
+
+# In[4]:
+
+
+print(QH([1.0, 2.0, 0, 0]).ln())
+print(QH([1.0, 2.0, 0, 0]).cosh())
+print(QH([0, 1, 0, 0]).q_2_q(QH([0, 0, 0, -1])).trunc())
 
 
 # Write tests the QH class.
 
-# In[4]:
+# In[5]:
 
 
 class TestQH(unittest.TestCase):
@@ -596,6 +775,8 @@ class TestQH(unittest.TestCase):
 
     Q = QH([1, -2, -3, -4], qtype="Q")
     P = QH([0, 4, -3, 0], qtype="P")
+    R = QH([3, 0, 0, 0], qtype="R")
+    C = QH([2, 4, 0, 0], qtype="C")
 
     def test_qt(self):
         self.assertTrue(self.Q.t == 1)
@@ -876,12 +1057,64 @@ class TestQH(unittest.TestCase):
         self.assertTrue(q_z2_minimal.y == q1_sq.y)
         self.assertTrue(q_z2_minimal.z == q1_sq.z)
         
-    def test_q_sin(self):
-        QH([0, 0, 0, 0]).q_sin()
-
-
-# In[5]:
-
+    def test_sin(self):
+        self.assertTrue(QH([0, 0, 0, 0]).sin().equals(QH().q_0()))
+        self.assertTrue(self.Q.sin().equals(QH([91.7837157840346691, -21.8864868530291758, -32.8297302795437673, -43.7729737060583517])))
+        self.assertTrue(self.P.sin().equals(QH([0,  59.3625684622310033, -44.5219263466732542, 0])))
+        self.assertTrue(self.R.sin().equals(QH([0.1411200080598672, 0, 0, 0])))
+        self.assertTrue(self.C.sin().equals(QH([24.8313058489463785, -11.3566127112181743, 0, 0])))
+     
+    def test_cos(self):
+        self.assertTrue(QH([0, 0, 0, 0]).cos().equals(QH().q_1()))
+        self.assertTrue(self.Q.cos().equals(QH([58.9336461679439481, 34.0861836904655959, 51.1292755356983974, 68.1723673809311919])))
+        self.assertTrue(self.P.cos().equals(QH([74.2099485247878476, 0, 0, 0])))
+        self.assertTrue(self.R.cos().equals(QH([-0.9899924966004454, 0, 0, 0])))
+        self.assertTrue(self.C.cos().equals(QH([-11.3642347064010600, -24.8146514856341867, 0, 0])))
+                            
+    def test_tan(self):
+        self.assertTrue(QH([0, 0, 0, 0]).tan().equals(QH().q_0()))
+        self.assertTrue(self.Q.tan().equals(QH([0.0000382163172501, -0.3713971716439372, -0.5570957574659058, -0.7427943432878743])))
+        self.assertTrue(self.P.tan().equals(QH([0, 0.7999273634100760, -0.5999455225575570, 0])))
+        self.assertTrue(self.R.tan().equals(QH([-0.1425465430742778, 0, 0, 0])))
+        self.assertTrue(self.C.tan().equals(QH([-0.0005079806234700, 1.0004385132020521, 0, 0])))
+        
+    def test_sinh(self):
+        self.assertTrue(QH([0, 0, 0, 0]).sinh().equals(QH().q_0()))
+        self.assertTrue(self.Q.sinh().equals(QH([0.7323376060463428, 0.4482074499805421, 0.6723111749708131, 0.8964148999610841])))
+        self.assertTrue(self.P.sinh().equals(QH([0, -0.7671394197305108, 0.5753545647978831, 0])))
+        self.assertTrue(self.R.sinh().equals(QH([10.0178749274099026, 0, 0, 0])))
+        self.assertTrue(self.C.sinh().equals(QH([-2.3706741693520015, -2.8472390868488278, 0, 0])))    
+        
+    def test_cosh(self):
+        self.assertTrue(QH([0, 0, 0, 0]).cosh().equals(QH().q_1()))
+        self.assertTrue(self.Q.cosh().equals(QH([0.9615851176369565, 0.3413521745610167, 0.5120282618415251, 0.6827043491220334])))
+        self.assertTrue(self.P.cosh().equals(QH([0.2836621854632263, 0, 0, 0])))
+        self.assertTrue(self.R.cosh().equals(QH([10.0676619957777653, 0, 0, 0])))
+        self.assertTrue(self.C.cosh().equals(QH([-2.4591352139173837, -2.7448170067921538, 0, 0])))    
+        
+    def test_tanh(self):
+        self.assertTrue(QH([0, 0, 0, 0]).tanh().equals(QH().q_0()))
+        self.assertTrue(self.Q.tanh().equals(QH([1.0248695360556623, 0.1022956817887642, 0.1534435226831462, 0.2045913635775283])))
+        self.assertTrue(self.P.tanh().equals(QH([0, -2.7044120049972684, 2.0283090037479505, 0])))
+        self.assertTrue(self.R.tanh().equals(QH([0.9950547536867305, 0, 0, 0])))
+        self.assertTrue(self.C.tanh().equals(QH([1.0046823121902353, 0.0364233692474038, 0, 0])))    
+        
+    def test_exp(self):
+        self.assertTrue(QH([0, 0, 0, 0]).exp().equals(QH().q_1()))
+        self.assertTrue(self.Q.exp().equals(QH([1.6939227236832994, 0.7895596245415588, 1.1843394368123383, 1.5791192490831176])))
+        self.assertTrue(self.P.exp().equals(QH([0.2836621854632263, -0.7671394197305108, 0.5753545647978831, 0])))
+        self.assertTrue(self.R.exp().equals(QH([20.0855369231876679, 0, 0, 0])))
+        self.assertTrue(self.C.exp().equals(QH([-4.8298093832693851, -5.5920560936409816, 0, 0])))    
+    
+    def test_ln(self):
+        self.assertTrue(self.Q.ln().exp().equals(self.Q))
+        self.assertTrue(self.Q.ln().equals(QH([1.7005986908310777, -0.5151902926640850, -0.7727854389961275, -1.0303805853281700])))
+        self.assertTrue(self.P.ln().equals(QH([1.6094379124341003, 1.2566370614359172, -0.9424777960769379, 0])))
+        self.assertTrue(self.R.ln().equals(QH([1.0986122886681098, 0, 0, 0])))
+        self.assertTrue(self.C.ln().equals(QH([1.4978661367769954, 1.1071487177940904, 0, 0])))    
+        
+    def test_q_2_q(self):
+        self.assertTrue(self.Q.q_2_q(self.P).equals(QH([-0.0197219653530713, -0.2613955437374326, 0.6496281248064009, -0.3265786562423951])))
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQH())
 unittest.TextTestRunner().run(suite);
@@ -891,7 +1124,7 @@ unittest.TextTestRunner().run(suite);
 
 # A separate class is needed for numpy array due to technical issues I have getting sympy and numpy to play nicely with each other...
 
-# In[6]:
+# In[ ]:
 
 
 class QHa(object):
@@ -930,32 +1163,38 @@ class QHa(object):
     def q_0(self, qtype="0"):
         """Return a zero quaternion."""
 
-        return QHa([0.0, 0.0, 0.0, 0.0], qtype=qtype)
+        q0 = QHa([0.0, 0.0, 0.0, 0.0], qtype=qtype)
+        return 
 
     def q_1(self, qtype="1"):
         """Return a multiplicative identity quaternion."""
-
-        return QHa([1.0, 0.0, 0.0, 0.0], qtype=qtype)
+    
+        q1 = QHa([1.0, 0.0, 0.0, 0.0], qtype=qtype)
+        return q1
     
     def q_i(self, qtype="i"):
         """Return i."""
 
-        return QHa([0.0, 1.0, 0.0, 0.0], qtype=qtype)
+        qi = QHa([0.0, 1.0, 0.0, 0.0], qtype=qtype)
+        return qi
 
     def q_j(self, qtype="j"):
         """Return j."""
-
-        return QHa([0.0, 0.0, 1.0, 0.0], qtype=qtype)
+        
+        qj = QHa([0.0, 0.0, 1.0, 0.0], qtype=qtype)
+        return qj
     
     def q_k(self, qtype="k"):
         """Return k."""
 
-        return QHa([0.0, 0.0, 0.0, 1.0], qtype=qtype)
+        qk = QHa([0.0, 0.0, 0.0, 1.0], qtype=qtype)
+        return qk
 
     def q_random(self, qtype="?"):
         """Return a random-valued quaternion."""
 
-        return QHa([random.random(), random.random(), random.random(), random.random()], qtype=qtype)
+        qr = QHa([random.random(), random.random(), random.random(), random.random()], qtype=qtype)
+        return qr
     
     def dupe(self, qtype=""):
         """Return a duplicate copy, good for testing since qtypes persist"""
@@ -978,67 +1217,84 @@ class QHa(object):
         """Three types of conjugates."""
 
         t, x, y, z = self.a[0], self.a[1], self.a[2], self.a[3]
-        conj_q = QHa(qtype=self.qtype)
+        conj_q = QHa()
 
         if conj_type == 0:
             conj_q.a[0] = 1.0 * t
-            conj_q.a[1] = -1.0 * x
-            conj_q.a[2] = -1.0 * y
-            conj_q.a[3] = -1.0 * z
+            if x != 0:
+                conj_q.a[1] = -1.0 * x
+            if y != 0:
+                conj_q.a[2] = -1.0 * y
+            if z != 0:
+                conj_q.a[3] = -1.0 * z
 
         if conj_type == 1:
-            conj_q.a[0] = -1.0 * t
+            if t != 0:
+                conj_q.a[0] = -1.0 * t
             conj_q.a[1] = 1.0 * x
-            conj_q.a[2] = -1.0 * y
-            conj_q.a[3] = -1.0 * z
+            if y != 0:
+                conj_q.a[2] = -1.0 * y
+            if z != 0:
+                conj_q.a[3] = -1.0 * z
             qtype += "1"
             
         if conj_type == 2:
-            conj_q.a[0] = -1 * t
-            conj_q.a[1] = -1 * x
+            if t != 0:
+                conj_q.a[0] = -1 * t
+            if x != 0:
+                conj_q.a[1] = -1 * x
             conj_q.a[2] = 1.0 * y
-            conj_q.a[3] = -1 * z
+            if z != 0:
+                conj_q.a[3] = -1 * z
             qtype += "2"
             
-        conj_q.add_qtype(qtype)
+        conj_q.qtype = self.qtype + qtype
+        
         return conj_q
     
-    def flip_signs(self, conj_type=0, qtype="*"):
+    def flip_signs(self, conj_type=0, qtype="-"):
         """Flip all the signs, just like multipying by -1."""
 
-        start_qtype = self.qtype
+        end_qtype = "-{}".format(self.qtype)
         
         t, x, y, z = self.a[0], self.a[1], self.a[2], self.a[3]
-        flip_q = QHa(qtype=self.qtype)
+        flip_q = QHa(qtype=end_qtype)
 
-        flip_q.a[0] = -1.0 * t
-        flip_q.a[1] = -1.0 * x
-        flip_q.a[2] = -1.0 * y
-        flip_q.a[3] = -1.0 * z
+        if t != 0:
+            flip_q.a[0] = -1.0 * t
+        if x != 0:
+            flip_q.a[1] = -1.0 * x
+        if y != 0:
+            flip_q.a[2] = -1.0 * y
+        if z != 0:
+            flip_q.a[3] = -1.0 * z
         
-        flip_q.qtype = start_qtype
-        flip_q.add_qtype(qtype)
+        flip_q.qtype = end_qtype
+        
         return flip_q
     
     def vahlen_conj(self, conj_type="-", qtype="vc"):
         """Three types of conjugates -'* done by Vahlen in 1901."""
 
-        start_qtype = self.qtype
-        
         t, x, y, z = self.a[0], self.a[1], self.a[2], self.a[3]
         conj_q = QHa()
 
         if conj_type == '-':
             conj_q.a[0] = 1.0 * t
-            conj_q.a[1] = -1.0 * x
-            conj_q.a[2] = -1.0 * y
-            conj_q.a[3] = -1.0 * z
+            if x != 0:
+                conj_q.a[1] = -1.0 * x
+            if y != 0:
+                conj_q.a[2] = -1.0 * y
+            if z != 0:
+                conj_q.a[3] = -1.0 * z
             qtype += "*-"
 
         if conj_type == "'":
             conj_q.a[0] = 1.0 * t
-            conj_q.a[1] = -1.0 * x
-            conj_q.a[2] = -1.0 * y
+            if x != 0:
+                conj_q.a[1] = -1.0 * x
+            if y != 0:
+                conj_q.a[2] = -1.0 * y
             conj_q.a[3] = 1.0 * z
             qtype += "*'"
             
@@ -1046,18 +1302,14 @@ class QHa(object):
             conj_q.a[0] = 1.0 * t
             conj_q.a[1] = 1.0 * x
             conj_q.a[2] = 1.0 * y
-            conj_q.a[3] = -1.0 * z
+            if z != 0:
+                conj_q.a[3] = -1.0 * z
             qtype += "*"
             
-        conj_q.qtype = start_qtype
-        conj_q.add_qtype(qtype)
+        conj_q.qtype = self.qtype + qtype
+        
         return conj_q
 
-    def add_qtype(self, qtype):
-        """Adds a qtype to an exiting qtype."""
-        
-        self.qtype += qtype
-    
     def _commuting_products(self, q1):
         """Returns a dictionary with the commuting products."""
 
@@ -1096,87 +1348,87 @@ class QHa(object):
 
         return products
 
-    def square(self, qtype="sq"):
+    def square(self, qtype="^2"):
         """Square a quaternion."""
 
-        start_qtype = self.qtype
+        end_qtype = "{}{}".format(self.qtype, qtype)
         
         qxq = self._commuting_products(self)
 
-        sq_q = QHa(qtype=self.qtype)
+        sq_q = QHa(qtype=end_qtype)
         sq_q.a[0] = qxq['tt'] - qxq['xx+yy+zz']
         sq_q.a[1] = qxq['tx+xt']
         sq_q.a[2] = qxq['ty+yt']
         sq_q.a[3] = qxq['tz+zt']
 
-        sq_q.qtype = start_qtype
-        sq_q.add_qtype(qtype)
+        sq_q.qtype = end_qtype
+        
         return sq_q
 
-    def norm_squared(self, qtype="norm_squared"):
+    def norm_squared(self, qtype="|| ||^2"):
         """The norm_squared of a quaternion."""
 
-        start_qtype = self.qtype
+        end_qtype = "||{}||^2".format(self.qtype, qtype)
         
         qxq = self._commuting_products(self)
 
-        n_q = QHa(qtype=self.qtype)
+        n_q = QHa(qtype=end_qtype)
         n_q.a[0] = qxq['tt'] + qxq['xx+yy+zz']
 
-        n_q.qtype = start_qtype
-        n_q.add_qtype(qtype)
+        n_q.qtype = end_qtype
+        
         return n_q
 
     def norm_squared_of_vector(self, qtype="norm_squaredV"):
         """The norm_squared of the vector of a quaternion."""
 
-        start_qtype = self.qtype
+        end_qtype = "||V({})||".format(self.qtype)
         
         qxq = self._commuting_products(self)
 
-        nv_q = QHa(qtype=self.qtype)
+        nv_q = QHa(qtype=end_qtype)
         nv_q.a[0] = qxq['xx+yy+zz']
 
-        nv_q.qtype = start_qtype
-        nv_q.add_qtype(qtype)
+        nv_q.qtype = end_qtype
+        
         return nv_q
 
-    def abs_of_q(self, qtype="abs"):
+    def abs_of_q(self, qtype="| |"):
         """The absolute value, the square root of the norm_squared."""
 
-        start_qtype = self.qtype
+        end_qtype = "|{}|".format(self.qtype)
         
         ns = self.norm_squared()
         sqrt_t = ns.a[0] ** 0.5
         ns.a[0] = sqrt_t
 
-        ns.qtype = start_qtype
-        ns.add_qtype(qtype)
+        ns.qtype = end_qtype
+        
         return ns
 
-    def abs_of_vector(self, qtype="absV"):
+    def abs_of_vector(self, qtype="|V()|"):
         """The absolute value of the vector, the square root of the norm_squared of the vector."""
 
-        start_qtype = self.qtype
+        end_qtype = "|V({})|".format(self.qtype)
         
         av = self.norm_squared_of_vector()
         sqrt_t = av.a[0] ** 0.5
         av.a[0] = sqrt_t
 
-        av.qtype = start_qtype
-        av.add_qtype(qtype)
+        av.qtype = end_qtype
+        
         return av
 
     def normalize(self, qtype="U"):
         """Normalize a quaternion"""
         
-        start_qtype = self.qtype
+        end_qtype = "{}{}".format(self.qtype, qtype)
         
         abs_q_inv = self.abs_of_q().invert()
         n_q = self.product(abs_q_inv)
 
-        n_q.qtype = start_qtype
-        n_q.add_qtype(qtype)
+        n_q.qtype = end_qtype
+        
         return n_q
     
     def add(self, QHa_1, qtype=""):
@@ -1191,10 +1443,7 @@ class QHa(object):
         add_q.a[2] = y_1 + y_2
         add_q.a[3] = z_1 + z_2
         
-        if qtype:
-            add_q.qtype = qtype
-        else:
-            add_q.qtype = "{f}+{s}".format(f=self.qtype, s=QHa_1.qtype)
+        add_q.qtype = "{f}+{s}".format(f=self.qtype, s=QHa_1.qtype)
         
         return add_q    
 
@@ -1210,10 +1459,7 @@ class QHa(object):
         dif_q.a[2] = y_1 - y_2
         dif_q.a[3] = z_1 - z_2
 
-        if qtype:
-            dif_q.qtype = qtype
-        else:
-            dif_q.qtype = "{f}-{s}".format(f=self.qtype, s=QHa_1.qtype)
+        dif_q.qtype = "{f}-{s}".format(f=self.qtype, s=QHa_1.qtype)
             
         return dif_q
 
@@ -1261,10 +1507,7 @@ class QHa(object):
         if reverse:
             times_symbol = times_symbol.replace('x', 'xR')
             
-        if qtype:
-            result.qtype = qtype
-        else:
-            result.qtype = "{f}{ts}{s}".format(f=self.qtype, ts=times_symbol, s=q1.qtype)
+        result.qtype = "{f}{ts}{s}".format(f=self.qtype, ts=times_symbol, s=q1.qtype)
             
         return result
     
@@ -1279,7 +1522,7 @@ class QHa(object):
     def invert(self, qtype="^-1"):
         """The inverse of a quaternion."""
 
-        start_qtype = self.qtype
+        end_qtype = "{}{}".format(self.qtype, qtype)
         
         q_conj = self.conj()
         q_norm_squared = self.norm_squared()
@@ -1291,8 +1534,8 @@ class QHa(object):
         q_norm_squared_inv = QHa([1.0 / q_norm_squared.a[0], 0, 0, 0])
         q_inv = q_conj.product(q_norm_squared_inv, qtype=self.qtype)
         
-        q_inv.qtype = start_qtype
-        q_inv.add_qtype(qtype)
+        q_inv.qtype = end_qtype
+        
         return q_inv
 
     def divide_by(self, q1, qtype=""):
@@ -1301,10 +1544,7 @@ class QHa(object):
         q1_inv = q1.invert()
         q_div = self.product(q1.invert())
         
-        if qtype:
-            q_div.qtype = qtype
-        else:
-            q_div.qtype = "{f}/{s}".format(f=self.qtype, s=q1.qtype)
+        q_div.qtype = "{f}/{s}".format(f=self.qtype, s=q1.qtype)
             
         return q_div
 
@@ -1319,7 +1559,7 @@ class QHa(object):
     def rotate(self, a_1=0, a_2=0, a_3=0, qtype="rot"):
         """Do a rotation given up to three angles."""
 
-        start_qtype = self.qtype
+        end_qtype = "{}{}".format(self.qtype, qtype)
         
         u = QHa([0, a_1, a_2, a_3])
         u_abs = u.abs_of_q()
@@ -1327,8 +1567,8 @@ class QHa(object):
 
         q_rot = u_norm_squaredalized.triple_product(self, u_norm_squaredalized.conj())
   
-        q_rot.qtype = start_qtype
-        q_rot.add_qtype(qtype)
+        q_rot.qtype = end_qtype
+    
         return q_rot
 
     # A boost also uses triple products like a rotation, but more of them.
@@ -1338,7 +1578,7 @@ class QHa(object):
     def boost(self, beta_x=0.0, beta_y=0.0, beta_z=0.0, qtype="boost"):
         """A boost along the x, y, and/or z axis."""
 
-        start_qtype = self.qtype
+        end_qtype = "{}{}".format(self.qtype, qtype)
         
         boost = QHa(sr_gamma_betas(beta_x, beta_y, beta_z))      
         b_conj = boost.conj()
@@ -1351,8 +1591,8 @@ class QHa(object):
         half_23 = triple_23.product(QHa([0.5, 0.0, 0.0, 0.0]))
         triple_123 = triple_1.add(half_23, qtype=self.qtype)
         
-        triple_123.qtype = start_qtype
-        triple_123.add_qtype(qtype)
+        triple_123.qtype = end_qtype
+        
         return triple_123
 
     # g_shift is a function based on the space-times-time invariance proposal for gravity,
@@ -1364,7 +1604,7 @@ class QHa(object):
     def g_shift(self, dimensionless_g, g_form="exp", qtype="g_shift"):
         """Shift an observation based on a dimensionless GM/c^2 dR."""
 
-        start_qtype = self.qtype
+        end_qtype = "{}{}".format(self.qtype, qtype)
         
         if g_form == "exp":
             g_factor = sp.exp(dimensionless_g)
@@ -1374,43 +1614,218 @@ class QHa(object):
             print("g_form not defined, should be 'exp' or 'minimal': {}".format(g_form))
             return self
 
-        g_q = QHa(qtype=self.qtype)
+        g_q = QHa(qtype=end_qtype)
         g_q.a[0] = self.a[0] / g_factor
         g_q.a[1] = self.a[1] * g_factor
         g_q.a[2] = self.a[2] * g_factor
         g_q.a[3] = self.a[3] * g_factor
-
-        g_q.qtype = start_qtype
-        g_q.add_qtype(qtype)
+        g_q.qtype = end_qtype
+        
         return g_q
     
-    def q_sin(self, qtype="sin"):
+    def sin(self, qtype="sin"):
         """Take the sine of a quaternion, (sin(t) cosh(|R|), cos(t) sinh(|R|) R/|R|)"""
 
-        q_out = QHa(qtype=self.qtype)
-        v_norm = self.norm_squared_of_vector()
+        end_qtype = "sin({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
         
-        if v_norm.a[0] == 0:
+        if abs_v.a[0] == 0:    
+            return QHa([math.sin(self.a[0]), 0, 0, 0], qtype=end_qtype)
             
-            q_out.a[0] = sp.sin(self.a[0])
-            q_out.a[1] = 0.0
-            q_out.a[2] = 0.0
-            q_out.a[3] = 0.0
+        sint = math.sin(self.a[0])
+        cost = math.cos(self.a[0])
+        sinhR = math.sinh(abs_v.a[0])
+        coshR = math.cosh(abs_v.a[0])
+        
+        k = cost * sinhR / abs_v.a[0]
             
-        else:
-            
-            v_factor = sp.cos(self.a[0]) * sp.sinh(v_norm.a[0]) / v_norm.a[0]
-            
-            q_out.a[0] = math.trunc(sp.sin(self.a[0]) * sp.cosh(v_norm.t))
-            q_out.a[1] = math.trunc(v_factor * self.a[1])
-            q_out.a[2] = math.trunc(v_factor * self.a[2])
-            q_out.a[3] = math.trunc(v_factor * self.a[3])
+        q_out = QHa(qtype=end_qtype)
+        q_out.a[0] = sint * coshR
+        q_out.a[1] = k * self.a[1]
+        q_out.a[2] = k * self.a[2]
+        q_out.a[3] = k * self.a[3]
 
-        q_out.add_qtype(qtype)
         return q_out
+     
+    def cos(self, qtype="sin"):
+        """Take the cosine of a quaternion, (cos(t) cosh(|R|), sin(t) sinh(|R|) R/|R|)"""
+
+        end_qtype = "cos({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        
+        if abs_v.a[0] == 0:    
+            return QHa([math.cos(self.a[0]), 0, 0, 0], qtype=end_qtype)
+            
+        sint = math.sin(self.a[0])
+        cost = math.cos(self.a[0])
+        sinhR = math.sinh(abs_v.a[0])
+        coshR = math.cosh(abs_v.a[0])
+        
+        k = -1 * sint * sinhR / abs_v.a[0]
+            
+        q_out = QHa(qtype=end_qtype)
+        q_out.a[0] = cost * coshR
+        q_out.a[1] = k * self.a[1]
+        q_out.a[2] = k * self.a[2]
+        q_out.a[3] = k * self.a[3]
+        
+        return q_out
+    
+    def tan(self, qtype="tan"):
+        """Take the tan of a quaternion, sin/cos"""
+
+        end_qtype = "tan({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        
+        if abs_v.a[0] == 0:    
+            return QHa([math.tan(self.a[0]), 0, 0, 0], qtype=end_qtype)
+            
+        sinq = self.sin()
+        cosq = self.cos()
+            
+        q_out = sinq.divide_by(cosq) 
+        q_out.qtype = end_qtype
+        
+        return q_out
+    
+    def sinh(self, qtype="sinh"):
+        """Take the sinh of a quaternion, (sinh(t) cos(|R|), cosh(t) sin(|R|) R/|R|)"""
+
+        end_qtype = "sinh({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        
+        if abs_v.a[0] == 0:    
+            return QHa([math.sinh(self.a[0]), 0, 0, 0], qtype=end_qtype)
+            
+        sinht = math.sinh(self.a[0])
+        cosht = math.cosh(self.a[0])
+        sinR = math.sin(abs_v.a[0])
+        cosR = math.cos(abs_v.a[0])
+        
+        k = cosht * sinR / abs_v.a[0]
+        
+        q_out = QHa(qtype=end_qtype)
+        q_out.a[0] = sinht * cosR
+        q_out.a[1] = k * self.a[1]
+        q_out.a[2] = k * self.a[2]
+        q_out.a[3] = k * self.a[3]
+
+        return q_out
+     
+    def cosh(self, qtype="cosh"):
+        """Take the cosh of a quaternion, (cosh(t) cos(|R|), sinh(t) sin(|R|) R/|R|)"""
+
+        end_qtype = "cosh({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        
+        if abs_v.a[0] == 0:    
+            return QHa([math.cosh(self.a[0]), 0, 0, 0], qtype=end_qtype)
+            
+        sinht = math.sinh(self.a[0])
+        cosht = math.cosh(self.a[0])
+        sinR = math.sin(abs_v.a[0])
+        cosR = math.cos(abs_v.a[0])
+        
+        k = sinht * sinR / abs_v.a[0]
+            
+        q_out = QHa(qtype=end_qtype)
+        q_out.a[0] = cosht * cosR
+        q_out.a[1] = k * self.a[1]
+        q_out.a[2] = k * self.a[2]
+        q_out.a[3] = k * self.a[3]
+
+        return q_out
+    
+    def tanh(self, qtype="tanh"):
+        """Take the tanh of a quaternion, sin/cos"""
+
+        end_qtype = "tanh({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        
+        if abs_v.a[0] == 0:    
+            return QHa([math.tanh(self.a[0]), 0, 0, 0], qtype=end_qtype)
+            
+        sinhq = self.sinh()
+        coshq = self.cosh()
+            
+        q_out = sinhq.divide_by(coshq) 
+        q_out.qtype = end_qtype
+        
+        return q_out
+    
+    def exp(self, qtype="exp"):
+        """Take the exponential of a quaternion."""
+        # exp(q) = (exp(t) cos(|R|, exp(t) sin(|R|) R/|R|)
+        
+        end_qtype = "exp({st})".format(st=self.qtype)
+        
+        abs_v = self.abs_of_vector()
+        et = math.exp(self.a[0])
+        
+        if (abs_v.a[0] == 0):
+            return QHa([et, 0, 0, 0], qtype=end_qtype)
+        
+        cosR = math.cos(abs_v.a[0])
+        sinR = math.sin(abs_v.a[0])
+        k = et * sinR / abs_v.a[0]
+                       
+        expq = QHa([et * cosR, k * self.a[1], k * self.a[2], k * self.a[3]], qtype=end_qtype)
+        
+        return expq
+    
+    def ln(self, qtype="ln"):
+        """Take the natural log of a quaternion."""
+        # ln(q) = (0.5 ln t^2 + R.R, atan2(|R|, t) R/|R|)
+        
+        end_qtype = "ln({st})".format(st=self.qtype)
+        
+        abs_v = self.abs_of_vector()
+        
+        if (abs_v.a[0] == 0):
+            if self.a[0] > 0:
+                return(QHa([math.log(self.a[0]), 0, 0, 0], qtype=end_qtype))
+            else:
+                # I don't understant this, but mathematica does the same thing.
+                return(QHa([math.log(-self.a[0]), math.pi, 0, 0], qtype=end_qtype))   
+            
+            return QHa([lt, 0, 0, 0])
+        
+        t_value = 0.5 * math.log(self.a[0] * self.a[0] + abs_v.a[0] * abs_v.a[0])
+        k = math.atan2(abs_v.a[0], self.a[0]) / abs_v.a[0]
+                       
+        expq = QHa([t_value, k * self.a[1], k * self.a[2], k * self.a[3]], qtype=end_qtype)
+        
+        return expq
+    
+    def q_2_q(self, q1, qtype="^P"):
+        """Take the natural log of a quaternion."""
+        # q^p = exp(ln(q) * p)
+        
+        end_qtype = "{st}^P".format(st=self.qtype)
+        
+        q2q = self.ln().product(q1).exp()
+        q2q.qtype = end_qtype
+        
+        return q2q
+    
+    def trunc(self):
+        """Truncates values."""
+        
+        self.a[0] = math.trunc(self.a[0])
+        self.a[1] = math.trunc(self.a[1])
+        self.a[2] = math.trunc(self.a[2])
+        self.a[3] = math.trunc(self.a[3])
+        
+        return self
 
 
-# In[7]:
+# In[ ]:
 
 
 class TestQHa(unittest.TestCase):
@@ -1418,7 +1833,9 @@ class TestQHa(unittest.TestCase):
 
     Q = QHa([1.0, -2.0, -3.0, -4.0], qtype="Q")
     P = QHa([0.0, 4.0, -3.0, 0.0], qtype="P")
-
+    R = QHa([3.0, 0, 0, 0])
+    C = QHa([2.0, 4.0, 0, 0])
+    
     def test_qt(self):
         self.assertTrue(self.Q.a[0] == 1)
 
@@ -1691,12 +2108,64 @@ class TestQHa(unittest.TestCase):
         self.assertTrue(q_z2_minimal.a[2] == q1_sq.a[2])
         self.assertTrue(q_z2_minimal.a[3] == q1_sq.a[3])
         
-    def test_q_sin(self):
-        QHa([0, 0, 0, 0]).q_sin()
-
-
-# In[8]:
-
+    def test_sin(self):
+        self.assertTrue(QHa([0, 0, 0, 0]).sin().equals(QHa().q_0()))
+        self.assertTrue(self.Q.sin().equals(QHa([91.7837157840346691, -21.8864868530291758, -32.8297302795437673, -43.7729737060583517])))
+        self.assertTrue(self.P.sin().equals(QHa([0,  59.3625684622310033, -44.5219263466732542, 0])))
+        self.assertTrue(self.R.sin().equals(QHa([0.1411200080598672, 0, 0, 0])))
+        self.assertTrue(self.C.sin().equals(QHa([24.8313058489463785, -11.3566127112181743, 0, 0])))
+     
+    def test_cos(self):
+        self.assertTrue(QHa([0, 0, 0, 0]).cos().equals(QHa().q_1()))
+        self.assertTrue(self.Q.cos().equals(QHa([58.9336461679439481, 34.0861836904655959, 51.1292755356983974, 68.1723673809311919])))
+        self.assertTrue(self.P.cos().equals(QHa([74.2099485247878476, 0, 0, 0])))
+        self.assertTrue(self.R.cos().equals(QHa([-0.9899924966004454, 0, 0, 0])))
+        self.assertTrue(self.C.cos().equals(QHa([-11.3642347064010600, -24.8146514856341867, 0, 0])))
+                            
+    def test_tan(self):
+        self.assertTrue(QHa([0, 0, 0, 0]).tan().equals(QHa().q_0()))
+        self.assertTrue(self.Q.tan().equals(QHa([0.0000382163172501, -0.3713971716439372, -0.5570957574659058, -0.7427943432878743])))
+        self.assertTrue(self.P.tan().equals(QHa([0, 0.7999273634100760, -0.5999455225575570, 0])))
+        self.assertTrue(self.R.tan().equals(QHa([-0.1425465430742778, 0, 0, 0])))
+        self.assertTrue(self.C.tan().equals(QHa([-0.0005079806234700, 1.0004385132020521, 0, 0])))
+        
+    def test_sinh(self):
+        self.assertTrue(QHa([0, 0, 0, 0]).sinh().equals(QHa().q_0()))
+        self.assertTrue(self.Q.sinh().equals(QHa([0.7323376060463428, 0.4482074499805421, 0.6723111749708131, 0.8964148999610841])))
+        self.assertTrue(self.P.sinh().equals(QHa([0, -0.7671394197305108, 0.5753545647978831, 0])))
+        self.assertTrue(self.R.sinh().equals(QHa([10.0178749274099026, 0, 0, 0])))
+        self.assertTrue(self.C.sinh().equals(QHa([-2.3706741693520015, -2.8472390868488278, 0, 0])))    
+        
+    def test_cosh(self):
+        self.assertTrue(QHa([0, 0, 0, 0]).cosh().equals(QHa().q_1()))
+        self.assertTrue(self.Q.cosh().equals(QHa([0.9615851176369565, 0.3413521745610167, 0.5120282618415251, 0.6827043491220334])))
+        self.assertTrue(self.P.cosh().equals(QHa([0.2836621854632263, 0, 0, 0])))
+        self.assertTrue(self.R.cosh().equals(QHa([10.0676619957777653, 0, 0, 0])))
+        self.assertTrue(self.C.cosh().equals(QHa([-2.4591352139173837, -2.7448170067921538, 0, 0])))    
+        
+    def test_tanh(self):
+        self.assertTrue(QHa([0, 0, 0, 0]).tanh().equals(QHa().q_0()))
+        self.assertTrue(self.Q.tanh().equals(QHa([1.0248695360556623, 0.1022956817887642, 0.1534435226831462, 0.2045913635775283])))
+        self.assertTrue(self.P.tanh().equals(QHa([0, -2.7044120049972684, 2.0283090037479505, 0])))
+        self.assertTrue(self.R.tanh().equals(QHa([0.9950547536867305, 0, 0, 0])))
+        self.assertTrue(self.C.tanh().equals(QHa([1.0046823121902353, 0.0364233692474038, 0, 0])))    
+        
+    def test_exp(self):
+        self.assertTrue(QHa([0, 0, 0, 0]).exp().equals(QHa().q_1()))
+        self.assertTrue(self.Q.exp().equals(QHa([1.6939227236832994, 0.7895596245415588, 1.1843394368123383, 1.5791192490831176])))
+        self.assertTrue(self.P.exp().equals(QHa([0.2836621854632263, -0.7671394197305108, 0.5753545647978831, 0])))
+        self.assertTrue(self.R.exp().equals(QHa([20.0855369231876679, 0, 0, 0])))
+        self.assertTrue(self.C.exp().equals(QHa([-4.8298093832693851, -5.5920560936409816, 0, 0])))    
+    
+    def test_ln(self):
+        self.assertTrue(self.Q.ln().exp().equals(self.Q))
+        self.assertTrue(self.Q.ln().equals(QHa([1.7005986908310777, -0.5151902926640850, -0.7727854389961275, -1.0303805853281700])))
+        self.assertTrue(self.P.ln().equals(QHa([1.6094379124341003, 1.2566370614359172, -0.9424777960769379, 0])))
+        self.assertTrue(self.R.ln().equals(QHa([1.0986122886681098, 0, 0, 0])))
+        self.assertTrue(self.C.ln().equals(QHa([1.4978661367769954, 1.1071487177940904, 0, 0])))    
+        
+    def test_q_2_q(self):
+        self.assertTrue(self.Q.q_2_q(self.P).equals(QHa([-0.0197219653530713, -0.2613955437374326, 0.6496281248064009, -0.3265786562423951])))
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHa())
 unittest.TextTestRunner().run(suite);
@@ -1706,7 +2175,7 @@ unittest.TextTestRunner().run(suite);
 
 # My long term goal is to deal with quaternions on a quaternion manifold. This will have 4 pairs of doublets. Each doublet is paired with its additive inverse. Instead of using real numbers, one uses (3, 0) and (0, 2) to represent +3 and -2 respectively. Numbers such as (5, 6) are allowed. That can be "reduced" to (0, 1).  My sense is that somewhere deep in the depths of relativistic quantum field theory, this will be a "good thing". For now, it is a minor pain to program.
 
-# In[9]:
+# In[8]:
 
 
 class Doublet(object):
@@ -1732,11 +2201,8 @@ class Doublet(object):
             self.n = 0
             
         elif isinstance(numbers, list):
-            
             if len(numbers) == 2:
-                self.p = numbers[0]
-                self.n = numbers[1]
-
+                self.p, self.n = numbers[0], numbers[1]
                       
         elif isinstance(numbers, str):
             n_list = numbers.split()
@@ -1819,7 +2285,7 @@ class Doublet(object):
         return Doublet([p1, n1])
 
 
-# In[10]:
+# In[9]:
 
 
 class TestDoublet(unittest.TestCase):
@@ -1882,18 +2348,14 @@ class TestDoublet(unittest.TestCase):
         Z2p_2 = d_r_1.Z2_product(d_r_2)
         self.assertTrue(Z2p_red.p == Z2p_2.p)
         self.assertTrue(Z2p_red.n == Z2p_2.n)
-
-
-# In[11]:
-
-
+        
 suite = unittest.TestLoader().loadTestsFromModule(TestDoublet())
 unittest.TextTestRunner().run(suite);
 
 
 # Repeat the exercise for arrays.
 
-# In[12]:
+# In[10]:
 
 
 class Doubleta(object):
@@ -1992,7 +2454,7 @@ class Doubleta(object):
         return Doubleta([p1, n1])
 
 
-# In[13]:
+# In[11]:
 
 
 class TestDoubleta(unittest.TestCase):
@@ -2057,7 +2519,7 @@ class TestDoubleta(unittest.TestCase):
         self.assertTrue(Z2p_red.d[1] == Z2p_2.d[1])
 
 
-# In[14]:
+# In[12]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestDoubleta())
@@ -2068,7 +2530,7 @@ unittest.TextTestRunner().run(suite);
 
 # Write a class to handle quaternions given 8 numbers.
 
-# In[109]:
+# In[13]:
 
 
 class Q8(object):
@@ -2102,36 +2564,31 @@ class Q8(object):
     def q4(self):
         """Return a 4 element array."""
         return [self.dt.p - self.dt.n, self.dx.p - self.dx.n, self.dy.p - self.dy.n, self.dz.p - self.dz.n]
-        
-    def add_qtype(self, qtype):
-            """Adds a qtype to an existing one."""
-            
-            self.qtype += qtype
             
     def q_0(self, qtype="0"):
         """Return a zero quaternion."""
         
-        return Q8()
+        return Q8(qtype=qtype)
       
     def q_1(self, qtype="1"):
         """Return a multiplicative identity quaternion."""
         
-        return Q8([1, 0, 0, 0])
+        return Q8([1, 0, 0, 0], qtype=qtype)
     
     def q_i(self, qtype="i"):
         """Return i."""
         
-        return Q8([0, 1, 0, 0])
+        return Q8([0, 1, 0, 0], qtype=qtype)
     
     def q_j(self, qtype="j"):
         """Return j."""
         
-        return Q8([0, 0, 1, 0])
+        return Q8([0, 0, 1, 0], qtype=qtype)
     
     def q_k(self, qtype="k"):
         """Return k."""
         
-        return Q8([0, 0, 0, 1])
+        return Q8([0, 0, 0, 1], qtype=qtype)
     
     def q_random(self, qtype="?"):
         """Return a random-valued quaternion."""
@@ -2160,7 +2617,9 @@ class Q8(object):
     def conj(self, conj_type=0, qtype="*"):
         """Three types of conjugates."""
         
-        conjq = Q8(qtype=self.qtype)
+        end_qtype = "{st}{qt}".format(st=self.qtype, qt=qtype)
+        
+        conjq = Q8(end_qtype)
 
         if conj_type == 0:
             conjq.dt = self.dt
@@ -2173,44 +2632,44 @@ class Q8(object):
             conjq.dx = self.dx
             conjq.dy = self.dy.d_additive_inverse_up_to_an_automorphism()
             conjq.dz = self.dz.d_additive_inverse_up_to_an_automorphism()
-            qtype += "1"
+            end_qtype += "1"
             
         if conj_type == 2:
             conjq.dt = self.dt.d_additive_inverse_up_to_an_automorphism()
             conjq.dx = self.dx.d_additive_inverse_up_to_an_automorphism()
             conjq.dy = self.dy
             conjq.dz = self.dz.d_additive_inverse_up_to_an_automorphism()
-            qtype += "2"
-            
-        conjq.add_qtype(qtype)
+            end_qtype += "2"
+                    
         return conjq
     
     def vahlen_conj(self, conj_type="-", qtype="vc"):
         """Three types of conjugates -'* done by Vahlen in 1901."""
-        conjq = Q8(qtype=self.qtype)
+        
+        end_qtype = "{st}{qt}".format(st=self.qtype, qt=qtype)
+        conjq = Q8(end_qtype)
 
         if conj_type == "-":
             conjq.dt = self.dt
             conjq.dx = self.dx.d_additive_inverse_up_to_an_automorphism()
             conjq.dy = self.dy.d_additive_inverse_up_to_an_automorphism()
             conjq.dz = self.dz.d_additive_inverse_up_to_an_automorphism()
-            qtype += "-"
+            end_qtype += "-"
             
         if conj_type == "'":
             conjq.dt = self.dt
             conjq.dx = self.dx.d_additive_inverse_up_to_an_automorphism()
             conjq.dy = self.dy.d_additive_inverse_up_to_an_automorphism()
             conjq.dz = self.dz
-            qtype += "'"
+            end_qtype += "'"
             
         if conj_type == "*":
             conjq.dt = self.dt
             conjq.dx = self.dx
             conjq.dy = self.dy
             conjq.dz = self.dz.d_additive_inverse_up_to_an_automorphism()
-            qtype += "*"
-            
-        conjq.add_qtype(qtype)
+            end_qtype += "*"
+        
         return conjq
 
     def _commuting_products(self, q1):
@@ -2246,130 +2705,117 @@ class Q8(object):
         
         return products
     
-    def square(self, qtype=""):
+    def square(self, qtype="^2"):
         """Square a quaternion."""
+        
+        end_qtype = "{st}{qt}".format(st=self.qtype, qt=qtype)
         
         qxq = self._commuting_products(self)
         
-        sq_q = Q8(qtype=self.qtype)        
-        sq_q.dt = qxq['tt'].d_dif(qxq['xx+yy+zz'])
-        sq_q.dx = qxq['tx+xt']
-        sq_q.dy = qxq['ty+yt']
-        sq_q.dz = qxq['tz+zt']
+        sq = Q8(qtype=end_qtype)
+        sq.dt = qxq['tt'].d_dif(qxq['xx+yy+zz'])
+        sq.dx = qxq['tx+xt']
+        sq.dy = qxq['ty+yt']
+        sq.dz = qxq['tz+zt']
         
-        if qtype:
-            sq_q.qtype = qtype
-        else:
-            sq_q.add_qtype("{s}_sq".format(s=self.qtype))
-        return sq_q
+        return sq
     
-    def reduce(self, qtype="reduce"):
+    def reduce(self, qtype="reduced"):
         """Put all doublets into the reduced form so one of each pair is zero."""
 
-        q_red = Q8(qtype=self.qtype)
+        end_qtype = "{st}-{qt}".format(st=self.qtype, qt=qtype)
+        
+        q_red = Q8(qtype=end_qtype)
         q_red.dt = self.dt.d_reduce()
         q_red.dx = self.dx.d_reduce()
         q_red.dy = self.dy.d_reduce()
         q_red.dz = self.dz.d_reduce()
         
-        q_red.add_qtype(qtype)
         return q_red
     
-    def norm_squared(self, qtype="norm_squared"):
+    def norm_squared(self, qtype="|| ||^2"):
         """The norm_squared of a quaternion."""
         
-        start_qtype = self.qtype
+        end_qtype = "||{st}||^2".format(st=self.qtype)
         
         qxq = self._commuting_products(self)
-        
-        n_q = Q8(qtype=self.qtype)        
+        n_q = Q8(qtype=end_qtype)
         n_q.dt = qxq['tt'].d_add(qxq['xx+yy+zz'])
 
-        n_q.qtype = start_qtype
-        n_q.add_qtype(qtype)
         return n_q
     
-    def norm_squared_of_vector(self, qtype="norm_squaredV"):
+    def norm_squared_of_vector(self, qtype="V(|| ||)^2"):
         """The norm_squared of the vector of a quaternion."""
         
-        start_qtype = self.qtype
-        qxq = self._commuting_products(self)
+        end_qtype = "||{st}||^2".format(st=self.qtype)
         
-        nv_q = Q8(qtype=self.qtype)
+        qxq = self._commuting_products(self)
+        nv_q = Q8(qtype=end_qtype)
         nv_q.dt = qxq['xx+yy+zz']
 
-        nv_q.qtype = start_qtype
-        nv_q.add_qtype(qtype)
         return nv_q
     
-    def abs_of_q(self, qtype="abs"):
+    def abs_of_q(self, qtype="| |"):
         """The absolute value, the square root of the norm_squared."""
 
-        start_qtype = self.qtype
+        end_qtype = "|{st}|".format(st=self.qtype, qt=qtype)
         
-        a = self.norm_squared(qtype=self.qtype)
+        a = self.norm_squared()
         sqrt_t = a.dt.p ** (1/2)
-        a.dt = Doublet(sqrt_t)
+        a.dt.p = sqrt_t
+        a.qtype = end_qtype
         
-        a.qtype = start_qtype
-        a.add_qtype(qtype)
         return a
 
-    def abs_of_vector(self, qtype="absV"):
+    def abs_of_vector(self, qtype="|V|"):
         """The absolute value of the vector, the square root of the norm_squared of the vector."""
 
-        start_qtype = self.qtype
+        end_qtype = "|{st}|".format(st=self.qtype, qt=qtype)
         
         av = self.norm_squared_of_vector()
         sqrt_t = av.dt.p ** (1/2)
-        av.dt = Doublet(sqrt_t)
+        av.dt.p = sqrt_t
+        av.qtype = qtype
         
-        av.qtype = start_qtype
-        av.add_qtype(qtype)
         return av
     
     def normalize(self, qtype="U"):
         """Normalize a quaternion"""
         
-        start_qtype = self.qtype
+        end_qtype = "{st}U".format(st=self.qtype)
         
         abs_q_inv = self.abs_of_q().invert()
         n_q = self.product(abs_q_inv)
-
-        n_q.qtype = start_qtype
-        n_q.add_qtype(qtype)
+        n_q.qtype = end_qtype
+        
         return n_q
     
     def add(self, q1, qtype=""):
         """Form a add given 2 quaternions."""
 
+        end_qtype = "{f}+{s}".format(f=self.qtype, s=q1.qtype)
+        
         add_q = Q8()
         add_q.dt = self.dt.d_add(q1.dt)
         add_q.dx = self.dx.d_add(q1.dx)
         add_q.dy = self.dy.d_add(q1.dy)
         add_q.dz = self.dz.d_add(q1.dz)
-                    
-        if qtype:
-            add_q.qtype = qtype
-        else:
-            add_q.qtype = "{f}+{s}".format(f=self.qtype, s=q1.qtype)
-            
-        return add_q    
+        add_q.qtype = end_qtype
+        
+        return add_q
+        # return Q8([add_q_dt, add_q_dx, add_q_dy, add_q_dz], qtype=end_qtype)  
 
     def dif(self, q1, qtype=""):
         """Form a add given 2 quaternions."""
 
-        dif_q = Q8()
+        end_qtype = "{f}-{s}".format(f=self.qtype, s=q1.qtype)
+            
+        dif_q = Q8(qtype=end_qtype)
         dif_q.dt = self.dt.d_dif(q1.dt)
         dif_q.dx = self.dx.d_dif(q1.dx)
         dif_q.dy = self.dy.d_dif(q1.dy)
         dif_q.dz = self.dz.d_dif(q1.dz)
-                    
-        if qtype:
-            dif_q.qtype = qtype
-        else:
-            dif_q.qtype = "{f}-{s}".format(f=self.qtype, s=q1.qtype)
-            
+              
         return dif_q
     
     def product(self, q1, kind="", reverse=False, qtype=""):
@@ -2433,6 +2879,8 @@ class Q8(object):
     def invert(self, qtype="^-1"):
         """Invert a quaternion."""
         
+        end_qtype = "{st}{qt}".format(st=self.qtype, qt=qtype)
+        
         q_conj = self.conj()
         q_norm_squared = self.norm_squared().reduce()
         
@@ -2442,21 +2890,19 @@ class Q8(object):
         q_norm_squared_inv = Q8([1.0 / q_norm_squared.dt.p, 0, 0, 0, 0, 0, 0, 0])
 
         q_inv = q_conj.product(q_norm_squared_inv, qtype=self.qtype)
+        q_inv.qtype = end_qtype
         
-        q_inv.add_qtype(qtype)
         return q_inv
 
     def divide_by(self, q1, qtype=""):
         """Divide one quaternion by another. The order matters unless one is using a norm_squared (real number)."""
 
+        end_qtype = "{f}/{s}".format(f=self.qtype, s=q1.qtype)
+            
         q_inv = q1.invert()
         q_div = self.product(q_inv) 
+        q_div.qtype = end_qtype
         
-        if qtype:
-            q_div.qtype = qtype
-        else:
-            q_div.qtype = "{f}/{s}".format(f=self.qtype, s=q1.qtype)
-            
         return q_div
     
     def triple_product(self, q1, q2):
@@ -2473,16 +2919,16 @@ class Q8(object):
         u = Q8([0, 0, a_1p, a_1n, a_2p, a_2n, a_3p, a_3n])
         u_abs = u.abs_of_q()
         u_norm_squaredalized = u.divide_by(u_abs)
-
         q_rot = u_norm_squaredalized.triple_product(self, u_norm_squaredalized.conj())
+        
         return q_rot
     
     # A boost also uses triple products like a rotation, but more of them.
     # This is not a well-known result, but does work.
-    def boost(self, beta_x=0, beta_y=0, beta_z=0, qtype="boost"):
+    def boost(self, beta_x=0, beta_y=0, beta_z=0, qtype="Boost!"):
         """A boost along the x, y, and/or z axis."""
     
-        start_qtype = self.qtype
+        end_qtype = "{st}{qt}".format(st=self.qtype, qt=qtype)
         
         boost = Q8(sr_gamma_betas(beta_x, beta_y, beta_z))
         b_conj = boost.conj()
@@ -2494,19 +2940,18 @@ class Q8(object):
         triple_23 = triple_2.dif(triple_3)
         half_23 = triple_23.product(Q8([0.5, 0, 0, 0, 0, 0, 0, 0]))
         triple_123 = triple_1.add(half_23, qtype=self.qtype)
+        triple_123.qtype = end_qtype
         
-        triple_123.qtype = start_qtype
-        triple_123.add_qtype(qtype)
         return triple_123
     
     # g_shift is a function based on the space-times-time invariance proposal for gravity,
     # which proposes that if one changes the distance from a gravitational source, then
     # squares a measurement, the observers at two different hieghts agree to their
     # space-times-time values, but not the intervals.
-    def g_shift(self, dimensionless_g, g_form="exp", qtype="g_shift"):
+    def g_shift(self, dimensionless_g, g_form="exp", qtype="G_shift"):
         """Shift an observation based on a dimensionless GM/c^2 dR."""
         
-        start_qtype = self.qtype
+        end_qtype = "{st}{qt}".format(st=self.qtype, qt=qtype)
         
         if g_form == "exp":
             g_factor = sp.exp(dimensionless_g)
@@ -2521,32 +2966,328 @@ class Q8(object):
             return self
         exp_g = sp.exp(dimensionless_g)
         
-        g_q = Q8(qtype=self.qtype)
+        g_q = Q8(qtype=end_qtype)
         g_q.dt = Doublet([self.dt.p / exp_g, self.dt.n / exp_g])
         g_q.dx = Doublet([self.dx.p * exp_g, self.dx.n * exp_g])
         g_q.dy = Doublet([self.dy.p * exp_g, self.dy.n * exp_g])
         g_q.dz = Doublet([self.dz.p * exp_g, self.dz.n * exp_g])
         
-        g_q.qtype = start_qtype
-        g_q.add_qtype(qtype)
         return g_q
+    
+    def sin(self, qtype="sin"):
+        """Take the sine of a quaternion, (sin(t) cosh(|R|), cos(t) sinh(|R|) R/|R|)"""
+
+        end_qtype = "sin({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        red_t = self.dt.d_reduce()
+
+        if red_t.p == 0 and red_t.n != 0:
+            if abs_v.dt.p == 0:    
+                return Q8([-1 * math.sin(red_t.n), 0, 0, 0], qtype=end_qtype)
+            
+            sint = math.sin(-1 * red_t.n)
+            cost = math.cos(-1 * red_t.n)    
+            
+        else:
+            if abs_v.dt.p == 0:    
+                return Q8([math.sin(red_t.p), 0, 0, 0], qtype=end_qtype)
+
+            sint = math.sin(red_t.p)
+            cost = math.cos(red_t.p)    
+            
+        sinhR = math.sinh(abs_v.dt.p)
+        coshR = math.cosh(abs_v.dt.p)
+        
+        k = cost * sinhR / abs_v.dt.p
+
+        q_out = Q8(qtype=end_qtype)
+        q_out.dt = Doublet(sint * coshR)
+        q_out.dx = Doublet(k * (self.dx.p - self.dx.n))
+        q_out.dy = Doublet(k * (self.dy.p - self.dy.n))
+        q_out.dz = Doublet(k * (self.dz.p - self.dz.n))
+
+        return q_out
+     
+    def cos(self, qtype="cos"):
+        """Take the cosine of a quaternion, (cos(t) cosh(|R|), sin(t) sinh(|R|) R/|R|)"""
+        
+        end_qtype = "cos({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        red_t = self.dt.d_reduce()
+       
+        if red_t.p == 0 and red_t.n != 0:
+            if abs_v.dt.p == 0:    
+                return Q8([math.cos(-1 * red_t.n), 0, 0, 0], qtype=end_qtype)
+        
+            sint = math.sin(-1 * red_t.n)
+            cost = math.cos(-1 * red_t.n) 
+            
+        else:
+            if abs_v.dt.p == 0:    
+                return Q8([math.cos(red_t.p), 0, 0, 0], qtype=end_qtype)
+        
+            sint = math.sin(red_t.p)
+            cost = math.cos(red_t.p)
+            
+        sinhR = math.sinh(abs_v.dt.p)
+        coshR = math.cosh(abs_v.dt.p)
+        
+        k = -1 * sint * sinhR / abs_v.dt.p
+        
+        q_out = Q8(qtype=end_qtype)
+        q_out.dt = Doublet(cost * coshR)
+        q_out.dx = Doublet(k * (self.dx.p - self.dx.n))
+        q_out.dy = Doublet(k * (self.dy.p - self.dy.n))
+        q_out.dz = Doublet(k * (self.dz.p - self.dz.n))
+
+        return q_out
+    
+    def tan(self, qtype="sin"):
+        """Take the tan of a quaternion, sin/cos"""
+
+        end_qtype = "tan({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()        
+        red_t = self.dt.d_reduce()
+        
+        if red_t.p == 0 and red_t.n != 0:
+            if abs_v.dt == 0:    
+                return Q8([math.tan(-1 * red_t.n), 0, 0, 0], qtype=end_qtype)
+        else:
+            if abs_v.dt.p == 0:    
+                return Q8([math.tan(red_t.p), 0, 0, 0], qtype=end_qtype)
+            
+        sinq = self.sin()
+        cosq = self.cos()
+            
+        q_out = sinq.divide_by(cosq) 
+        q_out.qtype = end_qtype
+        
+        return q_out
+    
+    def sinh(self, qtype="sin"):
+        """Take the sinh of a quaternion, (sinh(t) cos(|R|), cosh(t) sin(|R|) R/|R|)"""
+
+        end_qtype = "sinh({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        red_t = self.dt.d_reduce()
+        
+        if red_t.p == 0 and red_t.n != 0: 
+            if abs_v.dt.p == 0:    
+                return Q8([math.sinh(-1 * red_t.n), 0, 0, 0], qtype=end_qtype)
+            
+            sinht = math.sinh(-1 * red_t.n)
+            cosht = math.cosh(-1 * red_t.n)
+            
+        else: 
+            if abs_v.dt.p == 0:    
+                return Q8([math.sinh(red_t.p), 0, 0, 0], qtype=end_qtype)
+            
+            sinht = math.sinh(red_t.p)
+            cosht = math.cosh(red_t.p)
+            
+        sinR = math.sin(abs_v.dt.p)
+        cosR = math.cos(abs_v.dt.p)
+        
+        k = cosht * sinR / abs_v.dt.p
+        
+        q_out = Q8(qtype=end_qtype)
+        q_out.dt = Doublet(sinht * cosR)
+        q_out.dx = Doublet(k * (self.dx.p - self.dx.n))
+        q_out.dy = Doublet(k * (self.dy.p - self.dy.n))
+        q_out.dz = Doublet(k * (self.dz.p - self.dz.n))
+
+        return q_out
+    
+    def cosh(self, qtype="sin"):
+        """Take the cosh of a quaternion, (cosh(t) cos(|R|), sinh(t) sin(|R|) R/|R|)"""
+
+        end_qtype = "cosh({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()        
+        red_t = self.dt.d_reduce()
+        
+        if red_t.p == 0 and red_t.n != 0:
+            if abs_v.dt.p == 0:    
+                return Q8([math.cosh(-1 * red_t.n), 0, 0, 0], qtype=end_qtype)
+            
+            sinht = math.sinh(-1 * red_t.n)
+            cosht = math.cosh(-1 * red_t.n)
+        
+        else:
+            if abs_v.dt.p == 0:    
+                return Q8([math.cosh(red_t.p), 0, 0, 0], qtype=end_qtype)
+            
+            sinht = math.sinh(red_t.p)
+            cosht = math.cosh(red_t.n)
+             
+        sinR = math.sin(abs_v.dt.p)
+        cosR = math.cos(abs_v.dt.p)
+        
+        k = sinht * sinR / abs_v.dt.p
+            
+        q_out = Q8(qtype=end_qtype)
+        q_out.dt = Doublet(cosht * cosR)
+        q_out.dx = Doublet(k * (self.dx.p - self.dx.n))
+        q_out.dy = Doublet(k * (self.dy.p - self.dy.n))
+        q_out.dz = Doublet(k * (self.dz.p - self.dz.n))
+        q_out.qtype = end_qtype
+        
+        return q_out
+    
+    def tanh(self, qtype="sin"):
+        """Take the tanh of a quaternion, sin/cos"""
+
+        end_qtype = "tanh({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()        
+        red_t = self.dt.d_reduce()
+        
+        if abs_v.dt.p == 0:
+            if red_t.p == 0 and red_t.n != 0:
+                return Q8([-1 * math.tanh(self.dt.n), 0, 0, 0], qtype=end_qtype)
+            
+            else:
+                return Q8([math.tanh(self.dt.p), 0, 0, 0], qtype=end_qtype)
+            
+        sinhq = self.sinh()
+        coshq = self.cosh()
+            
+        q_out = sinhq.divide_by(coshq) 
+        q_out.qtype = end_qtype
+        
+        return q_out
+    
+    def exp(self, qtype="exp"):
+        """Take the exponential of a quaternion."""
+        # exp(q) = (exp(t) cos(|R|, exp(t) sin(|R|) R/|R|)
+        
+        end_qtype = "exp({st})".format(st=self.qtype)
+        
+        abs_v = self.abs_of_vector()
+        red_t = self.dt.d_reduce()
+        
+        if red_t.p == 0 and red_t.n != 0:
+            et = math.exp(-1 * red_t.n)
+            
+            if (abs_v.dt.p == 0):
+                return Q8([et, 0, 0, 0], qtype=end_qtype)
+            
+            cosR = math.cos(abs_v.dt.p)
+            sinR = math.sin(abs_v.dt.p)
+    
+        else:
+            et = math.exp(red_t.p)
+            
+            if (abs_v.dt.p == 0):
+                return Q8([et, 0, 0, 0], qtype=end_qtype)
+            
+            cosR = math.cos(abs_v.dt.p)
+            sinR = math.sin(abs_v.dt.p)
+            
+        k = et * sinR / abs_v.dt.p
+             
+        expq = Q8(qtype = end_qtype)
+        expq.dt = Doublet(et * cosR)
+        expq.dx = Doublet(k * (self.dx.p - self.dx.n))
+        expq.dy = Doublet(k * (self.dy.p - self.dy.n))
+        expq.dz = Doublet(k * (self.dz.p - self.dz.n))
+                       
+        return expq
+    
+    def ln(self, qtype="ln"):
+        """Take the natural log of a quaternion."""
+        # ln(q) = (0.5 ln t^2 + R.R, atan2(|R|, t) R/|R|)
+        
+        end_qtype = "ln({st})".format(st=self.qtype)
+        
+        abs_v = self.abs_of_vector()
+        red_t = self.dt.d_reduce()
+        
+        if red_t.p == 0 and red_t.n != 0:
+            if (abs_v.dt.p == 0):
+                # I don't understant this, but mathematica does the same thing, but it looks wrong to me.
+                return(Q8([math.log(-self.dt.n), math.pi, 0, 0], qtype=end_qtype))   
+            
+            t_value = 0.5 * math.log(red_t.n * red_t.n + abs_v.dt.p * abs_v.dt.p)
+            k = math.atan2(abs_v.dt.p, red_t.n) / abs_v.dt.p
+        
+        else:
+            if (abs_v.dt.p == 0):
+                return(Q8([math.log(self.dt.p), 0, 0, 0], qtype=end_qtype))
+                
+            t_value = 0.5 * math.log(red_t.p * red_t.p + abs_v.dt.p * abs_v.dt.p)
+            k = math.atan2(abs_v.dt.p, red_t.p) / abs_v.dt.p
+            
+        lnq = Q8(qtype=end_qtype)
+        lnq.dt = Doublet(t_value)
+        lnq.dx = Doublet(k * (self.dx.p - self.dx.n))
+        lnq.dy = Doublet(k * (self.dy.p - self.dy.n))
+        lnq.dz = Doublet(k * (self.dz.p - self.dz.n))
+                       
+        return lnq
+    
+    def q_2_q(self, q1, qtype="P"):
+        """Take the natural log of a quaternion."""
+        # q^p = exp(ln(q) * p)
+        
+        end_qtype = "{st}^P".format(st=self.qtype)
+        
+        q2q = self.ln().product(q1).reduce().exp()           
+        q2q.qtype = end_qtype
+        
+        return q2q
+    
+    def trunc(self):
+        """Truncates values."""
+        
+        self.dt = math.trunc(self.dt)
+        self.dx = math.trunc(self.dx)
+        self.dy = math.trunc(self.dy)
+        self.dz = math.trunc(self.dz)
+        
+        return self
 
 
-# In[110]:
+# In[14]:
+
+
+Q = Q8([1, 0, 0, 2, 0, 3, 0, 4])
+P = Q8([0, 0, 4, 0, 0, 3, 0, 0])
+R = Q8([3, 0, 0, 0, 0, 0, 0, 0])
+C = Q8([2, 0, 4, 0, 0, 0, 0, 0])
+q_big = Q8([1, 2, 3, 4, 5, 6, 7, 8])
+
+print("Q", Q)
+print("P", P)
+print("add ", Q.add(P))
+print("norm sequared ", Q.norm_squared())
+
+print("|P|, should be 5 ", P.abs_of_vector())
+
+print("cosh: ", Q.cosh())
+
+
+# In[15]:
 
 
 class TestQ8(unittest.TestCase):
     """Class to make sure all the functions work as expected."""
     
-    q1 = Q8([1, 0, 0, 2, 0, 3, 0, 4])
-    q2 = Q8([0, 0, 4, 0, 0, 3, 0, 0])
+    Q = Q8([1, 0, 0, 2, 0, 3, 0, 4])
+    P = Q8([0, 0, 4, 0, 0, 3, 0, 0])
+    R = Q8([3, 0, 0, 0, 0, 0, 0, 0])
+    C = Q8([2, 0, 4, 0, 0, 0, 0, 0])
     q_big = Q8([1, 2, 3, 4, 5, 6, 7, 8])
     
     def test_qt(self):
-        self.assertTrue(self.q1.dt.p == 1)
+        self.assertTrue(self.Q.dt.p == 1)
     
     def test_q_0(self):
-        q_z = self.q1.q_0()
+        q_z = self.Q.q_0()
         print("q_0: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dx.p == 0)
@@ -2554,7 +3295,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.p == 0)
         
     def test_q_1(self):
-        q_z = self.q1.q_1()
+        q_z = self.Q.q_1()
         print("q_1: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dx.p == 0)
@@ -2562,7 +3303,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.p == 0)
         
     def test_q_i(self):
-        q_z = self.q1.q_i()
+        q_z = self.Q.q_i()
         print("q_i: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dx.p == 1)
@@ -2570,7 +3311,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.p == 0)
         
     def test_q_j(self):
-        q_z = self.q1.q_j()
+        q_z = self.Q.q_j()
         print("q_j: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dx.p == 0)
@@ -2578,7 +3319,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.p == 0)
                 
     def test_q_k(self):
-        q_z = self.q1.q_k()
+        q_z = self.Q.q_k()
         print("q_k: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dx.p == 0)
@@ -2586,7 +3327,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.p == 1)
         
     def test_q_random(self):
-        q_z = self.q1.q_random()
+        q_z = self.Q.q_random()
         print("q_random():", q_z)
         self.assertTrue(q_z.dt.p >= 0 and q_z.dt.p <= 1)
         self.assertTrue(q_z.dx.p >= 0 and q_z.dx.p <= 1)
@@ -2594,11 +3335,11 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.p >= 0 and q_z.dz.p <= 1)
         
     def test_equals(self):
-        self.assertTrue(self.q1.equals(self.q1))
-        self.assertFalse(self.q1.equals(self.q2))
+        self.assertTrue(self.Q.equals(self.Q))
+        self.assertFalse(self.Q.equals(self.P))
         
     def test_conj_0(self):
-        q_z = self.q1.conj()
+        q_z = self.Q.conj()
         print("conj 0: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dx.p == 2)
@@ -2606,7 +3347,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.p == 4)
                  
     def test_conj_1(self):
-        q_z = self.q1.conj(1)
+        q_z = self.Q.conj(1)
         print("conj 1: {}", q_z)
         self.assertTrue(q_z.dt.n == 1)
         self.assertTrue(q_z.dx.n == 2)
@@ -2614,7 +3355,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.p == 4)
                  
     def test_conj_2(self):
-        q_z = self.q1.conj(2)
+        q_z = self.Q.conj(2)
         print("conj 2: {}", q_z)
         self.assertTrue(q_z.dt.n == 1)
         self.assertTrue(q_z.dx.p == 2)
@@ -2622,7 +3363,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.p == 4)
         
     def test_vahlen_conj_0(self):
-        q_z = self.q1.vahlen_conj()
+        q_z = self.Q.vahlen_conj()
         print("vahlen conj -: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dx.p == 2)
@@ -2630,7 +3371,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.p == 4)
                  
     def test_vahlen_conj_1(self):
-        q_z = self.q1.vahlen_conj("'")
+        q_z = self.Q.vahlen_conj("'")
         print("vahlen conj ': {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dx.p == 2)
@@ -2638,7 +3379,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 4)
                  
     def test_vahlen_conj_2(self):
-        q_z = self.q1.vahlen_conj('*')
+        q_z = self.Q.vahlen_conj('*')
         print("vahlen conj *: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dx.n == 2)
@@ -2646,7 +3387,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.p == 4)
         
     def test_square(self):
-        q_sq = self.q1.square()
+        q_sq = self.Q.square()
         q_sq_red = q_sq.reduce()
         print("square: {}".format(q_sq))
         print("square reduced: {}".format(q_sq_red))
@@ -2671,7 +3412,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_red.dz.n == 1)
         
     def test_norm_squared(self):
-        q_z = self.q1.norm_squared()
+        q_z = self.Q.norm_squared()
         print("norm_squared: {}", q_z)
         self.assertTrue(q_z.dt.p == 30)
         self.assertTrue(q_z.dt.n == 0)
@@ -2683,7 +3424,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 0)
         
     def test_norm_squared_of_vector(self):
-        q_z = self.q1.norm_squared_of_vector()
+        q_z = self.Q.norm_squared_of_vector()
         print("norm_squared_of_vector: {}", q_z)
         self.assertTrue(q_z.dt.p == 29)
         self.assertTrue(q_z.dt.n == 0)
@@ -2695,7 +3436,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 0)
         
     def test_abs_of_q(self):
-        q_z = self.q2.abs_of_q()
+        q_z = self.P.abs_of_q()
         print("abs_of_q: {}", q_z)
         self.assertTrue(q_z.dt.p == 5)
         self.assertTrue(q_z.dx.p == 0)
@@ -2707,7 +3448,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 0)
         
     def test_abs_of_vector(self):
-        q_z = self.q2.abs_of_vector()
+        q_z = self.P.abs_of_vector()
         print("abs_of_vector: {}", q_z)
         self.assertTrue(q_z.dt.p == 5)
         self.assertTrue(q_z.dx.p == 0)
@@ -2719,7 +3460,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 0)
         
     def test_normalize(self):
-        q_z = self.q2.normalize()
+        q_z = self.P.normalize()
         print("q_normalized: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dt.n == 0)
@@ -2731,7 +3472,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 0)    
         
     def test_add(self):
-        q_z = self.q1.add(self.q2)
+        q_z = self.Q.add(self.P)
         print("add: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dt.n == 0)
@@ -2743,7 +3484,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 4)
         
     def test_add_reduce(self):
-        q_z_red = self.q1.add(self.q2).reduce()
+        q_z_red = self.Q.add(self.P).reduce()
         print("add reduce: {}".format(q_z_red))
         self.assertTrue(q_z_red.dt.p == 1)
         self.assertTrue(q_z_red.dt.n == 0)
@@ -2755,7 +3496,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z_red.dz.n == 4)
         
     def test_dif(self):
-        q_z = self.q1.dif(self.q2)
+        q_z = self.Q.dif(self.P)
         print("dif: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dt.n == 0)
@@ -2767,7 +3508,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 4) 
 
     def test_product(self):
-        q_z = self.q1.product(self.q2).reduce()
+        q_z = self.Q.product(self.P).reduce()
         print("product: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dt.n == 1)
@@ -2779,7 +3520,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 0)
         
     def test_product_even(self):
-        q_z = self.q1.product(self.q2, kind="even").reduce()
+        q_z = self.Q.product(self.P, kind="even").reduce()
         print("product, kind even: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dt.n == 1)
@@ -2791,7 +3532,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 0)
         
     def test_product_odd(self):
-        q_z = self.q1.product(self.q2, kind="odd").reduce()
+        q_z = self.Q.product(self.P, kind="odd").reduce()
         print("product, kind odd: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dt.n == 0)
@@ -2803,7 +3544,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 0)
     
     def test_product_even_minus_odd(self):
-        q_z = self.q1.product(self.q2, kind="even_minus_odd").reduce()
+        q_z = self.Q.product(self.P, kind="even_minus_odd").reduce()
         print("product, kind odd: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dt.n == 1)
@@ -2815,12 +3556,12 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 18)
         
     def test_product_reverse(self):
-        q1q2_rev = self.q1.product(self.q2, reverse=True)
-        q2q1 = self.q2.product(self.q1)
-        self.assertTrue(q1q2_rev.equals(q2q1))
+        QP_rev = self.Q.product(self.P, reverse=True)
+        PQ = self.P.product(self.Q)
+        self.assertTrue(QP_rev.equals(PQ))
         
     def test_Euclidean_product(self):
-        q_z = self.q1.Euclidean_product(self.q2).reduce()
+        q_z = self.Q.Euclidean_product(self.P).reduce()
         print("Euclidean product: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dt.n == 0)
@@ -2832,7 +3573,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 18)
         
     def test_invert(self):
-        q_z = self.q2.invert().reduce()
+        q_z = self.P.invert().reduce()
         print("inverse: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dt.n == 0)
@@ -2844,7 +3585,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 0)
 
     def test_divide_by(self):
-        q_z = self.q1.divide_by(self.q1).reduce()
+        q_z = self.Q.divide_by(self.Q).reduce()
         print("inverse: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dt.n == 0)
@@ -2856,7 +3597,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 0) 
         
     def test_triple_product(self):
-        q_z = self.q1.triple_product(self.q2, self.q1).reduce()
+        q_z = self.Q.triple_product(self.P, self.Q).reduce()
         print("triple: {}", q_z)
         self.assertTrue(q_z.dt.p == 0)
         self.assertTrue(q_z.dt.n == 2)
@@ -2868,7 +3609,7 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 0)
         
     def test_rotate(self):
-        q_z = self.q1.rotate(1).reduce()
+        q_z = self.Q.rotate(1).reduce()
         print("rotate: {}", q_z)
         self.assertTrue(q_z.dt.p == 1)
         self.assertTrue(q_z.dt.n == 0)
@@ -2880,32 +3621,87 @@ class TestQ8(unittest.TestCase):
         self.assertTrue(q_z.dz.n == 0)
         
     def test_boost(self):
-        q1_sq = self.q1.square().reduce()
-        q_z = self.q1.boost(0.003)
+        Q_sq = self.Q.square().reduce()
+        q_z = self.Q.boost(0.003)
         q_z2 = q_z.square().reduce()
-        print("q1_sq: {}".format(q1_sq))
+        print("Q_sq: {}".format(Q_sq))
         print("boosted: {}", q_z)
         print("b squared: {}".format(q_z2))
-        self.assertTrue(round(q_z2.dt.n, 12) == round(q1_sq.dt.n, 12))
+        self.assertTrue(round(q_z2.dt.n, 12) == round(Q_sq.dt.n, 12))
         
     def test_g_shift(self):
-        q1_sq = self.q1.square().reduce()
-        q_z = self.q1.g_shift(0.003)
+        Q_sq = self.Q.square().reduce()
+        q_z = self.Q.g_shift(0.003)
         q_z2 = q_z.square().reduce()
-        print("q1_sq: {}".format(q1_sq))
+        print("Q_sq: {}".format(Q_sq))
         print("g_shift: {}", q_z)
         print("g squared: {}".format(q_z2))
-        self.assertTrue(q_z2.dt.n != q1_sq.dt.n)
-        self.assertTrue(q_z2.dx.p == q1_sq.dx.p)
-        self.assertTrue(q_z2.dx.n == q1_sq.dx.n)
-        self.assertTrue(q_z2.dy.p == q1_sq.dy.p)
-        self.assertTrue(q_z2.dy.n == q1_sq.dy.n)
-        self.assertTrue(q_z2.dz.p == q1_sq.dz.p)
-        self.assertTrue(q_z2.dz.n == q1_sq.dz.n)
-
-
-# In[111]:
-
+        self.assertTrue(q_z2.dt.n != Q_sq.dt.n)
+        self.assertTrue(q_z2.dx.p == Q_sq.dx.p)
+        self.assertTrue(q_z2.dx.n == Q_sq.dx.n)
+        self.assertTrue(q_z2.dy.p == Q_sq.dy.p)
+        self.assertTrue(q_z2.dy.n == Q_sq.dy.n)
+        self.assertTrue(q_z2.dz.p == Q_sq.dz.p)
+        self.assertTrue(q_z2.dz.n == Q_sq.dz.n)
+        
+    def test_sin(self):
+        self.assertTrue(Q8([0, 0, 0, 0]).sin().reduce().equals(Q8().q_0()))
+        self.assertTrue(self.Q.sin().reduce().equals(Q8([91.7837157840346691, -21.8864868530291758, -32.8297302795437673, -43.7729737060583517])))
+        self.assertTrue(self.P.sin().reduce().equals(Q8([0,  59.3625684622310033, -44.5219263466732542, 0])))
+        self.assertTrue(self.R.sin().reduce().equals(Q8([0.1411200080598672, 0, 0, 0])))
+        self.assertTrue(self.C.sin().reduce().equals(Q8([24.8313058489463785, -11.3566127112181743, 0, 0])))
+     
+    def test_cos(self):
+        self.assertTrue(Q8([0, 0, 0, 0]).cos().equals(Q8().q_1()))
+        self.assertTrue(self.Q.cos().equals(Q8([58.9336461679439481, 34.0861836904655959, 51.1292755356983974, 68.1723673809311919])))
+        self.assertTrue(self.P.cos().equals(Q8([74.2099485247878476, 0, 0, 0])))
+        self.assertTrue(self.R.cos().equals(Q8([-0.9899924966004454, 0, 0, 0])))
+        self.assertTrue(self.C.cos().equals(Q8([-11.3642347064010600, -24.8146514856341867, 0, 0])))
+                            
+    def test_tan(self):
+        self.assertTrue(Q8([0, 0, 0, 0]).tan().equals(Q8().q_0()))
+        self.assertTrue(self.Q.tan().equals(Q8([0.0000382163172501, -0.3713971716439372, -0.5570957574659058, -0.7427943432878743])))
+        self.assertTrue(self.P.tan().equals(Q8([0, 0.7999273634100760, -0.5999455225575570, 0])))
+        self.assertTrue(self.R.tan().equals(Q8([-0.1425465430742778, 0, 0, 0])))
+        self.assertTrue(self.C.tan().equals(Q8([-0.0005079806234700, 1.0004385132020521, 0, 0])))
+        
+    def test_sinh(self):
+        self.assertTrue(Q8([0, 0, 0, 0]).sinh().equals(Q8().q_0()))
+        self.assertTrue(self.Q.sinh().equals(Q8([0.7323376060463428, 0.4482074499805421, 0.6723111749708131, 0.8964148999610841])))
+        self.assertTrue(self.P.sinh().equals(Q8([0, -0.7671394197305108, 0.5753545647978831, 0])))
+        self.assertTrue(self.R.sinh().equals(Q8([10.0178749274099026, 0, 0, 0])))
+        self.assertTrue(self.C.sinh().equals(Q8([-2.3706741693520015, -2.8472390868488278, 0, 0])))    
+        
+    def test_cosh(self):
+        self.assertTrue(Q8([0, 0, 0, 0]).cosh().equals(Q8().q_1()))
+        self.assertTrue(self.Q.cosh().equals(Q8([0.9615851176369565, 0.3413521745610167, 0.5120282618415251, 0.6827043491220334])))
+        self.assertTrue(self.P.cosh().equals(Q8([0.2836621854632263, 0, 0, 0])))
+        self.assertTrue(self.R.cosh().equals(Q8([10.0676619957777653, 0, 0, 0])))
+        self.assertTrue(self.C.cosh().equals(Q8([-2.4591352139173837, -2.7448170067921538, 0, 0])))    
+        
+    def test_tanh(self):
+        self.assertTrue(Q8([0, 0, 0, 0]).tanh().equals(Q8().q_0()))
+        self.assertTrue(self.Q.tanh().equals(Q8([1.0248695360556623, 0.1022956817887642, 0.1534435226831462, 0.2045913635775283])))
+        self.assertTrue(self.P.tanh().equals(Q8([0, -2.7044120049972684, 2.0283090037479505, 0])))
+        self.assertTrue(self.R.tanh().equals(Q8([0.9950547536867305, 0, 0, 0])))
+        self.assertTrue(self.C.tanh().equals(Q8([1.0046823121902353, 0.0364233692474038, 0, 0])))    
+        
+    def test_exp(self):
+        self.assertTrue(Q8([0, 0, 0, 0]).exp().equals(Q8().q_1()))
+        self.assertTrue(self.Q.exp().equals(Q8([1.6939227236832994, 0.7895596245415588, 1.1843394368123383, 1.5791192490831176])))
+        self.assertTrue(self.P.exp().equals(Q8([0.2836621854632263, -0.7671394197305108, 0.5753545647978831, 0])))
+        self.assertTrue(self.R.exp().equals(Q8([20.0855369231876679, 0, 0, 0])))
+        self.assertTrue(self.C.exp().equals(Q8([-4.8298093832693851, -5.5920560936409816, 0, 0])))    
+    
+    def test_ln(self):
+        self.assertTrue(self.Q.ln().exp().equals(self.Q))
+        self.assertTrue(self.Q.ln().equals(Q8([1.7005986908310777, -0.5151902926640850, -0.7727854389961275, -1.0303805853281700])))
+        self.assertTrue(self.P.ln().equals(Q8([1.6094379124341003, 1.2566370614359172, -0.9424777960769379, 0])))
+        self.assertTrue(self.R.ln().equals(Q8([1.0986122886681098, 0, 0, 0])))
+        self.assertTrue(self.C.ln().equals(Q8([1.4978661367769954, 1.1071487177940904, 0, 0])))    
+        
+    def test_q_2_q(self):
+        self.assertTrue(self.Q.q_2_q(self.P).equals(Q8([-0.0197219653530713, -0.2613955437374326, 0.6496281248064009, -0.3265786562423951])))
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8())
 unittest.TextTestRunner().run(suite);
@@ -2913,7 +3709,7 @@ unittest.TextTestRunner().run(suite);
 
 # ## Class Q8a as nparrays
 
-# In[18]:
+# In[16]:
 
 
 class Q8a(object):
@@ -2949,42 +3745,43 @@ class Q8a(object):
     def q4(self):
         """Return a 4 element array."""
         return [self.a[0] - self.a[1], self.a[0] - self.a[1], self.a[4] - self.a[5], self.a[6] - self.a[7]]
-        
-    def add_qtype(self, qtype):
-            """Adds a qtype to an existing one."""
-            
-            self.qtype += qtype
             
     def q_0(self, qtype="0"):
         """Return a zero quaternion."""
         
-        return Q8a()
+        q0 = Q8a(qtype=qtype)
+        return q0
       
     def q_1(self, qtype="1"):
         """Return a multiplicative identity quaternion."""
         
-        return Q8a([1, 0, 0, 0, 0, 0, 0, 0])
+        q1 = Q8a([1, 0, 0, 0, 0, 0, 0, 0], qtype=qtype)
+        return q1
     
     def q_i(self, qtype="i"):
         """Return i."""
         
-        return Q8a([0, 0, 1, 0, 0, 0, 0, 0])
+        qi = Q8a([0, 0, 1, 0, 0, 0, 0, 0], qtype=qtype)
+        return qi
     
-    def q_j(self, qtype="One"):
+    def q_j(self, qtype="j"):
         """Return j."""
         
-        return Q8a([0, 0, 0, 0, 1, 0, 0, 0])
+        qj = Q8a([0, 0, 0, 0, 1, 0, 0, 0], qtype=qtype)
+        return qj
     
 
     def q_k(self, qtype="k"):
         """Return k."""
         
-        return Q8a([0, 0, 0, 0, 0, 0, 1, 0])
+        qk = Q8a([0, 0, 0, 0, 0, 0, 1, 0], qtype=qtype)
+        return qk
 
     def q_random(self, qtype="?"):
         """Return a random-valued quaternion."""
 
-        return Q8a([random.random(), random.random(), random.random(), random.random(), random.random(), random.random(), random.random(), random.random()], qtype=qtype)
+        qr = Q8a([random.random(), random.random(), random.random(), random.random(), random.random(), random.random(), random.random(), random.random()], qtype=qtype)
+        return qr
     
     def equals(self, q2):
         """Tests if two quaternions are equal."""
@@ -3002,7 +3799,7 @@ class Q8a(object):
     def conj(self, conj_type=0, qtype="*"):
         """Three types of conjugates."""
         
-        conj_q = Q8a(qtype=self.qtype)
+        conj_q = Q8a()
 
         # Flip all but t.                          
         if conj_type == 0:
@@ -3025,7 +3822,7 @@ class Q8a(object):
             conj_q.a[5] = self.a[4]
             conj_q.a[6] = self.a[7]
             conj_q.a[7] = self.a[6]
-            qtype += "*1"
+            qtype += "1"
 
         # Flip all but y.                                 
         if conj_type == 2:
@@ -3037,14 +3834,16 @@ class Q8a(object):
             conj_q.a[5] = self.a[5]
             conj_q.a[6] = self.a[7]
             conj_q.a[7] = self.a[6]
-            qtype += "*2"
+            qtype += "2"
             
-        conj_q.add_qtype(qtype)
+        conj_q.qtype = self.qtype + qtype
+        
         return conj_q
     
     def vahlen_conj(self, conj_type="-", qtype="vc"):
         """Three types of conjugates -'* done by Vahlen in 1901."""
-        conj_q = Q8a(qtype=self.qtype)
+        
+        conj_q = Q8a()
 
         if conj_type == "-":
             conj_q.a[0] = self.a[0]
@@ -3081,7 +3880,8 @@ class Q8a(object):
             conj_q.a[7] = self.a[6]
             qtype += "*"
             
-        conj_q.add_qtype(qtype)
+        conj_q.qtype = self.qtype + qtype
+        
         return conj_q
 
     def _commuting_products(self, q1):
@@ -3152,8 +3952,10 @@ class Q8a(object):
         
         return products
     
-    def square(self, qtype=""):
+    def square(self, qtype="^2"):
         """Square a quaternion."""
+        
+        end_qtype = "{}{}".format(self.qtype, qtype)
         
         qxq = self._commuting_products(self)
         
@@ -3167,15 +3969,15 @@ class Q8a(object):
         sq_q.a[6] = qxq['tz+zt0']
         sq_q.a[7] = qxq['tz+zt1']
         
-        if qtype:
-            sq_q.qtype = qtype
-        else:
-            sq_q.add_qtype("{s}_sq".format(s=self.qtype))
+        sq_q.qtype = end_qtype
+        
         return sq_q
     
-    def reduce(self, qtype="reduce"):
+    def reduce(self, qtype="-reduce"):
         """Put all Doubletas into the reduced form so one of each pair is zero."""
 
+        end_qtype = "{}{}".format(self.qtype, qtype)
+        
         red_t = Doubleta([self.a[0], self.a[1]]).d_reduce()
         red_x = Doubleta([self.a[2], self.a[3]]).d_reduce()
         red_y = Doubleta([self.a[4], self.a[5]]).d_reduce()
@@ -3191,91 +3993,84 @@ class Q8a(object):
         q_red.a[6] = red_z.d[0]
         q_red.a[7] = red_z.d[1]
 
-        q_red.add_qtype(qtype)
+        q_red.qtype = end_qtype
+        
         return q_red
     
-    def norm_squared(self, qtype="norm_squared"):
+    def norm_squared(self, qtype="|| ||^2"):
         """The norm_squared of a quaternion."""
         
-        start_qtype = self.qtype
+        end_qtype = "||{}||^2".format(self.qtype)
         
         qxq = self._commuting_products(self)
         
         n_q = Q8a(qtype=self.qtype)        
         n_q.a[0] = qxq['tt0'] + qxq['xx+yy+zz0']
 
-        n_q.qtype = start_qtype
-        n_q.add_qtype(qtype)
+        n_q.qtype = self.qtype
+        n_q.qtype = end_qtype
         return n_q
     
-    def norm_squared_of_vector(self, qtype="norm_squaredV"):
+    def norm_squared_of_vector(self, qtype="V(|| ||)^2"):
         """The norm_squared of the vector of a quaternion."""
         
-        start_qtype = self.qtype
+        end_qtype = "V||({})||^2".format(self.qtype)
         
         qxq = self._commuting_products(self)
         
         nv_q = Q8a(qtype=self.qtype)
         nv_q.a[0] = qxq['xx+yy+zz0']
+        nv_q.qtype = end_qtype
 
-        nv_q.qtype = start_qtype
-        nv_q.add_qtype(qtype)
         return nv_q
-    
         
-    def abs_of_q(self, qtype="abs"):
+    def abs_of_q(self, qtype="| |"):
         """The absolute value, the square root of the norm_squared."""
 
-        start_qtype = self.qtype
+        end_qtype = "|{}|".format(self.qtype)
         
         abq = self.norm_squared(qtype=self.qtype)
         sqrt_t = abq.a[0] ** (1/2)
         abq.a[0] = sqrt_t
+        abq.qtype = end_qtype
         
-        abq.qtype = start_qtype
-        abq.add_qtype(qtype)
         return abq
 
-    def abs_of_vector(self, qtype="absV"):
+    def abs_of_vector(self, qtype="|V()|)"):
         """The absolute value of the vector, the square root of the norm_squared of the vector."""
 
-        start_qtype = self.qtype
+        end_qtype = "|V({})|".format(self.qtype, qtype)
         
         av = self.norm_squared_of_vector()
         sqrt_t = av.a[0] ** (1/2)
         av.a[0] = sqrt_t
+        av.qtype = end_qtype
         
-        av.qtype = start_qtype
-        av.add_qtype(qtype)
         return av
     
     def normalize(self, qtype="U"):
         """Normalize a quaternion"""
         
-        start_qtype = self.qtype
+        end_qtype = "{}U".format(self.qtype)
         
         abs_q_inv = self.abs_of_q().invert()
         n_q = self.product(abs_q_inv)
-
-        n_q.qtype = start_qtype
-        n_q.add_qtype(qtype)
+        n_q.qtype = end_qtype
+        
         return n_q
     
-    def add(self, q1, qtype=""):
+    def add(self, q1, qtype="+"):
         """Form a add given 2 quaternions."""
 
         add_q = Q8a()
         for i in range(0, 8):
             add_q.a[i] = self.a[i] + q1.a[i]
                     
-        if qtype:
-            add_q.qtype = qtype
-        else:
-            add_q.qtype = "{f}+{s}".format(f=self.qtype, s=q1.qtype)
+        add_q.qtype = "{f}+{s}".format(f=self.qtype, s=q1.qtype)
             
         return add_q    
 
-    def dif(self, q1, qtype=""):
+    def dif(self, q1, qtype="-"):
         """Form a add given 2 quaternions."""
 
         dif_q = Q8a()
@@ -3289,10 +4084,7 @@ class Q8a(object):
         dif_q.a[6] = self.a[6] + q1.a[7]
         dif_q.a[7] = self.a[7] + q1.a[6]
      
-        if qtype:
-            dif_q.qtype = qtype
-        else:
-            dif_q.qtype = "{f}-{s}".format(f=self.qtype, s=q1.qtype)
+        dif_q.qtype = "{f}-{s}".format(f=self.qtype, s=q1.qtype)
             
         return dif_q
     
@@ -3344,10 +4136,7 @@ class Q8a(object):
         if reverse:
             times_symbol = times_symbol.replace('x', 'xR')    
             
-        if qtype:
-            result.qtype = qtype
-        else:
-            result.qtype = "{f}{ts}{s}".format(f=self.qtype, ts=times_symbol, s=q1.qtype)
+        result.qtype = "{f}{ts}{s}".format(f=self.qtype, ts=times_symbol, s=q1.qtype)
             
         return result
 
@@ -3362,7 +4151,7 @@ class Q8a(object):
     def invert(self, qtype="^-1"):
         """Invert a quaternion."""
         
-        start_qtype = self.qtype
+        end_qtype = "{}{}".format(self.qtype, qtype)
         
         q_conj = self.conj()
         q_norm_squared = self.norm_squared().reduce()
@@ -3372,10 +4161,9 @@ class Q8a(object):
         
         q_norm_squared_inv = Q8a([1.0 / q_norm_squared.a[0], 0, 0, 0, 0, 0, 0, 0])
 
-        q_inv = q_conj.product(q_norm_squared_inv, qtype=self.qtype)
+        q_inv = q_conj.product(q_norm_squared_inv)
+        q_inv.qtype = end_qtype
         
-        q_inv.qtype = start_qtype
-        q_inv.add_qtype(qtype)
         return q_inv
 
     def divide_by(self, q1, qtype=""):
@@ -3383,11 +4171,7 @@ class Q8a(object):
 
         q_inv = q1.invert()
         q_div = self.product(q_inv) 
-        
-        if qtype:
-            q_div.qtype = qtype
-        else:
-            q_div.qtype = "{f}/{s}".format(f=self.qtype, s=q1.qtype)
+        q_div.qtype = "{f}/{s}".format(f=self.qtype, s=q1.qtype)
             
         return q_div
     
@@ -3395,6 +4179,7 @@ class Q8a(object):
         """Form a triple product given 3 quaternions."""
         
         triple = self.product(q1).product(q2)
+        
         return triple
     
     # Quaternion rotation involves a triple product:  UQU∗
@@ -3405,8 +4190,8 @@ class Q8a(object):
         u = Q8a([0, 0, a_1p, a_1n, a_2p, a_2n, a_3p, a_3n])
         u_abs = u.abs_of_q()
         u_norm_squaredalized = u.divide_by(u_abs)
-
         q_rot = u_norm_squaredalized.triple_product(self, u_norm_squaredalized.conj())
+        
         return q_rot
     
     # A boost also uses triple products like a rotation, but more of them.
@@ -3414,7 +4199,7 @@ class Q8a(object):
     def boost(self, beta_x=0, beta_y=0, beta_z=0, qtype="boost"):
         """A boost along the x, y, and/or z axis."""
         
-        start_qtype = self.qtype
+        end_qtype = "{}{}".format(self.qtype, qtype)
         
         boost = Q8a(sr_gamma_betas(beta_x, beta_y, beta_z))
         b_conj = boost.conj()
@@ -3427,8 +4212,8 @@ class Q8a(object):
         half_23 = triple_23.product(Q8a([0.5, 0, 0, 0, 0, 0, 0, 0]))
         triple_123 = triple_1.add(half_23, qtype=self.qtype)
         
-        triple_123.qtype = start_qtype
-        triple_123.add_qtype(qtype)
+        triple_123.qtype = end_qtype
+        
         return triple_123
     
     # g_shift is a function based on the space-times-time invariance proposal for gravity,
@@ -3438,7 +4223,7 @@ class Q8a(object):
     def g_shift(self, dimensionless_g, g_form="exp", qtype="g_shift"):
         """Shift an observation based on a dimensionless GM/c^2 dR."""
         
-        start_qtype = self.qtype
+        end_qtype = "{}{}".format(self.qtype, qtype)
         
         if g_form == "exp":
             g_factor = sp.exp(dimensionless_g)
@@ -3468,12 +4253,292 @@ class Q8a(object):
         g_q.a[6] = dz.d[0]
         g_q.a[7] = dz.d[1]
         
-        g_q.qtype = start_qtype
-        g_q.add_qtype(qtype)
+        g_q.qtype = end_qtype
+        
         return g_q
+    
+    def sin(self, qtype="sin"):
+        """Take the sine of a quaternion, (sin(t) cosh(|R|), cos(t) sinh(|R|) R/|R|)"""
+        
+        end_qtype = "sin({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        red_t = Doubleta([self.a[0], self.a[1]]).d_reduce()
+
+        if red_t.d[0] == 0 and red_t.d[1] != 0:
+            if abs_v.a[0] == 0:    
+                return Q8a([-1 * math.sin(red_t.d[1]), 0, 0, 0], qtype=end_qtype)
+        
+            sint = math.sin(-1 * red_t.d[1])
+            cost = math.cos(-1 *red_t.d[1])    
+        else:
+            if abs_v.a[0] == 0:    
+                return Q8a([math.sin(red_t.d[0]), 0, 0, 0], qtype=end_qtype)
+
+            sint = math.sin(red_t.d[0])
+            cost = math.cos(red_t.d[0])    
+            
+        sinhR = math.sinh(abs_v.a[0])
+        coshR = math.cosh(abs_v.a[0])
+        
+        k = cost * sinhR / abs_v.a[0]
+            
+        q_out_dt = Doubleta(sint * coshR)
+        q_out_dx = Doubleta(k * (self.a[2] - self.a[3]))
+        q_out_dy = Doubleta(k * (self.a[4] - self.a[5]))
+        q_out_dz = Doubleta(k * (self.a[6] - self.a[7]))
+        q_out = Q8a([q_out_t, q_out_x, q_out_y, q_out_z], qtype=end_qtype)
+
+        return q_out
+     
+    def cos(self, qtype="cos"):
+        """Take the cosine of a quaternion, (cos(t) cosh(|R|), sin(t) sinh(|R|) R/|R|)"""
+
+        end_qtype = "cos({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        red_t = Doubleta([self.a[0], self.a[1]]).d_reduce()
+       
+        if red_t.d[0] == 0 and red_t.d[1] != 0:
+            if abs_v.a[0] == 0:    
+                return Q8a([math.cos(-1 * red_t.d[1]), 0, 0, 0], qtype=end_qtype)
+        
+            sint = math.sin(-1 * red_t.d[1])
+            cost = math.cos(-1 * red_t.d[1]) 
+            
+        else:
+            if abs_v.a[0] == 0:    
+                return Q8a([math.cos(red_t.d[0]), 0, 0, 0], qtype=end_qtype)
+        
+            sint = math.sin(red_t.d[0])
+            cost = math.cos(red_t.d[0])
+            
+        sinhR = math.sinh(abs_v.a[0])
+        coshR = math.cosh(abs_v.a[0])
+        
+        k = -1 * sint * sinhR / abs_v.a[0]
+            
+        q_out_dt = Doubleta(cost * coshR)
+        q_out_dx = Doubleta(k * (self.a[2] - self.a[3]))
+        q_out_dy = Doubleta(k * (self.a[4] - self.a[5]))
+        q_out_dz = Doubleta(k * (self.a[6] - self.a[7]))
+        q_out = Q8a([q_out_t, q_out_x, q_out_y, q_out_z], qtype=end_qtype)
+
+        return q_out
+    
+    def tan(self, qtype="sin"):
+        """Take the tan of a quaternion, sin/cos"""
+
+        end_qtype = "tan({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()        
+        red_t = Doubleta([self.a[0], self.a[1]]).d_reduce()
+        
+        if red_t.d[0] == 0 and red_t.d[1] != 0:
+            if abs_v.dt == 0:    
+                return Q8a([math.tan(-1 * red_t.d[1]), 0, 0, 0], qtype=end_qtype)
+        else:
+            if abs_v.a[0] == 0:    
+                return Q8a([math.tan(red_t.d[0]), 0, 0, 0], qtype=end_qtype)
+            
+        sinq = self.sin()
+        cosq = self.cos()
+            
+        q_out = sinq.divide_by(cosq) 
+        q_out.qtype = end_qtype
+        
+        return q_out
+    
+    def sinh(self, qtype="sinh"):
+        """Take the sinh of a quaternion, (sinh(t) cos(|R|), cosh(t) sin(|R|) R/|R|)"""
+        
+        end_qtype = "sinh({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        red_t = Doubleta([self.a[0], self.a[1]]).d_reduce()
+        
+        if red_t.d[0] == 0 and red_t.d[1] != 0: 
+            if abs_v.a[0] == 0:    
+                return Q8a([math.sinh(-1 * red_t.d[1]), 0, 0, 0], qtype=end_qtype)
+            sinht = math.sinh(-1 * red_t.d[1])
+            cosht = math.cosh(-1 * red_t.d[1])
+        else: 
+            if abs_v.a[0] == 0:    
+                return Q8a([math.sinh(red_t.d[0]), 0, 0, 0], qtype=end_qtype)
+            sinht = math.sinh(red_t.d[0])
+            cosht = math.cosh(red_t.d[0])
+            
+        sinR = math.sin(abs_v.a[0])
+        cosR = math.cos(abs_v.a[0])
+        
+        k = cosht * sinR / abs_v.a[0]
+            
+        q_out_dt = Doubleta(sinht * cosR)
+        q_out_dx = Doubleta(k * (self.a[2] - self.a[3]))
+        q_out_dy = Doubleta(k * (self.a[4] - self.a[5]))
+        q_out_dz = Doubleta(k * (self.a[6] - self.a[7]))
+        q_out = Q8a([q_out_t, q_out_x, q_out_y, q_out_z], qtype=end_qtype)
+
+        return q_out
+     
+    def cosh(self, qtype="sin"):
+        """Take the cosh of a quaternion, (cosh(t) cos(|R|), sinh(t) sin(|R|) R/|R|)"""
+
+        end_qtype = "cosh({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        red_t = Doubleta([self.a[0], self.a[1]]).d_reduce()
+        
+        if red_t.d[0] == 0 and red_t.d[1] != 0:
+            if abs_v.a[0] == 0:    
+                return Q8a([-1 * math.cosh(self.dt.n), 0, 0, 0], qtype=end_qtype)
+            
+            sinht = math.sinh(-1 * red_t.d[1])
+            cosht = math.cosh(-1 * red_t.d[1])
+        
+        else:
+            if abs_v.a[0] == 0:    
+                return Q8a([math.cosh(self.dt.p), 0, 0, 0], qtype=end_qtype)
+            
+            sinht = math.sinh(red_t.d[0])
+            cosht = math.cosh(red_t.d[0])
+             
+        sinR = math.sin(abs_v.a[0])
+        cosR = math.cos(abs_v.a[0])
+        
+        k = sinht * sinR / abs_v.a[0]
+            
+        q_out_dt = Doubleta(cosht * cosR)
+        q_out_dx = Doubleta(k * (self.a[2] - self.a[3]))
+        q_out_dy = Doubleta(k * (self.a[4] - self.a[5]))
+        q_out_dz = Doubleta(k * (self.a[6] - self.a[7]))
+        q_out = Q8a([q_out_t, q_out_x, q_out_y, q_out_z], qtype=end_qtype)
+
+        return q_out
+    
+    def tanh(self, qtype="sin"):
+        """Take the tanh of a quaternion, sin/cos"""
+        
+        end_qtype = "tanh({sq})".format(sq=self.qtype)
+            
+        abs_v = self.abs_of_vector()
+        red_t = Doubleta([self.a[0], self.a[1]]).d_reduce()
+        
+        if abs_v.a[0] == 0:
+            if red_t.d[0] == 0 and red_t.d[1] != 0:
+                return Q8a([-1 * math.tanh(self.dt.n), 0, 0, 0], qtype=end_qtype)
+            else:
+                return Q8a([math.tanh(self.dt.p), 0, 0, 0], qtype=end_qtype)
+            
+        sinhq = self.sinh()
+        coshq = self.cosh()
+            
+        q_out = sinhq.divide_by(coshq) 
+        q_out.qtype = end_qtype
+        
+        return q_out
+    
+    def exp(self, qtype="exp"):
+        """Take the exponential of a quaternion."""
+        # exp(q) = (exp(t) cos(|R|, exp(t) sin(|R|) R/|R|)
+        
+        end_qtype = "exp({st})".format(st=self.qtype)
+        
+        abs_v = self.abs_of_vector()
+        red_t = Doubleta([self.a[0], self.a[1]]).d_reduce()
+        
+        if red_t.d[0] == 0 and red_t.d[1] != 0:
+            et = math.exp(-1 * red_t.d[1])
+            
+            if (abs_v.a[0] == 0):
+                return Q8a([et, 0, 0, 0], qtype=end_qtype)
+            
+            cosR = math.cos(abs_v.a[0])
+            sinR = math.sin(abs_v.a[0])
+    
+        else:
+            et = math.exp(red_t.d[0])
+            
+            if (abs_v.a[0] == 0):
+                return Q8a([et, 0, 0, 0], qtype=end_qtype)
+            
+            cosR = math.cos(abs_v.a[0])
+            sinR = math.sin(abs_v.a[0])
+            
+        k = et * sinR / abs_v.a[0]
+                       
+        expq_dt = Doubleta(et * cosR)
+        expq_dx = Doubleta(k * (self.a[2] - self.a[3]))
+        expq_dy = Doubleta(k * (self.a[4] - self.a[5]))
+        expq_dz = Doubleta(k * (self.a[6] - self.a[7]))
+        expq = Q8a([expq_dt, expq_dt, expq_dt, expq_dt], qtype=end_qtype)
+                       
+        return expq
+    
+    def ln(self, qtype="ln"):
+        """Take the natural log of a quaternion."""
+        # ln(q) = (0.5 ln t^2 + R.R, atan2(|R|, t) R/|R|)
+        
+        end_qtype = "ln({st})".format(st=self.qtype)
+        
+        abs_v = self.abs_of_vector()
+        red_t = Doubleta([self.a[0], self.a[1]]).d_reduce()
+        
+        if red_t.d[0] == 0 and red_t.d[1] != 0:
+            if (abs_v.a[0] == 0):
+                # I don't understant this, but mathematica does the same thing, but it looks wrong to me.
+                return(Q8a([math.log(-self.dt.n), math.pi, 0, 0], qtype=end_qtype))   
+            
+            t_value = 0.5 * math.log(red_t.d[1] * red_t.d[1] + abs_v.a[0] * abs_v.a[0])
+            k = math.atan2(abs_v.a[0], red_t.d[1]) / abs_v.a[0]
+        
+        else:
+            if (abs_v.a[0] == 0):
+                return(Q8a([math.log(self.dt.p), 0, 0, 0], qtype=end_qtype))
+                
+            t_value = 0.5 * math.log(red_t.d[0] * red_t.d[0] + abs_v.a[0] * abs_v.a[0])
+            k = math.atan2(abs_v.a[0], red_t.d[0]) / abs_v.a[0]
+            
+        lnq_dt = Doubleta(t_value)
+        lnq_dx = Doubleta(k * (self.a[2] - self.a[3]))
+        lnq_dy = Doubleta(k * (self.a[4] - self.a[5]))
+        lnq_dz = Doubleta(k * (self.a[6] - self.a[7]))
+        lnq = Q8a([lnq_dt, lnq_dx, lnq_dy, lnq_dz], qtype=end_qtype)
+                       
+        return lnq
+    
+    def q_2_q(self, q1, qtype="P"):
+        """Take the natural log of a quaternion."""
+        # q^p = exp(ln(q) * p)
+        
+        end_qtype = "{st}^P".format(st=self.qtype)
+        
+        q2q = self.ln().product(q1).reduce().exp()
+        q2q.qtype = end_qtype
+        
+        return q2q
+    
+    def trunc(self):
+        """Truncates values."""
+        
+        self.dt = math.trunc(self.dt)
+        self.dx = math.trunc(self.dx)
+        self.dy = math.trunc(self.dy)
+        self.dz = math.trunc(self.dz)
+        
+        return self
 
 
-# In[19]:
+# In[17]:
+
+
+q1 = Q8([1, 0, 0, 2, 0, 3, 0, 4])
+q2 = Q8a([0, 0, 4, 0, 0, 3, 0, 0])
+q_big = Q8a([1, 2, 3, 4, 5, 6, 7, 8])
+print(q1)
+
+
+# In[18]:
 
 
 class TestQ8a(unittest.TestCase):
@@ -3833,11 +4898,7 @@ class TestQ8a(unittest.TestCase):
         self.assertTrue(q_z2.a[5] == q1_sq.a[5])
         self.assertTrue(q_z2.a[6] == q1_sq.a[6])
         self.assertTrue(q_z2.a[7] == q1_sq.a[7])
-
-
-# In[20]:
-
-
+        
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8a())
 unittest.TextTestRunner().run(suite);
 
@@ -3853,7 +4914,7 @@ unittest.TextTestRunner().run(suite);
 # Such an exact relation is not of much interest to physicists since Einstein showed that holds for only one set of observers. If one is moving relative to the reference observer, the two events would look like they occured at different times in the future, presuming perfectly accurate measuring devices.
 # 
 
-# In[21]:
+# In[19]:
 
 
 def round_sig_figs(num, sig_figs):
@@ -3867,7 +4928,7 @@ def round_sig_figs(num, sig_figs):
         return 0  # Can't take the log of 0
 
 
-# In[22]:
+# In[20]:
 
 
 class EQ(object):
@@ -4191,7 +5252,7 @@ class EQ(object):
     
 
 
-# In[23]:
+# In[21]:
 
 
 class TestEQ(unittest.TestCase):
@@ -4301,7 +5362,7 @@ class TestEQ(unittest.TestCase):
         self.assertTrue(eq_small_tiny.norm_squared_of_unity() == 'less_than_unity')
 
 
-# In[24]:
+# In[22]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestEQ())
@@ -4312,7 +5373,7 @@ unittest.TextTestRunner().run(suite);
 
 # Create a class that can make many, many quaternions.
 
-# In[25]:
+# In[23]:
 
 
 class QHArray(QH):
@@ -4385,7 +5446,7 @@ class QHArray(QH):
         return QH([new_t, new_x, new_y, new_z])
 
 
-# In[26]:
+# In[24]:
 
 
 class TestQHArray(unittest.TestCase):
@@ -4413,7 +5474,7 @@ class TestQHArray(unittest.TestCase):
         self.assertTrue(self.qha.q_max.z > 13.9)
 
 
-# In[27]:
+# In[25]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHArray())
@@ -4422,7 +5483,7 @@ unittest.TextTestRunner().run(suite);
 
 # ## Array of nparrays
 
-# In[28]:
+# In[26]:
 
 
 class QHaArray(QHa):
@@ -4485,7 +5546,7 @@ class QHaArray(QHa):
                 self.q_max.a[3] = q1.a[3]
 
 
-# In[29]:
+# In[27]:
 
 
 class TestQHaArray(unittest.TestCase):
@@ -4513,48 +5574,18 @@ class TestQHaArray(unittest.TestCase):
         self.assertTrue(self.qha.q_max.a[3] > 13.9)
 
 
-# In[30]:
-
-
-qha = QHArray()
-t1=QH([1.0,2.0,3.0,4.0])
-qd=QH([10, .2, .3, 1])
-for q in qha.range(t1,qd,10):
-    print(q)
-ql=list(qha.range(t1,qd,10))
-print(ql[0])
-
-
-# In[31]:
+# In[28]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHaArray())
 unittest.TextTestRunner().run(suite);
 
 
-# An example of making a symbolic calculation.
-
-# In[32]:
-
-
-T, X, Y, Z = sp.symbols('T X Y Z')
-qabstract=QH([T, sp.cos(T), Y + sp.sin(T), Z+T])
-print(qabstract)
-print(qabstract.t.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
-print(qabstract.x.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
-print(qabstract.y.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
-print(qabstract.z.subs(T,1.0).subs(X,1).subs(Y,2).subs(Z,3))
-q2=qha.symbol_sub(qabstract, t1)
-print(q2)
-for q in qha.range(t1,qd,10):
-    print(qha.symbol_sub(qabstract, q))
-
-
 # ## States - n quaternions that add up to one quaternion
 
 # Any quaternion can be viewed as the sum of n other quaternions. This is common to see in quantum mechanics, whose needs are driving the development of this class and its methods.
 
-# In[61]:
+# In[29]:
 
 
 class QHStates(QH):
@@ -4689,7 +5720,7 @@ class QHStates(QH):
         
         return QHStates(diagonal)
         
-    def product(self, product_type, bra=None, ket=None, operator=None, kind=""):
+    def product(self, product_type, bra=None, ket=None, operator=None, kind="", reverse=False):
         """Forms the quaternion product for each state."""
         
         if product_type == 'bra':
@@ -4744,7 +5775,7 @@ class QHStates(QH):
         elif operator is None:
             if _check_dimensions(state_1_dim=bra.dim, state_2_dim=ket.dim, equals=True):
                 for b, k in zip(bra.qs, ket.qs):
-                    new_states.append(b.product(k, kind))
+                    new_states.append(b.product(k, kind, reverse))
             
         # Op|B>
         elif bra is None:
@@ -4761,9 +5792,9 @@ class QHStates(QH):
                     
                     for op, k in zip(ops, ket.qs): 
                         if ok is None:
-                            ok = op.product(k, kind)
+                            ok = op.product(k, kind, reverse)
                         else:
-                            ok = ok.add(op.product(k, kind))
+                            ok = ok.add(op.product(k, kind, reverse))
                             
                     new_states.append(ok)
 
@@ -4782,9 +5813,9 @@ class QHStates(QH):
                     
                     for b, op in zip(bra.qs, ops):
                         if bop is None:
-                            bop = b.product(op, kind)
+                            bop = b.product(op, kind, reverse)
                         else:
-                            bop = bop.add(b.product(op, kind))
+                            bop = bop.add(b.product(op, kind, reverse))
                             
                     new_states.append(bop)
 
@@ -4805,20 +5836,20 @@ class QHStates(QH):
                     
                     for op, k in zip(ops, ket.qs): 
                         if ok is None:
-                            ok = op.product(k, kind)
+                            ok = op.product(k, kind, reverse)
                         else:
-                            ok = ok.add(op.product(k, kind))
+                            ok = ok.add(op.product(k, kind, reverse))
                     
                     new_ket.append(ok)
                 
                 new_ket_state = QHStates(new_ket)
                     
                 for b, k in zip(bra.qs, new_ket_state.qs):
-                    new_states.append(b.product(k, kind))
+                    new_states.append(b.product(k, kind, reverse))
                 
         return QHStates(new_states)
 
-    def Euclidean_product(self, product_type, bra=None, ket=None, operator=None, kind=""):
+    def Euclidean_product(self, product_type, bra=None, ket=None, operator=None, kind="", reverse=False):
         """Forms the Euclidean product, what is used in QM all the time."""
         
         if bra is not None:
@@ -4827,7 +5858,7 @@ class QHStates(QH):
         if product_type == 'bra':
             self = self.conj()
                     
-        return self.product(product_type, bra, ket, operator, kind)
+        return self.product(product_type, bra, ket, operator, kind, reverse)
     
     def op_n(self, n, first=True, kind="", reverse=False):
         """Mulitply an operator times a number, in that order. Set first=false for n * Op"""
@@ -4855,11 +5886,11 @@ class QHStates(QH):
         if m==0:
             # test if it is square.
             if math.sqrt(self.dim).is_integer():
-                n = sp.sqrt(self.dim)
                 m = sp.sqrt(self.dim)
+                n = m
                 
         if m * n != self.dim:
-            print("Oops, m * n != state dim: {} {] != {}}".format(m, n, self.dim))
+            print("Oops, m * n != state dim: {} {} != {}".format(m, n, self.dim))
             return None
         
         new_states = [0] * self.dim
@@ -4905,15 +5936,15 @@ class QHStates(QH):
             sin_theta = 1
             cos_theta = 1
         else:
-            sin_theta = sp.sin(theta)
-            cos_theta = sp.cos(theta)
+            sin_theta = math.sin(theta)
+            cos_theta = math.cos(theta)
             
         if phi is None:
             sin_phi = 1
             cos_phi = 1
         else:
-            sin_phi = sp.sin(phi)
-            cos_phi = sp.cos(phi)
+            sin_phi = math.sin(phi)
+            cos_phi = math.cos(phi)
             
         x_factor = q1.product(QH([sin_theta * cos_phi, 0, 0, 0]))
         y_factor = qi.product(QH([sin_theta * sin_phi, 0, 0, 0]))
@@ -4936,30 +5967,7 @@ class QHStates(QH):
         return signma[kind].normalize()
 
 
-# In[65]:
-
-
-q1234 = QHStates([QH([0, 8, -6, 0]), QH([1, 0, 0, 0]), QH([3, 1, 0, 0]), QH([4, 1, 0, 0])])
-
-q1234.Euclidean_product('bra', ket=q1234).print_states("test")
-q1234.Euclidean_product('ket', bra=q1234).print_states("test rev")
-q1234.Euclidean_product('operator', bra=q1234).print_states("op")
-q1234.Euclidean_product('operator', ket=q1234).print_states("op_ket")
-
-
-# In[58]:
-
-
-q1234 = QHStates([QH([0, 8, -6, 0]), QH([1, 0, 0, 0]), QH([3, 1, 0, 0]), QH([4, 1, 0, 0])])
-print(q1234.transpose())
-print(q1234.dagger())
-print(q1234.dagger().normalize())
-qn = QHStates([QH([3,0,0,4])])
-print(qn.normalize())
-print(qn.invert())
-
-
-# In[88]:
+# In[30]:
 
 
 class TestQHStates(unittest.TestCase):
@@ -5150,7 +6158,7 @@ class TestQHStates(unittest.TestCase):
         self.assertTrue(self.Op4i.is_square())
 
 
-# In[89]:
+# In[31]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHStates())
@@ -5165,7 +6173,7 @@ unittest.TextTestRunner().run(suite);
 # 
 # by old fashioned cut and paste with minor tweaks (boring).
 
-# In[97]:
+# In[32]:
 
 
 class QHaStates(QHa):
@@ -5433,7 +6441,24 @@ class QHaStates(QHa):
         return norm
 
 
-# In[98]:
+# In[42]:
+
+
+q0 = QHa().q_0()
+q1 = QHa().q_1()
+qi = QHa().q_i()
+q0_q1 = QHaStates([q0, q1])
+q1_q0 = QHaStates([q1, q0])
+q1_qi = QHaStates([q1, qi])
+A = QHaStates([QHa([4,0,0,0]),QHa([0,1,0,0])])
+B = QHaStates([QHa([0,0,1,0]),QHa([0,0,0,2]),QHa([0,3,0,0])])
+Op = QHaStates([QHa([3,0,0,0]),QHa([0,1,0,0]),QHa([0,0,2,0]),QHa([0,0,0,3]),QHa([2,0,0,0]),QHa([0,4,0,0])])
+Op4i = QHaStates([QHa([0,4,0,0])])
+qn = QHaStates([QHa([3,0,0,4])])
+A.product('bra', operator=Op4i)
+
+
+# In[33]:
 
 
 class TestQHaStates(unittest.TestCase):
@@ -5570,14 +6595,14 @@ class TestQHaStates(unittest.TestCase):
         self.assertTrue(opn.qs[0].a[1] == 3)
 
 
-# In[99]:
+# In[34]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHaStates())
 unittest.TextTestRunner().run(suite);
 
 
-# In[105]:
+# In[35]:
 
 
 class Q8States(Q8):
@@ -5845,18 +6870,7 @@ class Q8States(Q8):
         return norm
 
 
-# In[106]:
-
-
-A = Q8States([Q8([4,0,0,0]),Q8([0,1,0,0])])
-B = Q8States([Q8([0,0,1,0]),Q8([0,0,0,2]),Q8([0,3,0,0])])
-Op = Q8States([Q8([3,0,0,0]),Q8([0,1,0,0]),Q8([0,0,2,0]),Q8([0,0,0,3]),Q8([2,0,0,0]),Q8([0,4,0,0])])
-
-B.Euclidean_product('ket', operator=Op)
-Op.print_states("Op")
-
-
-# In[114]:
+# In[36]:
 
 
 class TestQ8States(unittest.TestCase):
@@ -6002,14 +7016,14 @@ class TestQ8States(unittest.TestCase):
         self.assertTrue(opn.qs[0].dx.p == 3)
 
 
-# In[115]:
+# In[37]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8States())
 unittest.TextTestRunner().run(suite);
 
 
-# In[116]:
+# In[38]:
 
 
 class Q8aStates(Q8a):
@@ -6280,7 +7294,7 @@ class Q8aStates(Q8a):
         return norm
 
 
-# In[121]:
+# In[39]:
 
 
 class TestQ8aStates(unittest.TestCase):
@@ -6420,12 +7434,12 @@ class TestQ8aStates(unittest.TestCase):
         self.assertTrue(AOp4iB.dim == 0)
         
     def test_op_n(self):
-        opn = self.A.op_n(n=self.qi)
+        opn = self.Op.op_n(n=self.qi)
         print("op_n: ", opn)
         self.assertTrue(opn.qs[0].a[2] == 3)
 
 
-# In[122]:
+# In[40]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8aStates())
