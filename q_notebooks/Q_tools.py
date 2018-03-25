@@ -2995,7 +2995,7 @@ class TestDoubleta(unittest.TestCase):
         self.assertTrue(Z2p_red.d[1] == Z2p_2.d[1])
 
 
-# In[13]:
+# In[ ]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestDoubleta())
@@ -3006,10 +3006,10 @@ unittest.TextTestRunner().run(suite);
 
 # Write a class to handle quaternions given 8 numbers.
 
-# In[60]:
+# In[ ]:
 
 
-class Q8(Doublet):
+class Q8(object):
     """Quaternions on a quaternion manifold or space-time numbers."""
 
     def __init__(self, values=None, qtype="Q", representation=""):
@@ -3031,7 +3031,7 @@ class Q8(Doublet):
         self.representation = representation
         
         if representation != "":
-            self.dt, self.dx, self.dy, self.dz = self.representation_2_txyz(representation)
+            self.dt.p, self.dt.n, self.dx.p, self.dx.n, self.dy.p, self.dy.n, self.dz.p, self.dz.n = self.representation_2_txyz(representation)
                 
         self.qtype=qtype
                 
@@ -3048,18 +3048,18 @@ class Q8(Doublet):
         elif self.representation == "polar":
             rep = self.txyz_2_representation("polar")
             string = "(({Ap}, {An}) A, ({thetaXp}, {thetaXn})  𝜈x, ({thetaYp}, {thetaYn}) 𝜈y, ({thetaZp}, {thetaZn}) 𝜈z) {qt}".format(
-                Ap=rep[0].p, An=rep[0].n, 
-                thetaXp=rep[1].p, thetaXn=rep[1].n, 
-                thetaYp=rep[2].p, thetaYn=rep[2].n, 
-                thetaZp=rep[3].p, thetaZn=rep[3].n, qt=self.qtype)
+                Ap=rep[0], An=rep[1], 
+                thetaXp=rep[2], thetaXn=rep[3], 
+                thetaYp=rep[4], thetaYn=rep[5], 
+                thetaZp=rep[6], thetaZn=rep[7], qt=self.qtype)
  
         elif self.representation == "spherical":
             rep = self.txyz_2_representation("spherical")
             string = "(({tp}, {tn}) t, ({Rp}, {Rn}) R, ({thetap}, {thetan}) θ , ({phip}, {phin}) φ) {qt}".format(
-                tp=rep[0].p, tn=rep[0].n, 
-                Rp=rep[1].p, Rn=rep[1].n, 
-                thetap=rep[2].p, thetan=rep[2].n, 
-                phip=rep[3].p, phin=rep[3].n, qt=self.qtype)
+                tp=rep[0], tn=rep[1], 
+                Rp=rep[2], Rn=rep[3], 
+                thetap=rep[4], thetan=rep[5], 
+                phip=rep[6], phin=rep[7], qt=self.qtype)
             
         return string 
 
@@ -3079,7 +3079,8 @@ class Q8(Doublet):
         symbolic = self.is_symbolic()
                 
         if representation == "":
-            rep = [self.dt, self.dx, self.dy, self.dz]
+            rep = [self.dt.p, self.dt.n, self.dx.p, self.dx.n, self.dy.p, self.dy.n, self.dz.p, self.dz.n]
+            return rep
         
         elif representation == "polar":
             
@@ -3110,7 +3111,8 @@ class Q8(Doublet):
                 dthetaY = Doublet(thetaY)
                 dthetaZ = Doublet(thetaZ)
                 
-            rep = [damp, dthetaX, dthetaY, dthetaZ]
+            rep = [damp.p, damp.n, dthetaX.p, dthetaX.n, dthetaY.p, dthetaY.n, dthetaZ.p, dthetaZ.n]
+            return rep
         
         elif representation == "spherical":
             
@@ -3131,17 +3133,16 @@ class Q8(Doublet):
                 theta = math.acos(dzr / R)
                 phi = math.atan2(dyr, dxr)
 
-            dR = Double(R)
-            dtheta = Doublet(dtheta)
-            dphi = Doublet(dphi)
+            dR = Doublet(R)
+            dtheta = Doublet(theta)
+            dphi = Doublet(phi)
             
-            rep = [dt, dR, dtheta, dphi] 
+            rep = [dt.p, dt.n, dR.p, dR.n, dtheta.p, dtheta.n, dphi.p, dphi.n] 
+            return rep
         
         else:
             print("Oops, don't know representation: ", representation)
-            
-        return rep
-    
+        
     def representation_2_txyz(self, representation):
         """Convert from a representation to Cartesian txyz."""
         
@@ -3206,7 +3207,7 @@ class Q8(Doublet):
         else:
             print("Oops, don't know representation: ", representation)
             
-        txyz = [dt, dx, dy, dz]
+        txyz = [dt.p, dt.n, dx.p, dx.n, dy.p, dy.n, dz.p, dz.n]
         
         return txyz 
         
@@ -3219,7 +3220,7 @@ class Q8(Doublet):
         else:
             raise Exception("Oops, 2 quaternions have different representations: {}, {}".format(self.representation, q1.representation))
             return False
-    
+        
     def q4(self):
         """Return a 4 element array."""
         return [self.dt.p - self.dt.n, self.dx.p - self.dx.n, self.dy.p - self.dy.n, self.dz.p - self.dz.n]
@@ -3255,12 +3256,7 @@ class Q8(Doublet):
         return Q8([random.random(), random.random(), random.random(), random.random()], qtype=qtype, representation=self.representation)
     
     def equals(self, q1):
-        """Tests if two quaternions are equal."""
-            
-        print("self dt type: ", type(self.dt))
-        print(self.dt)
-        print("q1 dt type: ", type(q1.dt))
-        print(q1.dt)        
+        """Tests if two quaternions are equal."""    
         
         if self.dt.d_equals(q1.dt) and self.dx.d_equals(q1.dx) and             self.dy.d_equals(q1.dy) and self.dz.d_equals(q1.dz):
             return True
@@ -3932,15 +3928,7 @@ class Q8(Doublet):
         return self
 
 
-# In[64]:
-
-
-print(Q8([1, 2, 0, 0], representation="polar"))
-print(Q8([1, -2, 0, 0], representation="polar"))
-print(QH([1, 2, 0, 0], representation="polar"))
-
-
-# In[65]:
+# In[ ]:
 
 
 class TestQ8(unittest.TestCase):
@@ -4376,7 +4364,7 @@ suite = unittest.TestLoader().loadTestsFromModule(TestQ8())
 unittest.TextTestRunner().run(suite);
 
 
-# In[66]:
+# In[ ]:
 
 
 class TestQ8Rep(unittest.TestCase):
@@ -4392,21 +4380,21 @@ class TestQ8Rep(unittest.TestCase):
     
     # @unittest.skip("problems implementing")
     def test_txyz_2_representation(self):
-        qr = Q8(self.Q12.txyz_2_representation(""))
+        qr = Q8(self.Q12.txyz_2_representation("")).reduce()
         self.assertTrue(qr.equals(self.Q12))
-        qr = Q8(self.Q12.txyz_2_representation("polar"))
+        qr = Q8(self.Q12.txyz_2_representation("polar")).reduce()
         self.assertTrue(qr.equals(Q8([2.23606797749979, 1.10714871779409, 0, 0])))
-        qr = Q8(self.Q1123.txyz_2_representation("spherical"))
+        qr = Q8(self.Q1123.txyz_2_representation("spherical")).reduce()
         self.assertTrue(qr.equals(Q8([1.0, 3.7416573867739413, 0.640522312679424, 1.10714871779409])))
 
         
     # @unittest.skip("problems implementing")    
     def test_representation_2_txyz(self):
-        qr = Q8(self.Q12.representation_2_txyz(""))
+        qr = Q8(self.Q12.representation_2_txyz("")).reduce()
         self.assertTrue(qr.equals(self.Q12))
-        qr = Q8(self.Q12.representation_2_txyz("polar"))
+        qr = Q8(self.Q12.representation_2_txyz("polar")).reduce()
         self.assertTrue(qr.equals(Q8([-0.4161468365471424, 0.9092974268256817, 0, 0])))
-        qr = Q8(self.Q1123.representation_2_txyz("spherical"))
+        qr = Q8(self.Q1123.representation_2_txyz("spherical")).reduce()
         self.assertTrue(qr.equals(Q8([1.0, -0.9001976297355174, 0.12832006020245673, -0.4161468365471424])))
     
     def test_polar_products(self):
@@ -4428,7 +4416,7 @@ unittest.TextTestRunner().run(suite);
 
 # ## Class Q8a as nparrays
 
-# In[18]:
+# In[ ]:
 
 
 class Q8a(Doubleta):
@@ -5487,36 +5475,7 @@ class Q8a(Doubleta):
         return self
 
 
-# In[19]:
-
-
-q1 = Q8([1, 0, 0, 2, 0, 3, 0, 4])
-q2 = Q8a([0, 0, 4, 0, 0, 3, 0, 0])
-q_big = Q8a([1, 2, 3, 4, 5, 6, 7, 8])
-print(q1)
-
-
-# In[20]:
-
-
-q1 = Q8([1, 0, 0, 2, 0, 3, 0, 4])
-q2 = Q8([0, 0, 4, 0, 0, 3, 0, 0])
-q_big = Q8([1, 2, 3, 4, 5, 6, 7, 8])
-q1a = Q8a([1, 0, 0, 2, 0, 3, 0, 4])
-q2a = Q8a([0, 0, 4, 0, 0, 3, 0, 0])
-q_biga = Q8a([1, 2, 3, 4, 5, 6, 7, 8])
-
-print("q1 q2 even: ", q1.product(q2, kind="even"))
-print("q1a q2a even: ", q1a.product(q2a, kind="even"))
-print("q1 q2 odd: ", q1.product(q2, kind="odd"))
-print("q1a q2a odd: ", q1a.product(q2a, kind="odd"))
-print("q1 q2: ", q1.product(q2))
-print("q1a q2a: ", q1a.product(q2a))
-print("q1 q2 norm: ", q1.product(q2).norm_squared())
-print("q1a q2a norm: ", q1a.product(q2a).norm_squared())
-
-
-# In[21]:
+# In[ ]:
 
 
 class TestQ8a(unittest.TestCase):
@@ -5882,148 +5841,7 @@ suite = unittest.TestLoader().loadTestsFromModule(TestQ8a())
 unittest.TextTestRunner().run(suite);
 
 
-# In[22]:
-
-
-Q12 = Q8a([1.0, 2.0, 0, 0])
-Q1123 = Q8a([1.0, 1.0, 2.0, 3.0])
-Q11p = Q8a([1.0, 1.0, 0, 0], representation="polar")
-Q12p = Q8a([1.0, 2.0, 0, 0], representation="polar")
-Q12np = Q8a([1.0, -2.0, 0, 0], representation="polar")
-Q21p = Q8a([2.0, 1.0, 0, 0], representation="polar")
-Q23p = Q8a([2.0, 3.0, 0, 0], representation="polar")
-Q13p = Q8a([1.0, 3.0, 0, 0], representation="polar")
-Q5p = Q8a([5.0, 0, 0, 0], representation="polar")
-print(Q11p)
-print(Q12p)
-print(Q11p.product(Q12p).reduce())
-print(Q11p.product(Q12p))
-print(Q11p.norm_squared())
-print(Q12p.norm_squared())
-print(Q11p.product(Q12p).norm_squared())
-
-
-# In[23]:
-
-
-hQ12 = QH([1.0, 2.0, 0, 0])
-hQ1123 = QH([1.0, 1.0, 2.0, 3.0])
-hQ11p = QH([1.0, 1.0, 0, 0], representation="polar")
-hQ12p = QH([1.0, 2.0, 0, 0], representation="polar")
-hQ12np = QH([1.0, -2.0, 0, 0], representation="polar")
-hQ21p = QH([2.0, 1.0, 0, 0], representation="polar")
-hQ23p = QH([2.0, 3.0, 0, 0], representation="polar")
-hQ13p = QH([1.0, 3.0, 0, 0], representation="polar")
-hQ5p = QH([5.0, 0, 0, 0], representation="polar")
-print(hQ11p)
-print(hQ12p)
-print(hQ11p.product(hQ12p))
-print(hQ11p.norm_squared())
-print(hQ12p.norm_squared())
-print(hQ11p.product(hQ12p).norm_squared())
-
-
-# In[24]:
-
-
-haQ12 = QHa([1.0, 2.0, 0, 0])
-haQ1123 = QHa([1.0, 1.0, 2.0, 3.0])
-haQ11p = QHa([1.0, 1.0, 0, 0], representation="polar")
-haQ12p = QHa([1.0, 2.0, 0, 0], representation="polar")
-haQ12np = QHa([1.0, -2.0, 0, 0], representation="polar")
-haQ21p = QHa([2.0, 1.0, 0, 0], representation="polar")
-haQ23p = QHa([2.0, 3.0, 0, 0], representation="polar")
-haQ13p = QHa([1.0, 3.0, 0, 0], representation="polar")
-haQ5p = QHa([5.0, 0, 0, 0], representation="polar")
-print(haQ11p)
-print(haQ12p)
-print(haQ11p.product(haQ12p))
-print(haQ11p.norm_squared())
-print(haQ12p.norm_squared())
-print(haQ11p.product(haQ12p).norm_squared())
-
-
-# In[25]:
-
-
-h8Q12 = Q8([1.0, 2.0, 0, 0])
-h8Q1123 = Q8([1.0, 1.0, 2.0, 3.0])
-h8Q11p = Q8([1.0, 1.0, 0, 0], representation="polar")
-h8Q12p = Q8([1.0, 2.0, 0, 0], representation="polar")
-h8Q12np = Q8([1.0, -2.0, 0, 0], representation="polar")
-h8Q21p = Q8([2.0, 1.0, 0, 0], representation="polar")
-h8Q23p = Q8([2.0, 3.0, 0, 0], representation="polar")
-h8Q13p = Q8([1.0, 3.0, 0, 0], representation="polar")
-h8Q5p = Q8([5.0, 0, 0, 0], representation="polar")
-print(h8Q11p)
-print(h8Q12p)
-print(h8Q11p.product(h8Q12p))
-print(h8Q11p.norm_squared())
-print(h8Q12p.norm_squared())
-print(h8Q11p.product(h8Q12p).norm_squared().reduce())
-
-
-# In[26]:
-
-
-h8aQ12 = Q8a([1.0, 2.0, 0, 0])
-h8aQ1123 = Q8a([1.0, 1.0, 2.0, 3.0])
-h8aQ11p = Q8a([1.0, 1.0, 0, 0], representation="polar")
-h8aQ12p = Q8a([1.0, 2.0, 0, 0], representation="polar")
-h8aQ12np = Q8a([1.0, -2.0, 0, 0], representation="polar")
-h8aQ21p = Q8a([2.0, 1.0, 0, 0], representation="polar")
-h8aQ23p = Q8a([2.0, 3.0, 0, 0], representation="polar")
-h8aQ13p = Q8a([1.0, 3.0, 0, 0], representation="polar")
-h8aQ5p = Q8a([5.0, 0, 0, 0], representation="polar")
-print(h8aQ11p)
-print(h8aQ12p)
-print(h8aQ11p.product(h8aQ12p))
-print(h8aQ11p.norm_squared())
-print(h8aQ12p.norm_squared())
-print(h8aQ11p.product(h8aQ12p).norm_squared().reduce())
-
-
-# In[27]:
-
-
-h8acQ12 = Q8a([1.0, 2.0, 0, 0])
-h8acQ1123 = Q8a([1.0, 1.0, 2.0, 3.0])
-h8acQ11p = Q8a([1.0, 1.0, 0, 0], representation="")
-h8acQ12p = Q8a([1.0, 2.0, 0, 0], representation="")
-h8acQ12np = Q8a([1.0, -2.0, 0, 0], representation="")
-h8acQ21p = Q8a([2.0, 1.0, 0, 0], representation="")
-h8acQ23p = Q8a([2.0, 3.0, 0, 0], representation="")
-h8acQ13p = Q8a([1.0, 3.0, 0, 0], representation="")
-h8acQ5p = Q8a([5.0, 0, 0, 0], representation="")
-print(h8acQ11p)
-print(h8acQ12p)
-print(h8acQ11p.product(h8acQ12p))
-print(h8acQ11p.norm_squared())
-print(h8acQ12p.norm_squared())
-print(h8acQ11p.product(h8acQ12p).norm_squared().reduce())
-
-
-# In[28]:
-
-
-h8cQ12 = Q8([1.0, 2.0, 0, 0])
-h8cQ1123 = Q8([1.0, 1.0, 2.0, 3.0])
-h8cQ11p = Q8([1.0, 1.0, 0, 0], representation="")
-h8cQ12p = Q8([1.0, 2.0, 0, 0], representation="")
-h8cQ12np = Q8([1.0, -2.0, 0, 0], representation="")
-h8cQ21p = Q8([2.0, 1.0, 0, 0], representation="")
-h8cQ23p = Q8([2.0, 3.0, 0, 0], representation="")
-h8cQ13p = Q8([1.0, 3.0, 0, 0], representation="")
-h8cQ5p = Q8([5.0, 0, 0, 0], representation="")
-print(h8cQ11p)
-print(h8cQ12p)
-print(h8cQ11p.product(h8cQ12p))
-print(h8cQ11p.norm_squared())
-print(h8cQ12p.norm_squared())
-print(h8cQ11p.product(h8cQ12p).norm_squared().reduce())
-
-
-# In[29]:
+# In[ ]:
 
 
 class TestQ8aRep(unittest.TestCase):
@@ -6084,7 +5902,7 @@ unittest.TextTestRunner().run(suite);
 # Such an exact relation is not of much interest to physicists since Einstein showed that holds for only one set of observers. If one is moving relative to the reference observer, the two events would look like they occured at different times in the future, presuming perfectly accurate measuring devices.
 # 
 
-# In[30]:
+# In[ ]:
 
 
 def round_sig_figs(num, sig_figs):
@@ -6098,7 +5916,7 @@ def round_sig_figs(num, sig_figs):
         return 0  # Can't take the log of 0
 
 
-# In[31]:
+# In[ ]:
 
 
 class EQ(object):
@@ -6422,7 +6240,7 @@ class EQ(object):
     
 
 
-# In[32]:
+# In[ ]:
 
 
 class TestEQ(unittest.TestCase):
@@ -6532,7 +6350,7 @@ class TestEQ(unittest.TestCase):
         self.assertTrue(eq_small_tiny.norm_squared_of_unity() == 'less_than_unity')
 
 
-# In[33]:
+# In[ ]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestEQ())
@@ -6543,7 +6361,7 @@ unittest.TextTestRunner().run(suite);
 
 # Create a class that can make many, many quaternions.
 
-# In[34]:
+# In[ ]:
 
 
 class QHArray(QH):
@@ -6616,7 +6434,7 @@ class QHArray(QH):
         return QH([new_t, new_x, new_y, new_z])
 
 
-# In[35]:
+# In[ ]:
 
 
 class TestQHArray(unittest.TestCase):
@@ -6644,7 +6462,7 @@ class TestQHArray(unittest.TestCase):
         self.assertTrue(self.qha.q_max.z > 13.9)
 
 
-# In[36]:
+# In[ ]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHArray())
@@ -6653,7 +6471,7 @@ unittest.TextTestRunner().run(suite);
 
 # ## Array of nparrays
 
-# In[37]:
+# In[ ]:
 
 
 class QHaArray(QHa):
@@ -6716,7 +6534,7 @@ class QHaArray(QHa):
                 self.q_max.a[3] = q1.a[3]
 
 
-# In[38]:
+# In[ ]:
 
 
 class TestQHaArray(unittest.TestCase):
@@ -6744,7 +6562,7 @@ class TestQHaArray(unittest.TestCase):
         self.assertTrue(self.qha.q_max.a[3] > 13.9)
 
 
-# In[39]:
+# In[ ]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHaArray())
@@ -6755,7 +6573,7 @@ unittest.TextTestRunner().run(suite);
 
 # Any quaternion can be viewed as the sum of n other quaternions. This is common to see in quantum mechanics, whose needs are driving the development of this class and its methods.
 
-# In[40]:
+# In[ ]:
 
 
 class QHStates(QH):
@@ -7137,7 +6955,7 @@ class QHStates(QH):
         return signma[kind].normalize()
 
 
-# In[41]:
+# In[ ]:
 
 
 class TestQHStates(unittest.TestCase):
@@ -7328,7 +7146,7 @@ class TestQHStates(unittest.TestCase):
         self.assertTrue(self.Op4i.is_square())
 
 
-# In[42]:
+# In[ ]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHStates())
@@ -7343,7 +7161,7 @@ unittest.TextTestRunner().run(suite);
 # 
 # by old fashioned cut and paste with minor tweaks (boring).
 
-# In[43]:
+# In[ ]:
 
 
 class QHaStates(QHa):
@@ -7611,7 +7429,7 @@ class QHaStates(QHa):
         return norm
 
 
-# In[44]:
+# In[ ]:
 
 
 class TestQHaStates(unittest.TestCase):
@@ -7748,14 +7566,14 @@ class TestQHaStates(unittest.TestCase):
         self.assertTrue(opn.qs[0].a[1] == 3)
 
 
-# In[45]:
+# In[ ]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQHaStates())
 unittest.TextTestRunner().run(suite);
 
 
-# In[46]:
+# In[ ]:
 
 
 class Q8States(Q8):
@@ -8023,7 +7841,7 @@ class Q8States(Q8):
         return norm
 
 
-# In[47]:
+# In[ ]:
 
 
 class TestQ8States(unittest.TestCase):
@@ -8169,14 +7987,14 @@ class TestQ8States(unittest.TestCase):
         self.assertTrue(opn.qs[0].dx.p == 3)
 
 
-# In[48]:
+# In[ ]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8States())
 unittest.TextTestRunner().run(suite);
 
 
-# In[49]:
+# In[ ]:
 
 
 class Q8aStates(Q8a):
@@ -8447,7 +8265,7 @@ class Q8aStates(Q8a):
         return norm
 
 
-# In[50]:
+# In[ ]:
 
 
 class TestQ8aStates(unittest.TestCase):
@@ -8592,51 +8410,9 @@ class TestQ8aStates(unittest.TestCase):
         self.assertTrue(opn.qs[0].a[2] == 3)
 
 
-# In[51]:
+# In[ ]:
 
 
 suite = unittest.TestLoader().loadTestsFromModule(TestQ8aStates())
 unittest.TextTestRunner().run(suite);
-
-
-# In[52]:
-
-
-print("QH 1 2 3 4", QH([1, 2, 3, 4], representation="polar"))
-print("QH 1 2 3 4 *", QH([1, 2, 3, 4], representation="polar").conj())
-print("QHa 1 2 3 4", QHa([1, 2, 3, 4], representation="polar"))
-print("QHa 1 2 3 4 *", QHa([1, 2, 3, 4], representation="polar").conj())
-print("Q8 1 2 3 4", Q8([1, 2, 3, 4], representation="polar"))
-print("Q8 1 2 3 4 *", Q8([1, 2, 3, 4], representation="polar").conj())
-print("Q8a 1 2 3 4", Q8a([1, 2, 3, 4], representation="polar"))
-print("Q8a 1 2 3 4 *", Q8a([1, 2, 3, 4], representation="polar").conj())
-
-
-# In[53]:
-
-
-print("QH 1 2 3 4", QH([1, 2, 3, 4], representation="spherical"))
-print("QH 1 2 3 4 *", QH([1, 2, 3, 4], representation="spherical").conj())
-print("QHa 1 2 3 4", QHa([1, 2, 3, 4], representation="spherical"))
-print("QHa 1 2 3 4 *", QHa([1, 2, 3, 4], representation="spherical").conj())
-print("Q8 1 2 3 4", Q8([1, 2, 3, 4], representation="spherical"))
-print("Q8 1 2 3 4 *", Q8([1, 2, 3, 4], representation="spherical").conj())
-print("Q8a 1 2 3 4", Q8a([1.0, 2.0, 3.0, 4.0], representation="spherical"))
-print("Q8a 1 2 3 4 *", Q8a([1, 2.0, 3.0, 4.0], representation="spherical").conj())
-
-
-# In[54]:
-
-
-dt = Doublet(3)
-print(dt.p)
-print(dt.n)
-
-
-# In[55]:
-
-
-dt = Doubleta(3)
-print(dt.d[0])
-print(dt.d[1])
 

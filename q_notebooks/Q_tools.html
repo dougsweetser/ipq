@@ -13178,7 +13178,7 @@ q_1:  (1, 0, 0, 0) 1
 q_i:  (0, 1, 0, 0) i
 q_j:  (0, 0, 1, 0) j
 q_k:  (0, 0, 0, 1) k
-q_random(): (0.32873578433758, 0.1314172736307736, 0.8475062661337694, 0.533136281186484) ?
+q_random(): (0.7176559583163861, 0.3127502170692513, 0.21955773980968007, 0.06807095398174157) ?
 rotate:  (1.0, -2.0, 3.0, 4.0) Qrot
 square:  (-28, -4, -6, -8) Q^2
 triple product:  (-2, 124, -84, 8) QxPxQ
@@ -13197,7 +13197,7 @@ q_vahlen_conj *:  (1, -2, -3, 4) Qvc*
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 43 tests in 0.091s
+Ran 43 tests in 0.088s
 
 OK
 </pre>
@@ -13272,7 +13272,7 @@ OK
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>....
-</pre>
+----------------------------------------------------------------------</pre>
 </div>
 </div>
 
@@ -13295,8 +13295,8 @@ polar 1 2 0 0 * 2 1 0 0:  (2.0 A, 3.0 𝜈x, 0.0 𝜈y, 0.0 𝜈z) QxQ
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>----------------------------------------------------------------------
-Ran 4 tests in 0.009s
+<pre>
+Ran 4 tests in 0.015s
 
 OK
 </pre>
@@ -14609,7 +14609,7 @@ q_1:  (1.0, 0.0, 0.0, 0.0) 1
 q_i:  (0.0, 1.0, 0.0, 0.0) i
 q_1:  (0.0, 0.0, 1.0, 0.0) j
 q_k:  (0.0, 0.0, 0.0, 1.0) k
-q_random():  (0.1281864745225536, 0.24605760464638793, 0.7192170207179763, 0.820487830515869) ?
+q_random():  (0.12363760303429738, 0.6519331468629432, 0.6383016412352276, 0.37924394762288227) ?
 rotate:  (1.0, -2.0, 3.0, 4.0) Qrot
 square:  (-28.0, -4.0, -6.0, -8.0) Q^2
 triple product:  (-2.0, 124.0, -84.0, 8.0) QxPxQ
@@ -14628,7 +14628,7 @@ q_vahlen_conj *:  (1.0, -2.0, -3.0, 4.0) Qvc*
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>
 ----------------------------------------------------------------------
-Ran 43 tests in 0.122s
+Ran 43 tests in 0.088s
 
 OK
 </pre>
@@ -14703,7 +14703,8 @@ OK
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>....</pre>
+<pre>....
+</pre>
 </div>
 </div>
 
@@ -14727,8 +14728,7 @@ polar 1 2 0 0 * 2 1 0 0:  (2.0 A, 3.0 𝜈x, 0.0 𝜈y, 0.0 𝜈z) QxQ
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>
-----------------------------------------------------------------------
+<pre>----------------------------------------------------------------------
 Ran 4 tests in 0.010s
 
 OK
@@ -14977,7 +14977,7 @@ OK
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>...........
 ----------------------------------------------------------------------
-Ran 11 tests in 0.016s
+Ran 11 tests in 0.012s
 
 OK
 </pre>
@@ -15194,7 +15194,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestDoubleta</span><span class="p">())</span>
@@ -15217,7 +15217,7 @@ OK
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>...........
 ----------------------------------------------------------------------
-Ran 11 tests in 0.013s
+Ran 11 tests in 0.018s
 
 OK
 </pre>
@@ -15247,10 +15247,10 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[60]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Q8</span><span class="p">(</span><span class="n">Doublet</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Q8</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Quaternions on a quaternion manifold or space-time numbers.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">qtype</span><span class="o">=</span><span class="s2">&quot;Q&quot;</span><span class="p">,</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
@@ -15272,7 +15272,7 @@ OK
         <span class="bp">self</span><span class="o">.</span><span class="n">representation</span> <span class="o">=</span> <span class="n">representation</span>
         
         <span class="k">if</span> <span class="n">representation</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">representation_2_txyz</span><span class="p">(</span><span class="n">representation</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">representation_2_txyz</span><span class="p">(</span><span class="n">representation</span><span class="p">)</span>
                 
         <span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="o">=</span><span class="n">qtype</span>
                 
@@ -15289,18 +15289,18 @@ OK
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">representation</span> <span class="o">==</span> <span class="s2">&quot;polar&quot;</span><span class="p">:</span>
             <span class="n">rep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">txyz_2_representation</span><span class="p">(</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
             <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;((</span><span class="si">{Ap}</span><span class="s2">, </span><span class="si">{An}</span><span class="s2">) A, (</span><span class="si">{thetaXp}</span><span class="s2">, </span><span class="si">{thetaXn}</span><span class="s2">)  𝜈x, (</span><span class="si">{thetaYp}</span><span class="s2">, </span><span class="si">{thetaYn}</span><span class="s2">) 𝜈y, (</span><span class="si">{thetaZp}</span><span class="s2">, </span><span class="si">{thetaZn}</span><span class="s2">) 𝜈z) </span><span class="si">{qt}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">Ap</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">An</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> 
-                <span class="n">thetaXp</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">thetaXn</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> 
-                <span class="n">thetaYp</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">thetaYn</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> 
-                <span class="n">thetaZp</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">thetaZn</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">qt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
+                <span class="n">Ap</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">An</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> 
+                <span class="n">thetaXp</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">thetaXn</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> 
+                <span class="n">thetaYp</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">thetaYn</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> 
+                <span class="n">thetaZp</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">thetaZn</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">qt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
  
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">representation</span> <span class="o">==</span> <span class="s2">&quot;spherical&quot;</span><span class="p">:</span>
             <span class="n">rep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">txyz_2_representation</span><span class="p">(</span><span class="s2">&quot;spherical&quot;</span><span class="p">)</span>
             <span class="n">string</span> <span class="o">=</span> <span class="s2">&quot;((</span><span class="si">{tp}</span><span class="s2">, </span><span class="si">{tn}</span><span class="s2">) t, (</span><span class="si">{Rp}</span><span class="s2">, </span><span class="si">{Rn}</span><span class="s2">) R, (</span><span class="si">{thetap}</span><span class="s2">, </span><span class="si">{thetan}</span><span class="s2">) θ , (</span><span class="si">{phip}</span><span class="s2">, </span><span class="si">{phin}</span><span class="s2">) φ) </span><span class="si">{qt}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="n">tp</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">tn</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> 
-                <span class="n">Rp</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">Rn</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> 
-                <span class="n">thetap</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">thetan</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> 
-                <span class="n">phip</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">phin</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">qt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
+                <span class="n">tp</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tn</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> 
+                <span class="n">Rp</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">Rn</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> 
+                <span class="n">thetap</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">thetan</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> 
+                <span class="n">phip</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">phin</span><span class="o">=</span><span class="n">rep</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">qt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">qtype</span><span class="p">)</span>
             
         <span class="k">return</span> <span class="n">string</span> 
 
@@ -15323,7 +15323,8 @@ OK
         <span class="n">symbolic</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_symbolic</span><span class="p">()</span>
                 
         <span class="k">if</span> <span class="n">representation</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-            <span class="n">rep</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dz</span><span class="p">]</span>
+            <span class="n">rep</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">n</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">rep</span>
         
         <span class="k">elif</span> <span class="n">representation</span> <span class="o">==</span> <span class="s2">&quot;polar&quot;</span><span class="p">:</span>
             
@@ -15354,7 +15355,8 @@ OK
                 <span class="n">dthetaY</span> <span class="o">=</span> <span class="n">Doublet</span><span class="p">(</span><span class="n">thetaY</span><span class="p">)</span>
                 <span class="n">dthetaZ</span> <span class="o">=</span> <span class="n">Doublet</span><span class="p">(</span><span class="n">thetaZ</span><span class="p">)</span>
                 
-            <span class="n">rep</span> <span class="o">=</span> <span class="p">[</span><span class="n">damp</span><span class="p">,</span> <span class="n">dthetaX</span><span class="p">,</span> <span class="n">dthetaY</span><span class="p">,</span> <span class="n">dthetaZ</span><span class="p">]</span>
+            <span class="n">rep</span> <span class="o">=</span> <span class="p">[</span><span class="n">damp</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">damp</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dthetaX</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">dthetaX</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dthetaY</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">dthetaY</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dthetaZ</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">dthetaZ</span><span class="o">.</span><span class="n">n</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">rep</span>
         
         <span class="k">elif</span> <span class="n">representation</span> <span class="o">==</span> <span class="s2">&quot;spherical&quot;</span><span class="p">:</span>
             
@@ -15375,17 +15377,16 @@ OK
                 <span class="n">theta</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">dzr</span> <span class="o">/</span> <span class="n">R</span><span class="p">)</span>
                 <span class="n">phi</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">dyr</span><span class="p">,</span> <span class="n">dxr</span><span class="p">)</span>
 
-            <span class="n">dR</span> <span class="o">=</span> <span class="n">Double</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
-            <span class="n">dtheta</span> <span class="o">=</span> <span class="n">Doublet</span><span class="p">(</span><span class="n">dtheta</span><span class="p">)</span>
-            <span class="n">dphi</span> <span class="o">=</span> <span class="n">Doublet</span><span class="p">(</span><span class="n">dphi</span><span class="p">)</span>
+            <span class="n">dR</span> <span class="o">=</span> <span class="n">Doublet</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+            <span class="n">dtheta</span> <span class="o">=</span> <span class="n">Doublet</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+            <span class="n">dphi</span> <span class="o">=</span> <span class="n">Doublet</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
             
-            <span class="n">rep</span> <span class="o">=</span> <span class="p">[</span><span class="n">dt</span><span class="p">,</span> <span class="n">dR</span><span class="p">,</span> <span class="n">dtheta</span><span class="p">,</span> <span class="n">dphi</span><span class="p">]</span> 
+            <span class="n">rep</span> <span class="o">=</span> <span class="p">[</span><span class="n">dt</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">dt</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dR</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">dR</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dtheta</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">dtheta</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dphi</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">dphi</span><span class="o">.</span><span class="n">n</span><span class="p">]</span> 
+            <span class="k">return</span> <span class="n">rep</span>
         
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Oops, don&#39;t know representation: &quot;</span><span class="p">,</span> <span class="n">representation</span><span class="p">)</span>
-            
-        <span class="k">return</span> <span class="n">rep</span>
-    
+        
     <span class="k">def</span> <span class="nf">representation_2_txyz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">representation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Convert from a representation to Cartesian txyz.&quot;&quot;&quot;</span>
         
@@ -15450,7 +15451,7 @@ OK
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Oops, don&#39;t know representation: &quot;</span><span class="p">,</span> <span class="n">representation</span><span class="p">)</span>
             
-        <span class="n">txyz</span> <span class="o">=</span> <span class="p">[</span><span class="n">dt</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">dz</span><span class="p">]</span>
+        <span class="n">txyz</span> <span class="o">=</span> <span class="p">[</span><span class="n">dt</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">dt</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dx</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">dx</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dy</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">dy</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">dz</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">dz</span><span class="o">.</span><span class="n">n</span><span class="p">]</span>
         
         <span class="k">return</span> <span class="n">txyz</span> 
         
@@ -15463,7 +15464,7 @@ OK
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Oops, 2 quaternions have different representations: </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">representation</span><span class="p">,</span> <span class="n">q1</span><span class="o">.</span><span class="n">representation</span><span class="p">))</span>
             <span class="k">return</span> <span class="kc">False</span>
-    
+        
     <span class="k">def</span> <span class="nf">q4</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a 4 element array.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">p</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">p</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">p</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">p</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">n</span><span class="p">]</span>
@@ -15499,12 +15500,7 @@ OK
         <span class="k">return</span> <span class="n">Q8</span><span class="p">([</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()],</span> <span class="n">qtype</span><span class="o">=</span><span class="n">qtype</span><span class="p">,</span> <span class="n">representation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">representation</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="nf">equals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q1</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Tests if two quaternions are equal.&quot;&quot;&quot;</span>
-            
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;self dt type: &quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;q1 dt type: &quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">q1</span><span class="o">.</span><span class="n">dt</span><span class="p">))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">q1</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>        
+        <span class="sd">&quot;&quot;&quot;Tests if two quaternions are equal.&quot;&quot;&quot;</span>    
         
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">d_equals</span><span class="p">(</span><span class="n">q1</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">dx</span><span class="o">.</span><span class="n">d_equals</span><span class="p">(</span><span class="n">q1</span><span class="o">.</span><span class="n">dx</span><span class="p">)</span> <span class="ow">and</span> \
             <span class="bp">self</span><span class="o">.</span><span class="n">dy</span><span class="o">.</span><span class="n">d_equals</span><span class="p">(</span><span class="n">q1</span><span class="o">.</span><span class="n">dy</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">dz</span><span class="o">.</span><span class="n">d_equals</span><span class="p">(</span><span class="n">q1</span><span class="o">.</span><span class="n">dz</span><span class="p">):</span>
@@ -16184,42 +16180,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[64]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">QH</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>((1.0, 0) A, (2.0, 0)  𝜈x, (0.0, 0) 𝜈y, (0.0, 0) 𝜈z) Q
-((1.0, 0) A, (0, 2.0)  𝜈x, (0.0, 0) 𝜈y, (0.0, 0) 𝜈z) Q
-(1.0 A, 2.0 𝜈x, 0.0 𝜈y, 0.0 𝜈z) Q
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[65]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQ8</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -16659,266 +16620,10 @@ OK
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>.............................................</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Euclidean product: {} ((1, 0), (16, 0), (13, 0), (0, 18)) Q*xQ-reduced
-abs_of_q: {} ((5.0, 0), (0, 0), (0, 0), (0, 0)) |Q|
-abs_of_vector: {} ((5.0, 0), (0, 0), (0, 0), (0, 0)) |Q|
-add: {} ((1, 0), (4, 2), (0, 6), (0, 4)) Q+Q
-add reduce: ((1, 0), (2, 0), (0, 6), (0, 4)) Q+Q-reduced
-Q_sq: ((0, 28), (0, 4), (0, 6), (0, 8)) Q^2-reduced
-boosted: {} ((1.51802716224446, 0.5060090540814867), (1.0030180271622444, 3.0090540814867333), (1.5240542164879485, 4.524054216487949), (2.0180721626494638, 6.018072162649464)) QBoost!
-b squared: ((0, 28.000000000000007), (0, 4.06028962520837), (0, 6.072108648977842), (0, 8.096144865303788)) QBoost!^2-reduced
-conj 0: {} ((1, 0), (2, 0), (3, 0), (4, 0)) Q*
-conj 1: {} ((0, 1), (0, 2), (3, 0), (4, 0)) Q*1
-conj 2: {} ((0, 1), (2, 0), (0, 3), (4, 0)) Q*2
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-58.93364616794395p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-58.93364616794395p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-74.20994852478785p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-74.20994852478785p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0.9899924966004454n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0.9899924966004454n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  11.36423470640106n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  11.36423470640106n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.9615851176369565p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.9615851176369565p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.2836621854632263p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.2836621854632263p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-10.067661995777765p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-10.067661995777765p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  2.4591352139173837n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  2.4591352139173837n
-dif: {} ((1, 0), (0, 6), (3, 3), (0, 4)) Q-Q
-inverse: {} ((1.0, 0.0), (0, 0), (0, 0), (0, 0)) Q/Q-reduced
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.6939227236832994p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.6939227236832994p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.2836621854632263p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.2836621854632263p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-20.085536923187668p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-20.085536923187668p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  4.829809383269385n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  4.829809383269385n
-Q_sq: ((0, 28), (0, 4), (0, 6), (0, 8)) Q^2-reduced
-g_shift: {} ((0.997004495503373, 0), (0, 2.00600900900675), (0, 3.00901351351013), (0, 4.01201801801351)) QG_shift
-g squared: ((0, 28.1805050815139), (0, 4.00000000000000), (0, 6.00000000000000), (0, 8.00000000000000)) QG_shift^2-reduced
-inverse: {} ((0.0, 0.0), (0.0, 0.16), (0.12, 0.0), (0.0, 0.0)) Q^-1-reduced
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.000000000000001p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.7005986908310777p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.7005986908310777p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.6094379124341003p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.6094379124341003p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.0986122886681098p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.0986122886681098p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.4978661367769954p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.4978661367769954p  0n
-norm_squared: {} ((30, 0), (0, 0), (0, 0), (0, 0)) ||Q||^2
-norm_squared_of_vector: {} ((29, 0), (0, 0), (0, 0), (0, 0)) ||Q||^2
-q_normalized: {} ((0.0, 0.0), (0.8, 0.0), (0.0, 0.6000000000000001), (0.0, 0.0)) QU
-product: {} ((0, 1), (0, 8), (0, 19), (18, 0)) QxQ-reduced
-product, kind even: {} ((0, 1), (4, 0), (0, 3), (0, 0)) QxEQ-reduced
-product, kind odd: {} ((0, 1), (16, 0), (13, 0), (0, 18)) QxE-OQ-reduced
-product, kind odd: {} ((0, 0), (0, 12), (0, 16), (18, 0)) QxOQ-reduced
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-8p  9n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-8p  9n
-q_0: {} ((0, 0), (0, 0), (0, 0), (0, 0)) 0
-q_1: {} ((1, 0), (0, 0), (0, 0), (0, 0)) 1
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0.019721965353071347n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0.0197219653530713n
-q_i: {} ((0, 0), (1, 0), (0, 0), (0, 0)) i
-q_j: {} ((0, 0), (0, 0), (1, 0), (0, 0)) j
-q_k: {} ((0, 0), (0, 0), (0, 0), (1, 0)) k
-q_random(): ((0.6771957913042104, 0), (0.5072882991692755, 0), (0.863122436576331, 0), (0.9107892513338999, 0)) ?
-q_big reduced: ((0, 1), (0, 1), (0, 1), (0, 1)) Q-reduced
-rotate: {} ((1.0, 0.0), (0.0, 2.0), (3.0, 0.0), (4.0, 0.0)) Q/|Q|xQxQ/|Q|*-reduced
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-91.78371578403467p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-91.78371578403467p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.1411200080598672p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.1411200080598672p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-24.83130584894638p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-24.83130584894638p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.7323376060463428p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.7323376060463428p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-10.017874927409903p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-10.017874927409903p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  2.3706741693520015n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  2.3706741693520015n
-square: ((1, 29), (0, 4), (0, 6), (0, 8)) Q^2
-square reduced: ((0, 28), (0, 4), (0, 6), (0, 8)) Q^2-reduced
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.45467577337123p  0.4546375570539799n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-3.82163172501e-05p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.0p  0.0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0.1425465430742778n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0.1425465430742778n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.3783132764892559p  0.37882125711272585n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0.00050798062347n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.0248695360556623p  0.0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.0248695360556623p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.0p  0.0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.9950547536867305p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.9950547536867305p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.0046823121902353p  0.0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1.0046823121902353p  0n
-triple: {} ((0, 2), (124, 0), (0, 84), (8, 0)) QxQxQ-reduced
-vahlen conj -: {} ((1, 0), (2, 0), (3, 0), (4, 0)) Qvc-
-vahlen conj &#39;: {} ((1, 0), (2, 0), (3, 0), (0, 4)) Qvc&#39;
-vahlen conj *: {} ((1, 0), (0, 2), (0, 3), (4, 0)) Qvc*
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>
-----------------------------------------------------------------------
-Ran 45 tests in 0.140s
-
-OK
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQ8Rep</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -16934,21 +16639,21 @@ OK
     
     <span class="c1"># @unittest.skip(&quot;problems implementing&quot;)</span>
     <span class="k">def</span> <span class="nf">test_txyz_2_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">qr</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q12</span><span class="o">.</span><span class="n">txyz_2_representation</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">))</span>
+        <span class="n">qr</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q12</span><span class="o">.</span><span class="n">txyz_2_representation</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">qr</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q12</span><span class="p">))</span>
-        <span class="n">qr</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q12</span><span class="o">.</span><span class="n">txyz_2_representation</span><span class="p">(</span><span class="s2">&quot;polar&quot;</span><span class="p">))</span>
+        <span class="n">qr</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q12</span><span class="o">.</span><span class="n">txyz_2_representation</span><span class="p">(</span><span class="s2">&quot;polar&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">qr</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="mf">2.23606797749979</span><span class="p">,</span> <span class="mf">1.10714871779409</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
-        <span class="n">qr</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q1123</span><span class="o">.</span><span class="n">txyz_2_representation</span><span class="p">(</span><span class="s2">&quot;spherical&quot;</span><span class="p">))</span>
+        <span class="n">qr</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q1123</span><span class="o">.</span><span class="n">txyz_2_representation</span><span class="p">(</span><span class="s2">&quot;spherical&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">qr</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.7416573867739413</span><span class="p">,</span> <span class="mf">0.640522312679424</span><span class="p">,</span> <span class="mf">1.10714871779409</span><span class="p">])))</span>
 
         
     <span class="c1"># @unittest.skip(&quot;problems implementing&quot;)    </span>
     <span class="k">def</span> <span class="nf">test_representation_2_txyz</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">qr</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q12</span><span class="o">.</span><span class="n">representation_2_txyz</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">))</span>
+        <span class="n">qr</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q12</span><span class="o">.</span><span class="n">representation_2_txyz</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">qr</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q12</span><span class="p">))</span>
-        <span class="n">qr</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q12</span><span class="o">.</span><span class="n">representation_2_txyz</span><span class="p">(</span><span class="s2">&quot;polar&quot;</span><span class="p">))</span>
+        <span class="n">qr</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q12</span><span class="o">.</span><span class="n">representation_2_txyz</span><span class="p">(</span><span class="s2">&quot;polar&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">qr</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="o">-</span><span class="mf">0.4161468365471424</span><span class="p">,</span> <span class="mf">0.9092974268256817</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])))</span>
-        <span class="n">qr</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q1123</span><span class="o">.</span><span class="n">representation_2_txyz</span><span class="p">(</span><span class="s2">&quot;spherical&quot;</span><span class="p">))</span>
+        <span class="n">qr</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Q1123</span><span class="o">.</span><span class="n">representation_2_txyz</span><span class="p">(</span><span class="s2">&quot;spherical&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">reduce</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">qr</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">Q8</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9001976297355174</span><span class="p">,</span> <span class="mf">0.12832006020245673</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4161468365471424</span><span class="p">])))</span>
     
     <span class="k">def</span> <span class="nf">test_polar_products</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -16972,97 +16677,6 @@ OK
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>..EE</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>polar conj of 1 2 0 0:  ((1.0, 0) A, (0, 2.0)  𝜈x, (0.0, 0) 𝜈y, (0.0, 0) 𝜈z) Q*-reduced
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0.4161468365471424n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0.4161468365471424n
-polar 1 1 0 0 * 1 2 0 0:  ((0.0, 0.9899924966004455), (0.1411200080598673, 0), (0.0, 0.0), (0.0, 0.0)) QxQ-reduced
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.0p  0.9899924966004455n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0.9899924966004454n
-polar 1 2 0 0 * 2 1 0 0:  ((0.0, 1.979984993200891), (0.2822400161197346, 0), (0.0, 0.0), (0.0, 0.0)) QxQ-reduced
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0.0p  1.979984993200891n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  1.9799849932008908n
-unable to parse this Double.
-unable to parse this Double.
-unable to parse this Double.
-unable to parse this Double.
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-unable to parse this Double.
-unable to parse this Double.
-unable to parse this Double.
-unable to parse this Double.
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>
-======================================================================
-ERROR: test_representation_2_txyz (__main__.TestQ8Rep)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File &#34;&lt;ipython-input-66-8c33e26d9b7f&gt;&#34;, line 25, in test_representation_2_txyz
-    self.assertTrue(qr.equals(self.Q12))
-  File &#34;&lt;ipython-input-60-079a33f78896&gt;&#34;, line 250, in equals
-    print(self.dt)
-  File &#34;&lt;ipython-input-9-6c26539aafb6&gt;&#34;, line 61, in __str__
-    return &#34;{p}p  {n}n&#34;.format(p=self.p, n=self.n)
-AttributeError: &#39;Doublet&#39; object has no attribute &#39;p&#39;
-
-======================================================================
-ERROR: test_txyz_2_representation (__main__.TestQ8Rep)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File &#34;&lt;ipython-input-66-8c33e26d9b7f&gt;&#34;, line 15, in test_txyz_2_representation
-    self.assertTrue(qr.equals(self.Q12))
-  File &#34;&lt;ipython-input-60-079a33f78896&gt;&#34;, line 250, in equals
-    print(self.dt)
-  File &#34;&lt;ipython-input-9-6c26539aafb6&gt;&#34;, line 61, in __str__
-    return &#34;{p}p  {n}n&#34;.format(p=self.p, n=self.n)
-AttributeError: &#39;Doublet&#39; object has no attribute &#39;p&#39;
-
-----------------------------------------------------------------------
-Ran 4 tests in 0.019s
-
-FAILED (errors=2)
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
@@ -17074,7 +16688,7 @@ FAILED (errors=2)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Q8a</span><span class="p">(</span><span class="n">Doubleta</span><span class="p">):</span>
@@ -18140,93 +17754,7 @@ FAILED (errors=2)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">q1</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">q2</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">q_big</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">q1</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>((1, 0), (0, 2), (0, 3), (0, 4)) Q
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">q1</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">q2</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">q_big</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
-<span class="n">q1a</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-<span class="n">q2a</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">q_biga</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;q1 q2 even: &quot;</span><span class="p">,</span> <span class="n">q1</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;even&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;q1a q2a even: &quot;</span><span class="p">,</span> <span class="n">q1a</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q2a</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;even&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;q1 q2 odd: &quot;</span><span class="p">,</span> <span class="n">q1</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q2</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;odd&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;q1a q2a odd: &quot;</span><span class="p">,</span> <span class="n">q1a</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q2a</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;odd&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;q1 q2: &quot;</span><span class="p">,</span> <span class="n">q1</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q2</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;q1a q2a: &quot;</span><span class="p">,</span> <span class="n">q1a</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q2a</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;q1 q2 norm: &quot;</span><span class="p">,</span> <span class="n">q1</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q2</span><span class="p">)</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;q1a q2a norm: &quot;</span><span class="p">,</span> <span class="n">q1a</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">q2a</span><span class="p">)</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>q1 q2 even:  ((8, 9), (4, 0), (0, 3), (0, 0)) QxEQ
-q1a q2a even:  ((8.0, 9.0), (4.0, 0.0), (0.0, 3.0), (0.0, 0.0)) QxEQ
-q1 q2 odd:  ((0, 0), (0, 12), (0, 16), (18, 0)) QxOQ
-q1a q2a odd:  ((0.0, 0.0), (0.0, 12.0), (0.0, 16.0), (18.0, 0.0)) QxOQ
-q1 q2:  ((8, 9), (4, 12), (0, 19), (18, 0)) QxQ
-q1a q2a:  ((8.0, 9.0), (4.0, 12.0), (0.0, 19.0), (18.0, 0.0)) QxQ
-q1 q2 norm:  ((750, 0), (0, 0), (0, 0), (0, 0)) ||QxQ||^2
-q1a q2a norm:  ((750.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) ||QxQ||^2
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQ8a</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -18596,441 +18124,10 @@ q1a q2a norm:  ((750.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) ||QxQ||^2
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>...................................</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Euclidean product: ((1.0, 0.0), (16.0, 0.0), (13.0, 0.0), (0.0, 18.0)) Q*xQ-reduce
-abs_of_q: ((5.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) |Q|
-abs_of_vector: ((5.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) |V(Q)|
-add: ((1.0, 0.0), (4.0, 2.0), (0.0, 6.0), (0.0, 4.0)) Q+Q
-add reduce: ((1.0, 0.0), (2.0, 0.0), (0.0, 6.0), (0.0, 4.0)) Q+Q-reduce
-q1_sq: ((0.0, 28.0), (0.0, 4.0), (0.0, 6.0), (0.0, 8.0)) Q^2-reduce
-boosted: ((1.51802716224446, 0.5060090540814867), (1.0030180271622444, 3.0090540814867333), (1.5240542164879485, 4.524054216487949), (2.0180721626494638, 6.018072162649464)) Qboost
-b squared: ((0.0, 28.000000000000007), (0.0, 4.06028962520837), (0.0, 6.072108648977842), (0.0, 8.096144865303788)) Qboost^2-reduce
-conj 0: ((1.0, 0.0), (2.0, 0.0), (3.0, 0.0), (4.0, 0.0)) Q*
-conj 1: ((0.0, 1.0), (0.0, 2.0), (3.0, 0.0), (4.0, 0.0)) Q*1
-conj 2: ((0.0, 1.0), (2.0, 0.0), (0.0, 3.0), (4.0, 0.0)) Q*2
-dif: ((1.0, 0.0), (0.0, 6.0), (3.0, 3.0), (0.0, 4.0)) Q-Q
-inverse: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q/Q-reduce
-q1_sq: ((0.0, 28.0), (0.0, 4.0), (0.0, 6.0), (0.0, 8.0)) Q^2-reduce
-g_shift: ((0.9970044955033729, 0.0), (0.0, 2.006009009006754), (0.0, 3.0090135135101312), (0.0, 4.012018018013508)) Qg_shift
-g squared: ((0.0, 28.18050508151395), (0.0, 4.0), (0.0, 6.0), (0.0, 8.0)) Qg_shift^2-reduce
-inverse: ((0.0, 0.0), (0.0, 0.16), (0.12, 0.0), (0.0, 0.0)) Q^-1-reduce
-norm_squared: ((30.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) ||Q||^2
-norm_squared_of_vector: ((29.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) V||(Q)||^2
-q_normalized: ((0.0, 0.0), (0.8, 0.0), (0.0, 0.6000000000000001), (0.0, 0.0)) QU
-product: ((0.0, 1.0), (0.0, 8.0), (0.0, 19.0), (18.0, 0.0)) QxQ-reduce
-product, kind even: ((0.0, 1.0), (4.0, 0.0), (0.0, 3.0), (0.0, 0.0)) QxEQ-reduce
-product, kind odd: ((0.0, 0.0), (0.0, 12.0), (0.0, 16.0), (18.0, 0.0)) QxOQ-reduce
-q_1: ((1, 0), (0, 0), (0, 0), (0, 0)) 1
-q_i: ((0, 0), (1, 0), (0, 0), (0, 0)) i
-q_j: ((0, 0), (0, 0), (1, 0), (0, 0)) j
-q_k: ((0, 0), (0, 0), (0, 0), (1, 0)) k
-q_random(): ((0.5030874408737238, 0.07157879683520352), (0.6607615265397494, 0.589794543894804), (0.7021284238067497, 0.6416721289592231), (0.6648237322624897, 0.38082656797314407)) ?
-q0: ((0.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) 0
-q_big reduced: ((0.0, 1.0), (0.0, 1.0), (0.0, 1.0), (0.0, 1.0)) Q-reduce
-rotate: ((1.0, 0.0), (0.0, 2.0), (3.0, 0.0), (4.0, 0.0)) Q/|Q|xQxQ/|Q|*-reduce
-square: ((1.0, 29.0), (0.0, 4.0), (0.0, 6.0), (0.0, 8.0)) Q^2
-square reduced: ((0.0, 28.0), (0.0, 4.0), (0.0, 6.0), (0.0, 8.0)) Q^2-reduce
-triple: ((0.0, 2.0), (124.0, 0.0), (0.0, 84.0), (8.0, 0.0)) QxQxQ-reduce
-vahlen conj -: ((1.0, 0.0), (2.0, 0.0), (3.0, 0.0), (4.0, 0.0)) Qvc-
-vahlen conj &#39;: ((1.0, 0.0), (2.0, 0.0), (3.0, 0.0), (0.0, 4.0)) Qvc&#39;
-vahlen conj *: ((1.0, 0.0), (0.0, 2.0), (0.0, 3.0), (4.0, 0.0)) Qvc*
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>
-----------------------------------------------------------------------
-Ran 35 tests in 0.053s
-
-OK
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Q12</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">Q1123</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
-<span class="n">Q11p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">Q12p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">Q12np</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">Q21p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">Q23p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">Q13p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">Q5p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">5.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Q11p</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Q12p</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Q11p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">Q12p</span><span class="p">)</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Q11p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">Q12p</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Q11p</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Q12p</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">Q11p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">Q12p</span><span class="p">)</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>((1.0, 0.0) A, (1.0, 0.0)  𝜈x, (0.0, 0.0) 𝜈y, (0.0, 0.0) 𝜈z) Q
-((1.0, 0.0) A, (2.0, 0.0)  𝜈x, (0.0, 0.0) 𝜈y, (0.0, 0.0) 𝜈z) Q
-((1.0, 0.0) A, (3.0, 0.0)  𝜈x, (0.0, 0.0) 𝜈y, (0.0, 0.0) 𝜈z) QxQ-reduce
-((1.0, 0.0) A, (3.0000000000000036, 0.0)  𝜈x, (0.0, 0.0) 𝜈y, (0.0, 0.0) 𝜈z) QxQ
-((1.0, 0.0) A, (0, 0)  𝜈x, (0, 0) 𝜈y, (0, 0) 𝜈z) ||Q||^2
-((1.0, 0.0) A, (0, 0)  𝜈x, (0, 0) 𝜈y, (0, 0) 𝜈z) ||Q||^2
-((1.0000000000000002, 0.0) A, (0, 0)  𝜈x, (0, 0) 𝜈y, (0, 0) 𝜈z) ||QxQ||^2
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">hQ12</span> <span class="o">=</span> <span class="n">QH</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">hQ1123</span> <span class="o">=</span> <span class="n">QH</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
-<span class="n">hQ11p</span> <span class="o">=</span> <span class="n">QH</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">hQ12p</span> <span class="o">=</span> <span class="n">QH</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">hQ12np</span> <span class="o">=</span> <span class="n">QH</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">hQ21p</span> <span class="o">=</span> <span class="n">QH</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">hQ23p</span> <span class="o">=</span> <span class="n">QH</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">hQ13p</span> <span class="o">=</span> <span class="n">QH</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">hQ5p</span> <span class="o">=</span> <span class="n">QH</span><span class="p">([</span><span class="mf">5.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">hQ11p</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">hQ12p</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">hQ11p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">hQ12p</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">hQ11p</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">hQ12p</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">hQ11p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">hQ12p</span><span class="p">)</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>(1.0 A, 1.0 𝜈x, 0.0 𝜈y, 0.0 𝜈z) Q
-(1.0 A, 2.0 𝜈x, 0.0 𝜈y, 0.0 𝜈z) Q
-(1.0 A, 3.0 𝜈x, 0.0 𝜈y, 0.0 𝜈z) QxQ
-(1.0 A, 0 𝜈x, 0 𝜈y, 0 𝜈z) ||Q||^2
-(1.0 A, 0 𝜈x, 0 𝜈y, 0 𝜈z) ||Q||^2
-(1.0000000000000002 A, 0 𝜈x, 0 𝜈y, 0 𝜈z) ||QxQ||^2
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">haQ12</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">haQ1123</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
-<span class="n">haQ11p</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">haQ12p</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">haQ12np</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">haQ21p</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">haQ23p</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">haQ13p</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">haQ5p</span> <span class="o">=</span> <span class="n">QHa</span><span class="p">([</span><span class="mf">5.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">haQ11p</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">haQ12p</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">haQ11p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">haQ12p</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">haQ11p</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">haQ12p</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">haQ11p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">haQ12p</span><span class="p">)</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>(1.0 A, 1.0 𝜈x, 0.0 𝜈y, 0.0 𝜈z) Q
-(1.0 A, 2.0 𝜈x, 0.0 𝜈y, 0.0 𝜈z) Q
-(1.0 A, 3.0 𝜈x, 0.0 𝜈y, 0.0 𝜈z) QxQ
-(1.0 A, 0 𝜈x, 0 𝜈y, 0 𝜈z) ||Q||^2
-(1.0 A, 0 𝜈x, 0 𝜈y, 0 𝜈z) ||Q||^2
-(1.0000000000000002 A, 0 𝜈x, 0 𝜈y, 0 𝜈z) ||QxQ||^2
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">h8Q12</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">h8Q1123</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
-<span class="n">h8Q11p</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">h8Q12p</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">h8Q12np</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">h8Q21p</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">h8Q23p</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">h8Q13p</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">h8Q5p</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">5.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8Q11p</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8Q12p</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8Q11p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">h8Q12p</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8Q11p</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8Q12p</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8Q11p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">h8Q12p</span><span class="p">)</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>((1.0, 0) A, (1.0, 0)  𝜈x, (0.0, 0) 𝜈y, (0.0, 0) 𝜈z) Q
-((1.0, 0) A, (2.0, 0)  𝜈x, (0.0, 0) 𝜈y, (0.0, 0) 𝜈z) Q
-((0.0, 0.9899924966004455), (0.49129549643388193, 0.35017548837401463), (0.0, 0.0), (0.0, 0.0)) QxQ
-((1.0, 0) A, (0, 0)  𝜈x, (0, 0) 𝜈y, (0, 0) 𝜈z) ||Q||^2
-((1.0, 0) A, (0, 0)  𝜈x, (0, 0) 𝜈y, (0, 0) 𝜈z) ||Q||^2
-((1.0000000000000002, 0), (0, 0), (0, 0), (0, 0)) ||QxQ||^2-reduced
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">h8aQ12</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">h8aQ1123</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
-<span class="n">h8aQ11p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">h8aQ12p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">h8aQ12np</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">h8aQ21p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">h8aQ23p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">h8aQ13p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="n">h8aQ5p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">5.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8aQ11p</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8aQ12p</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8aQ11p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">h8aQ12p</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8aQ11p</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8aQ12p</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8aQ11p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">h8aQ12p</span><span class="p">)</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>((1.0, 0.0) A, (1.0, 0.0)  𝜈x, (0.0, 0.0) 𝜈y, (0.0, 0.0) 𝜈z) Q
-((1.0, 0.0) A, (2.0, 0.0)  𝜈x, (0.0, 0.0) 𝜈y, (0.0, 0.0) 𝜈z) Q
-((1.0, 0.0) A, (3.0000000000000036, 0.0)  𝜈x, (0.0, 0.0) 𝜈y, (0.0, 0.0) 𝜈z) QxQ
-((1.0, 0.0) A, (0, 0)  𝜈x, (0, 0) 𝜈y, (0, 0) 𝜈z) ||Q||^2
-((1.0, 0.0) A, (0, 0)  𝜈x, (0, 0) 𝜈y, (0, 0) 𝜈z) ||Q||^2
-((1.0000000000000002, 0.0) A, (0, 0)  𝜈x, (0, 0) 𝜈y, (0, 0) 𝜈z) ||QxQ||^2-reduce
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">h8acQ12</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">h8acQ1123</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
-<span class="n">h8acQ11p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">h8acQ12p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">h8acQ12np</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">h8acQ21p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">h8acQ23p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">h8acQ13p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">h8acQ5p</span> <span class="o">=</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">5.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8acQ11p</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8acQ12p</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8acQ11p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">h8acQ12p</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8acQ11p</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8acQ12p</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8acQ11p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">h8acQ12p</span><span class="p">)</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>((1.0, 0.0), (1.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q
-((1.0, 0.0), (2.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q
-((1.0, 2.0), (3.0, 0.0), (0.0, 0.0), (0.0, 0.0)) QxQ
-((2.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) ||Q||^2
-((5.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) ||Q||^2
-((10.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) ||QxQ||^2-reduce
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">h8cQ12</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">h8cQ1123</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
-<span class="n">h8cQ11p</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">h8cQ12p</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">h8cQ12np</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">h8cQ21p</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">h8cQ23p</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">h8cQ13p</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">h8cQ5p</span> <span class="o">=</span> <span class="n">Q8</span><span class="p">([</span><span class="mf">5.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8cQ11p</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8cQ12p</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8cQ11p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">h8cQ12p</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8cQ11p</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8cQ12p</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">h8cQ11p</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">h8cQ12p</span><span class="p">)</span><span class="o">.</span><span class="n">norm_squared</span><span class="p">()</span><span class="o">.</span><span class="n">reduce</span><span class="p">())</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>((1.0, 0), (1.0, 0), (0, 0), (0, 0)) Q
-((1.0, 0), (2.0, 0), (0, 0), (0, 0)) Q
-((1.0, 2.0), (3.0, 0.0), (0.0, 0.0), (0.0, 0.0)) QxQ
-((2.0, 0.0), (0, 0), (0, 0), (0, 0)) ||Q||^2
-((5.0, 0.0), (0, 0), (0, 0), (0, 0)) ||Q||^2
-((10.0, 0), (0, 0), (0, 0), (0, 0)) ||QxQ||^2-reduced
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQ8aRep</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -19084,66 +18181,6 @@ OK
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>.F.F</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>polar conj of 1 2 0 0:  ((1.0, 0.0) A, (0.0, 2.0)  𝜈x, (0.0, 0.0) 𝜈y, (0.0, 0.0) 𝜈z) Q*-reduce
-polar 1 1 0 0 * 1 2 0 0:  ((1.0, 0.0) A, (3.0, 0.0)  𝜈x, (0.0, 0.0) 𝜈y, (0.0, 0.0) 𝜈z) QxQ-reduce
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>
-======================================================================
-FAIL: test_polar_products (__main__.TestQ8aRep)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File &#34;&lt;ipython-input-29-2633eece375d&gt;&#34;, line 34, in test_polar_products
-    self.assertTrue(qr.equals(self.Q13p))
-AssertionError: False is not true
-
-======================================================================
-FAIL: test_txyz_2_representation (__main__.TestQ8aRep)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File &#34;&lt;ipython-input-29-2633eece375d&gt;&#34;, line 17, in test_txyz_2_representation
-    self.assertTrue(qr.equals(Q8a([2.23606797749979, 1.10714871779409, 0, 0])))
-AssertionError: False is not true
-
-----------------------------------------------------------------------
-Ran 4 tests in 0.010s
-
-FAILED (failures=2)
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
@@ -19169,7 +18206,7 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">round_sig_figs</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">sig_figs</span><span class="p">):</span>
@@ -19190,7 +18227,7 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">EQ</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -19521,7 +18558,7 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestEQ</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -19638,7 +18675,7 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestEQ</span><span class="p">())</span>
@@ -19646,28 +18683,6 @@ Such an exact relation is not of much interest to physicists since Einstein show
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>.......
-----------------------------------------------------------------------
-Ran 7 tests in 0.017s
-
-OK
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -19691,7 +18706,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">QHArray</span><span class="p">(</span><span class="n">QH</span><span class="p">):</span>
@@ -19771,7 +18786,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQHArray</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -19806,7 +18821,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQHArray</span><span class="p">())</span>
@@ -19814,28 +18829,6 @@ OK
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>..
-----------------------------------------------------------------------
-Ran 2 tests in 0.003s
-
-OK
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -19850,7 +18843,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">QHaArray</span><span class="p">(</span><span class="n">QHa</span><span class="p">):</span>
@@ -19920,7 +18913,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQHaArray</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -19955,7 +18948,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQHaArray</span><span class="p">())</span>
@@ -19963,28 +18956,6 @@ OK
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>..
-----------------------------------------------------------------------
-Ran 2 tests in 0.005s
-
-OK
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -20008,7 +18979,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">QHStates</span><span class="p">(</span><span class="n">QH</span><span class="p">):</span>
@@ -20397,7 +19368,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQHStates</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -20595,7 +19566,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQHStates</span><span class="p">())</span>
@@ -20603,104 +19574,6 @@ OK
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>..........................</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>A* A n=1: (16, 0, 0, 0) Q*xQ
-n=2: (1, 0, 0, 0) Q*xQ
-A* Op:  n=1: (13, 0, 0, 0) Q*xQ+Q*xQ
-n=2: (0, 0, 11, 0) Q*xQ+Q*xQ
-n=3: (12, 0, 0, 0) Q*xQ+Q*xQ
-A* Op4i:  n=1: (0, 16, 0, 0) Q*xQ+Q*x0
-n=2: (4, 0, 0, 0) Q*x0+Q*xQ
-Operator dimensions do not equal the product of the states: 1 != 2 * 3
-A* Op4i B:  
-A* Op B:  n=1: (0, 0, 4, -24) Q*xQxQ+QxQ+QxQ
-n=2: (-3, 12, 4, 0) Q*xQxQ+QxQ+QxQ
-Op4i B:  n=1: (0, 0, 0, 4) QxQ+0xQ+0xQ
-n=2: (0, 0, -8, 0) 0xQ+QxQ+0xQ
-n=3: (-12, 0, 0, 0) 0xQ+0xQ+QxQ
-Op B:  n=1: (0, 0, 1, -6) QxQ+QxQ+QxQ
-n=2: (-12, -3, 0, 4) QxQ+QxQ+QxQ
-op1234 Hermitian_conj:  n=1: (1, -1, 0, 0) Q*
-n=2: (3, -1, 0, 0) Q*
-n=3: (2, -1, 0, 0) Q*
-n=4: (4, -1, 0, 0) Q*
-add 01 10:  n=1: (1, 0, 0, 0) 0+1
-n=2: (1, 0, 0, 0) 1+0
-q1_qi*:  n=1: (1, 0, 0, 0) 1*
-n=2: (0, -1, 0, 0) i*
-q1_qc*1:  n=1: (-1, 0, 0, 0) 1*1
-n=2: (0, 1, 0, 0) i*1
-dif 01 10:  n=1: (-1, 0, 0, 0) 0-1
-n=2: (1, 0, 0, 0) 1-0
-Op normalized:  n=1: (0.6000000000000001, 0.0, 0.0, 0.8) QU
-op_n:  n=1: (0, 3, 0, 0) Qxi
-n=2: (-1, 0, 0, 0) Qxi
-n=3: (0, 0, 0, -2) Qxi
-n=4: (0, 0, 3, 0) Qxi
-n=5: (0, 2, 0, 0) Qxi
-n=6: (-4, 0, 0, 0) Qxi
-AA:  n=1: (16, 0, 0, 0) QxQ
-n=2: (-1, 0, 0, 0) QxQ
-A Op:  n=1: (11, 0, 0, 0) QxQ+QxQ
-n=2: (0, 0, 5, 0) QxQ+QxQ
-n=3: (4, 0, 0, 0) QxQ+QxQ
-A Op4i:  n=1: (0, 16, 0, 0) QxQ+Qx0
-n=2: (-4, 0, 0, 0) Qx0+QxQ
-Operator dimensions do not equal the product of the states: 1 != 2 * 3
-A* Op4i B:  
-A Op B:  n=1: (0, 0, 4, -24) QxQxQ+QxQ+QxQ
-n=2: (3, -12, -4, 0) QxQxQ+QxQ+QxQ
-Op4i B:  n=1: (0, 0, 0, 4) QxQ+0xQ+0xQ
-n=2: (0, 0, -8, 0) 0xQ+QxQ+0xQ
-n=3: (-12, 0, 0, 0) 0xQ+0xQ+QxQ
-Op B:  n=1: (0, 0, 1, -6) QxQ+QxQ+QxQ
-n=2: (-12, -3, 0, 4) QxQ+QxQ+QxQ
-sum:  (1, 0, 0, 0) 0+1
-op1234 transposed:  n=1: (1, 1, 0, 0) Q
-n=2: (3, 1, 0, 0) Q
-n=3: (2, 1, 0, 0) Q
-n=4: (4, 1, 0, 0) Q
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>
-----------------------------------------------------------------------
-Ran 26 tests in 0.044s
-
-OK
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -20720,7 +19593,7 @@ Q8a</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">QHaStates</span><span class="p">(</span><span class="n">QHa</span><span class="p">):</span>
@@ -20995,7 +19868,7 @@ Q8a</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQHaStates</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -21139,7 +20012,7 @@ Q8a</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQHaStates</span><span class="p">())</span>
@@ -21150,96 +20023,10 @@ Q8a</p>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>....................</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>A* A n=1: (16.0, 0.0, 0.0, 0.0) Q*xQ
-n=2: (1.0, 0.0, 0.0, 0.0) Q*xQ
-A* Op:  n=1: (13.0, 0.0, 0.0, 0.0) Q*xQ+Q*xQ
-n=2: (0.0, 0.0, 11.0, 0.0) Q*xQ+Q*xQ
-n=3: (12.0, 0.0, 0.0, 0.0) Q*xQ+Q*xQ
-A* Op4i:  n=1: (0.0, 16.0, 0.0, 0.0) Q*xQ+Q*x0
-n=2: (4.0, 0.0, 0.0, 0.0) Q*x0+Q*xQ
-Operator dimensions do not equal the product of the states: 1 != 2 * 3
-A* Op4i B:  
-A* Op B:  n=1: (0.0, 0.0, 4.0, -24.0) Q*xQxQ+QxQ+QxQ
-n=2: (-3.0, 12.0, 4.0, 0.0) Q*xQxQ+QxQ+QxQ
-Op4i B:  n=1: (0.0, 0.0, 0.0, 4.0) QxQ+0xQ+0xQ
-n=2: (0.0, 0.0, -8.0, 0.0) 0xQ+QxQ+0xQ
-n=3: (-12.0, 0.0, 0.0, 0.0) 0xQ+0xQ+QxQ
-Op B:  n=1: (0.0, 0.0, 1.0, -6.0) QxQ+QxQ+QxQ
-n=2: (-12.0, -3.0, 0.0, 4.0) QxQ+QxQ+QxQ
-add 01 10:  n=1: (1.0, 0.0, 0.0, 0.0) 0+1
-n=2: (1.0, 0.0, 0.0, 0.0) 1+0
-dif 01 10:  n=1: (-1.0, 0.0, 0.0, 0.0) 0-1
-n=2: (1.0, 0.0, 0.0, 0.0) 1-0
-Op normalized:  n=1: (0.6000000000000001, 0.0, 0.0, 0.8) QU
-op_n:  n=1: (0.0, 3.0, 0.0, 0.0) Qxi
-n=2: (-1.0, 0.0, 0.0, 0.0) Qxi
-n=3: (0.0, 0.0, 0.0, -2.0) Qxi
-n=4: (0.0, 0.0, 3.0, 0.0) Qxi
-n=5: (0.0, 2.0, 0.0, 0.0) Qxi
-n=6: (-4.0, 0.0, 0.0, 0.0) Qxi
-AA:  n=1: (16.0, 0.0, 0.0, 0.0) QxQ
-n=2: (-1.0, 0.0, 0.0, 0.0) QxQ
-A Op:  n=1: (11.0, 0.0, 0.0, 0.0) QxQ+QxQ
-n=2: (0.0, 0.0, 5.0, 0.0) QxQ+QxQ
-n=3: (4.0, 0.0, 0.0, 0.0) QxQ+QxQ
-A Op4i:  n=1: (0.0, 16.0, 0.0, 0.0) QxQ+Qx0
-n=2: (-4.0, 0.0, 0.0, 0.0) Qx0+QxQ
-Operator dimensions do not equal the product of the states: 1 != 2 * 3
-A* Op4i B:  
-A Op B:  n=1: (0.0, 0.0, 4.0, -24.0) QxQxQ+QxQ+QxQ
-n=2: (3.0, -12.0, -4.0, 0.0) QxQxQ+QxQ+QxQ
-Op4i B:  n=1: (0.0, 0.0, 0.0, 4.0) QxQ+0xQ+0xQ
-n=2: (0.0, 0.0, -8.0, 0.0) 0xQ+QxQ+0xQ
-n=3: (-12.0, 0.0, 0.0, 0.0) 0xQ+0xQ+QxQ
-Op B:  n=1: (0.0, 0.0, 1.0, -6.0) QxQ+QxQ+QxQ
-n=2: (-12.0, -3.0, 0.0, 4.0) QxQ+QxQ+QxQ
-sum:  (1.0, 0.0, 0.0, 0.0) 0+1
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>
-----------------------------------------------------------------------
-Ran 20 tests in 0.058s
-
-OK
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Q8States</span><span class="p">(</span><span class="n">Q8</span><span class="p">):</span>
@@ -21514,7 +20301,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQ8States</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -21667,7 +20454,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQ8States</span><span class="p">())</span>
@@ -21678,213 +20465,10 @@ OK
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>.....................</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>A* A n=1: ((16, 0), (0, 0), (0, 0), (0, 0)) Q*xQ
-n=2: ((1, 0), (0, 0), (0, 0), (0, 0)) Q*xQ
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-16p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-16p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-1p  0n
-A* Op:  n=1: ((13, 0), (0, 0), (0, 0), (0, 0)) Q*xQ+Q*xQ
-n=2: ((0, 0), (0, 0), (11, 0), (0, 0)) Q*xQ+Q*xQ
-n=3: ((12, 0), (0, 0), (0, 0), (0, 0)) Q*xQ+Q*xQ
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-13p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-13p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-12p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-12p  0n
-A* Op4i:  n=1: ((0, 0), (16, 0), (0, 0), (0, 0)) Q*xQ+Q*x0
-n=2: ((4, 0), (0, 0), (0, 0), (0, 0)) Q*x0+Q*xQ
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-4p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-4p  0n
-Operator dimensions do not equal the product of the states: 1 != 2 * 3
-A* Op4i B:  
-A* Op B:  n=1: ((0, 0), (0, 0), (12, 8), (0, 24)) Q*xQxQ+QxQ+QxQ
-n=2: ((0, 3), (12, 0), (4, 0), (0, 0)) Q*xQxQ+QxQ+QxQ
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  3n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  3n
-Op4i B:  n=1: ((0, 0), (0, 0), (0, 0), (4, 0)) QxQ+0xQ+0xQ
-n=2: ((0, 0), (0, 0), (0, 8), (0, 0)) 0xQ+QxQ+0xQ
-n=3: ((0, 12), (0, 0), (0, 0), (0, 0)) 0xQ+0xQ+QxQ
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  12n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  12n
-Op B:  n=1: ((0, 0), (0, 0), (3, 2), (0, 6)) QxQ+QxQ+QxQ
-n=2: ((0, 12), (0, 3), (0, 0), (4, 0)) QxQ+QxQ+QxQ
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  12n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  12n
-add 01 10:  n=1: ((1, 0), (0, 0), (0, 0), (0, 0)) 0+1
-n=2: ((1, 0), (0, 0), (0, 0), (0, 0)) 1+0
-q1_qi*:  n=1: ((1, 0), (0, 0), (0, 0), (0, 0)) 1*
-n=2: ((0, 0), (0, 1), (0, 0), (0, 0)) i*
-q1_qc*1:  n=1: ((0, 1), (0, 0), (0, 0), (0, 0)) 1*1
-n=2: ((0, 0), (1, 0), (0, 0), (0, 0)) i*1
-qc.qs[1]:  ((0, 0), (0, 1), (0, 0), (0, 0)) i*
-dif 01 10:  n=1: ((0, 1), (0, 0), (0, 0), (0, 0)) 0-1
-n=2: ((1, 0), (0, 0), (0, 0), (0, 0)) 1-0
-Op normalized:  n=1: ((0.6000000000000001, 0.0), (0.0, 0.0), (0.0, 0.0), (0.8, 0.0)) QU
-op_n:  n=1: ((0, 0), (3, 0), (0, 0), (0, 0)) Qxi
-n=2: ((0, 1), (0, 0), (0, 0), (0, 0)) Qxi
-n=3: ((0, 0), (0, 0), (0, 0), (0, 2)) Qxi
-n=4: ((0, 0), (0, 0), (3, 0), (0, 0)) Qxi
-n=5: ((0, 0), (2, 0), (0, 0), (0, 0)) Qxi
-n=6: ((0, 4), (0, 0), (0, 0), (0, 0)) Qxi
-AA:  n=1: ((16, 0), (0, 0), (0, 0), (0, 0)) QxQ
-n=2: ((0, 1), (0, 0), (0, 0), (0, 0)) QxQ
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-16p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-16p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  1n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  1n
-A Op:  n=1: ((12, 1), (0, 0), (0, 0), (0, 0)) QxQ+QxQ
-n=2: ((0, 0), (0, 0), (8, 3), (0, 0)) QxQ+QxQ
-n=3: ((8, 4), (0, 0), (0, 0), (0, 0)) QxQ+QxQ
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-12p  1n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-11p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-8p  4n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-4p  0n
-A Op4i:  n=1: ((0, 0), (16, 0), (0, 0), (0, 0)) QxQ+Qx0
-n=2: ((0, 4), (0, 0), (0, 0), (0, 0)) Qx0+QxQ
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  4n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  4n
-Operator dimensions do not equal the product of the states: 1 != 2 * 3
-A* Op4i B:  
-A Op B:  n=1: ((0, 0), (0, 0), (12, 8), (0, 24)) QxQxQ+QxQ+QxQ
-n=2: ((3, 0), (0, 12), (0, 4), (0, 0)) QxQxQ+QxQ+QxQ
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-3p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-3p  0n
-Op4i B:  n=1: ((0, 0), (0, 0), (0, 0), (4, 0)) QxQ+0xQ+0xQ
-n=2: ((0, 0), (0, 0), (0, 8), (0, 0)) 0xQ+QxQ+0xQ
-n=3: ((0, 12), (0, 0), (0, 0), (0, 0)) 0xQ+0xQ+QxQ
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  12n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  12n
-Op B:  n=1: ((0, 0), (0, 0), (3, 2), (0, 6)) QxQ+QxQ+QxQ
-n=2: ((0, 12), (0, 3), (0, 0), (4, 0)) QxQ+QxQ+QxQ
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  0n
-self dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  12n
-q1 dt type:  &lt;class &#39;__main__.Doublet&#39;&gt;
-0p  12n
-sum:  ((1, 0), (0, 0), (0, 0), (0, 0)) 0+1
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>
-----------------------------------------------------------------------
-Ran 21 tests in 0.067s
-
-OK
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">Q8aStates</span><span class="p">(</span><span class="n">Q8a</span><span class="p">):</span>
@@ -22162,7 +20746,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestQ8aStates</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -22314,7 +20898,7 @@ OK
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestLoader</span><span class="p">()</span><span class="o">.</span><span class="n">loadTestsFromModule</span><span class="p">(</span><span class="n">TestQ8aStates</span><span class="p">())</span>
@@ -22322,254 +20906,6 @@ OK
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>.....................</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>A* A n=1: ((16.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q*xQ
-n=2: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q*xQ
-&lt;A*|Op:  n=1: ((13.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q*xQ+Q*xQ
-n=2: ((0.0, 0.0), (0.0, 0.0), (11.0, 0.0), (0.0, 0.0)) Q*xQ+Q*xQ
-n=3: ((12.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q*xQ+Q*xQ
-A* Op4i:  n=1: ((0.0, 0.0), (16.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q*xQ+Q*x0
-n=2: ((4.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Q*x0+Q*xQ
-Operator dimensions do not equal the product of the states: 1 != 2 * 3
-A* Op4i B:  
-A* Op B:  n=1: ((0.0, 0.0), (0.0, 0.0), (12.0, 8.0), (0.0, 24.0)) Q*xQxQ+QxQ+QxQ
-n=2: ((0.0, 3.0), (12.0, 0.0), (4.0, 0.0), (0.0, 0.0)) Q*xQxQ+QxQ+QxQ
-Op4i B:  n=1: ((0.0, 0.0), (0.0, 0.0), (0.0, 0.0), (4.0, 0.0)) QxQ+0xQ+0xQ
-n=2: ((0.0, 0.0), (0.0, 0.0), (0.0, 8.0), (0.0, 0.0)) 0xQ+QxQ+0xQ
-n=3: ((0.0, 12.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) 0xQ+0xQ+QxQ
-Op B:  n=1: ((0.0, 0.0), (0.0, 0.0), (3.0, 2.0), (0.0, 6.0)) QxQ+QxQ+QxQ
-n=2: ((0.0, 12.0), (0.0, 3.0), (0.0, 0.0), (4.0, 0.0)) QxQ+QxQ+QxQ
-add 01 10:  n=1: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) 0+1
-n=2: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) 1+0
-q1_qi*:  n=1: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) 1*
-n=2: ((0.0, 0.0), (0.0, 1.0), (0.0, 0.0), (0.0, 0.0)) i*
-q1_qc*1:  n=1: ((0.0, 1.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) 1*1
-n=2: ((0.0, 0.0), (1.0, 0.0), (0.0, 0.0), (0.0, 0.0)) i*1
-dif 01 10:  n=1: ((0.0, 1.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) 0-1
-n=2: ((1.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) 1-0
-Op normalized:  n=1: ((0.6000000000000001, 0.0), (0.0, 0.0), (0.0, 0.0), (0.8, 0.0)) QU
-op_n:  n=1: ((0.0, 0.0), (3.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Qxi
-n=2: ((0.0, 1.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Qxi
-n=3: ((0.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 2.0)) Qxi
-n=4: ((0.0, 0.0), (0.0, 0.0), (3.0, 0.0), (0.0, 0.0)) Qxi
-n=5: ((0.0, 0.0), (2.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Qxi
-n=6: ((0.0, 4.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Qxi
-AA:  n=1: ((16.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) QxQ
-n=2: ((0.0, 1.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) QxQ
-(A|Op:  n=1: ((12.0, 1.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) QxQ+QxQ
-n=2: ((0.0, 0.0), (0.0, 0.0), (8.0, 3.0), (0.0, 0.0)) QxQ+QxQ
-n=3: ((8.0, 4.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) QxQ+QxQ
-A Op4i:  n=1: ((0.0, 0.0), (16.0, 0.0), (0.0, 0.0), (0.0, 0.0)) QxQ+Qx0
-n=2: ((0.0, 4.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) Qx0+QxQ
-Operator dimensions do not equal the product of the states: 1 != 2 * 3
-A* Op4i B:  
-A Op B:  n=1: ((0.0, 0.0), (0.0, 0.0), (12.0, 8.0), (0.0, 24.0)) QxQxQ+QxQ+QxQ
-n=2: ((3.0, 0.0), (0.0, 12.0), (0.0, 4.0), (0.0, 0.0)) QxQxQ+QxQ+QxQ
-Op4i B:  n=1: ((0.0, 0.0), (0.0, 0.0), (0.0, 0.0), (4.0, 0.0)) QxQ+0xQ+0xQ
-n=2: ((0.0, 0.0), (0.0, 0.0), (0.0, 8.0), (0.0, 0.0)) 0xQ+QxQ+0xQ
-n=3: ((0.0, 12.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) 0xQ+0xQ+QxQ
-Op B:  n=1: ((0.0, 0.0), (0.0, 0.0), (3.0, 2.0), (0.0, 6.0)) QxQ+QxQ+QxQ
-n=2: ((0.0, 12.0), (0.0, 3.0), (0.0, 0.0), (4.0, 0.0)) QxQ+QxQ+QxQ
-sum:  ((2.0, 0.0), (0.0, 0.0), (0.0, 0.0), (0.0, 0.0)) 0+1+0+1
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>
-----------------------------------------------------------------------
-Ran 21 tests in 0.048s
-
-OK
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;QH 1 2 3 4&quot;</span><span class="p">,</span> <span class="n">QH</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;QH 1 2 3 4 *&quot;</span><span class="p">,</span> <span class="n">QH</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;QHa 1 2 3 4&quot;</span><span class="p">,</span> <span class="n">QHa</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;QHa 1 2 3 4 *&quot;</span><span class="p">,</span> <span class="n">QHa</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Q8 1 2 3 4&quot;</span><span class="p">,</span> <span class="n">Q8</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Q8 1 2 3 4 *&quot;</span><span class="p">,</span> <span class="n">Q8</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Q8a 1 2 3 4&quot;</span><span class="p">,</span> <span class="n">Q8a</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Q8a 1 2 3 4 *&quot;</span><span class="p">,</span> <span class="n">Q8a</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>QH 1 2 3 4 (1.0 A, -0.3335164408915937 𝜈x, -0.5002746613373906 𝜈y, -0.6670328817831874 𝜈z) Q
-QH 1 2 3 4 * (1.0 A, 0.3335164408915937 𝜈x, 0.5002746613373906 𝜈y, 0.6670328817831874 𝜈z) Q*
-QHa 1 2 3 4 (1.0 A, -0.3335164408915937 𝜈x, -0.5002746613373906 𝜈y, -0.6670328817831874 𝜈z) Q
-QHa 1 2 3 4 * (1.0 A, 0.3335164408915937 𝜈x, 0.5002746613373906 𝜈y, 0.6670328817831874 𝜈z) Q*
-Q8 1 2 3 4 ((1.0, 0) A, (0, 0.3335164408915937)  𝜈x, (0, 0.5002746613373906) 𝜈y, (0, 0.6670328817831874) 𝜈z) Q
-Q8 1 2 3 4 * ((1.0, 0) A, (0.3335164408915937, 0)  𝜈x, (0.5002746613373906, 0) 𝜈y, (0.6670328817831874, 0) 𝜈z) Q*
-Q8a 1 2 3 4 ((1.0, 0.0) A, (0.0, 0.3335164408915937)  𝜈x, (0.0, 0.5002746613373906) 𝜈y, (0.0, 0.6670328817831874) 𝜈z) Q
-Q8a 1 2 3 4 * ((1.0, 0.0) A, (0.3335164408915937, 0.0)  𝜈x, (0.5002746613373906, 0.0) 𝜈y, (0.6670328817831874, 0.0) 𝜈z) Q*
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;QH 1 2 3 4&quot;</span><span class="p">,</span> <span class="n">QH</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;spherical&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;QH 1 2 3 4 *&quot;</span><span class="p">,</span> <span class="n">QH</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;spherical&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;QHa 1 2 3 4&quot;</span><span class="p">,</span> <span class="n">QHa</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;spherical&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;QHa 1 2 3 4 *&quot;</span><span class="p">,</span> <span class="n">QHa</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;spherical&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Q8 1 2 3 4&quot;</span><span class="p">,</span> <span class="n">Q8</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;spherical&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Q8 1 2 3 4 *&quot;</span><span class="p">,</span> <span class="n">Q8</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;spherical&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Q8a 1 2 3 4&quot;</span><span class="p">,</span> <span class="n">Q8a</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;spherical&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Q8a 1 2 3 4 *&quot;</span><span class="p">,</span> <span class="n">Q8a</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">],</span> <span class="n">representation</span><span class="o">=</span><span class="s2">&quot;spherical&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>QH 1 2 3 4 (1 t, 2.0 R, 2.9999999999999996 θ, -2.2831853071795867 φ) Q
-QH 1 2 3 4 * (1 t, 2.0 R, 0.14159265358979353 θ, 0.8584073464102067 φ) Q*
-QHa 1 2 3 4 (1.0 t, 2.0 R, 2.9999999999999996 θ, -2.2831853071795867 φ) Q
-QHa 1 2 3 4 * (1.0 t, 2.0 R, 0.14159265358979353 θ, 0.8584073464102067 φ) Q*
-Q8 1 2 3 4 ((1, 0) t, (2.0, 0) R, (2.9999999999999996, 0) θ , (0, 2.2831853071795867) φ) Q
-Q8 1 2 3 4 * ((1, 0) t, (2.0, 0) R, (0.14159265358979353, 0) θ , (0.8584073464102067, 0) φ) Q*
-Q8a 1 2 3 4 ((1.0, 0.0) t, (2.0, 0.0) R, (2.9999999999999996, 0.0) θ , (0.0, 2.2831853071795867) φ) Q
-Q8a 1 2 3 4 * ((1.0, 0.0) t, (2.0, 0.0) R, (0.14159265358979353, 0.0) θ , (0.8584073464102067, 0.0) φ) Q*
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dt</span> <span class="o">=</span> <span class="n">Doublet</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>3
-0
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dt</span> <span class="o">=</span> <span class="n">Doubleta</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>3
-0
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
