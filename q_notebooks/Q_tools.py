@@ -57,10 +57,6 @@ def sr_gamma_betas(beta_x=0, beta_y=0, beta_z=0):
 # ## Quaternions for Hamilton
 
 # Define a class QH to manipulate quaternions as Hamilton would have done it so many years ago. The "qtype" is a little bit of text to leave a trail of breadcrumbs about how a particular quaternion was generated.
-
-# In[3]:
-
-
 class QH(object):
     """Quaternions as Hamilton would have defined them, on the manifold R^4."""
 
@@ -82,20 +78,25 @@ class QH(object):
 
     def __str__(self):
         """Customize the output."""
-        
+
+        if len(self.qtype) > 66:
+            report_qtype = "..."
+        else:
+            report_qtype = self.qtype
+
         if self.representation == "":
             string = "({t}, {x}, {y}, {z}) {qt}".format(
-                t=self.t, x=self.x, y=self.y, z=self.z, qt=self.qtype)
+                t=self.t, x=self.x, y=self.y, z=self.z, qt=report_qtype)
     
         elif self.representation == "polar":
             rep = self.txyz_2_representation("polar")
             string = "({A} A, {thetaX} 𝜈x, {thetaY} 𝜈y, {thetaZ} 𝜈z) {qt}".format(
-                A=rep[0], thetaX=rep[1], thetaY=rep[2], thetaZ=rep[3], qt=self.qtype)
+                A=rep[0], thetaX=rep[1], thetaY=rep[2], thetaZ=rep[3], qt=report_qtype)
  
         elif self.representation == "spherical":
             rep = self.txyz_2_representation("spherical")
             string = "({t} t, {R} R, {theta} θ, {phi} φ) {qt}".format(
-                t=rep[0], R=rep[1], theta=rep[2], phi=rep[3], qt=self.qtype)
+                t=rep[0], R=rep[1], theta=rep[2], phi=rep[3], qt=report_qtype)
 
         return string
 
@@ -104,7 +105,8 @@ class QH(object):
         
         symbolic = False
         
-        if hasattr(self.t, "free_symbols") or hasattr(self.x, "free_symbols") or             hasattr(self.y, "free_symbols") or hasattr(self.z, "free_symbols"): 
+        if hasattr(self.t, "free_symbols") or hasattr(self.x, "free_symbols") or \
+            hasattr(self.y, "free_symbols") or hasattr(self.z, "free_symbols"): 
             symbolic = True
         
         return symbolic
@@ -169,7 +171,8 @@ class QH(object):
         
         symbolic = False
         
-        if hasattr(self.t, "free_symbols") or hasattr(self.x, "free_symbols") or             hasattr(self.y, "free_symbols") or hasattr(self.z, "free_symbols"): 
+        if hasattr(self.t, "free_symbols") or hasattr(self.x, "free_symbols") or \
+            hasattr(self.y, "free_symbols") or hasattr(self.z, "free_symbols"): 
             symbolic = True
 
         if representation == "":
@@ -943,8 +946,6 @@ class QH(object):
         self.z = math.trunc(self.z)
         
         return self
-
-
 # Write tests the QH class.
 
 # In[4]:
@@ -6763,8 +6764,10 @@ class QHStates(QH):
         
         new_states = []
         
+        q_dim = QH([math.sqrt(1/self.dim), 0, 0, 0])
+        
         for bra in self.qs:
-            new_states.append(bra.normalize())
+            new_states.append(bra.normalize().product(q_dim))
             
         return QHStates(new_states)
 
@@ -6807,7 +6810,7 @@ class QHStates(QH):
         return(QHStates(new_states))  
         
     def diagonal(self, dim):
-        """Make a state dim*dim with q along the 'diagonal'."""
+        """Make a state dim*dim with q or qs along the 'diagonal'."""
         
         diagonal = []
         
@@ -7371,8 +7374,10 @@ class QHaStates(QHa):
         
         new_states = []
         
+        q_dim = QHa([math.sqrt(1/self.dim), 0, 0, 0])
+        
         for bra in self.qs:
-            new_states.append(bra.normalize())
+            new_states.append(bra.normalize().product(q_dim))
             
         return QHaStates(new_states)
     
@@ -7400,12 +7405,19 @@ class QHaStates(QHa):
         """Make a state dim*dim with q along the 'diagonal'."""
         
         diagonal = []
-        q = self.qs[0]
+        
+        if len(self.qs) == 1:
+            q_values = [self.qs[0]] * dim
+        elif len(self.qs) == dim:
+            q_values = self.qs
+        else:
+            print("Oops, need the length to be equal to the dimensions.")
         
         for i in range(dim):
             for j in range(dim):
                 if i == j:
-                    diagonal.append(q)
+                    diagonal.append(q_values.pop(0))
+
                 else:
                     diagonal.append(QHa().q_0())
         
@@ -7807,9 +7819,11 @@ class Q8States(Q8):
         
         new_states = []
         
+        q_dim = Q8([math.sqrt(1/self.dim), 0, 0, 0])
+        
         for bra in self.qs:
-            new_states.append(bra.normalize())
-            
+            new_states.append(bra.normalize().product(q_dim))
+        
         return Q8States(new_states)
     
     def summation(self):
@@ -7849,12 +7863,19 @@ class Q8States(Q8):
         """Make a state dim*dim with q along the 'diagonal'."""
         
         diagonal = []
-        q = self.qs[0]
+        
+        if len(self.qs) == 1:
+            q_values = [self.qs[0]] * dim
+        elif len(self.qs) == dim:
+            q_values = self.qs
+        else:
+            print("Oops, need the length to be equal to the dimensions.")
         
         for i in range(dim):
             for j in range(dim):
                 if i == j:
-                    diagonal.append(q)
+                    diagonal.append(q_values.pop(0))
+
                 else:
                     diagonal.append(Q8().q_0())
         
@@ -8260,9 +8281,11 @@ class Q8aStates(Q8a):
         
         new_states = []
         
+        q_dim = Q8a([math.sqrt(1/self.dim), 0, 0, 0])
+        
         for bra in self.qs:
-            new_states.append(bra.normalize())
-            
+            new_states.append(bra.normalize().product(q_dim))
+                
         return Q8aStates(new_states)
     
     def summation(self):
@@ -8305,12 +8328,19 @@ class Q8aStates(Q8a):
         """Make a state dim*dim with q along the 'diagonal'."""
         
         diagonal = []
-        q = self.qs[0]
+        
+        if len(self.qs) == 1:
+            q_values = [self.qs[0]] * dim
+        elif len(self.qs) == dim:
+            q_values = self.qs
+        else:
+            print("Oops, need the length to be equal to the dimensions.")
         
         for i in range(dim):
             for j in range(dim):
                 if i == j:
-                    diagonal.append(q)
+                    diagonal.append(q_values.pop(0))
+
                 else:
                     diagonal.append(Q8a().q_0())
         
