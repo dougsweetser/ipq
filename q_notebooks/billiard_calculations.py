@@ -38,12 +38,14 @@
 
 # In[1]:
 
-get_ipython().run_cell_magic('capture', '', 'import Q_tool_devo as qtd;\nAq1=qtd.Q8([1470000000,0,1.1421,0,1.4220,0,0,0])\nAq2=qtd.Q8([1580000000,0,4.2966,0,0,0.3643,0,0])')
+
+get_ipython().run_cell_magic('capture', '', 'import Q_tools as qt;\nAq1=qt.Q8([1470000000,0,1.1421,0,1.4220,0,0,0])\nAq2=qt.Q8([1580000000,0,4.2966,0,0,0.3643,0,0])')
 
 
 # In[2]:
 
-q_scale = qtd.Q8([2.2119,0,0,0,0,0,0,0], qtype="S")
+
+q_scale = qt.Q8([2.2119,0,0,0,0,0,0,0], qtype="S")
 Aq1s=Aq1.product(q_scale)
 Aq2s=Aq2.product(q_scale)
 print(Aq1s)
@@ -56,6 +58,7 @@ print(Aq2s)
 
 # In[3]:
 
+
 Adq=Aq2s.dif(Aq1s).reduce()
 print(Aq2s.dif(Aq1s))
 print(Adq)
@@ -66,6 +69,7 @@ print(Adq)
 # Distances are found using a square.
 
 # In[4]:
+
 
 Adq2=Adq.square()
 print(Adq2)
@@ -78,13 +82,14 @@ print(Adq2.reduce())
 
 # In[5]:
 
-Bq1=qtd.Q8([2470000000,0,0.8869,0,1.8700,0,0,0])
-Bq2=qtd.Q8([2580000000,0,3.9481,0,0,0.1064,0,0])
+
+Bq1=qt.Q8([2470000000,0,0.8869,0,1.8700,0,0,0])
+Bq2=qt.Q8([2580000000,0,3.9481,0,0,0.1064,0,0])
 Bq1s=Bq1.product(q_scale)
 Bq2s=Bq2.product(q_scale)
 Bdq=Bq2s.dif(Bq1s).reduce()
-Cq1=qtd.Q8([3470000000,0,1.1421,0,1.4220,0,1.3256,0])
-Cq2=qtd.Q8([3580000000,0,4.2966,0,0,0.3643,1.3256,0])
+Cq1=qt.Q8([3470000000,0,1.1421,0,1.4220,0,1.3256,0])
+Cq2=qt.Q8([3580000000,0,4.2966,0,0,0.3643,1.3256,0])
 Cq1s=Cq1.product(q_scale)
 Cq2s=Cq2.product(q_scale)
 Cdq=Cq2s.dif(Cq1s).reduce()
@@ -100,6 +105,7 @@ print(Cdq)
 
 # In[6]:
 
+
 Bdq2=Bq1s.dif(Bq2s).reduce().square()
 Cdq2=Cq1s.dif(Cq2s).reduce().square()
 print(Adq2)
@@ -110,6 +116,7 @@ print(Cdq2)
 # We are comparing apples to apples since the qtype, "QxS-QxS.reduce.sq", are the same. The first of the 8 terms are exactly the same, the I<sub>0</sub>. The reason is the delta time values were exactly the same. The first and third I<sub>2</sub> are exactly the same because their delta values were identical even though they had different z values. A different physical measurement was made for Observer B. The match is pretty good:
 
 # In[7]:
+
 
 (64.96 - 64.30)/64.60
 
@@ -122,8 +129,9 @@ print(Cdq2)
 
 # In[8]:
 
-BRotq1=qtd.Q8([2470000000,0,0.519,0,1.9440,0,0,0])
-BRotq2=qtd.Q8([2580000000,0,3.9114,0,0.5492,0,0,0])
+
+BRotq1=qt.Q8([2470000000,0,0.519,0,1.9440,0,0,0])
+BRotq2=qt.Q8([2580000000,0,3.9114,0,0.5492,0,0,0])
 BRotdq2=BRotq1.product(q_scale).dif(BRotq2.product(q_scale)).reduce().square()
 print(BRotdq2)
 print(Bdq2)
@@ -135,7 +143,8 @@ print(Bdq2)
 
 # What happens with the space-times-time term for these observers that have no relative velocities to each other? The space part always points in a different direction since the spatial origin is in a different location. If we consider the norm squared of the the space-times-time term, that would be $dt^2(dx^2 + dy^2 + dz^2)$. This is something observers with different perspectives will agree upon:
 
-# In[34]:
+# In[9]:
+
 
 print(Adq2.norm_squared_of_vector().reduce())
 print(Bdq2.norm_squared_of_vector().reduce())
@@ -153,7 +162,8 @@ print(BRotdq2.norm_squared_of_vector().reduce())
 
 # What needs to be done with the measurements done in cylindrical coordinates is to convert them to Cartesian, the proceed with the same calculations.
 
-# In[9]:
+# In[10]:
+
 
 import math
 
@@ -168,15 +178,16 @@ def cyl_2_cart(q1):
     x = r * math.cos(a * math.pi / 180)
     y = r * math.sin(a * math.pi / 180)
     
-    return qtd.Q8([t, x, y, h])
+    return qt.Q8([t, x, y, h])
 
 
 # For polar coordinates, measure directly the distance between the origin and the billiard ball. Then determine an angle. This constitutes a different approach to making a measurement.
 
-# In[10]:
+# In[11]:
 
-BPolarq1=cyl_2_cart(qtd.Q8([2470000000,0,2.0215,0, 68.0,0,0,0]))
-BPolarq2=cyl_2_cart(qtd.Q8([2580000000,0,3.9414,0,1.2,0,0,0]))
+
+BPolarq1=cyl_2_cart(qt.Q8([2470000000,0,2.0215,0, 68.0,0,0,0]))
+BPolarq2=cyl_2_cart(qt.Q8([2580000000,0,3.9414,0,1.2,0,0,0]))
 BPolardq2=BPolarq1.product(q_scale).dif(BPolarq2.product(q_scale)).reduce().square()
 print(BPolardq2)
 print(Bdq2)
@@ -194,7 +205,8 @@ print(Bdq2)
 
 # What velocity is involved? THat would be the change in space, 2, over the time, a big number
 
-# In[11]:
+# In[12]:
+
 
 vx = 2/Bdq.dt.p
 print(vx)
@@ -204,7 +216,8 @@ print(vx)
 # 
 # Boost the delta by this velocity.
 
-# In[12]:
+# In[13]:
+
 
 Bdq_boosted = Bdq.boost(beta_x = vx)
 print(Bdq_boosted)
@@ -217,7 +230,8 @@ print(Bdq_boosted.dif(Bdq).reduce())
 
 # Compare the squares of the boosted with the non-boosted Observer B
 
-# In[13]:
+# In[14]:
+
 
 print(Bdq_boosted.square())
 print(Bdq.square())
@@ -225,7 +239,8 @@ print(Bdq.square())
 
 # Time and space are mixing together for the boosted frame. There are two huge numbers for $I_0$ and $I_2$ instead of a big number and about 65. Are they the same? Compare the reduced squares:
 
-# In[14]:
+# In[15]:
+
 
 print(Bdq_boosted.square().reduce())
 print(Bdq.square().reduce())
@@ -235,15 +250,17 @@ print(Bdq.square().reduce())
 
 # Software was written to systematically look at equivalences classes for a pair of quaternions. Three types of comparisons are made: linear, squared, and the norm.
 
-# In[15]:
+# In[16]:
 
-qb = qtd.EQ(Bdq, Bdq_boosted)
+
+qb = qt.EQ(Bdq, Bdq_boosted)
 print(qb)
 
 
 # There are 9 equivalences classes in all. Let's visualize them a set of icons:
 
-# In[16]:
+# In[17]:
+
 
 qb.visualize()
 
@@ -270,7 +287,8 @@ qb.visualize()
 
 # The space-times-times equivalence class as gravity proposal stipulates that for a simple gravitational source mass (spherically symmetric, non-rotating, uncharged) the square of a delta quaternion produces a space-times-time that is the same for different observers no matter where they are in a gravitational field. This can be achieved by making the factor for time be the inverse of the one for space (below, a dimensionless M is a stand-in for $\frac{G M}{c^2 R}$).
 
-# In[17]:
+# In[18]:
+
 
 from sympy import symbols
 M = symbols('M')
@@ -286,7 +304,8 @@ M = symbols('M')
 
 # To be consistent with the weak gravity field tests and the algebraic constraints of the equivalence class proposal requires six terms not five:
 
-# In[18]:
+# In[19]:
+
 
 (1/(1 - 2 * M + 2 * M ** 2)).series(M, 0, n=3)
 
@@ -322,7 +341,8 @@ M = symbols('M')
 # R&=6.371 \cdot 10^{6} m
 # \end{align*}
 
-# In[19]:
+# In[20]:
+
 
 GMc2R_for_Observer_A = 6.67384e-11 * 5.9722e+24 / (299792458 ** 2 * 6371000)
 GMc2R_for_Observer_C = 6.67384e-11 * 5.9722e+24 / (299792458 ** 2 * 6371000.1)
@@ -334,7 +354,8 @@ print(GMc2R_for_Observer_C)
 
 # Do the "minimal" shift meaning the three terms of the Taylor series.
 
-# In[20]:
+# In[21]:
+
 
 Adq_g = Cdq.g_shift(GMc2R_for_Observer_A, g_form="minimal")
 Cdq_g = Cdq.g_shift(GMc2R_for_Observer_C, g_form="minimal")
@@ -346,7 +367,8 @@ print(Cdq_g)
 
 # Observer C is a mere 10 centimeters away from Observer A. Let us make the distance so vast that the GMc2R value is zero.
 
-# In[21]:
+# In[22]:
+
 
 Cdq_g_zero = Cdq.g_shift(0, g_form="minimal")
 print(Adq_g)
@@ -355,11 +377,12 @@ print(Cdq_g_zero)
 
 # Get far enough away, and the effects of gravity may become apparent.
 
-# In[22]:
+# In[23]:
+
 
 Adq_g_2 = Adq_g.square() 
 Cdq_g_zero_2 = Cdq_g_zero.square()
-eq_g = qtd.EQ(Adq_g_2, Cdq_g_zero_2)
+eq_g = qt.EQ(Adq_g_2, Cdq_g_zero_2)
 print(eq_g)
 eq_g.visualize()
 
